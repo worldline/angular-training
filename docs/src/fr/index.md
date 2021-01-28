@@ -1,15 +1,15 @@
 ---
 home: true
 heroImage: https://angular.io/assets/images/logos/angular/angular.svg
-tagline: Angular training session
-actionText: Quick Start →
-actionLink: /guide/
+tagline: Formation Angular
+actionText: Démarrage rapide →
+actionLink: /fr/guide/
 features:
-  - title: Feature 1 Title
-    details: Feature 1 Description
-  - title: Feature 2 Title
-    details: Feature 2 Description
-  - title: Feature 3 Title
-    details: Feature 3 Description
+  - title: Titre 1
+    details: Description 1
+  - title: Titre 2
+    details: Description 2
+  - title: Titre 3
+    details: Description 3
 footer: Worldline, 2021
 ---

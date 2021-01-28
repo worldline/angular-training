@@ -20,7 +20,7 @@
   "scripts": {
     "dev": "vuepress dev src",
     "build": "vuepress build src",
-    "deploy": "node ./docs/deploy.js"
+    "deploy": "node ./deploy.js"
   },
   "license": "MIT",
   "devDependencies": {
