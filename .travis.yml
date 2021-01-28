@@ -5,7 +5,6 @@ install:
   - cd docs
   - npm ci
 script:
-  - cd docs
   - npm run docs:build
 deploy:
   provider: pages
