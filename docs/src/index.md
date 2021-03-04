@@ -2,8 +2,8 @@
 home: true
 heroImage: https://angular.io/assets/images/logos/angular/angular.svg
 tagline: Angular training session
-actionText: Quick Start →
-actionLink: /guide/
+actionText: Get started →
+actionLink: /presentation/
 features:
   - title: Feature 1 Title
     details: Feature 1 Description

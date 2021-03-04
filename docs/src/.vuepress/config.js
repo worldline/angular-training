@@ -38,8 +38,17 @@ module.exports = {
         label: "English",
         sidebar: [
           "/",
-          "/guide/",
-          "/presentation/"
+          "/presentation/",
+          "/tooling/",
+          "/typescript/",
+          "/rxjs/",
+          "/project-creation/",
+          "/components/",
+          "/routing/",
+          "/services/",
+          "/forms/",
+          "/ecosystem/",
+          "/to-go-further/"
         ]
       },
 
@@ -48,8 +57,17 @@ module.exports = {
         label: "Français",
         sidebar: [
           "/fr/",
-          "/fr/guide/",
           "/fr/presentation/",
+          "/fr/outillage/",
+          "/fr/typescript/",
+          "/fr/rxjs/",
+          "fr/creation-projet/",
+          "fr/composants/",
+          "fr/routage/",
+          "fr/services/",
+          "fr/formulaires/",
+          "fr/ecosysteme/",
+          "fr/aller-plus-loin/"
         ]
       }
     }
@@ -59,7 +77,6 @@ module.exports = {
    * Apply plugins，ref：https://v1.vuepress.vuejs.org/zh/plugin/
    */
   plugins: [
-    '@vuepress/plugin-back-to-top',
-    '@vuepress/plugin-medium-zoom',
+
   ]
 }
