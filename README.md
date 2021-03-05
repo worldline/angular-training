@@ -1,1 +1,39 @@
 # angular-training
+
+- Welcome (iso vuejs)
+- Presentation d'Angular (iso vuejs)
+- Tooling (iso vuejs)
+- Typescript
+  - Typage
+  - Module ESM / attention à ne pas confondre avec NGmodule
+- Rx JS
+  - Notions d'observables
+  - Event emitter
+  - Opérateurs
+- CLI + premier projet
+  - Explication rapide de la structure
+- Composants et approche composants
+  - Templating
+  - Pipes
+  - Directives
+  - Communication parent <-> Enfant
+  - Mentionner Encapsulation du CSS
+  - Trasnclusion (NGContent)
+- Routage
+  - Ajout de routes
+  - passage de params
+  - Wildcards
+- Services
+  - Rappel que le service est un singleton
+  - Service basique
+- HttpClient
+  - Appel API hébergée sur Heroku
+- Formulaires
+  - Template driven forms
+  - Reactive forms
+- Ecosystème Angular
+- Pour aller plus loin:
+  - Injection de dépendances
+  - Internationalisation / localisation
+  - Tests unitaires / intégration
+  - Lazy loading
