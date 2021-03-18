@@ -5,13 +5,13 @@ module.exports = {
       lang: "en-US",// this will be set as the lang attribute on <html>
       title: "Angular Training",
       description: "Angular training docs"
-    },
+    }/*,
 
     "/fr/": {
       lang: "fr-FR",
       title: "Formation Angular",
       description: "Support de formation Angular"
-    }
+    }*/
   },
 
   head: [
@@ -50,7 +50,7 @@ module.exports = {
           "/ecosystem/",
           "/to-go-further/"
         ]
-      },
+      } /*,
 
       "/fr/": {
         selectText: "Langue",
@@ -69,7 +69,7 @@ module.exports = {
           "fr/ecosysteme/",
           "fr/aller-plus-loin/"
         ]
-      }
+      }*/
     }
   },
 
@@ -77,6 +77,6 @@ module.exports = {
    * Apply plugins，ref：https://v1.vuepress.vuejs.org/zh/plugin/
    */
   plugins: [
-
+    'vuepress-plugin-global-toc'
   ]
 }
