@@ -39,13 +39,13 @@ module.exports = {
         sidebar: [
           "/",
           "/presentation/",
-          "/tooling/",
           "/typescript/",
-          "/rxjs/",
+          "/tooling/",
           "/project-creation/",
           "/components/",
           "/routing/",
           "/services/",
+          "/rxjs/",
           "/forms/",
           "/ecosystem/",
           "/to-go-further/"

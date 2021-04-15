@@ -67,3 +67,53 @@ You then have two choices:
 OR
 
 - For a lighter installation, install only [Angular language service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template). This extension will provide autocompletion, among other things.
+
+## Practical work: Create your first project
+Go into the folder where you store your git repositories, open a terminal there and type the following command:
+
+```bash
+ng new search-films
+```
+
+**search-films** being the name of the directory in which our project will be created.
+Choose the following configuration:
+
+```bash
+? Do you want to enforce stricter type checking and stricter bundle budgets in the workspace?
+  This setting helps improve maintainability and catch bugs ahead of time.
+  For more information, see https://angular.io/strict Yes
+? Would you like to add Angular routing? Yes
+? Which stylesheet format would you like to use? SCSS   [ https://sass-lang.com/documentation/syntax#scss ]
+```
+
+The first question influences the options in `tsconfig.json` and `angular.json` files. Notably it sets the `strict` flag to true inside the TSConfig file which enables a wide range of type checking behavior that results in stronger guarantees of program correctness. Turning it on is equivalent to enabling all of the strict mode family options: `strictBindCallApply`, `strictFunctionTypes`, `strictNullChecks` and `strictPropertyInitialization`. It also sets to true the three following `angularCompilerOptions`: `strictInjectionParameters`, `strictInputAccessModifiers` and `strictTemplates`. These options configure the AOT (*Ahead-of-Time*) template compiler.
+
+The second option adds an app-routing.module.ts file which imports the RouterModule. In Angular, the best practice is to load and configure the router in a separate, top-level module that is dedicated to routing and imported by the root `AppModule`.
+
+The last questions makes you choose the stylesheet format. This format will be used in two places: for the top `styles` file and for each generated component. The SCSS format enables you to write standard CSS but gives you the opportunity to leverage the power of Sass if you choose to do so.
+
+Once the project has finished being generated, open the project folder with VS Code. (either right-click on the folder or via VSCode File > Open Folder...)
+
+### Work in developer mode
+To work on the application and test it live, run the following command in the project's directory (`cd search-films` if necessary):
+```bash
+npm start
+```
+Your application is accessible on localhost:4200 (default port if available). It will recompile automatically after each file save.
+
+### Build for production
+You can at any time package your project for production by running:
+```bash
+npm run build --prod
+```
+This command will compile your project using **Webpack** in production mode. Webpack is a *bundler*, a tool that will transform your sources into a small number of *bundles*, optimized and compressed JS and CSS files, and put them in the `/dist` folder of your project. You can then deploy this folder on a file server such as Apache or nginx.
+
+:::tip
+Basic Angular CLI commands are listed in the README.md generated at the root of the project
+:::
+
+## Going further
+- [Intro to the TSConfig Reference: tsconfig.json](https://www.typescriptlang.org/tsconfig/)
+- [Angular compiler options](https://angular.io/guide/angular-compiler-options)
+- [Ahead-of-time (AOT) compilation](https://angular.io/guide/aot-compiler)
+- [Angular workspace configuration: angular.json](https://angular.io/guide/workspace-config)
