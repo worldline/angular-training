@@ -402,7 +402,7 @@ d.woof(3) // Derived class method
 ```
 
 ## Modules
-In TypeScript, just as in ECMAScript 2015, any file containing a top-level import or export is considered a module.
+In TypeScript, just as in ECMAScript 2015 (ES6), any file containing a top-level import or export is considered a module.
 
 Conversely, a file without any top-level import or export declarations is treated as a script whose contents are available in the global scope (and therefore to modules as well).
 
@@ -429,3 +429,63 @@ import { pi, phi, absolute } from "./maths.js"
 console.log(pi)
 const absPhi = absolute(phi)
 ```
+
+## Typescript and Angular
+
+Like said before, Typescript is Angular's primary language. Many of the language features seen above are fully leveraged by Angular. Let's take a look at a simple example of a component which is one of the main building blocks of an Angular app.
+
+```typescript
+import { Component, OnInit } from '@angular/core' //[3]
+
+@Component({ //[2]
+  selector:    'app-hero-list',
+  templateUrl: './hero-list.component.html',
+  styleUrls: ['./hero-list.component.scss']
+})
+export class HeroListComponent implements OnInit { //[1]
+  heroes: Hero[]
+  selectedHero: Hero
+  constructor(private service: HeroService) { }
+
+  ngOnInit() {
+    this.heroes = this.service.getHeroes()
+  }
+
+  selectHero(hero: Hero) {
+    this.selectedHero = hero
+  }
+}
+```
+### [1] Classes
+The main building blocks of Angular (services, components, pipes, directives...) are classes. The constructor mainly serves dependency injection purposes. Here, we're seeing a syntax where the `service` argument is provided with a visibility modifier, it is a shorthand notation to declare a field on a class. The two following exemples are stricly equivalent:
+```typescript
+class Cat {
+  constructor(public name: string) {}
+}
+```
+```typescript
+class Cat {
+  name: string
+  constructor(name: string) {
+    this.name = name
+  }
+}
+```
+The `HeroListComponent` implements the `ngOnInit()` method of the `OnInit` lifecycle hook.
+
+### [2] Decorators
+Decorators provide a way to add both annotations and a meta-programming syntax for class declarations and members. A Decorator is a special kind of declaration that can be attached to a class declaration, method, accessor, property, or parameter. Decorators use the form `@expression`, where `expression` must evaluate to a function that will be called at runtime with information about the decorated declaration. Angular makes extensive use of decorators: `@Component`, `@Directive`, `@Injectable`, `@Pipe`, `@Input`, `@Output`...
+
+### [3] ES6 modules
+ES6 modules are present in allmost all, if not all, ts files of an Angular project. Angular adds its own module layer on top of those: NgModules. NgModules consolidate components, directives, and pipes into cohesive blocks of functionality, each focused on a feature area, application business domain, workflow, or common collection of utilities. We will see more about them later in the training.
+
+## Sources
+
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
+- [Angular documentation](https://angular.io/docs)
+
+To go further you may be interested in these articles:
+- [TypeScript 4.0 Cheat Sheet](https://www.sitepen.com/blog/typescript-cheat-sheet)
+- [Variable declarations: var, let and const](https://www.typescriptlang.org/docs/handbook/variable-declarations.html)
+- [TypeScript and ES2016 Decorators vs. Java Annotations](https://www.beyondjava.net/typescript-and-es2016-decorators-vs-java-annotations)
+- [Exploring EcmaScript Decorators](https://medium.com/google-developers/exploring-es7-decorators-76ecb65fb841#.oug46ivhq)
