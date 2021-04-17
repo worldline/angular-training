@@ -2,13 +2,32 @@
 
 ## Data binding
 
+### Property binding
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-property-binding-training?embed=1&file=src/app/app.component.ts&hideNavigation=1"></iframe>
+
+### Event binding
+<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-event-binding-training?embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
 
 ## Directives
 
 ### Built-in attribute directives
 
+#### NgClass and NgStyle
+<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-attribute-directive-training?embed=1&file=src/app/app.component.ts&hideNavigation=1"></iframe>
+
+#### NgModel
+<iframe height='500' width='100%' src=""></iframe>
+
 ### Built-in structural directives
+
+#### NgIf
+<iframe height='500' width='100%' src=""></iframe>
+
+#### NgFor
+<iframe height='500' width='100%' src=""></iframe>
+
+#### NgSwitch
+<iframe height='500' width='100%' src=""></iframe>
 
 :::v-pre
 Present `<ng-container>`
