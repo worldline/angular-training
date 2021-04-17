@@ -31,13 +31,13 @@ function logPoint(point: Point): void {
 }
 
 // logs "12, 26"
-const point = { x: 12, y: 26 }
-logPoint(point)
+const force = { x: 12, y: 26 }
+logPoint(force)
 ```
 
-The point variable is never declared to be a Point type. However, TypeScript compares the shape of point to the shape of Point in the type-check. They have the same shape, so the code passes.
+The point variable is never declared to be a Point type. However, TypeScript compares the shape of force to the shape of Point in the type-check. They have the same shape, so the code passes.
 
-TypeScript’s type system is also not *reified*: There’s nothing at runtime that will tell us that `point` is Point. In fact, the Point type is not present in any form at runtime.
+TypeScript’s type system is also not *reified*: There’s nothing at runtime that will tell us that `force` is Point. In fact, the Point type is not present in any form at runtime.
 
 The shape-matching only requires a subset of the object’s fields to match.
 
