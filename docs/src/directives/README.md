@@ -3,35 +3,49 @@
 ## Data binding
 
 ### Property binding
+**Exercise: try to link the `src` and `width` attributes of the image**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-property-binding-training?embed=1&file=src/app/app.component.ts&hideNavigation=1"></iframe>
 
 ### Event binding
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-event-binding-training?embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
+**Exercise: use the click event to toggle the eye state of the monkey**
+<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-event-binding-training?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
 
 ## Directives
 
 ### Built-in attribute directives
 
 #### NgClass and NgStyle
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-attribute-directive-training?embed=1&file=src/app/app.component.ts&hideNavigation=1"></iframe>
+**Exercise: assign a class and a color to each ghost**
+<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-attribute-directive-training?ctl=1&embed=1&file=src/app/app.component.ts&hideNavigation=1"></iframe>
 
 #### NgModel
-<iframe height='500' width='100%' src=""></iframe>
+**Exercise: use NgModel on input, select, radio and checkbox tags**
+<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngmodel-training?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
 
 ### Built-in structural directives
 
 #### NgIf
-<iframe height='500' width='100%' src=""></iframe>
+:::v-pre
+Present `<ng-template>`
+:::
+**Exercise: use an NgIf to toggle the loader**
 
-#### NgFor
-<iframe height='500' width='100%' src=""></iframe>
+**Bonus: use an NgIf Else to conditionnally show either the data or the no data message**
+<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngif-training?ctl=1&embed=1&file=src/app/app.component.ts&hideNavigation=1"></iframe>
 
 #### NgSwitch
-<iframe height='500' width='100%' src=""></iframe>
+**Exercise: use NgSwitch to alternate plant growth stage according to the season's temperature**
+<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngswitch-training?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
 
+#### NgFor
 :::v-pre
 Present `<ng-container>`
 :::
+
+**Exercise: use two NgFor loops to display all the contents of the basket**
+
+**Bonus: An intruder is in the fruit basket, hide the corn with an NgIf**
+<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngfor-training?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
 
 ## Practical work: Film list
 
