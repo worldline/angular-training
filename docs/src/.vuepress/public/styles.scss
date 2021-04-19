@@ -110,67 +110,82 @@ code, samp {
 }
 
 form, .card {
-    background: white;
-    box-shadow: 0 0 25px rgba(0,0,0,0.5);
-    padding: 0.5em;
+  background: white;
+  box-shadow: 0 0 25px rgba(0,0,0,0.5);
+  padding: 0.5em;
+  margin: 1em 0;
 }
 
 button, input {
-    font-size: 1.2rem;
-    margin: 0.5em;
-    padding: 0.25em 0.5em;
+  font-size: 1.2rem;
+  margin: 0.5em;
+  padding: 0.25em 0.5em;
 }
 
-ul, dl {
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
+dl {
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+ul {
+  padding: 0;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 }
 
 li {
-    list-style: none;
+  list-style: none;
 }
 
 dt, label {
-    display: inline-block;
-    width: 30%;
-    text-align: right;
-    margin-right: 1em;
-    font-weight: bold;
+  display: inline-block;
+  width: 30%;
+  text-align: right;
+  margin-right: 1em;
+  font-weight: bold;
 }
 
 dd, input {
-    display: inline-block;
-    min-width: 40%;
-    flex: 1;
-    text-align: left;
+  display: inline-block;
+  min-width: 40%;
+  flex: 1;
+  text-align: left;
 }
 
 #login-form {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 #logout-btn {
-    position: fixed;
-    right: 1em;
-    top: 1em;
+  position: fixed;
+  right: 1em;
+  top: 1em;
 }
 
 .film.card {
-  flex: 1 0 960px;
+  width: 960px;
 }
 
 .film .poster {
-    float: left;
-    margin: 0 0.5em 0.5em 0;
+  float: left;
+  margin: 0 0.5em 0.5em 0;
 }
 
 .film .title {
-    font-size: 2rem;
+  font-size: 2rem;
 }
 
 .rating {
-    color: gold;
-    text-shadow: 1px 1px 1px rgba(0,0,0,0.5)
+  color: gold;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.5)
+}
+
+app-film {
+  display: flex;
+  width: 960px;
 }

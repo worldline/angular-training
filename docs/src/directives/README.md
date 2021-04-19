@@ -147,7 +147,9 @@ You can use the NgFor directive to present a list of items. The element on which
 <div *ngFor="let item of items; let i = index">{{i}}: {{item.name}}</div>
 
 <!-- With a local variable to know wether it is an even item -->
-<div *ngFor="let item of items; let isEven = even">{{item.name}} is {{isEven ? 'even': 'odd'}}</div>
+<div *ngFor="let item of items; let isEven = even">
+  {{item.name}} is {{isEven ? 'even': 'odd'}}
+</div>
 ```
 The following exported values are also available to be aliased to local variables: `count`, `first`, `last`, `odd`.
 
