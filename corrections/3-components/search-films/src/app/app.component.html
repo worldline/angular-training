@@ -1,0 +1,4 @@
+<app-login-form *ngIf="!isLoggedIn; else films" (loggedIn)="onLoggingIn()"></app-login-form>
+<ng-template #films>
+  <app-film-search ></app-film-search>
+</ng-template>
