@@ -15,8 +15,62 @@ Styles specified in the component's style file are not inherited by any componen
 ## Communication between child and parent components
 
 ### @Input()
+<code-group>
+<code-block title="Parent component">
+```ts
+// app.component.html
+<app-blog-post [title]="article.title" [content]="article.content"><app-blog-post>
+
+// app.component.ts
+import { Component } from "@angular/core";
+
+@Component({
+  selector: "my-app",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"]
+})
+export class AppComponent {
+  article = {
+    title: "My first awesome article",
+    content: "This content is super interesting"
+  };
+}
+```
+</code-block>
+
+<code-block title="Child component">
+```ts
+// blog-post.component.html
+<article>
+  <h3>{{ title }}</h3>
+  <p>{{ content }}</p>
+</article>
+
+// blog-post.component.ts
+import { Component, Input } from "@angular/core";
+
+@Component({
+  selector: "app-blog-post",
+  templateUrl: "./blog-post.component.html",
+  styleUrls: ["./blog-post.component.css"]
+})
+export class BlogPostComponent {
+  @Input() title: string;
+  @Input() content: string;
+}
+```
+</code-block>
+</code-group>
+
+**Exercise: Pass down each book's info to the BookComponent**
+<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-input-training?ctl=1&embed=1&file=src/app/book/book.component.ts&hideNavigation=1"></iframe>
 
 ### @Output()
+
+
+
+**Exercise: Books are now borrowable, communicate when books are borrowed to their parent component**
+<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-output-training?ctl=1&embed=1&file=src/app/book/book.component.html&hideNavigation=1"></iframe>
 
 ### Local variable in the template
 
