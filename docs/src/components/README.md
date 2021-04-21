@@ -1,33 +1,95 @@
 # Components
 
+We've previously seen that:
+- a component is a class decorated with the `@Component` decorator
+- it is generated via the CLI by the `ng g c component-name` command
+- by default, a component is generated with an associated html file and stylesheet file
+- the `@Component` decorator has [options](https://angular.io/api/core/Component#description) like `templateUrl`, `styleUrl` or `selector`.
+
 ## View encapsulation and styling
+
+You can modify the stylesheet extension of the CLI-generated files in the `angular.json` file under the `schematics` option.
 
 ### Encapsulation
 
+Among the `@Component` decorator options, there is one dealing with ViewEncapsulation. Angular provides three types of view encapsulation:
+- `ViewEncapsulation.Emulated` (by default): emulates the Shadow DOM, styles are scoped to the component
+- `ViewEncapsulation.None`: anything put in the component's stylesheet is available globally throughout the application
+- `ViewEncapsulation.Native`: Angular creates Shadow DOM for the component, styles are scoped to the component
+
 :::warning
-Styles specified in the component's style file are not inherited by any components nested within the template nor by any content projected into the component.
+Under the default option, styles specified in the component's style file are not inherited by any components nested within the template nor by any content projected into the component.
 :::
 
 ### `:host` selector
+Situations may arise where styling the host element of the component from the component's stylesheet is needed. To do so, Angular provides a pseudo-class selector: `:host`.
+
+Let's imagine we require a border on the AppComponent. This is how to add it:
+
+<code-group>
+<code-block title="app.component.ts">
+```css
+:host {
+  border: 1px solid black;
+}
+```
+</code-block>
+</code-group>
+
+The next example targets the host element again, but only when it also has the active CSS class.
+
+<code-group>
+<code-block title="app.component.ts">
+```css
+:host(.active) {
+  border-width: 3px;
+}
+```
+</code-block>
+</code-group>
 
 ## Lifecycle
+A component instance has a lifecycle that starts when Angular instantiates the component class and renders the component view along with its child views. The lifecycle continues with change detection, as Angular checks to see when data-bound properties change, and updates both the view and the component instance as needed. The lifecycle ends when Angular destroys the component instance and removes its rendered template from the DOM.
+
+Angular provides lifecycle hook methods to tap into key events in the lifecycle of a component.
+
+![Lifecycle hooks](../assets/lifecycle.png)
+
+- `ngOnChanges`: called after the constructor and every time input values change. The method receives a SimpleChanges object of current and previous property values.
+
+- `ngOnInit`: called only once. This is where the **component's initialisation** should take place, such as **fetching intial data**. Indeed components should be cheap to construct, so costly operations should be kept out of the constructor. The constructor should do no more than set the initial local variables to simple values.
+
+- `ngDoCheck`: called immediately after `ngOnChanges` on every change detection run, and immediately after `ngOnInit` on the first run. Gives an opportunity to implement a custom change detection algorithm.
+
+- `ngAfterContentInit`: called only once. Invoked after Angular performs any content projection into the component’s view.
+
+- `ngAfterContentChecked`: called after `ngAfterContentInit` and every subsequent `ngDoCheck`.
+
+- `ngAfterViewInit`: called only once. Invoked when the component’s view has been fully initialised.
+
+- `ngAfterViewChecked`: called after `ngAfterViewInit` and every subsequent `ngDoCheck`.
+
+For each lifecycle hook there exists a corresponding interface. Their named is derived from the lifecycle hook's they define minus the `ng`. For instance, to use `ngOnInit()` implement the interface `OnInit`.
 
 ## Communication between child and parent components
+A common pattern in Angular is sharing data between a parent component and one or more child components. You can implement this pattern by using the `@Input()` and `@Output()` directives. `@Input()` allows a parent component to update data in the child component. Conversely, `@Output()` allows the child to send data to a parent component.
+
+![Data sharing](../assets/child-parent.png)
 
 ### @Input()
+
+Adding the `@Input()` decorator on a child component's property means that it can receive its value from its parent component. The parent component passes that value through property binding in its template. Such a property **should not be mutated by the child** directly. Mutations should happen in the parent, they will automatically propagate via the property binding.
+
+Here is how the `AppComponent` would communicate to its child component `BlogPostComponent` the title and content of its article.
+
 <code-group>
 <code-block title="Parent component">
 ```ts
-// app.component.html
-<app-blog-post [title]="article.title" [content]="article.content"><app-blog-post>
-
 // app.component.ts
 import { Component } from "@angular/core";
-
 @Component({
   selector: "my-app",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"]
+  templateUrl: "./app.component.html"
 })
 export class AppComponent {
   article = {
@@ -35,39 +97,95 @@ export class AppComponent {
     content: "This content is super interesting"
   };
 }
+
+// app.component.html
+<app-blog-post [title]="article.title" [content]="article.content"><app-blog-post>
 ```
 </code-block>
 
 <code-block title="Child component">
 ```ts
-// blog-post.component.html
-<article>
-  <h3>{{ title }}</h3>
-  <p>{{ content }}</p>
-</article>
-
 // blog-post.component.ts
 import { Component, Input } from "@angular/core";
-
 @Component({
   selector: "app-blog-post",
-  templateUrl: "./blog-post.component.html",
-  styleUrls: ["./blog-post.component.css"]
+  templateUrl: "./blog-post.component.html"
 })
 export class BlogPostComponent {
   @Input() title: string;
   @Input() content: string;
 }
+
+// blog-post.component.html
+<article>
+  <h3>{{ title }}</h3>
+  <p>{{ content }}</p>
+</article>
 ```
 </code-block>
 </code-group>
+
+To watch for changes on an `@Input()` property, you can use the `OnChanges` lifecycle hook.
 
 **Exercise: Pass down each book's info to the BookComponent**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-input-training?ctl=1&embed=1&file=src/app/book/book.component.ts&hideNavigation=1"></iframe>
 
 ### @Output()
 
+Child components communicate with their parents by using events: they emit **events** that propagate to their parent. **A good component is agnostic of its environment**, it does not know its parents and does not know if the events it emits will ever be intercepted (or "listened to").
 
+Adding the `@Output()` decorator on a child component's `EventEmitter` property allows data to flow from the child to the parent. The parent component can react to the event through the event binding syntax.
+
+Here is how the `AddTaskComponent` would communicate back to its parent that a new task has been added:
+
+<code-group>
+<code-block title="Parent component">
+```ts
+// app.component.ts
+import { Component } from "@angular/core";
+@Component({
+  selector: "my-app",
+  templateUrl: "./app.component.html"
+})
+export class AppComponent {
+  items = ['Do the laundry', 'Wash the dishes', 'Read 20 pages'];
+
+  addItem(item: string): void {
+    this.items.push(item);
+  }
+}
+
+// app.component.html
+<h1>My To-do list</h1>
+<ul>
+  <li *ngFor="let item of items">{{item}}</li>
+</ul>
+<app-add-task (newTask)="addItem($event)"></app-add-task>
+```
+</code-block>
+
+<code-block title="Child component">
+```ts
+// add-task.component.ts
+import { Component, EventEmitter, Output } from "@angular/core";
+@Component({
+  selector: "app-add-task",
+  templateUrl: "./add-task.component.html"
+})
+export class AddTaskComponent {
+  @Output() newTask = new EventEmitter<string>();
+
+  addNewTask(task: string): void {
+    this.newTask.emit(task);
+  }
+}
+
+// add-task.component.html
+<label>New task: <input #newTask/></label>
+<button (click)="addNewTask(newTask.value)">Add</button>
+```
+</code-block>
+</code-group>
 
 **Exercise: Books are now borrowable, communicate when books are borrowed to their parent component**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-output-training?ctl=1&embed=1&file=src/app/book/book.component.html&hideNavigation=1"></iframe>
