@@ -28,6 +28,7 @@ Let's imagine we require a border on the AppComponent. This is how to add it:
 
 <code-group>
 <code-block title="app.component.ts">
+
 ```css
 :host {
   border: 1px solid black;
@@ -40,6 +41,7 @@ The next example targets the host element again, but only when it also has the a
 
 <code-group>
 <code-block title="app.component.ts">
+
 ```css
 :host(.active) {
   border-width: 3px;
@@ -84,6 +86,7 @@ Here is how the `AppComponent` would communicate to its child component `BlogPos
 
 <code-group>
 <code-block title="Parent component">
+
 ```ts
 // app.component.ts
 import { Component } from "@angular/core";
@@ -104,6 +107,7 @@ export class AppComponent {
 </code-block>
 
 <code-block title="Child component">
+
 ```ts
 // blog-post.component.ts
 import { Component, Input } from "@angular/core";
@@ -125,7 +129,7 @@ export class BlogPostComponent {
 </code-block>
 </code-group>
 
-To watch for changes on an `@Input()` property, you can use the `OnChanges` lifecycle hook.
+To watch for changes on an `@Input()` property, you can use the `ngOnChanges` lifecycle hook.
 
 **Exercise: Pass down each book's info to the BookComponent**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-input-training?ctl=1&embed=1&file=src/app/book/book.component.ts&hideNavigation=1"></iframe>
@@ -140,6 +144,7 @@ Here is how the `AddTaskComponent` would communicate back to its parent that a n
 
 <code-group>
 <code-block title="Parent component">
+
 ```ts
 // app.component.ts
 import { Component } from "@angular/core";
@@ -165,6 +170,7 @@ export class AppComponent {
 </code-block>
 
 <code-block title="Child component">
+
 ```ts
 // add-task.component.ts
 import { Component, EventEmitter, Output } from "@angular/core";
@@ -187,12 +193,136 @@ export class AddTaskComponent {
 </code-block>
 </code-group>
 
+You can play with this exemple [here](https://stackblitz.com/edit/angular-output-training-example?file=src/app/app.component.ts).
+
 **Exercise: Books are now borrowable, communicate when books are borrowed to their parent component**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-output-training?ctl=1&embed=1&file=src/app/book/book.component.html&hideNavigation=1"></iframe>
 
 ### Local variable in the template
 
+A parent component cannot use data binding (`@Output` or `@Input`) to access a child's properties or methods. A local variable in the template can be used to achieve both.
+
+<code-group>
+<code-block title="Parent component">
+
+```ts
+// app.component.html
+<app-greet #child></app-greet>
+<button (click)="child.greetMe()">Greet Me</button>
+```
+</code-block>
+
+<code-block title="Child component">
+
+```ts
+// greet.component.html
+<div *ngIf="displayText">Hello User!</div>
+
+// greet.component.ts
+import { Component } from '@angular/core'
+@Component({
+  selector: 'app-greet',
+  templateUrl: './greet.component.html'
+})
+export class GreetComponent {
+  displayText: boolean = false
+
+  greetMe(): void {
+    this.displayText = true
+  }
+}
+```
+</code-block>
+</code-group>
+
 ### @ViewChild
+
+The `ViewChild` decorator can achieve the same purpose as a template variable but directly inside the parent component's class by injecting the child component into the parent component. Use `VeiwChild` over a local variable whenever you need to coordinate interactions between several child components.
+
+In this exemple, the `MenuComponent` gets access to the `MenuItemComponent`:
+
+<code-group>
+<code-block title="Parent component">
+
+```ts
+// menu.component.html
+<menu-item [menuText]="'Contact Us'"></menu-item>
+
+// menu.component.ts
+@Component({
+  selector: 'app-menu',
+  templateUrl: './menu.component.html'
+})
+
+export class MenuComponent{
+  @ViewChild(MenuItemComponent) menu: MenuItem
+}
+```
+</code-block>
+<code-block title="Child component">
+
+```ts
+// menu-item.component.html
+<p>{{menuText}}</p>
+
+// menu-item.component.ts
+@Component({
+  selector: 'app-menu-item',
+  templateUrl: './menu-item.component.html'
+})
+
+export class MenuItemComponent {
+  @Input() menuText: string;
+}
+```
+</code-block>
+</code-group>
+
+In case the parent component contains several instances of the same child component, they can each be queried via template reference variable:
+
+<code-group>
+<code-block title="Parent component">
+
+```ts
+// menu.component.html
+<menu-item #contactUs [menuText]="'Contact Us'"></menu-item>
+<menu-item #aboutUs [menuText]="'About Us'"></menu-item>
+
+// menu.component.ts
+@Component({
+  selector: 'app-menu',
+  templateUrl: './menu.component.html'
+})
+
+export class MenuComponent{
+  @ViewChild('aboutUs') aboutItem: MenuItem
+  @ViewChild('contactUs') contactItem: MenuItem
+}
+```
+</code-block>
+<code-block title="Child component">
+
+```ts
+// menu-item.component.html
+<p>{{menuText}}</p>
+
+// menu-item.component.ts
+@Component({
+  selector: 'app-menu-item',
+  templateUrl: './menu-item.component.html'
+})
+
+export class MenuItemComponent {
+  @Input() menuText: string;
+}
+```
+</code-block>
+</code-group>
+
+Components injected via `@ViewChild` become available in the `ngAfterViewInit` lifecycle hook.
+
+To query all children of a certain type, use the decortor `@ViewChildren`.
+
 
 ## Content projection
 
