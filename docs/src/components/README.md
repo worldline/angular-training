@@ -319,12 +319,71 @@ export class MenuItemComponent {
 </code-block>
 </code-group>
 
-Components injected via `@ViewChild` become available in the `ngAfterViewInit` lifecycle hook.
-
-To query all children of a certain type, use the decortor `@ViewChildren`.
-
+Components injected via `@ViewChild` become available in the `ngAfterViewInit` lifecycle hook. To query all children of a certain type, use the decortor `@ViewChildren`.
 
 ## Content projection
+
+With `@Input`, we were able to pass data to a child component, but what about passing HTML elements or even other components?
+
+Since Angular components are declared as tags, we can place other elements or content inside their tags. In the following example, the string `My profile` acts as the content of the `NavigationLink` component:
+
+<code-group>
+<code-block title="Parent component">
+
+```html
+<!-- in a parent component's template-->
+<app-navigation-link [url]="/profile">My profile<app-navigation-link>
+```
+</code-block>
+<code-block title="Child component">
+
+```html
+<!-- navigation-link.component.html -->
+<div>
+  <a [routerLink]="url"><ng-content></ng-content></a>
+</div>
+```
+</code-block>
+</code-group>
+
+Whatever is written between the child component's tags in the parent component gets injected in the child's template and replaces the `<ng-content>` tags.
+
+Any HTML content, including other angular components can be projected. This feature is particularly useful in components that serve as a *container* rather than for *content*, such as dialog windows or layout elements:
+
+<code-group>
+<code-block title="Child component">
+
+```html
+<!-- my-popin.component.html -->
+<div class="popin">
+  <div class="popin-header">
+    <ng-content select="[slot=header]">></ng-content>
+  </div>
+
+  <main class="popin-content">
+    <ng-content></ng-content>
+  </main>
+
+  <div class="popin-actions">
+    <ng-content select="[slot=actions]"></ng-content>
+  </div>
+</div>
+```
+</code-block>
+<code-block title="Parent component">
+
+```html
+<!-- in a parent component template -->
+<my-popin>
+  <h1 slot="header">Popin title</h1>
+  <p>Popin content</p>
+  <button slot="actions">OK</button>
+</my-popin>
+```
+</code-block>
+</code-group>
+
+In addition to the default `<ng-content>`, you can **name** other `<ng-content>` tags to distribute content to multiple locations in the child. You achieve this by using the `select` attribute on the `<ng-content>` tag and adding the chosen value as an attribute on the element to project.
 
 ## Practical work: Decompose the app
 1. Refactor the `LoginFormComponent` to extract the code and template related to a film details. To that purpose, create with the CLI a `FilmComponent`, there will be as many instances of `FilmComponent` as there are films. Use `@Input()` to pass data from the `LoginFormComponent` to each `FilmComponent`.
@@ -346,3 +405,6 @@ To query all children of a certain type, use the decortor `@ViewChildren`.
 3. Insert this `FilmSearchComponent` alongside the `LoginFormComponent` in the `AppComponent` and move the corresponding code in this new component.
 4. Display the `FilmSearchComponent` component only if the user is logged in. You will have to communicate the `loggedIn` variable from the `LoginFormComponent` to the `AppComponent` via an `@Output()`.
 5. In the `FilmSearchComponent`, assign the `films` variable to an empty `[]` array initially. When submitting the search form, run a `searchFilms()` method that will put the 3 sample films in this list.
+
+## To go further
+Learn about context aware content projection using [ngTemplateOutlet](https://indepth.dev/posts/1405/ngtemplateoutlet)
