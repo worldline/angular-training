@@ -6,14 +6,16 @@ import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { LoginFormComponent } from './components/login-form/login-form.component'
 import { FilmComponent } from './components/film/film.component'
-import { FilmSearchComponent } from './components/film-search/film-search.component'
+import { FilmSearchComponent } from './components/film-search/film-search.component';
+import { StarRatingPipe } from './pipes/star-rating.pipe'
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginFormComponent,
     FilmComponent,
-    FilmSearchComponent
+    FilmSearchComponent,
+    StarRatingPipe
   ],
   imports: [
     BrowserModule,

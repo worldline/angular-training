@@ -2,7 +2,7 @@
   <img class="poster" [src]="film.poster"/>
   <p class="title">
     {{film.title}}
-    <span class="rating">{{rating(film)}}</span>
+    <span class="rating">{{film.metascore | starRating}}</span>
   </p>
   <dl>
     <dt>Release date</dt>

@@ -65,11 +65,11 @@ It generates the following file:
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'myPipe'
+  name: 'demo'
 })
-export class MyPipePipe implements PipeTransform {
+export class DemoPipe implements PipeTransform {
 
-  transform(value: any, args?: any): any {
+  transform(value: unknown, ...args: unknown[]): unknown {
     return null;
   }
 
@@ -87,7 +87,7 @@ In the following example, the discounted price is calculated given a discount ra
 
 ## Using a pipe outside the template
 
-It is also possible to use pipes in a component class by injecting it in its constructor and calling its transform method. The pipe needs to be imported in the module to which the component belongs and added to the providers of the component.
+It is also possible to use pipes in a component class by injecting it in its constructor and calling its transform method. The pipe needs to be imported in the module to which the component belongs and added to the providers of the component or of the module.
 
 ```ts
 import { Component } from '@angular/core';
@@ -106,3 +106,7 @@ export class AppComponent {
   title = this.upperCasePipe.transform('title');
 }
 ```
+## Practical work: format rating
+1. Create a `starRating` pipe using the CLI in `app/pipes`.
+2. Implement the inside of the transform methods so that a film's metascore is displayed with ★ to five ★★★★★ rating.
+3. Use this pipe in the template of the `LoginFormComponent`.
