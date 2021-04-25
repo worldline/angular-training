@@ -43,6 +43,7 @@ module.exports = {
           "/tooling/",
           "/first-steps/",
           "/directives/",
+          "/pipes/",
           "/components/",
           "/routing/",
           "/services/",
