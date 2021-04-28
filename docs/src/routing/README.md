@@ -66,7 +66,7 @@ const routes: Routes = [
 - `pathMatch: 'full'` forces the path to be matched against the entire URL. It is important to do this when redirecting empty-path routes. Otherwise, because an empty path is a prefix of any URL, the router would apply the redirect even when navigating to the redirect destination, creating an endless loop.
 - `'**'`: is a wildcard which means it matches any URL
 
-Open the Stackblitz and define the following routes:
+**Exercise:** open the Stackblitz and define the following routes:
 - home: `/home` & empty route
 - book list: `/books`
 - detail of book with id 1: `/books/1`
@@ -130,17 +130,128 @@ const routes: Routes = [
 ```
 :::
 
-## Router in the template
+## Router directives
 
-
+In the Stackblitz, try navigating to components by replacing the URL in the address bar. As you can see, besides the `NavbarComponent`, no other component is displayed even though we have just defined routes in the `AppRoutingModule`. That is because we have not yet told Angular where those components should be inserted in the DOM.
 
 ### router-oulet
+This is the purpose of the `RouterOutlet`. The `NavbarComponent` should remain displayed at all times which means that components should be inserted under it. Let's add the `router-outlet` in the `AppComponent`.
+
+<code-group>
+<code-block title="app.component.html">
+```html
+<app-navbar></app-navbar>
+<router-outlet></router-outlet>
+```
+</code-block>
+</code-group>
+
+The `RouterOutlet` is one of the router directives that became available to the `AppComponent` because `AppModule` imports `AppRoutingModule` which exported `RouterModule`.
+
+Try again to display the various components by changing the URL in the address bar, it should now work. The next step consists in enabling navigation via links directly within the application.
 
 ### routerLink
 
+First, let's take care of the links in the `NavbarComponent`. Open the `navbar.component.html` file and change the code as follows:
+
+<code-group>
+<code-block title="navbar.component.html">
+```html
+<nav>
+  <ul>
+    <li><a routerLink='/home'>Home</a></li>
+    <li><a routerLink='/authors'>Authors</a></li>
+    <li><a routerLink='/books'>Books</a></li>
+  </ul>
+</nav>
+```
+</code-block>
+</code-group>
+
+You can now navigate via the navbar links. `routerLink` is the selector for the `RouterLink` directive that turns user clicks into router navigations. It's another of the public directives in the `RouterModule`.
+
+::: danger
+Usually a link destination is specified via the `href` attribute. However, this is not the way to go for navigation within an SPA and should only be used for navigation to external URLs. Indeed, navigating via href in an SPA makes the entire app reload which is highly inefficient and offers very poor user experience.
+:::
+
+**Exercise:** Add navigation to book details and author details in the respective lists.
+
+::: details Correction
+You have two options, either use an absolute path starting with `/` which means the entire path needs to be supplied (like in `book-list.component.html`) or use a relative path to the current location (like in `author-list.component.html`).
+
+```html
+<!-- author-list.component.html -->
+<h1>Authors ✍️</h1>
+<ul>
+  <li *ngFor="let author of authors">{{author.name}} <a routerLink="{{author.id}}">🔍</a></li>
+</ul>
+
+<!-- book-list.component.html -->
+<h1>Books 📚</h1>
+<ul>
+  <li *ngFor="let book of books">{{book.title}} - {{book.author}} <a routerLink="/books/{{book.id}}">🔍</a></li>
+</ul>
+```
+
+For the moment, only the data of the book with id 1 and the data of the author with id 1 is shown. Later in this chapter we will see how to exploit the id present in the URL to select the proper data to display.
+:::
+
+**Exercice:** Add navigation in the `BookDetailComponent` to the `AuthorDetailComponent` and vice versa.
+
+::: details Correction
+
+```html
+<!-- author-details.component.html -->
+<h2>Books</h2>
+<ul>
+  <li *ngFor="let book of details.books">{{book.title}} <a routerLink="/books/{{book.id}}">🔍</a></li>
+</ul>
+
+<!-- book-details.component.html -->
+<div class="info">
+  <div><a routerLink="/authors/{{details.author.id}}">✍️</a></div>
+  <p> {{details?.author.name}}</p>
+</div>
+```
+:::
+
+
+### routerLinkActive
+
+Navigating by clicking on the links in the `NavbarComponent` is now functional however, there's no feedback to the user regarding which link is active. This is the purpose of the `routerLinkActive` directive. It allows you to specify one or more CSS classes to add to the element when the linked route is active.
+
+<code-group>
+<code-block title="navbar.component.html">
+
+```html
+<nav>
+  <ul>
+    <li><a routerLinkActive='active' routerLink='/home'>Home</a></li>
+    <li><a routerLinkActive='active' routerLink='/authors'>Authors</a></li>
+    <li><a routerLinkActive='active' routerLink='/books'>Books</a></li>
+  </ul>
+</nav>
+```
+</code-block>
+<code-block title="navbar.component.css">
+
+```css
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: cadetblue;
+}
+
+.active:hover {
+  background-color: rgb(37, 98, 100);
+}
+```
+</code-block>
+</code-group>
+
 ## Router in the component class
-
-
 
 ## Practical Work: Router-based navigation
 
