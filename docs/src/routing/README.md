@@ -4,7 +4,7 @@ Angular applications are mostly Single Page Applications (SPA). The server alway
 
 The routing of an SPA is therefore managed on the client side, and the Angular team provides a library for this purpose: `@angular/router`. This router allows you to associate routes (URLs) with Angular components.
 
-For this chapter, we will use the Personal Library app as a running exemple. Besides the `AppComponent` which contains a `NavbarComponent` , the app has 5 "pages":
+For this chapter, we will use the *Personal Library* app as a running exemple. Besides the `AppComponent` which contains a `NavbarComponent` , the app has 5 "pages":
 - Home
 - Book list
 - Book detail
@@ -104,7 +104,7 @@ export class AppRoutingModule {}
 ```
 :::
 
-Using child routes makes the nesting between routes clearer and paves the way for lazy-loading. Here is how it would apply to the Personal Library app:
+Using child routes makes the nesting between routes clearer and paves the way for lazy-loading. Here is how it would apply to the *Personal Library* app:
 
 ::: details Correction with child routes
 ```ts
@@ -127,6 +127,15 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' }
 ];
+```
+:::
+
+::: tip Hosting
+When using `ng serve`, Angular automatically starts a development server that is configured specifically for an SPA specificities. In a production environment, you will need to configure a server such as an Nginx. For the routing to work properly, the server configuration needs to have a rewrite rule so that the `index.html` file (produced by building the app) is served for all the "routes". Otherwise, the user would hit a 404 error. For Nginx, this is what it could look like:
+```
+location / {
+  try_files $uri $uri/ /index.html;
+}
 ```
 :::
 
@@ -168,13 +177,13 @@ First, let's take care of the links in the `NavbarComponent`. Open the `navbar.c
 </code-block>
 </code-group>
 
-You can now navigate via the navbar links. `routerLink` is the selector for the `RouterLink` directive that turns user clicks into router navigations. It's another of the public directives in the `RouterModule`.
+You can now navigate via the navbar links. `routerLink` is the selector for the [RouterLink directive](https://angular.io/api/router/RouterLink) that turns user clicks into router navigations. It's another of the public directives in the `RouterModule`.
 
 ::: danger
 Usually a link destination is specified via the `href` attribute. However, this is not the way to go for navigation within an SPA and should only be used for navigation to external URLs. Indeed, navigating via href in an SPA makes the entire app reload which is highly inefficient and offers very poor user experience.
 :::
 
-**Exercise:** Add navigation to book details and author details in the respective lists.
+**Exercise:** Add navigation to book details and author details in their respective list components.
 
 ::: details Correction
 You have two options, either use an absolute path starting with `/` which means the entire path needs to be supplied (like in `book-list.component.html`) or use a relative path to the current location (like in `author-list.component.html`).
@@ -193,7 +202,7 @@ You have two options, either use an absolute path starting with `/` which means 
 </ul>
 ```
 
-For the moment, only the data of the book with id 1 and the data of the author with id 1 is shown. Later in this chapter we will see how to exploit the id present in the URL to select the proper data to display.
+For the moment, only the data of the book with id 1 and the data of the author with id 1 is shown. Later in this chapter we will see how to extract the id present in the URL to select the proper data to display.
 :::
 
 **Exercice:** Add navigation in the `BookDetailComponent` to the `AuthorDetailComponent` and vice versa.
@@ -215,6 +224,13 @@ For the moment, only the data of the book with id 1 and the data of the author w
 ```
 :::
 
+The `RouterLink` directive has a `queryParams` `Input`. This `Input` allows to pass optionnal parameters via query strings in the URL:
+```html
+<a routerLink="'/books" [queryParams]="{genre: 'Epic Fantasy'}">
+  Epic Fantasy Books
+</a>
+```
+The example generates the link: `/books?genre=Epic%20Fantasy`
 
 ### routerLinkActive
 
@@ -245,20 +261,111 @@ li a:hover:not(.active) {
 }
 
 .active:hover {
-  background-color: rgb(37, 98, 100);
+  background-color: #256264;
 }
 ```
 </code-block>
 </code-group>
 
-## Router in the component class
+## Router services
+
+So far, we have mainly worked with the Angular `Router` from the template. The library also provides services to interact with it from a component class.
+
+### ActivatedRoute service
+
+The `ActivatedRoute` service describes the current state of the *router*. Through it, the component associated with the current route can extract information from the URL via the `paramMap` and `queryParamMap` properties.
+
+`paramMap` and `queryParamMap` are Observables, a notion we will see more in detail in a later chapter. Observable allows to observe how information change over time. The `ActivatedRoute` service also provides a `snapshot` property to only get the state of the router at a given point in time. This property is enough to cover most cases.
+
+To extract a parameter from a route, two steps are required:
+1. Inject the `ActivatedRoute` service in the constructor of the component needing it
+2. Retrieve the paramMap from the snapshot in the `OnInit` lifecycle hook
+
+```ts{10,13}
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+
+@Component({
+  selector: "app-example",
+  templateUrl: "./exemple.component.html"
+})
+export class ExampleComponent implements OnInit {
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    const id: string = this.route.snapshot.paramMap.get("id");
+  }
+}
+```
+
+Let's go back to the *Personal Library* app. With the help of the `ActivatedRoute`, show the details of the proper author and book according to the route.
+
+::: details Correction
+```ts
+// book-details.component.ts
+export class BookDetailsComponent implements OnInit {
+  details: BookDetail | null;
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get("id");
+    this.details = bookDetails.get(Number(id));
+  }
+}
+
+// author-details.component.ts
+export class AuthorDetailsComponent implements OnInit {
+  details: AuthorDetail | null;
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get("id");
+    this.details = authorDetails.get(Number(id));
+  }
+}
+
+```
+:::
+
+::: warning When to use snapshot
+The `paramMap` and `queryParamMap` properties are `Observables` because of optimisations. Indeed, when navigating to the same route but with different paramaters (e.g. /books/123 => /books/456), Angular doesn't reload the component but propagates the new parameters via theses `Observables`.
+
+What does it mean ? If you only allow the navigation to the same route via the address bar, you are covered when using the snapshot. However, if you provide a means to navigate to the same route via a link (such as a "Next" and "Previous" mechanism), you have to listen to the `paramMap`/`queryParamMap` changes.
+:::
+
+### Router service
+
+Sometimes, it is necessary to trigger some actions before routing. This is what happens when we click on a login button. First, an http call is made and depending on the response, routing takes place. The `Router` service allows to trigger navigation from the component class.
+1. Inject the `Router` service via the constructor
+2. Use the `navigateByUrl` method to trigger the navigation. `navigateByUrl` always takes an absolute path. In case you would like to user a relative path, use the `navigate` method instead.
+
+```ts{6,9}
+@Component({
+  selector: "app-example",
+  templateUrl: "./example.component.html"
+})
+export class ExampleComponent {
+  constructor(private router: Router) {}
+
+  navigatePostLogin(): void {
+    this.router.navigateByUrl('/dashboard')
+  }
+}
+```
+
+A full correction of the *Personal Library* app is available in this [stackblitz](https://stackblitz.com/edit/angular-routing-training-correction?file=src/app/book-list/book-list.component.ts).
 
 ## Practical Work: Router-based navigation
+
+Let's implement the routing in our Film application.
 
 1. During the project initial setup, the CLI asked if it should add Angular routing and we answered yes. The CLI installed the `@angular/router` library, you can check that in the dependencies declared in the `package.json`. It alo created the `app-routing.module.ts` file.
 2. Add a `login` route linked to the `LoginFormComponent` and a `search` route linked to `FilmSearchComponent` in the `app-routing.module.ts` file.
 3. Add a `<router-outlet></router-outlet>` at the top of the `AppComponent` template. You should now see the LoginComponent twice when navigating to `http://localhost:4200/login`.
-4. Replace the switch between the `LoginFormComponent` and `FilmSearchComponent` currently based on an `*ngIf` by a navigation from one route to another. You will have to inject the Router in the LoginFormComponent.
+4. Replace the switch between the `LoginFormComponent` and `FilmSearchComponent` currently based on an `*ngIf` by a navigation from one route to another. You will have to inject the Router service in the LoginFormComponent.
 
  **Question:** Can you spot an issue with the way our current implementation works regarding security concerns?
 
