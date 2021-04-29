@@ -6,7 +6,4 @@ import { Component } from '@angular/core'
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Search Films'
-  orderReference = 'ABCXYZ'
-  price = 17.3
 }

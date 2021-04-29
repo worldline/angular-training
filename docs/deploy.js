@@ -23,6 +23,6 @@ if (exec('git commit -m "deploy"').code !== 0) {
 }
 
 // if you are deploying to https://<USERNAME>.github.io/<REPO>
-exec('git push -f https://github.com/worldline/angular-training.git master:gh-pages')
+exec('git push -f https://github.com/worldline/angular-training.git main:gh-pages')
 
 cd("-")
