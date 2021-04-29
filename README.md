@@ -1,3 +1,5 @@
+https://worldline.github.io/angular-training/
+
 # angular-training
 
 - Welcome (iso vuejs)
