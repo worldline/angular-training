@@ -394,4 +394,4 @@ Let's implement the routing in our Film application.
 </code-block>
 </code-group>
 
-7. **Bonus:** Use a navigation guard to redirect the user who wants to access the film search page to `/login` if he/she is not authenticated (Tip: for this you will need a service). To future-proof the guard, add a returnUrl so that the `LoginFormComponent` knows where to navigate back to after authentication and modify the `LoginFormComponent` accordingly. (We will go over the correction of this quetion in the next chapter)
+7. **Bonus:** Learn about [navigation guards](https://angular.io/api/router/CanActivate) to secure routes. We will implement one in the next chapter.
