@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { Film } from '@models/film'
-import { FilmService } from 'src/app/services/film.service'
+import { FilmService } from '@services/film.service'
 
 @Component({
   selector: 'app-film-search',

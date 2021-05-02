@@ -10,15 +10,13 @@ import { Observable } from 'rxjs'
 })
 export class AuthenticationService {
   private baseUrl = 'api/user'
-  token: string | null
+  token: string | null = null
 
   get loggedIn(): boolean {
     return this.token != null
   }
 
-  constructor(private httpClient: HttpClient) {
-    this.token = null
-  }
+  constructor(private httpClient: HttpClient) {}
 
   login(loginRequest: LoginRequest): Observable<UserResponse> {
     return this.httpClient.post<UserResponse>(this.baseUrl + '/login', loginRequest)

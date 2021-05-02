@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http'
 import { Component } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { LoginRequest } from '@models/authentication/login-request'
-import { AuthenticationService } from 'src/app/services/authentication.service'
+import { AuthenticationService } from '@services/authentication.service'
 
 @Component({
   selector: 'app-login-form',
