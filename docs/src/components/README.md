@@ -393,7 +393,7 @@ In addition to the default `<ng-content>`, you can **name** other `<ng-content>`
 <div id="search-film">
   <form>
     <label for="search">Search :</label>
-    <input id="search" type="text" />
+    <input id="search" type="text" name="title"/>
   </form>
 
   <ul class="films">
