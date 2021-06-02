@@ -77,6 +77,8 @@ If the object or class has all the required properties, TypeScript will say they
 
 TypeScript stands in an unusual relationship to JavaScript. TypeScript offers all of JavaScript’s features, and an additional layer on top of these: TypeScript’s type system. This means that your existing working JavaScript code is also TypeScript code.
 
+![ts vs js](../assets/ts-vs-js.png)
+
 ### Syntax
 
 TypeScript is a language that is a superset of JavaScript: JS syntax is therefore legal TS. TypeScript doesn’t consider any JavaScript code to be an error because of its *syntax*. This means you can take any working JavaScript code and put it in a TypeScript file without worrying about exactly how it is written. However, if you move some code from a JavaScript file to a TypeScript file, you might see *type* errors depending on how the code is written.
@@ -105,7 +107,7 @@ If you want to play around in Typescript, you can either install it locally `npm
 
 The following exemples are available in this [playground](https://www.typescriptlang.org/play?strictFunctionTypes=false#code/PTAEEMCdPBPBYAUAGwKYBdTtQWwA6ozoCukqAzgFygB2xOARoQNoC6S2+h4JZ5oAXlDMATAAYANKACMADikiRU6SPaJOBIqQoA6PMXIALABRyAlEgDGAexrlraHcmsBzYxu68KZ0CFDOXflFJGXlQRWUlULUkP1Q6HCR4+lAAEQBLMkt0dNtQAG8kUFAAUXByTCEAIhKAQQBlABUqiSLQAHUKStAq9pKmlrb662J0Q0Ee+oB5AFVGgAlBxGKAOWtIMYmqlamAJQWlgF8rWwrQABNM1GzcmgmMrJzbHTKKk7sHVCdXY0vH258fgC-BqDWaSFiYBIeDQSDQmEspDINHQnR4hkI1GYFUg6RoLikCSYkCkD2uTxoakR0HiqNQ6MIE2YAHJyMQaDRYMyFFEyTdnsNRoYqadMOlyPV2ZyJtTkXSGZBmGJWIIBEJWVKuRDEH4AGbs-l3ciwFHgAAeSH1NENFwollxTDRY0IxgA7vTnZAsTi8QTaPRiaSrobWGZqAA3azpc4FNo2D6OALGAAGjQxoHdCtA4tAABJ8pnPUrWIcpK70ptwFhcJoeNpQNZdXmCx6MYrpCXkxZEMdEOc7Q7UE628ZZbTh4Ru-3yPb0o7Wy6-uSAdq-LUaLZYDgRvwrYb3md3agANbxc4TyBMllsjlcnlB-4CkZjVhSa-odY4O-hMJ8ik6QUXzUPxGlgAh6lnPAxRoXVCH4MYeCwdN0DA1AGybQs22zIIfXxQkA0IB9l1sFVdUgawcCQtD42wM10APTAj1PGhzkaGtPG0fghCYs8Lx0HBwDwN0F0vAQAD4MxE5gO27eN7ETH4eJYtiuC0PhATAAAZVwggicIABYYh1MApgYAArckGNAHBxXQGBkGofIl0Nag-1uKRyAIVBzmoIlCEOCZ8guYMKVckLbh0NYNkMDyvJ80B9IAVlAXs9wpW0Z0Hdo8XON0csc5zQrScLbFi1BvN8gjIEOMNQEjaNY2WUA5M+b43CqNM0PLFjQE88qYxzKpQAAagzHKdD67zu2KFqFLcVN026gb+BsGz8VAMiKKo5slp0QqIo-bT3UgABhcpUGMMxDi7JBe2nWdHRy4wbJxcBkG7JA8WwSBdXASw0OynrCia-bbDCx8aDaSb4r8yBbtXKFUI6HLAshYpgoh8HiMh4z0ehyrGEINHe0tA10vurKcvqOK8pY6hAfOWr6pjYGZtOVqkw6xaUeh7CehGsaWImuLu1Ssnbgyh6hxytzbFp+KGaZqMWbjdm5pTTrBeW5qKN9DbyMo50dvG0GaB0Q7rGOs7yAuq6bp7BHQBmGgJZQghyFJ610rwXEUQASVy6MCeJUAAB9ers30fFZnWEy+TmAE0RkvP3Uj5obRujUWkB9r6A9MMRpA0-wdJ6JPSFAVO+ekQuqhz330HzqpxBEKpi+BMvk8rtOcxbuvEFz-3cqCr9U+oRQAGZ9JEFLi5KaB1kdzSK24ZAsFQj3EDSiXB-QNi6OMKgI99v03vSFwaBwWlqCqNBdXQIbw6qXEXEMB+w56f6UUINvGuKPwdCAPhgPBu+90DGCqPMVAyBnBlnWMgc4LQeh3wft2XeYCIEAHFmTnDgFIAS2AkFVC-nZVAbdHapHpMgPW5ZNh0BgRAHq7J+y6jxBVUAKwoDkW6i4T2NpzjWGGFfMYvpjBmmoLhFwH9mGoFYTQKaBRfBgBtmhI2Bg0KNggKAdkrskZtlQG0dITYxGgAAIRqm0SxWRbDGaKL8DQLhltfRtDZnHNqECoEwOsFIDOoAzTm2sDMPAmhra22milYBaNKFn3WrQ8Y9C17gCYVYuR7CphQVuG9ZqhhwB4mcSgDAzUkTjnysjHq4cZGpPOAeDmPwxwogZntEqNBi7MBKLsXYKpTIWWyHzPA1hyDkDnMgWAoBmSVJscyHQNT1b1NRDlAA-E0iG7dS4TPkdU3GtRLAAEdiCZD1rg9AVZAHTMQHMhmgUMbYyxoaF45R0BlXYeICJ5y1bxzqcUhpizhb9Q0h3cQFCqE0IrPE4gDCkkxnWewlY4LqFGB1m9O0+T4Ra2pv1YOjIKkpJsTMj5bglrou8qABZCyxkbguDwKssAMDMlWYEWg1hKXHNADS+iWzdn7JPsyk5QDECErihMEQE88XuIFf1ElZLmQUqOdS2l9L+DCqQEAA)
 
-## Types
+## Type
 
 ### Common primitives
 JavaScript has three very commonly used primitives: `string`, `number`, and `boolean`. Each has a corresponding type in TypeScript. As you might expect, these are the same names you’d see if you used the JavaScript `typeof` operator on a value of those types:
@@ -168,6 +170,30 @@ const isSunny = currentWeather[0] === 'sunny'
 
 ::: warning
 Enums are a feature added to JavaScript by TypeScript which allows for describing a value which could be one of a set of possible named constants. Unlike most TypeScript features, this is not a type-level addition to JavaScript but something added to the language and runtime. Because of this, it’s a feature which you should know exists, but maybe hold off on using unless you are sure. You can read more about enums in the [Enum reference page](https://www.typescriptlang.org/docs/handbook/enums.html).
+:::
+
+### const, let and var
+
+Typescript allows to define two types of variables:
+
+- Mutable variables which are declared using the `let` keyword. The legacy `var` keyword can also be used but is not recommended because of its way of handling scope can be misleading.
+- Immutable variables or constants are declared with `const`. Please note that fields of constants can still be modified, constants just can't be reassigned.
+
+```typescript
+let x = 10;
+var y = 200.0; // ! do not use var, use let instead
+
+const t = [1, 2, 3];
+t = ['a', 'b']; // ! error because it's a const
+t.push(4); // ok
+
+const meal = { name: "sandwich" }
+const meal = { name: "soup" } // ! error
+meal.name = "soup"; // ok
+```
+
+:::tip
+Some programmers like to use `const` by default and then switch to `let` if necessary. This allows to have an optimized code by default and avoids modifying values by error.
 :::
 
 ### Functions
@@ -355,7 +381,7 @@ There are 3 key words: `public`, `protected` and `private`.
 Like other aspects of TypeScript’s type system, `private` and `protected` are only enforced during type checking. This means that JavaScript runtime constructs like in or simple property lookup can still access a `private` or `protected` member. If you need to protect values in your class from malicious actors, you should use mechanisms that offer hard runtime privacy, such as closures, weak maps, or private fields.
 :::
 
-### Class Heritage
+### Class inheritance
 
 Like other languages with object-oriented features, classes in JavaScript can inherit from base classes.
 
