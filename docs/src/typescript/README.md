@@ -176,8 +176,8 @@ Enums are a feature added to JavaScript by TypeScript which allows for describin
 
 Typescript allows to define two types of variables:
 
-- mutalbe variables which are declared using the `let` keyword. The legacy `var` keyword can also be used but is not recommended because of its way of handling scope can be misleading.
-- Immutable variables or constants are declared with `const`. Please note that fields of constats can still be modified.
+- Mutable variables which are declared using the `let` keyword. The legacy `var` keyword can also be used but is not recommended because of its way of handling scope can be misleading.
+- Immutable variables or constants are declared with `const`. Please note that fields of constants can still be modified, constants just can't be reassigned.
 
 ```typescript
 let x = 10;
