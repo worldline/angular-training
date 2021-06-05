@@ -14,7 +14,7 @@ In Java or C#, any given value or object has one exact type - either null, a pri
 
 These aspects describe a *reified, nominal* type system. The types we write in the code are present at runtime, and the types are related via their declarations, not their structures.
 
-### Structural type system: Typescript
+### Structural type system: TypeScript
 
 One of TypeScript’s core principles is that type checking focuses on the shape that values have. This is sometimes called “duck typing” or “structural typing”.
 
@@ -35,7 +35,7 @@ const force = { x: 12, y: 26 }
 logPoint(force)
 ```
 
-The point variable is never declared to be a Point type. However, TypeScript compares the shape of force to the shape of Point in the type-check. They have the same shape, so the code passes.
+The force variable is never declared to be a Point type. However, TypeScript compares the shape of force to the shape of Point in the type-check. They have the same shape, so the code passes.
 
 TypeScript’s type system is also not *reified*: There’s nothing at runtime that will tell us that `force` is Point. In fact, the Point type is not present in any form at runtime.
 
@@ -102,10 +102,10 @@ Finally, TypeScript doesn’t provide any additional runtime libraries. Your pro
 ## Playing around
 
 ::: tip
-If you want to play around in Typescript, you can either install it locally `npm install -g typescript`, put your code in a `.ts` file and run `tsc path/to/file.ts` to compile it or try directly online in a [playground](https://www.typescriptlang.org/play?#code)
+If you want to play around in TypeScript, you can either install it locally `npm install -g typescript`, put your code in a `.ts` file and run `tsc path/to/file.ts` to compile it or try directly online in a [playground](https://www.typescriptlang.org/play?#code)
 :::
 
-The following exemples are available in this [playground](https://www.typescriptlang.org/play?strictFunctionTypes=false#code/PTAEEMCdPBPBYAUAGwKYBdTtQWwA6ozoCukqAzgFygB2xOARoQNoC6S2+h4JZ5oAXlDMATAAYANKACMADikiRU6SPaJOBIqQoA6PMXIALABRyAlEgDGAexrlraHcmsBzYxu68KZ0CFDOXflFJGXlQRWUlULUkP1Q6HCR4+lAAEQBLMkt0dNtQAG8kUFAAUXByTCEAIhKAQQBlABUqiSLQAHUKStAq9pKmlrb662J0Q0Ee+oB5AFVGgAlBxGKAOWtIMYmqlamAJQWlgF8rWwrQABNM1GzcmgmMrJzbHTKKk7sHVCdXY0vH258fgC-BqDWaSFiYBIeDQSDQmEspDINHQnR4hkI1GYFUg6RoLikCSYkCkD2uTxoakR0HiqNQ6MIE2YAHJyMQaDRYMyFFEyTdnsNRoYqadMOlyPV2ZyJtTkXSGZBmGJWIIBEJWVKuRDEH4AGbs-l3ciwFHgAAeSH1NENFwollxTDRY0IxgA7vTnZAsTi8QTaPRiaSrobWGZqAA3azpc4FNo2D6OALGAAGjQxoHdCtA4tAABJ8pnPUrWIcpK70ptwFhcJoeNpQNZdXmCx6MYrpCXkxZEMdEOc7Q7UE628ZZbTh4Ru-3yPb0o7Wy6-uSAdq-LUaLZYDgRvwrYb3md3agANbxc4TyBMllsjlcnlB-4CkZjVhSa-odY4O-hMJ8ik6QUXzUPxGlgAh6lnPAxRoXVCH4MYeCwdN0DA1AGybQs22zIIfXxQkA0IB9l1sFVdUgawcCQtD42wM10APTAj1PGhzkaGtPG0fghCYs8Lx0HBwDwN0F0vAQAD4MxE5gO27eN7ETH4eJYtiuC0PhATAAAZVwggicIABYYh1MApgYAArckGNAHBxXQGBkGofIl0Nag-1uKRyAIVBzmoIlCEOCZ8guYMKVckLbh0NYNkMDyvJ80B9IAVlAXs9wpW0Z0Hdo8XON0csc5zQrScLbFi1BvN8gjIEOMNQEjaNY2WUA5M+b43CqNM0PLFjQE88qYxzKpQAAagzHKdD67zu2KFqFLcVN026gb+BsGz8VAMiKKo5slp0QqIo-bT3UgABhcpUGMMxDi7JBe2nWdHRy4wbJxcBkG7JA8WwSBdXASw0OynrCia-bbDCx8aDaSb4r8yBbtXKFUI6HLAshYpgoh8HiMh4z0ehyrGEINHe0tA10vurKcvqOK8pY6hAfOWr6pjYGZtOVqkw6xaUeh7CehGsaWImuLu1Ssnbgyh6hxytzbFp+KGaZqMWbjdm5pTTrBeW5qKN9DbyMo50dvG0GaB0Q7rGOs7yAuq6bp7BHQBmGgJZQghyFJ610rwXEUQASVy6MCeJUAAB9ers30fFZnWEy+TmAE0RkvP3Uj5obRujUWkB9r6A9MMRpA0-wdJ6JPSFAVO+ekQuqhz330HzqpxBEKpi+BMvk8rtOcxbuvEFz-3cqCr9U+oRQAGZ9JEFLi5KaB1kdzSK24ZAsFQj3EDSiXB-QNi6OMKgI99v03vSFwaBwWlqCqNBdXQIbw6qXEXEMB+w56f6UUINvGuKPwdCAPhgPBu+90DGCqPMVAyBnBlnWMgc4LQeh3wft2XeYCIEAHFmTnDgFIAS2AkFVC-nZVAbdHapHpMgPW5ZNh0BgRAHq7J+y6jxBVUAKwoDkW6i4T2NpzjWGGFfMYvpjBmmoLhFwH9mGoFYTQKaBRfBgBtmhI2Bg0KNggKAdkrskZtlQG0dITYxGgAAIRqm0SxWRbDGaKL8DQLhltfRtDZnHNqECoEwOsFIDOoAzTm2sDMPAmhra22milYBaNKFn3WrQ8Y9C17gCYVYuR7CphQVuG9ZqhhwB4mcSgDAzUkTjnysjHq4cZGpPOAeDmPwxwogZntEqNBi7MBKLsXYKpTIWWyHzPA1hyDkDnMgWAoBmSVJscyHQNT1b1NRDlAA-E0iG7dS4TPkdU3GtRLAAEdiCZD1rg9AVZAHTMQHMhmgUMbYyxoaF45R0BlXYeICJ5y1bxzqcUhpizhb9Q0h3cQFCqE0IrPE4gDCkkxnWewlY4LqFGB1m9O0+T4Ra2pv1YOjIKkpJsTMj5bglrou8qABZCyxkbguDwKssAMDMlWYEWg1hKXHNADS+iWzdn7JPsyk5QDECErihMEQE88XuIFf1ElZLmQUqOdS2l9L+DCqQEAA)
+The following examples are available in this [playground](https://www.typescriptlang.org/play?strictFunctionTypes=false#code/PTAEEMCdPBPBYAUAGwKYBdTtQWwA6ozoCukqAzgFygB2xOARoQNoC6S2+h4JZ5oAXlDMATAAYANKACMADikiRU6SPaJOBIqQoA6PMXIALABRyAlEgDGAexrlraHcmsBzYxu68KZ0CFDOXflFJGXlQRWUlULUkP1Q6HCR4+lAAEQBLMkt0dNtQAG8kUFAAUXByTCEAIhKAQQBlABUqiSLQAHUKStAq9pKmlrb662J0Q0Ee+oB5AFVGgAlBxGKAOWtIMYmqlamAJQWlgF8rWwrQABNM1GzcmgmMrJzbHTKKk7sHVCdXY0vH258fgC-BqDWaSFiYBIeDQSDQmEspDINHQnR4hkI1GYFUg6RoLikCSYkCkD2uTxoakR0HiqNQ6MIE2YAHJyMQaDRYMyFFEyTdnsNRoYqadMOlyPV2ZyJtTkXSGZBmGJWIIBEJWVKuRDEH4AGbs-l3ciwFHgAAeSH1NENFwollxTDRY0IxgA7vTnZAsTi8QTaPRiaSrobWGZqAA3azpc4FNo2D6OALGAAGjQxoHdCtA4tAABJ8pnPUrWIcpK70ptwFhcJoeNpQNZdXmCx6MYrpCXkxZEMdEOc7Q7UE628ZZbTh4Ru-3yPb0o7Wy6-uSAdq-LUaLZYDgRvwrYb3md3agANbxc4TyBMllsjlcnlB-4CkZjVhSa-odY4O-hMJ8ik6QUXzUPxGlgAh6lnPAxRoXVCH4MYeCwdN0DA1AGybQs22zIIfXxQkA0IB9l1sFVdUgawcCQtD42wM10APTAj1PGhzkaGtPG0fghCYs8Lx0HBwDwN0F0vAQAD4MxE5gO27eN7ETH4eJYtiuC0PhATAAAZVwggicIABYYh1MApgYAArckGNAHBxXQGBkGofIl0Nag-1uKRyAIVBzmoIlCEOCZ8guYMKVckLbh0NYNkMDyvJ80B9IAVlAXs9wpW0Z0Hdo8XON0csc5zQrScLbFi1BvN8gjIEOMNQEjaNY2WUA5M+b43CqNM0PLFjQE88qYxzKpQAAagzHKdD67zu2KFqFLcVN026gb+BsGz8VAMiKKo5slp0QqIo-bT3UgABhcpUGMMxDi7JBe2nWdHRy4wbJxcBkG7JA8WwSBdXASw0OynrCia-bbDCx8aDaSb4r8yBbtXKFUI6HLAshYpgoh8HiMh4z0ehyrGEINHe0tA10vurKcvqOK8pY6hAfOWr6pjYGZtOVqkw6xaUeh7CehGsaWImuLu1Ssnbgyh6hxytzbFp+KGaZqMWbjdm5pTTrBeW5qKN9DbyMo50dvG0GaB0Q7rGOs7yAuq6bp7BHQBmGgJZQghyFJ610rwXEUQASVy6MCeJUAAB9ers30fFZnWEy+TmAE0RkvP3Uj5obRujUWkB9r6A9MMRpA0-wdJ6JPSFAVO+ekQuqhz330HzqpxBEKpi+BMvk8rtOcxbuvEFz-3cqCr9U+oRQAGZ9JEFLi5KaB1kdzSK24ZAsFQj3EDSiXB-QNi6OMKgI99v03vSFwaBwWlqCqNBdXQIbw6qXEXEMB+w56f6UUINvGuKPwdCAPhgPBu+90DGCqPMVAyBnBlnWMgc4LQeh3wft2XeYCIEAHFmTnDgFIAS2AkFVC-nZVAbdHapHpMgPW5ZNh0BgRAHq7J+y6jxBVUAKwoDkW6i4T2NpzjWGGFfMYvpjBmmoLhFwH9mGoFYTQKaBRfBgBtmhI2Bg0KNggKAdkrskZtlQG0dITYxGgAAIRqm0SxWRbDGaKL8DQLhltfRtDZnHNqECoEwOsFIDOoAzTm2sDMPAmhra22milYBaNKFn3WrQ8Y9C17gCYVYuR7CphQVuG9ZqhhwB4mcSgDAzUkTjnysjHq4cZGpPOAeDmPwxwogZntEqNBi7MBKLsXYKpTIWWyHzPA1hyDkDnMgWAoBmSVJscyHQNT1b1NRDlAA-E0iG7dS4TPkdU3GtRLAAEdiCZD1rg9AVZAHTMQHMhmgUMbYyxoaF45R0BlXYeICJ5y1bxzqcUhpizhb9Q0h3cQFCqE0IrPE4gDCkkxnWewlY4LqFGB1m9O0+T4Ra2pv1YOjIKkpJsTMj5bglrou8qABZCyxkbguDwKssAMDMlWYEWg1hKXHNADS+iWzdn7JPsyk5QDECErihMEQE88XuIFf1ElZLmQUqOdS2l9L+DCqQEAA)
 
 ## Type
 
@@ -120,7 +120,7 @@ JavaScript has three very commonly used primitives: `string`, `number`, and `boo
 let message: string
 message = "hello!"
 
-// typescript can infer types, here it infers from the context that it is a string
+// TypeScript can infer types, here it infers from the context that it is a string
 const obviousString = "hello!"
 ```
 
@@ -255,7 +255,7 @@ function describeWindDirection(wind: Wind): void {
 }
 ```
 
-Type aliases and interfaces are very similar, and in many cases you can choose between them freely. Almost all features of an interface are available in type, the key distinction is that a type cannot be re-opened to add new properties vs an interface which is always extendable.
+Type aliases and interfaces are very similar, and in many cases you can choose between them freely. Almost all features of an interface are available with type aliases. The key distinction is that a type alias cannot be re-opened to add new properties while an interface is always extendable. We will favour Interfaces in the rest of the training.
 
 ### Union types
 The first way to combine types you might see is a union type. A union type is a type formed from two or more other types, representing values that may be any one of those types. We refer to each of these types as the union’s members.
@@ -285,7 +285,7 @@ printText("G'day, mate", "centre") // Error
 
 ## Dealing with null and undefined
 
-How `null` and `undefined` behave depends on weather the `strictNullChecks` typescript compiler option is on or off
+How `null` and `undefined` behave depends on whether the `strictNullChecks` TypeScript compiler option is on or off
 
 - `strictNullChecks` *off*
 
@@ -456,9 +456,9 @@ console.log(pi)
 const absPhi = absolute(phi)
 ```
 
-## Typescript and Angular
+## TypeScript and Angular
 
-Like said before, Typescript is Angular's primary language. Many of the language features seen above are fully leveraged by Angular. Let's take a look at a simple example of a component which is one of the main building blocks of an Angular app.
+Like said before, TypeScript is Angular's primary language. Many of the language features seen above are fully leveraged by Angular. Let's take a look at a simple example of a component which is one of the main building blocks of an Angular app.
 
 ```typescript
 import { Component, OnInit } from '@angular/core' //[3]
@@ -483,7 +483,7 @@ export class HeroListComponent implements OnInit { //[1]
 }
 ```
 ### [1] Classes
-The main building blocks of Angular (services, components, pipes, directives...) are classes. The constructor mainly serves dependency injection purposes. Here, we're seeing a syntax where the `service` argument is provided with a visibility modifier, it is a shorthand notation to declare a field on a class. The two following exemples are stricly equivalent:
+The main building blocks of Angular (services, components, pipes, directives...) are classes. The constructor mainly serves dependency injection purposes. Here, we're seeing a syntax where the `service` argument is provided with a visibility modifier, it is a shorthand notation to declare a field on a class. The two following examples are stricly equivalent:
 ```typescript
 class Cat {
   constructor(public name: string) {}
@@ -503,7 +503,7 @@ The `HeroListComponent` implements the `ngOnInit()` method of the `OnInit` lifec
 Decorators provide a way to add both annotations and a meta-programming syntax for class declarations and members. A Decorator is a special kind of declaration that can be attached to a class declaration, method, accessor, property, or parameter. Decorators use the form `@expression`, where `expression` must evaluate to a function that will be called at runtime with information about the decorated declaration. Angular makes extensive use of decorators: `@Component`, `@Directive`, `@Injectable`, `@Pipe`, `@Input`, `@Output`...
 
 ### [3] ES6 modules
-ES6 modules are present in allmost all, if not all, ts files of an Angular project. Angular adds its own module layer on top of those: NgModules. NgModules consolidate components, directives, and pipes into cohesive blocks of functionality, each focused on a feature area, application business domain, workflow, or common collection of utilities. We will see more about them later in the training.
+ES6 modules are present in almost all, if not all, ts files of an Angular project. Angular adds its own module layer on top of those: NgModules. NgModules consolidate components, directives, and pipes into cohesive blocks of functionality, each focused on a feature area, application business domain, workflow, or common collection of utilities. We will see more about them later in the training.
 
 ## Sources
 

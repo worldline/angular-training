@@ -25,8 +25,8 @@ Generated applications go into the `projects/` folder instead of a top-level `sr
 Our previously created project has the following folders and files:
 - `tslint.json`: the default TSLint configuration of the workspace
 - `tsconfig.json`: the base TypeScript configuration for projects in the workspace
-- `tsconfig.app.json`: the root app Typescript configuration file which inherits from the base one
-- `tsconfig.spec.json`: the root app e2e tests Typescript configuration file which inherits from the base one
+- `tsconfig.app.json`: the root application TypeScript configuration file which inherits from the base one
+- `tsconfig.spec.json`: the e2e tests TypeScript configuration file which inherits from the base one
 - `README.md`: introductory documentation for the root app
 - `package.json`: configures npm package dependencies that are available to all projects in the workspace
 - `package-lock.json`: provides version information for all packages installed into node_modules by the npm client
@@ -135,7 +135,7 @@ The template has access to all the non-private members of the component class. C
 
 Interpolation only works on textual content of elements. You can not use it to change the value of HTML attributes or to insert HTML code. For this, you will need to resort to directives, which we will see later in the training.
 
-In this exemple, we formatted the price manually. We will later see that Angular provides a way to declare reusable formatters: **pipes**.
+In this example, we formatted the price manually. We will later see that Angular provides a way to declare reusable formatters: **pipes**.
 
 
 ## Working with components
@@ -224,7 +224,7 @@ While a small application might have only one NgModule, as the app grows, it is 
 
 ## Practical work: Your first component
 
-1. Most apps strive for a consistent look across the application. The CLI generated an empty `styles.scss` for this purpose. Copy paste the content of the SCSS stylesheet that will serve as basis for all the practical work, downloadable here: [styles.scss](https://worldline.github.io/vuejs-training/styles.scss) in it.
+1. Most apps strive for a consistent look across the application. The CLI generated an empty `styles.scss` for this purpose. Copy paste the content of the SCSS stylesheet that will serve as basis for all the practical work, downloadable here: [styles.scss](https://worldline.github.io/angular-training/styles.scss) in it.
 
 2. Create a new component login-form containing the following authentication form:
 ```html

@@ -4,18 +4,18 @@ Angular applications are mostly Single Page Applications (SPA). The server alway
 
 The routing of an SPA is therefore managed on the client side, and the Angular team provides a library for this purpose: `@angular/router`. This router allows you to associate routes (URLs) with Angular components.
 
-For this chapter, we will use the *Personal Library* app as a running exemple. Besides the `AppComponent` which contains a `NavbarComponent` , the app has 5 "pages":
+For this chapter, we will use the *Personal Library* app as a running example. Besides the `AppComponent` which contains a `NavbarComponent` , the app has 5 "pages":
 - Home
 - Book list
 - Book detail
 - Author list
 - Author detail
 
-The targeted routing of the exemple app is as follows:
+The targeted routing of the example app is as follows:
 
 ![Targeted routing](../assets/routing.png)
 
-This [Stackblitz](https://stackblitz.com/edit/angular-routing-training-0?file=src/app/app-routing.module.ts) will serve as the base for the exemple.
+This [Stackblitz](https://stackblitz.com/edit/angular-routing-training-0?file=src/app/app-routing.module.ts) will serve as the base for the example.
 
 ## Routing Module
 
@@ -51,7 +51,7 @@ export class AppRoutingModule {}
 The `routes` array is where we tell the `Router` which component should be displayed when the user clicks on a link or enters a URL in the address bar.
 A [Route](https://angular.io/api/router/Route) is mainly defined by a path and a component. It can also define a redirect, children routes, a path match strategy, guards, resolvers, lazy-loaded child routes, etc...
 
-Here is an exemple of an app with a dashboard secured with authentication:
+Here is an example of an app with a dashboard secured with authentication:
 ```ts
 const routes: Routes = [
   {path: 'registration', component: RegistrationComponent},
@@ -205,7 +205,7 @@ You have two options, either use an absolute path starting with `/` which means 
 For the moment, only the data of the book with id 1 and the data of the author with id 1 is shown. Later in this chapter we will see how to extract the id present in the URL to select the proper data to display.
 :::
 
-**Exercice:** Add navigation in the `BookDetailComponent` to the `AuthorDetailComponent` and vice versa.
+**Exercise:** Add navigation in the `BookDetailComponent` to the `AuthorDetailComponent` and vice versa.
 
 ::: details Correction
 

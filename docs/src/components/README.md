@@ -193,7 +193,7 @@ export class AddTaskComponent {
 </code-block>
 </code-group>
 
-You can play with this exemple [here](https://stackblitz.com/edit/angular-output-training-example?file=src/app/app.component.ts).
+You can play with this example [here](https://stackblitz.com/edit/angular-output-training-example?file=src/app/app.component.ts).
 
 **Exercise: Books are now borrowable, communicate when books are borrowed to their parent component**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-output-training?ctl=1&embed=1&file=src/app/book/book.component.html&hideNavigation=1"></iframe>
@@ -239,7 +239,7 @@ export class GreetComponent {
 
 The `ViewChild` decorator can achieve the same purpose as a template variable but directly inside the parent component's class by injecting the child component into the parent component. Use `VeiwChild` over a local variable whenever you need to coordinate interactions between several child components.
 
-In this exemple, the `MenuComponent` gets access to the `MenuItemComponent`:
+In this example, the `MenuComponent` gets access to the `MenuItemComponent`:
 
 <code-group>
 <code-block title="Parent component">

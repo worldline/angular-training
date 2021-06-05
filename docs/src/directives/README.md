@@ -4,7 +4,7 @@ Angular brings powerful syntax to templates. In the previous chapter, we've seen
 
 ## Property binding
 
-To bind to an HTML element or component's property, enclose it in square brackets `[]`. The brackets, `[]`, cause Angular to evaluate the right-hand side of the assignment as a dynamic expression. Without the brackets, Angular treats the right-hand side as a string literal and sets the property to that static value. `[]` is the syntax for one-way data binding with data flowing from the component to the template.
+To bind an HTML element to a component's property, enclose it in square brackets `[]`. The brackets, `[]`, cause Angular to evaluate the right-hand side of the assignment as a dynamic expression. Without the brackets, Angular treats the right-hand side as a string literal and sets the property to that static value. `[]` is the syntax for one-way data binding with data flowing from the component to the template.
 
 ```html
 <a [href]="url">Link</a>
@@ -12,7 +12,7 @@ To bind to an HTML element or component's property, enclose it in square bracket
 ```
 
 **Exercise: try to link the `src` and `width` attributes of the image**
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-property-binding-training?embed=1&file=src/app/app.component.ts&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-property-binding-training?ctl=1&embed=1&file=src/app/app.component.ts&hideNavigation=1"></iframe>
 
 ## Class and style binding
 ### Class binding

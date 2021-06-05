@@ -122,7 +122,7 @@ In a Single Page Application (SPA), communication with the server is done via as
 
 Angular provides a module, the `HttpClientModule`, to make HTTP calls. The module provides an injectable service, the `HttpClient`, to make get, post, patch, delete and put requests. To inject the `HttpClient` in a service, first add the `HttpClientModule` to the `AppModule`'s `imports` array.
 
-Here are a few exemples:
+Here are a few examples:
 
 <code-group>
 <code-block title="Service">
