@@ -6,7 +6,7 @@ When the user validates the form, it is processed locally by the webapp.
 The latter can eventually choose to send data to the server using the HTTP Client.
 
 :::warning
-In a Single Page Application, forms do not redirect to a server page  when the user posts them (as in PHP for example).
+In a Single Page Application, forms do not redirect to a server page when the user posts them (as in PHP for example).
 However, the SPA can retrieve the form data and send it to the server if necessary using an async HTTP call.
 :::
 
@@ -20,10 +20,10 @@ This is possible using either one of those two types of forms:
 
 As their name suggests, template-driven forms are fully defined in the template of the component.
 User input can be retrieved in the component class thanks to the two-way data binding provided by the `[(ngModel)]` attribute.
-This directive is defined in the `FormModule` module.
+This directive is defined in the `FormsModule` module.
 
 Here is an example that uses `[(ngModel)]` to bind an `input` and `select` fields.
-It also shows how to use get a reference to to the form field (`#nameRef="ngModel"`). This allows to obtain some properties on the form field such as its validity status (`nameRef.valid`).
+It also shows how to get a reference to the form field (`#nameRef="ngModel"`). This allows to obtain some properties on the form field such as its validity status (`nameRef.valid`).
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/yos-template-form-simple?ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
@@ -33,7 +33,7 @@ Do not forget to import `FormsModule` when using template-driven forms
 
 If you group the form fields in a `form` element, you can take advantage of these nice possibilities:
 
-- Get a reference to the whole form by capturing `ngForm` (example: `#formRef="ngForm"`). This allows for example to get validity status of the whole form
+- Get a reference to the whole form by capturing `ngForm` (example: `#formRef="ngForm"`). This allows for example to get the validity status of the whole form
 - Listen to the submit event of the form using `(ngSubmit)`
 
 :::tip
@@ -50,11 +50,11 @@ The following project illustrates the usage of `ngForm` and ̀`ngSubmit`.
 
 Reactive forms allow to bind the whole form field to its counterpart in the component class.
 This allows to combine the features of `ngModel` and form field references into a single concept which is a `FormControl` for a single form field and a `FormGroup` for a group of form fields.
-Please note that `FormControl`, `FormGroup` and Reactive forms are defined in the `ReactiveForms` module.
+Please note that `FormControl`, `FormGroup` and other reactive form elements are defined in the `ReactiveFormsModule`.
 
 ### Form control
 
-A `FormControl` is a class that wraps the value as well other information of a form field.
+A `FormControl` is a class that wraps the value as well as other information of a form field.
 
 The following project rewrites the first example of the previous section using Reactive forms.
 Here, we define `FormControl` objects and link them with their counterpart on the template with `[formControl]`.
@@ -64,17 +64,16 @@ As you may note in the template, the value and the valid status of form controls
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ivy-qtsmx2?ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
 :::warning
-Do not forget to import `FormsModule` when using template-driven forms
+Do not forget to import the `ReactiveFormsModule` when using reactive forms
 :::
 
 ### Form Group
 
-A `FormGroup` is a collection of form controls that are grouped together.
-In the component side a `FormGroup` instance and on the template using any element that has the `[formGroup]` attribute.
+A `FormGroup` is a collection of form controls that are grouped together. It consists in a `FormGroup` instance that is binded in the template to a `<form>` tag via the `[formGroup]` attribute.
 Please note that child controls and groups use the attributes `formControlName` and `formGroupName` respectively in the template.
 
-The following component defines a `FormGroup` that contains some form controls and a another form group.
-It illustrates many uses cases related to forms: getting the form value, its status, defining validators on the form control or in the template, and accessing children controls and groups using the [get](https://angular.io/api/forms/AbstractControl#get) method.
+The following component defines a `FormGroup` that contains some form controls and another form group.
+It illustrates many uses cases related to forms: getting the form value, its status, defining validators on the form control or in the template, and accessing child controls and groups using the [get](https://angular.io/api/forms/AbstractControl#get) method.
 
 <iframe src="https://codesandbox.io/embed/reactive-form-group-e89g6?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fapp%2Fapp.component.ts&theme=dark"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
@@ -85,8 +84,8 @@ It illustrates many uses cases related to forms: getting the form value, its sta
 
 ### Form builder
 
-Angular reactive forms provides a simpler api for creating form groups and form controls thanks to the `FormBuilder` service.
-The following code snippet shows how to convert the previous form group into the the `FormBuilder` api.
+Angular reactive forms provide a simpler api for creating form groups and form controls thanks to the `FormBuilder` service.
+The following code snippet shows how to convert the previous form group declaration using the `FormBuilder` api.
 
 ```typescript
 // before
@@ -122,9 +121,7 @@ Please find below a complete example that uses the `FormBuilder` api.
 
 ### Reactive Form validation
 
-Reactive forms allow to define validators in the component code or using HTML5 validation attributes such as `required` and `minlength`.
-Reactive forms provide many build-in validators to use in the component code such as `Validators.required`.
-It also allows the developer to define new validators.
+Reactive forms allow to define validators in the component code or using HTML5 validation attributes such as `required` and `minlength`. Angular provides built-in validators such as `Validators.required`, `Validators.min`, `Validators.pattern`, you can find a complete list [here](https://angular.io/api/forms/Validators). You can also define custom validators ([tutorial](https://angular.io/guide/form-validation#defining-custom-validators)).
 
 :::warning
 When using HTML5 validators, Angular recommends to combine them with built-in reactive forms validators.
