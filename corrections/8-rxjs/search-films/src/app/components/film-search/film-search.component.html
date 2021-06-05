@@ -1,0 +1,12 @@
+<div id="search-film">
+  <form (ngSubmit)="searchFilms()">
+    <label for="search">Search :</label>
+    <input id="search" type="text" [(ngModel)]="title" name="title"/>
+  </form>
+
+  <ul class="films" *ngIf="films | async as films">
+    <ng-container *ngFor="let film of films">
+      <app-film [film]="film"></app-film>
+    </ng-container>
+  </ul>
+</div>

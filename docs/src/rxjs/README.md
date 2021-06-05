@@ -186,7 +186,7 @@ Let's fix the memory leak of the previous example. To demonstrate both technique
 
 ## The async pipe
 
-Subscribing to an Observable and saving the value in a property of the component is not the only way to display the values from the Observable. Angular provides a pipe to which the Observable can be passed directly.
+Subscribing to an `Observable` and saving the value in a property of the component is not the only way to display the values from the `Observable`. Angular provides a pipe to which the `Observable` can be passed directly.
 
 <code-group>
 <code-block title="Component class">
@@ -210,7 +210,7 @@ export class AppComponent {
 </code-block>
 </code-group>
 
-For objects an alternative syntax exists to avoid repetitively using the async pipe to access each field:
+For objects, an alternative syntax exists to avoid repetitively using the async pipe to access each field:
 
 <code-group>
 <code-block title="Component template">
@@ -249,6 +249,8 @@ interface User {
 </code-block>
 </code-group>
 
+Since no subscription is made, unsusbscribing is not necessary. The async pipe takes care of it for us.
+
 ## Summary
 
 ::: tip Key Takeaways
@@ -269,3 +271,8 @@ Here is a table of the most commonly used operators.
 There also exists two `Observable` constants: `NEVER` (emits neither values nor errors nor the completion notification) and `EMPTY` (emits no items and immediately emits a complete notification)
 
 To help you decide which operator fits your use case, the RxJS documentation provides an [operator decision tree](https://v6.rxjs.dev/operator-decision-tree). It also helps with just discovering the many operators RxJS provides.
+
+## Practical work
+
+- In the `film-search.component.ts` file, stop subscribing to the search response and use an async pipe instead in the template.
+- Even though it is not strictly necessary in those cases, unsubscribe from the login and register calls in the `LoginFormComponent` using the `Subject` technique.

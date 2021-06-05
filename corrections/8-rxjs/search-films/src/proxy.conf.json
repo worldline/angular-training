@@ -1,0 +1,9 @@
+{
+  "/api/*": {
+    "target": "https://vue-js-backend.herokuapp.com",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    }
+  }
+}
