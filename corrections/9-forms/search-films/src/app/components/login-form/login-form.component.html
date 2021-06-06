@@ -1,0 +1,30 @@
+<div id="login-form">
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <h1>{{title}}</h1>
+    <p>Fill out this form to login.</p>
+    <hr />
+
+    <label [class.error]="loginForm.dirty && loginForm.get('email')?.invalid" for="email"><b>Email</b></label>
+    <input type="text" formControlName="email" placeholder="Enter your email" required/>
+    <small class="error" *ngIf="loginForm.dirty && loginForm.get('email')?.hasError('required')">
+      This field is required
+    </small>
+
+    <label [class.error]="loginForm.dirty && loginForm.get('password')?.invalid" for="psw"><b>Password</b></label>
+    <input type="password" formControlName="password" placeholder="Enter your password" required/>
+    <small class="error" *ngIf="loginForm.dirty && loginForm.get('password')?.hasError('required')">
+      This field is required
+    </small>
+    <small class="error" *ngIf="loginForm.dirty && loginForm.get('password')?.hasError('password.pattern')">
+      The password format is incorrect
+    </small>
+
+    <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
+
+    <p>
+      <button type="submit" [disabled]="loginForm.invalid">Login</button>
+      <button type="button"[disabled]="loginForm.invalid" (click)="register()">Register</button>
+    </p>
+  </form>
+  <p></p>
+</div>

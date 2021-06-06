@@ -1,26 +1,23 @@
 # Forms
 
 Forms allow the web app to get user input.
-A form is generally composed of a form element that contains input elements and a submit button.
-When the user validates the form, it is processed locally by the webapp.
-The latter can eventually choose to send data to the server using the HTTP Client.
+A form is generally composed of a form element (`<form></form>`) that contains input elements (`<input />`) and a submit button (`<button type="submit"></button>`).
+When the user submits the form, it is processed locally by the webapp. The latter can choose to send data to the server using the HTTP Client.
 
 :::warning
-In a Single Page Application, forms do not redirect to a server page when the user posts them (as in PHP for example).
-However, the SPA can retrieve the form data and send it to the server if necessary using an async HTTP call.
+In a Single Page Application, forms do not redirect to a server page when the user posts them (as in PHP for example). However, the SPA can retrieve the form data from the template and send it to the server if necessary using an async HTTP call.
 :::
 
 Angular simplifies the common tasks related to creating and processing forms, such as data-binding, validation and sending the data to the server.
 This is possible using either one of those two types of forms:
 
-- Template driven forms: simple to use but less scalable than reactive forms and are a good fit for simple forms.
-- Reactive forms: require more learning effort but offer more advantages in terms of scalability, reusability and testability. Their implementation is based on RxJS.
+- Template-driven forms: simple to use but far less scalable than reactive forms and are a good fit for simple forms of one or two inputs with little to no validation rules.
+- Reactive forms: has a steep learning curve but offer more advantages in terms of management of complex use cases, scalability, reusability and testability. Their implementation is based on RxJS.
 
-## Template driven forms
+## Template-driven forms
 
 As their name suggests, template-driven forms are fully defined in the template of the component.
-User input can be retrieved in the component class thanks to the two-way data binding provided by the `[(ngModel)]` attribute.
-This directive is defined in the `FormsModule` module.
+User input can be retrieved in the component class thanks to the `NgModel` directive. As you may remember, we have used it in the *Empower your HTML* chapter to order ice-creams.
 
 Here is an example that uses `[(ngModel)]` to bind an `input` and `select` fields.
 It also shows how to get a reference to the form field (`#nameRef="ngModel"`). This allows to obtain some properties on the form field such as its validity status (`nameRef.valid`).
@@ -31,13 +28,13 @@ It also shows how to get a reference to the form field (`#nameRef="ngModel"`). T
 Do not forget to import `FormsModule` when using template-driven forms
 :::
 
-If you group the form fields in a `form` element, you can take advantage of these nice possibilities:
+If you group the form fields in a `form` element (which you definitely should), you can take advantage of these nice possibilities:
 
-- Get a reference to the whole form by capturing `ngForm` (example: `#formRef="ngForm"`). This allows for example to get the validity status of the whole form
+- Get a reference to the whole form by capturing `ngForm` (example: `#formRef="ngForm"`). This allows, for example, to get the validity status of the whole form
 - Listen to the submit event of the form using `(ngSubmit)`
 
 :::tip
-Prefer listening to `(ngSubmit)` rather than the `(click)` on the submit button because the former supports the submission via the *enter* key on the keyboard.
+Prefer listening to `(ngSubmit)` on the `<form>` tag rather than the `(click)` on the submit button because the former supports the submission via the *enter* key on the keyboard and increases the accessibility of the form.
 :::
 
 The following project illustrates the usage of `ngForm` and ̀`ngSubmit`.
@@ -48,7 +45,7 @@ The following project illustrates the usage of `ngForm` and ̀`ngSubmit`.
 
 ## Reactive forms
 
-Reactive forms allow to bind the whole form field to its counterpart in the component class.
+Reactive forms allow to bind the whole HTML form element to its counterpart in the component class.
 This allows to combine the features of `ngModel` and form field references into a single concept which is a `FormControl` for a single form field and a `FormGroup` for a group of form fields.
 Please note that `FormControl`, `FormGroup` and other reactive form elements are defined in the `ReactiveFormsModule`.
 
@@ -160,15 +157,36 @@ You can find an updated list of classes [here](https://angular.io/guide/form-val
 
 ## Practical work: Login and registration with reactive forms
 
-Implement the login and registration forms using reactive forms.
+1. Implement the login / registration form using reactive forms and the form builder: replace the `[(ngModel)]` in the template and delete the `email` and `password` from the class of the `LoginFormComponent`.
 
-Define a custom validator on the password field of the registration form that refuses weak passwords. We will consider that a password is string if it satisfies all of these requirements:
+2. Add the required validator (`Validators.required`) to both fields and show the text `"This field is required"` next to each field if the form is dirty and that field has the error `required`:
+```html
+<small>
+  This field is required
+</small>
+```
 
-- Contains at least one uppercase character ( regex /[A-Z]/ )
-- Contains at least one lowercase character ( regex /[a-z]/ )
-- Have at least a digit ( regex /[0-9]/ )
+3. Style the label and error text of each field with the `.error` class when the form is dirty and that field is invalid (remember the `[class]` attribute)
+
+4. Disable the Login and Register buttons using the `[disabled]` attribute if the form is invalid.
+
+5. Define a custom validator for the password field that refuses weak passwords. We will consider that a password is strong if it satisfies all of these requirements:
+- Contains at least one uppercase character (regex `/^.*[A-Z]+.*$/`)
+- Contains at least one lowercase character (regex `/^.*[a-z]+.*$/`)
+- Has at least one non-alphanumeric character (regex `/^.*\W+.*$/`)
 - Minimum length of 8 characters
 
-## Sources
+Put that validator in `app/utils` and name it `password.validator.ts`. Here is its basic implementation:
+```ts
+export function password(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    // TODO
+    return {'password.pattern': true}
+  }
+}
+```
 
-- [Angular official documentation](https://angular.io/guide/forms-overview)
+You can use the `test` method on each pattern and pass it the value of the control to check if the pattern exists in it. Add an error text via the `<small>` tag on the password field that shows if the form is dirty and the field has the `password.pattern` error.
+
+## Sources
+- [Angular official forms documentation](https://angular.io/guide/forms-overview)
