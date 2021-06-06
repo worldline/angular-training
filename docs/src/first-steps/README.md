@@ -220,7 +220,18 @@ An NgModule is defined by a class decorated with `@NgModule()`. The `@NgModule()
 
 While a small application might have only one NgModule, as the app grows, it is a good practice to refactor the root module into feature modules that represent collections of related functionality. You then either import these modules into the root module (eagerly loaded) or lazy load them asynchronously via the router.
 
+## Organising your files
+Here is the folder structure we will strive to achieve in the Search Films application:
 
+![Mono module folder structure](../assets/folder-structure.png)
+
+This folder structure is best suited to simple projects that have only one module, the `AppModule`. As a project grows, feature modules will be introduced and the structure can evolve to this:
+
+![Multi module folder structure](../assets/folder-structure-multi-module.png)
+
+:::tip
+By default, the CLI will always generate in the `app` folder. You can tell it to generate in another folder by passing the path before the name of the element you want it to generate. For instance `ng generate component components/test` will generate the `TestComponent` 4 files in `app/components/test`. The `components` folder is created by the CLI if doesn't already exist, as well as the `test` folder.
+:::
 
 ## Practical work: Your first component
 
