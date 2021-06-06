@@ -60,7 +60,7 @@ Dependencies can be provided at three levels:
 ## Practical Work: State management
 1. Generate an `AuthenticationService` with the CLI in the `app/services` folder
 ::: tip Alias
-As the complexity of the folder structure of the applicationt increases, it is a good practice to add aliases in the `tsconfig.json` file
+As the complexity of the folder structure of the application increases, it is a good practice to add aliases in the `tsconfig.json` file
 ```json
 "paths": {
   "@models/*": ["src/app/models/*"],
@@ -103,7 +103,7 @@ VsCode will automatically use those paths for the imports instead of relative on
 </code-group>
 
 5. Conditionnally show the Logout button depending on the `loggedIn` status of the user
-6. Use a navigation guard to redirect the user who wants to access the film search page to `/login` if he/she is not authenticated (make the CanActivate return true if the route can be accessed else return a `UrlTree` via the `createUrlTree` method of the `Router` service). To future-proof the guard, add a returnUrl as a queryParam to the returned `UrlTree` so that the `LoginFormComponent` knows where to navigate back to after authentication and modify the `LoginFormComponent` accordingly. To generate the navigation guard use the following CLI command:
+6. Use a navigation guard to redirect the user who wants to access the film search page to `/login` if they is not authenticated (make the CanActivate return true if the route can be accessed else return a `UrlTree` via the `createUrlTree` method of the `Router` service). To future-proof the guard, add a returnUrl as a queryParam to the returned `UrlTree` so that the `LoginFormComponent` knows where to navigate back to after authentication and modify the `LoginFormComponent` accordingly. To generate the navigation guard use the following CLI command:
 
 ```sh
 ng generate guard guards/authentication
@@ -120,7 +120,7 @@ this.router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url }})
 
 In a Single Page Application (SPA), communication with the server is done via asynchronous HTTP requests (AJAX) or more specialized protocols such as WebSocket. We will see how to make these network requests from an Angular application.
 
-Angular provides a module, the `HttpClientModule`, to make HTTP calls. The module provides an injectable service, the `HttpClient`, to make get, post, patch, delete and put requests. To inject the `HttpClient` in a service, first add the `HttpClientModule` to the `AppModule`'s `imports` array.
+Angular provides a module, the `HttpClientModule`, to make HTTP calls. The module provides an injectable service, the `HttpClient`, to make GET, POST, PATCH, DELETE and PUT requests. To inject the `HttpClient` in a service, first add the `HttpClientModule` to the `AppModule`'s `imports` array.
 
 Here are a few examples:
 
@@ -317,7 +317,7 @@ export class User {
 </code-block>
 </code-group>
 
-Note the token in the `UserResponse`, it will serve to authenticate the user via the Authorization header: `Authorization: Bearer <token>`. Learn more about JWT (here)[https://jwt.io/introduction].
+Note the token in the `UserResponse`, it will serve to authenticate the user via the Authorization header: `Authorization: Bearer <token>`. Learn more about JWT [here](https://jwt.io/introduction).
 
 6. Implement the `register` and `login` methods in the `AuthenticationService` as follows:
 

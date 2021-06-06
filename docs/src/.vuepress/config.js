@@ -49,8 +49,8 @@ module.exports = {
           "/services/",
           "/rxjs/",
           "/forms/",
-          "/ecosystem/",
-          "/to-go-further/"
+          "/to-go-further/",
+          "/ecosystem/"
         ]
       } /*,
 

@@ -4,7 +4,7 @@ Angular applications are mostly Single Page Applications (SPA). The server alway
 
 The routing of an SPA is therefore managed on the client side, and the Angular team provides a library for this purpose: `@angular/router`. This router allows you to associate routes (URLs) with Angular components.
 
-For this chapter, we will use the *Personal Library* app as a running example. Besides the `AppComponent` which contains a `NavbarComponent` , the app has 5 "pages":
+For this chapter, we will use the *Personal Library* app as a running example. Besides the `AppComponent` which contains a `NavbarComponent`, the app has 5 "pages":
 - Home
 - Book list
 - Book detail
@@ -143,7 +143,7 @@ location / {
 
 In the Stackblitz, try navigating to components by replacing the URL in the address bar. As you can see, besides the `NavbarComponent`, no other component is displayed even though we have just defined routes in the `AppRoutingModule`. That is because we have not yet told Angular where those components should be inserted in the DOM.
 
-### router-oulet
+### router-outlet
 This is the purpose of the `RouterOutlet`. The `NavbarComponent` should remain displayed at all times which means that components should be inserted under it. Let's add the `router-outlet` in the `AppComponent`.
 
 <code-group>
@@ -234,7 +234,7 @@ The example generates the link: `/books?genre=Epic%20Fantasy`
 
 ### routerLinkActive
 
-Navigating by clicking on the links in the `NavbarComponent` is now functional however, there's no feedback to the user regarding which link is active. This is the purpose of the `routerLinkActive` directive. It allows you to specify one or more CSS classes to add to the element when the linked route is active.
+Navigating by clicking on the links in the `NavbarComponent` is now functional; however, there's no feedback to the user regarding which link is active. This is the purpose of the `routerLinkActive` directive. It allows you to specify one or more CSS classes to add to the element when the linked route is active.
 
 <code-group>
 <code-block title="navbar.component.html">
@@ -331,7 +331,7 @@ export class AuthorDetailsComponent implements OnInit {
 :::
 
 ::: warning When to use snapshot
-The `paramMap` and `queryParamMap` properties are `Observables` because of optimisations. Indeed, when navigating to the same route but with different paramaters (e.g. /books/123 => /books/456), Angular doesn't reload the component but propagates the new parameters via theses `Observables`.
+The `paramMap` and `queryParamMap` properties are `Observables` because of optimisations. Indeed, when navigating to the same route but with different paramaters (e.g. /books/123 => /books/456), Angular doesn't reload the component but propagates the new parameters via these `Observables`.
 
 What does it mean ? If you only allow the navigation to the same route via the address bar, you are covered when using the snapshot. However, if you provide a means to navigate to the same route via a link (such as a "Next" and "Previous" mechanism), you have to listen to the `paramMap`/`queryParamMap` changes.
 :::
@@ -360,7 +360,7 @@ A full correction of the *Personal Library* app is available in this [stackblitz
 
 ## Practical Work: Router-based navigation
 
-Let's implement the routing in our Film application.
+Let's implement the Film application routing.
 
 1. During the project initial setup, the CLI asked if it should add Angular routing and we answered yes. The CLI installed the `@angular/router` library, you can check that in the dependencies declared in the `package.json`. It alo created the `app-routing.module.ts` file.
 2. Add a `login` route linked to the `LoginFormComponent` and a `search` route linked to `FilmSearchComponent` in the `app-routing.module.ts` file.

@@ -358,7 +358,7 @@ pt.y = "0" // Type 'string' is not assignable to type 'number'.
 
 #### Fields
 
-`x`, `y` and `z` are fields declarations, they create public writeable properties on the class. As with other locations, the type annotation is optional, but will be an implicit *any* if not specified. Fields can have *initilizers* like `z`. Theses will run automatically when the class is instantiated. Just like with `const`, `let`, and `var`, the initializer of a class property will be used to infer its type. Here this means that, even though it isn't explicitly written that `z` is of type `number`, the TypeScript compiler infers it from the fact that `0` was passed to `z`. Fields may be prefixed with the `readonly` modifier. This prevents assignments to the field outside of the constructor.
+`x`, `y` and `z` are fields declarations, they create public writeable properties on the class. As with other locations, the type annotation is optional, but will be an implicit *any* if not specified. Fields can have *initilizers* like `z`. These will run automatically when the class is instantiated. Just like with `const`, `let`, and `var`, the initializer of a class property will be used to infer its type. Here this means that, even though it isn't explicitly written that `z` is of type `number`, the TypeScript compiler infers it from the fact that `0` was passed to `z`. Fields may be prefixed with the `readonly` modifier. This prevents assignments to the field outside of the constructor.
 
 #### Constructors
 

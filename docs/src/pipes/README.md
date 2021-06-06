@@ -2,17 +2,17 @@
 
 Pipes are **data transformation functions** usable directly from the template in order to transform the data to be displayed at binding time. They are interesting in two main ways:
 - they don't require to change the data in the component so that it is displayed in a user-friendly way
-- they are delcared once and can be reused in as many components as needed as they are independant from them
+- they are declared once and can be reused in as many components as needed as they are independant from them
 
 ## Syntax
 
-Angular pipe syntax is inspired by the unix shell pipes':
+Angular pipe syntax is inspired by the unix shell pipes:
 
 ```html
 <div>{{ user.lastName | uppercase  }}</div>
 ```
 
-Parameters can be passed to pipes. They are placed after the pipe's name and seperated by colons:
+Parameters can be passed to pipes. They are placed after the pipe's name and separated by colons:
 
 ```html
 <div>{{ user.registrationDate | date:'dd/MM/yyyy' }}</div>
@@ -49,7 +49,7 @@ Angular provides over a [dozen built-in pipes](https://angular.io/api?type=pipe)
 
 If built-in pipes do not cover a use case you encounter, Angular gives you the opportunity to create a custom one.
 
-Creating a custom Pipe requires to:
+Creating a custom Pipe requires you to:
 - create a class that implements the `PipeTransform` interface
 - decorate it with the `@Pipe()` decorator
 - add it to the `declarations` (and `exports` if need be) of its associated module

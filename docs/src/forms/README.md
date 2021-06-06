@@ -37,7 +37,7 @@ If you group the form fields in a `form` element (which you definitely should), 
 Prefer listening to `(ngSubmit)` on the `<form>` tag rather than the `(click)` on the submit button because the former supports the submission via the *enter* key on the keyboard and increases the accessibility of the form.
 :::
 
-The following project illustrates the usage of `ngForm` and ̀`ngSubmit`.
+The following project illustrates the usage of `ngForm` and `(ngSubmit)`
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/yos-template-form-group?ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
@@ -53,10 +53,13 @@ Please note that `FormControl`, `FormGroup` and other reactive form elements are
 
 A `FormControl` is a class that wraps the value as well as other information of a form field.
 
-The following project rewrites the first example of the previous section using Reactive forms.
-Here, we define `FormControl` objects and link them with their counterpart on the template with `[formControl]`.
+The following project rewrites the first example of the previous section using Reactive forms. Here, we define `FormControl` objects and link them with their counterpart on the template with `[formControl]`.
 The value of the attribute must have the same name as the property in the component.
 As you may note in the template, the value and the valid status of form controls are obtained directly from the form control instance.
+
+:::warning
+Note that using FormControls outside of a FormGroup is very unusual.
+:::
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ivy-qtsmx2?ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
@@ -66,11 +69,10 @@ Do not forget to import the `ReactiveFormsModule` when using reactive forms
 
 ### Form Group
 
-A `FormGroup` is a collection of form controls that are grouped together. It consists in a `FormGroup` instance that is binded in the template to a `<form>` tag via the `[formGroup]` attribute.
+A `FormGroup` is a collection of form controls that are grouped together. It consists of a `FormGroup` instance that is bound in the template to a `<form>` tag via the `[formGroup]` attribute.
 Please note that child controls and groups use the attributes `formControlName` and `formGroupName` respectively in the template.
 
-The following component defines a `FormGroup` that contains some form controls and another form group.
-It illustrates many uses cases related to forms: getting the form value, its status, defining validators on the form control or in the template, and accessing child controls and groups using the [get](https://angular.io/api/forms/AbstractControl#get) method.
+The following component defines a `FormGroup` that contains some form controls and another form group. It illustrates many uses cases related to forms: getting the form value, its status, defining validators on the form control or in the template, and accessing child controls and groups using the [get](https://angular.io/api/forms/AbstractControl#get) method.
 
 <iframe src="https://codesandbox.io/embed/reactive-form-group-e89g6?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fapp%2Fapp.component.ts&theme=dark"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
@@ -80,9 +82,8 @@ It illustrates many uses cases related to forms: getting the form value, its sta
    ></iframe>
 
 ### Form builder
-
-Angular reactive forms provide a simpler api for creating form groups and form controls thanks to the `FormBuilder` service.
-The following code snippet shows how to convert the previous form group declaration using the `FormBuilder` api.
+Angular `ReactiveFormsModule` provides a simpler API for creating FormGroups and FormControls via the `FormBuilder` service.
+The following code snippet shows how to convert the previous FormGroup declaration using the `FormBuilder` API.
 
 ```typescript
 // before
@@ -104,10 +105,11 @@ readonly mainForm = this.fb.group({
       secondExtra: "ketchup"
     })
 });
+
 constructor(private fb: FormBuilder) {} //do not forget to inject the service
 ```
 
-Please find below a complete example that uses the `FormBuilder` api.
+Please find below a complete example that uses the `FormBuilder` API.
 
 <iframe src="https://codesandbox.io/embed/reactive-form-builder-0uzfv?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fapp%2Fapp.component.ts&theme=dark"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
@@ -117,11 +119,10 @@ Please find below a complete example that uses the `FormBuilder` api.
    ></iframe>
 
 ### Reactive Form validation
-
-Reactive forms allow to define validators in the component code or using HTML5 validation attributes such as `required` and `minlength`. Angular provides built-in validators such as `Validators.required`, `Validators.min`, `Validators.pattern`, you can find a complete list [here](https://angular.io/api/forms/Validators). You can also define custom validators ([tutorial](https://angular.io/guide/form-validation#defining-custom-validators)).
+The `ReactiveFormsModule` allows to define validators in the component code or using HTML5 validation attributes such as `required` and `minlength`. Angular provides built-in validators such as `Validators.required`, `Validators.min`, `Validators.pattern`, you can find a complete list [here](https://angular.io/api/forms/Validators). You can also define custom validators ([tutorial](https://angular.io/guide/form-validation#defining-custom-validators)).
 
 :::warning
-When using HTML5 validators, Angular recommends to combine them with built-in reactive forms validators.
+When using HTML5 validators, Angular recommends to combine them with built-in `@angular/forms` validators.
 :::
 
 The following component illustrates the usage of multiple validators on a form control as well as the usage of a custom validator.
@@ -135,14 +136,13 @@ The following component illustrates the usage of multiple validators on a form c
 
 ## Angular-managed CSS classes
 
-Angular automatically adds and removes specific styles based on the status of the form. For example, when a form control/group is invalid, Angular adds to its element the `.ng-invalid` class. When the form control/group becomes valid, Angular removes the `.ng-invalid` class from it and adds the `.ng-valid` class to it.
+Angular automatically adds and removes specific styles based on the status of the form. For example, when a form control/group is invalid, Angular adds to its HTML element the `.ng-invalid` class. When the form control/group becomes valid, Angular removes the `.ng-invalid` class from it and adds the `.ng-valid` class to it.
 
 :::warning
 When a form control becomes invalid, both the control and its parent controls will get the `.ng-invalid` class. If this behavior is unwanted, you can use pseudo-classes such as `:not`.
 :::
 
 The following component shows an example of how to take advantage of:
-
 - `.ng-invalid` and `.ng-dirty` classes
 - `:not` pseudo-class to target only the control.
 
@@ -156,7 +156,6 @@ The following component shows an example of how to take advantage of:
 You can find an updated list of classes [here](https://angular.io/guide/form-validation#control-status-css-classes).
 
 ## Practical work: Login and registration with reactive forms
-
 1. Implement the login / registration form using reactive forms and the form builder: replace the `[(ngModel)]` in the template and delete the `email` and `password` from the class of the `LoginFormComponent`.
 
 2. Add the required validator (`Validators.required`) to both fields and show the text `"This field is required"` next to each field if the form is dirty and that field has the error `required`:

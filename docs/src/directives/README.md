@@ -22,7 +22,7 @@ You can use class binding to add and remove CSS class names from an element's `c
 <p [class.my-class-1]="isWarning"></p>
 ```
 
-Multiple classes can also be binded with the `[class]` syntax:
+Multiple classes can also be bound with the `[class]` syntax:
 
 ```html
 <!-- classExpression = "my-class-1 my-class-2 my-class-3" -->
@@ -146,7 +146,7 @@ You can use the NgFor directive to present a list of items. The element on which
 <!-- With a local variable for the index -->
 <div *ngFor="let item of items; let i = index">{{i}}: {{item.name}}</div>
 
-<!-- With a local variable to know wether it is an even item -->
+<!-- With a local variable to know whether it is an even item -->
 <div *ngFor="let item of items; let isEven = even">
   {{item.name}} is {{isEven ? 'even': 'odd'}}
 </div>
@@ -197,7 +197,7 @@ You can find more about building your own directives [here](https://angular.io/g
 ## Practical work: Film list
 1. In the LoginFormComponent, add two fields `email` and `password` in the and use the `[(ngModel)]` directive on the email and password fields to bind them.
 2. Add another `loggedIn` field initially set to `false`, then use event binding with `(ngSubmit)` on the form tag to set it to `true` when the form is submitted.
-3. In `login-form.component.ts`, add the following HTML under the authentication form :
+3. In `login-form.component.html`, add the following HTML under the authentication form :
 
 ```html
 <ul class="films">

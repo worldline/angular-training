@@ -25,7 +25,7 @@ The previous chapter showed you the basic usage of Observables. Here is what we 
 - Observables are only executed once subscribed to
 - The subscribe method takes three callbacks as parameters: next, error and complete
 
-Let's first illustrate the second and third points:
+First, let's illustrate the second and third points:
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-observable-training?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
 
@@ -140,7 +140,7 @@ this.userService.getUsers()
 ## Stream composition
 Streams can be composed for many purposes. To study this notion in a simpler environment, we will only study it in the context of backend calls.
 
-Having to chain backend calls is quite common. For example, the user has just edited a resource and you want your page to display its updated details. Some backend do send back the details of the updated resource in the body of the edit call response. However, some just send back a 200 or 204 HTTP response without a body. This means that the edition call and detail call need be chained to update the UI. RxJS provides several operators to chain events in a declarative manner. We will use the `switchMap` operator ([documentation](https://rxjs.dev/api/operators/switchMap) / [marble](https://rxmarbles.com/#switchMap)) in this case. You can try it in the Stackblitz below (click anywhere on the preview and see what happens in the console, click again and see how things change in the console).
+Having to chain backend calls is quite common. For example, the user has just edited a resource and you want your page to display its updated details. Some backend do send back the details of the updated resource in the body of the edit call response. However, some just send back a 200 or 204 HTTP response without a body. This means that the edit call and detail call need be chained to update the UI. RxJS provides several operators to chain events in a declarative manner. We will use the `switchMap` operator ([documentation](https://rxjs.dev/api/operators/switchMap) / [marble](https://rxmarbles.com/#switchMap)) in this case. You can try it in the Stackblitz below (click anywhere on the preview and see what happens in the console, click again and see how things change in the console).
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/switchmap-training?ctl=1&devtoolsheight=33&embed=1&file=index.ts&hideExplorer=1&hideNavigation=1"></iframe>
 
@@ -170,15 +170,17 @@ Example of what you should NOT do:
 For the moment we've seen how to subscribe to Observables. To avoid memory leaks with long-lived Observables, you should unsubscribe from them.
 
 Let's reuse our previous routing example to illustrate how memory leaks can happen. An interval Observable is created in the ngOnInit method of the book details component.
-**Navigate to the details of a book and watch the console. Then leave the page and come back. What happens in the console?What does it mean?**
+**Navigate to the details of a book and watch the console. Then leave the page and come back. What happens in the console? What does it mean?**
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-why-unubscribe?ctl=1&embed=1&file=src/app/book-details/book-details.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
 
 When should you unsubscribe? If you have no certainty the `Observable` will complete or error out, you should manually unsubscribe from it. The `HttpClient` always completes the Observable it returns after having received a response. So, theorically, if you only encounter Observables from the `HttpClient`, you do not have to take care of unsubscribing. In other cases, **be safe and unsubscribe**.
 
-How to unsubscribe? There are two ways, the second one is easier to maintain when your code base grows so it is the one you should favour using:
+How to unsubscribe? There are two ways:
 - The `subscribe` method returns a `Subscription` object that can be disposed of by calling the unsubscribe method on it when desired, usually when the component it lives in is destroyed.
 - Using the `takeUntil` operator ([marble](https://rxmarbles.com/#takeUntil) / [documentation](https://v6.rxjs.dev/api/operators/takeUntil)) and a [`Subject`](https://v6.rxjs.dev/guide/subject) which is a special kind of `Obversable` on which it is possible to call the next(), error() and complete() methods.
+
+The second way is easier to maintain when your code base grows so it is the one you should favour using.
 
 Let's fix the memory leak of the previous example. To demonstrate both techniques, the interval Observable has been added to the author details component as well:
 
@@ -265,10 +267,10 @@ Here is a table of the most commonly used operators.
 | Creation       | from, of, fromEvent, interval                                 |
 | Filtering      | filter, takeUntil, take, distinctUntilChanged                 |
 | Transformation | switchMap, exhaustMap, concatMap, mergeMap, map               |
-| Combination    | combineLatest, concat, merge, startWith , withLatestFrom, zip |
+| Combination    | combineLatest, concat, merge, startWith, withLatestFrom, zip |
 | Utility        | tap, finalize, catchError                                     |
 
-There also exists two `Observable` constants: `NEVER` (emits neither values nor errors nor the completion notification) and `EMPTY` (emits no items and immediately emits a complete notification)
+There also exists two `Observable` constants: `NEVER` (emits neither values nor errors nor the completion notification) and `EMPTY` (emits no items and immediately emits a complete notification). `EMPTY` is quite useful as a return value of the `catchError` operator.
 
 To help you decide which operator fits your use case, the RxJS documentation provides an [operator decision tree](https://v6.rxjs.dev/operator-decision-tree). It also helps with just discovering the many operators RxJS provides.
 

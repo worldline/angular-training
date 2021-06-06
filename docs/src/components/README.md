@@ -71,7 +71,7 @@ Angular provides lifecycle hook methods to tap into key events in the lifecycle 
 
 - `ngAfterViewChecked`: called after `ngAfterViewInit` and every subsequent `ngDoCheck`.
 
-For each lifecycle hook there exists a corresponding interface. Their named is derived from the lifecycle hook's they define minus the `ng`. For instance, to use `ngOnInit()` implement the interface `OnInit`.
+For each lifecycle hook there exists a corresponding interface. Their name is derived from the lifecycle hook's they define minus the `ng`. For instance, to use `ngOnInit()` implement the interface `OnInit`.
 
 ## Communication between child and parent components
 A common pattern in Angular is sharing data between a parent component and one or more child components. You can implement this pattern by using the `@Input()` and `@Output()` directives. `@Input()` allows a parent component to update data in the child component. Conversely, `@Output()` allows the child to send data to a parent component.
@@ -237,7 +237,7 @@ export class GreetComponent {
 
 ### @ViewChild
 
-The `ViewChild` decorator can achieve the same purpose as a template variable but directly inside the parent component's class by injecting the child component into the parent component. Use `VeiwChild` over a local variable whenever you need to coordinate interactions between several child components.
+The `ViewChild` decorator can achieve the same purpose as a template variable but directly inside the parent component's class by injecting the child component into the parent component. Use `ViewChild` over a local variable whenever you need to coordinate interactions between several child components.
 
 In this example, the `MenuComponent` gets access to the `MenuItemComponent`:
 
@@ -319,7 +319,7 @@ export class MenuItemComponent {
 </code-block>
 </code-group>
 
-Components injected via `@ViewChild` become available in the `ngAfterViewInit` lifecycle hook. To query all children of a certain type, use the decortor `@ViewChildren`.
+Components injected via `@ViewChild` become available in the `ngAfterViewInit` lifecycle hook. To query all children of a certain type, use the decorator `@ViewChildren`.
 
 ## Content projection
 
