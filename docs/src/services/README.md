@@ -263,7 +263,10 @@ npm install --save-dev https-proxy-agent
 ...
 ```
 
-4. Add the `HttpClientModule` to the `AppModule`'s `imports` array
+4. Add the `HttpClientModule` to the `AppModule`'s `imports` array. If VSCode is unable to find the import, add the following line manually at the top of the `app.module.ts` file:
+```ts
+import { HttpClientModule } from '@angular/common/http'
+```
 
 5. Create the interfaces/classes for the models used by the backend, add one file per model in the `models/authentication` folder:
 

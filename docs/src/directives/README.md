@@ -166,7 +166,7 @@ The following exported values are also available to be aliased to local variable
   <div *ngFor="let item of items">{{item.name}}</div>
 </ng-container>
 ```
-**Exercise: use two NgFor loops to display all the contents of the basket**
+**Exercise: use two NgFor loops to display all the contents of the basket (one loop for each type of item, and within that loop another loop to print as many emoji of that item as its quantity)**
 
 **Bonus: An intruder is in the fruit basket, hide the corn with an NgIf**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngfor-training?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
@@ -275,7 +275,7 @@ films = [
 ]
 ```
 
-6. Using the `*ngFor*` directive, repeat the `.film.card` element to display as many films as there is in the `films` list.
+6. Using the `*ngFor` directive, repeat the `.film.card` element to display as many films as there is in the `films` list.
 7. Complete the card with data from each film using property binding and interpolation.
 8. **Bonus:** Use the `metascore` property to display a number of stars next to each film title.
 9. **Bonus:** Use an `ng-container` tag to only display movies with a metacritic score above 70

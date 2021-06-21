@@ -246,7 +246,7 @@ In this example, the `MenuComponent` gets access to the `MenuItemComponent`:
 
 ```ts
 // menu.component.html
-<menu-item [menuText]="'Contact Us'"></menu-item>
+<app-menu-item [menuText]="'Contact Us'"></app-menu-item>
 
 // menu.component.ts
 @Component({
@@ -255,7 +255,7 @@ In this example, the `MenuComponent` gets access to the `MenuItemComponent`:
 })
 
 export class MenuComponent{
-  @ViewChild(MenuItemComponent) menu: MenuItem
+  @ViewChild(MenuItemComponent) menu: MenuItemComponent
 }
 ```
 </code-block>
@@ -285,8 +285,8 @@ In case the parent component contains several instances of the same child compon
 
 ```ts
 // menu.component.html
-<menu-item #contactUs [menuText]="'Contact Us'"></menu-item>
-<menu-item #aboutUs [menuText]="'About Us'"></menu-item>
+<app-menu-item #contactUs [menuText]="'Contact Us'"></app-menu-item>
+<app-menu-item #aboutUs [menuText]="'About Us'"></app-menu-item>
 
 // menu.component.ts
 @Component({
@@ -295,8 +295,8 @@ In case the parent component contains several instances of the same child compon
 })
 
 export class MenuComponent{
-  @ViewChild('aboutUs') aboutItem: MenuItem
-  @ViewChild('contactUs') contactItem: MenuItem
+  @ViewChild('aboutUs') aboutItem: MenuItemComponent
+  @ViewChild('contactUs') contactItem: MenuItemComponent
 }
 ```
 </code-block>
