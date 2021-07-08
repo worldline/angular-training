@@ -289,7 +289,7 @@ How `null` and `undefined` behave depends on whether the `strictNullChecks` Type
 
 - `strictNullChecks` *off*
 
-Values that might be `null` or `undefined` can still be accessed normally, and the values `null` and `undefined` can be assigned to a property of any type. This is similar to how languages without null checks (e.g. C#, Java) behave. The lack of checking for these values tends to be a major source of bugs; it is strongly recommanded to turn `strictNullChecks` on if it’s practical to do so in your codebase.
+Values that might be `null` or `undefined` can still be accessed normally, and the values `null` and `undefined` can be assigned to a property of any type. This is similar to how languages without null checks (e.g. Java, C# before version 8) behave. The lack of checking for these values tends to be a major source of bugs; it is strongly recommanded to turn `strictNullChecks` on if it’s practical to do so in your codebase.
 
 - `strictNullChecks` *on*
 
@@ -379,6 +379,10 @@ There are 3 key words: `public`, `protected` and `private`.
 
 ::: warning
 Like other aspects of TypeScript’s type system, `private` and `protected` are only enforced during type checking. This means that JavaScript runtime constructs like in or simple property lookup can still access a `private` or `protected` member. If you need to protect values in your class from malicious actors, you should use mechanisms that offer hard runtime privacy, such as closures, weak maps, or private fields.
+:::
+
+::: tip
+Since version 3.8, Typescript supports [ECMAScript private fields](https://www.typescriptlang.org/docs/handbook/classes.html#ecmascript-private-fields).
 :::
 
 ### Class inheritance
