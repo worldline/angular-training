@@ -146,7 +146,7 @@ Having to chain backend calls is quite common. For example, the user has just ed
 
 **Question: From this example, what do you learn on the way switchMap works? (Having a look at the marble diagram can help)**
 
-Let's adapt the above example to the context of chained backend calls:
+Let's adapt the above example to the context of chained backend calls (*A correction is available [here](https://stackblitz.com/edit/angular-chaining-observables-dftd49).*):
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-chaining-observables?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
 
@@ -278,3 +278,4 @@ To help you decide which operator fits your use case, the RxJS documentation pro
 
 - In the `film-search.component.ts` file, stop subscribing to the search response and use an async pipe instead in the template.
 - Even though it is not strictly necessary in those cases, unsubscribe from the login and register calls in the `LoginFormComponent` using the `Subject` technique.
+- **Bonus: In the search method of film-search service, modify the returned observable so that movies with a metascore < 50 are excluded.**

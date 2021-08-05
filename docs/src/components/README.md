@@ -134,6 +134,8 @@ To watch for changes on an `@Input()` property, you can use the `ngOnChanges` li
 **Exercise: Pass down each book's info to the BookComponent**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-input-training?ctl=1&embed=1&file=src/app/book/book.component.ts&hideNavigation=1"></iframe>
 
+*A correction is available [here](https://stackblitz.com/edit/angular-input-training-books?file=src%2Fapp%2Fapp.component.html).*
+
 ### @Output()
 
 Child components communicate with their parents by using events: they emit **events** that propagate to their parent. **A good component is agnostic of its environment**, it does not know its parents and does not know if the events it emits will ever be intercepted (or "listened to").
@@ -197,6 +199,8 @@ You can play with this example [here](https://stackblitz.com/edit/angular-output
 
 **Exercise: Books are now borrowable, communicate when books are borrowed to their parent component**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-output-training?ctl=1&embed=1&file=src/app/book/book.component.html&hideNavigation=1"></iframe>
+
+*A correction is available [here](https://stackblitz.com/edit/angular-output-training-borrow?file=src%2Fapp%2Fapp.component.html).*
 
 ### Local variable in the template
 

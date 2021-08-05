@@ -14,6 +14,8 @@ To bind an HTML element to a component's property, enclose it in square brackets
 **Exercise: try to link the `src` and `width` attributes of the image**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-property-binding-training?ctl=1&embed=1&file=src/app/app.component.ts&hideNavigation=1"></iframe>
 
+*A correction is available [here](https://stackblitz.com/edit/angular-property-binding-training-e4kqd9?file=src%2Fapp%2Fapp.component.html).*
+
 ## Class and style binding
 ### Class binding
 You can use class binding to add and remove CSS class names from an element's `class` attribute. To create a single class binding, use the prefix `class` followed by a dot and the name of the CSS class, for example, `[class.sale]="onSale"`. Angular adds the class when the bound expression, `onSale` is truthy, and it removes the class when the expression is falsy.
@@ -76,6 +78,8 @@ Using the style binding syntax without NgStyle is preferred. Due to improvements
 **Exercise: assign a class and a color to each ghost using class**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-attribute-directive-training?ctl=1&embed=1&file=src/app/app.component.ts&hideNavigation=1"></iframe>
 
+*A correction is available [here](https://stackblitz.com/edit/angular-attribute-directive-training-pbg89t?file=src%2Fapp%2Fapp.component.html).*
+
 ## NgModel directive
 
 The NgModel directive allows you to bind the value of a form field to a component data item. It is a two-way binding: the variable is updated when the content of the field changes (typically by the user) and vice versa. The syntax for two-way data binding is `[()]`.
@@ -98,6 +102,7 @@ The `NgModel` directive is not part of the default imports of an `NgModule`. You
 **Exercise: use NgModel on input, select, radio and checkbox tags**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngmodel-training?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
 
+*A correction is available [here](https://stackblitz.com/edit/angular-attribute-directive-training-pbg89t?file=src%2Fapp%2Fapp.component.html).*
 
 ## NgIf directive
 You can add or remove an element by applying an `NgIf` directive to a host element. When `NgIf` is false, Angular removes an element and its descendants from the DOM. Angular then disposes of their components, which frees up memory and resources. If you only want to hide the element you can use `[hidden]` which only adds/removes the `display:none` CSS property on the element. `NgIf` is helpful in providing a way to guard against null values.
@@ -122,6 +127,8 @@ You can provide an else statement as follows:
 **Bonus: use an NgIf Else to conditionnally show either the data or the no data message**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngif-training?ctl=1&embed=1&file=src/app/app.component.ts&hideNavigation=1"></iframe>
 
+*A correction is available [here](https://stackblitz.com/edit/angular-ngif-training-vna4zk?file=src%2Fapp%2Fapp.component.html).*
+
 ## NgSwitch directive
 `NgSwitch` conditionally swaps the content of the host element by selecting one of the embedded templates based on the current value of conditionExpression.
 
@@ -136,6 +143,8 @@ You can provide an else statement as follows:
 
 **Exercise: use NgSwitch to alternate plant growth stage according to the season's temperature**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngswitch-training?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
+
+*A correction is available [here](https://stackblitz.com/edit/angular-ngswitch-training-plant-temperature).*
 
 ## NgFor directive
 You can use the NgFor directive to present a list of items. The element on which `NgFor` is placed will be repeated for each element in the iterable.
@@ -171,6 +180,8 @@ The following exported values are also available to be aliased to local variable
 **Bonus: An intruder is in the fruit basket, hide the corn with an NgIf**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngfor-training?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
 
+*A correction is available [here](https://stackblitz.com/edit/angular-ngfor-training-fruits-basket).*
+
 ## Event binding
 Event binding allows you to listen for and respond to user actions such as keystrokes, mouse movements, clicks, and touches or a custom event emitted by a child component. To bind to an event you use the Angular event binding syntax `()`.
 
@@ -180,6 +191,8 @@ Event binding allows you to listen for and respond to user actions such as keyst
 
 **Exercise: use events to add a monkey when clicking the button, and make them open their eyes on mouse hover**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-event-binding-training?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
+
+*A correction is available [here](https://stackblitz.com/edit/angular-event-binding-training-monkeys).*
 
 ## About directives
 In this chapter, we have seen 5 built-in directives. Directives are classes declared with the `@Directive` decorator.

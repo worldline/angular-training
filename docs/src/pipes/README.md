@@ -85,6 +85,8 @@ In the following example, the discounted price is calculated given a discount ra
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-pipe-exemple?embed=1&file=src/app/discounted.pipe.ts&ctl=1&hideNavigation=1"></iframe>
 
+*A correction is available [here](https://stackblitz.com/edit/angular-currency-pipe-training-example-eur-pm7dqd?file=src%2Fapp%2Fexample.pipe.ts).*
+
 ## Using a pipe outside the template
 
 It is also possible to use pipes in a component class by injecting it in its constructor and calling its transform method. The pipe needs to be imported in the module to which the component belongs and added to the providers of the component or of the module.

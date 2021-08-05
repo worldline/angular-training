@@ -165,27 +165,30 @@ You can find an updated list of classes [here](https://angular.io/guide/form-val
 </small>
 ```
 
-3. Style the label and error text of each field with the `.error` class when the form is dirty and that field is invalid (remember the `[class]` attribute)
+3. Apply styles to the label and error text of each field when the form is dirty and the field is invalid (For example, you can use `[class]` or `[ngClass]` to apply classes based on the validity)
 
 4. Disable the Login and Register buttons using the `[disabled]` attribute if the form is invalid.
 
 5. Define a custom validator for the password field that refuses weak passwords. We will consider that a password is strong if it satisfies all of these requirements:
-- Contains at least one uppercase character (regex `/^.*[A-Z]+.*$/`)
-- Contains at least one lowercase character (regex `/^.*[a-z]+.*$/`)
-- Has at least one non-alphanumeric character (regex `/^.*\W+.*$/`)
-- Minimum length of 8 characters
+  - Contains at least one uppercase character (regex `/^.*[A-Z]+.*$/`)
+  - Contains at least one lowercase character (regex `/^.*[a-z]+.*$/`)
+  - Has at least one non-alphanumeric character (regex `/^.*\W+.*$/`)
+  - Minimum length of 8 characters
+6. Put that validator in `app/utils` and name it `password.validator.ts`. Here is its basic implementation:
 
-Put that validator in `app/utils` and name it `password.validator.ts`. Here is its basic implementation:
 ```ts
-export function password(): ValidatorFn {
+export function generatePasswordValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    // TODO
+    // TODO: check the validity of the control
+    // You can use the RegExp's `test` method on each pattern and pass it the value of the control to check if the pattern matches.
+    // example: /^.*[A-Z]+.*$/.test(control.value)
     return {'password.pattern': true}
   }
 }
 ```
 
-You can use the `test` method on each pattern and pass it the value of the control to check if the pattern exists in it. Add an error text via the `<small>` tag on the password field that shows if the form is dirty and the field has the `password.pattern` error.
+7. Add an error text via the `<small>` tag on the password field. The error message appears if the form is dirty and the field has the `password.pattern` error (hint: use the `hasError` method `formGroup.get("password").hasError("password.pattern")`).
 
-## Sources
+## Sources and goind further
 - [Angular official forms documentation](https://angular.io/guide/forms-overview)
+- [Formly](https://formly.dev/): forms library
