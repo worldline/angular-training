@@ -8,7 +8,9 @@ If it is allowed by your local security policy, you can work under a Linux VM, t
 To install Angular on your local system, you need the following:
 
 ### Node.js
-Angular requires a [current, active LTS, or maintenance LTS version](https://nodejs.org/en/about/releases/) of Node.js. For Angular 11, node 10.13.0 is the minimal supported version. For more information on installing Node.js, see [nodejs.org](https://nodejs.org/en/).
+Angular requires a [current, active LTS, or maintenance LTS version](https://nodejs.org/en/about/releases/) of Node.js.
+There is a compatibility table [maintained by LayZeeDK](https://gist.github.com/LayZeeDK/c822cc812f75bb07b7c55d07ba2719b3)
+For more information on installing Node.js, see [nodejs.org](https://nodejs.org/en/).
 
 ::: tip
 If you are unsure about what version of Node.js runs on your system, run `node -v` in a terminal window.
@@ -28,7 +30,7 @@ You use the Angular CLI to create projects, generate application and library cod
 
 To install the Angular CLI, open a terminal window and run the following command:
 ```sh
-npm install -g @angular/cli@11.1.3
+npm install -g @angular/cli@12
 ```
 
 The `ng` command is now accessible from the terminal. Try it to check the installation and to have more information about the available commands. You can also check the [documentation](https://angular.io/cli#command-overview).
@@ -59,8 +61,6 @@ For more detailed help run "ng [command name] --help"
 ## Visual Studio Code
 During the training you will need a solid JavaScript code editor. We recommend [Visual Studio Code](https://code.visualstudio.com/), a fairly lightweight free editor that is now very popular in the JavaScript community. VS Code has many extensions to enrich the experience. You can access the marketplace for them directly in VS Code in the Extensions tab of the left sidebar.
 
-First, install the linter [TSLint](https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-tslint-plugin). Even though it is now deprecated, the Angular CLI is still using it by default.
-
 You then have two choices:
 - For a smooth experience, install [John Papa's package](https://marketplace.visualstudio.com/items?itemName=johnpapa.angular-essentials)
 
@@ -69,10 +69,11 @@ OR
 - For a lighter installation, install only [Angular language service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template). This extension will provide autocompletion, among other things.
 
 ## Practical work: Create your first project
-Go into the folder where you store your git repositories, open a terminal there and type the following command:
+Go into the folder where you store your git repositories, open a terminal there and type the following commands:
 
 ```sh
 ng new search-films
+ng add @angular-eslint/schematics
 ```
 
 **search-films** being the name of the directory in which our project will be created.
