@@ -251,7 +251,20 @@ npm install --save-dev https-proxy-agent
 
 3. In the CLI configuration file - `angular.json` - add the `proxyConfig` option to the serve target:
 
-```json{7}
+```json{8}
+// Angular >= 12 
+...
+"serve": {
+  "builder": "@angular-devkit/build-angular:dev-server",
+  ...
+    "development": {
+      "browserTarget": "search-films:build:development",
+      "proxyConfig": "src/proxy.conf.json" // or "src/proxy.conf.js". Should be around line 83
+    }
+  },
+...
+
+// Angular < 12 
 ...
 "architect": {
   "serve": {
