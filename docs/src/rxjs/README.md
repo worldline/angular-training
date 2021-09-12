@@ -15,7 +15,7 @@ The library provides the `Observable` type as well as utiliy functions to:
 This chapter will not go in depth about the concepts of Rx, you can refer to the official documentation to that purpose. However it will illustrate common situations encountered in Angular applications.
 
 :::warning
-In this chapter, we will talk about [RxJS v6](https://v6.rxjs.dev/), RxJS v7 was released mid May 2021 and is included in Angular 12.
+In this chapter, we will talk about [RxJS v6](https://v6.rxjs.dev/), RxJS v7 was released mid May 2021.
 :::
 
 ## The Observable
