@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: https://angular.io/assets/images/logos/angular/angular.svg
+heroImage: /logo.svg
 tagline: A beginner's guide to the Angular platform
 actionText: Get started →
 actionLink: /presentation/
@@ -13,6 +13,10 @@ features:
     details: Develop Angular applications directly from a command shell
 footer: Worldline, 2021
 ---
+
+::: tip
+This training is also available in [French](/fr/) / Cette formation est aussi disponible en [Français](/fr/)
+:::
 
 ## Prerequisites
 
