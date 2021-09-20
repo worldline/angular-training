@@ -1,78 +1,79 @@
 # Formulaires
 
-Forms allow the web app to get user input.
-A form is generally composed of a form element (`<form></form>`) that contains input elements (`<input />`) and a submit button (`<button type="submit"></button>`).
-When the user submits the form, it is processed locally by the webapp. The latter can choose to send data to the server using the HTTP Client.
+Les formulaires permettent à l'application Web d'obtenir les entrées de l'utilisateur.
+Un formulaire est généralement composé d'un élément de formulaire (`<form></form>`) qui contient des éléments d'entrée (`<input />`) et d'un bouton d'envoi (`<button type="submit"></button> `).
+Lorsque l'utilisateur soumet le formulaire, il est traité localement par l'application Web. Ce dernier peut choisir d'envoyer des données au serveur à l'aide du client HTTP.
 
 :::warning
-In a Single Page Application, forms do not redirect to a server page when the user posts them (as in PHP for example). However, the SPA can retrieve the form data from the template and send it to the server if necessary using an async HTTP call.
+Dans une application monopage (Single Page Application), les formulaires ne redirigent pas vers une page serveur lorsque l'utilisateur les publie (comme en PHP par exemple). Cependant, le SPA peut récupérer les données du formulaire à partir du template et les envoyer au serveur si nécessaire à l'aide d'un appel HTTP asynchrone.
 :::
 
-Angular simplifies the common tasks related to creating and processing forms, such as data-binding, validation and sending the data to the server.
-This is possible using either one of those two types of forms:
+Angular simplifie les tâches courantes liées à la création et au traitement des formulaires, telles que la liaison de données, la validation et l'envoi des données au serveur.
+Ceci est possible en utilisant l'un ou l'autre de ces deux types de formulaires :
 
-- Template-driven forms: simple to use but far less scalable than reactive forms and are a good fit for simple forms of one or two inputs with little to no validation rules.
-- Reactive forms: has a steep learning curve but offer more advantages in terms of management of complex use cases, scalability, reusability and testability. Their implementation is based on RxJS.
+- Formulaires Template-driven : simples à utiliser mais beaucoup moins évolutifs que les formulaires réactifs et conviennent parfaitement aux formulaires simples à une ou deux entrées avec peu ou pas de règles de validation.
+- Formes réactives : ont une courbe d'apprentissage abrupte mais offrent plus d'avantages en termes de gestion de cas d'utilisation complexes, d'évolutivité, de réutilisabilité et de testabilité. Leur implémentation est basée sur RxJS.
 
-## Template-driven forms
+## Formulaires Template-driven
 
-As their name suggests, template-driven forms are fully defined in the template of the component.
-User input can be retrieved in the component class thanks to the `NgModel` directive. As you may remember, we have used it in the *Empower your HTML* chapter to order ice-creams.
+Comme leur nom l'indique, les formulaires Template-driven sont entièrement définis dans le template du composant.
+L'entrée utilisateur peut être récupérée dans la classe du composant grâce à la directive `NgModel`. Comme vous vous en souvenez peut-être, nous l'avons utilisé dans le chapitre *Renforcez votre HTML* pour commander des glaces.
 
-Here is an example that uses `[(ngModel)]` to bind an `input` and `select` fields.
-It also shows how to get a reference to the form field (`#nameRef="ngModel"`). This allows to obtain some properties on the form field such as its validity status (`nameRef.valid`).
+
+Voici un exemple qui utilise `[(ngModel)]` pour lier un champ `input` et `select`.
+Il montre également comment obtenir une référence au champ de formulaire (`#nameRef="ngModel"`). Cela permet d'obtenir certaines propriétés sur le champ du formulaire comme son statut de validité (`nameRef.valid`).
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/yos-template-form-simple?ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
 :::warning
-Do not forget to import `FormsModule` when using template-driven forms
+N'oubliez pas d'importer `FormsModule` lors de l'utilisation de formulaires Template-driven (formulaires basés sur des modèles)
 :::
 
-If you group the form fields in a `form` element (which you definitely should), you can take advantage of these nice possibilities:
+Si vous regroupez les champs du formulaire dans un élément `form` (ce que vous devriez absolument faire), vous pouvez profiter de ces belles possibilités :
 
-- Get a reference to the whole form by capturing `ngForm` (example: `#formRef="ngForm"`). This allows, for example, to get the validity status of the whole form
-- Listen to the submit event of the form using `(ngSubmit)`
+- Obtenez une référence à l'ensemble du formulaire en capturant `ngForm` (exemple : `#formRef="ngForm"`). Cela permet, par exemple, d'obtenir le statut de validité de l'ensemble du formulaire
+- Écoutez l'événement de soumission du formulaire en utilisant `(ngSubmit)`
 
 :::tip
-Prefer listening to `(ngSubmit)` on the `<form>` tag rather than the `(click)` on the submit button because the former supports the submission via the *enter* key on the keyboard and increases the accessibility of the form.
+Préférez écouter `(ngSubmit)` sur la balise `<form>` plutôt que le `(click)` sur le bouton de soumission car le premier prend en charge la soumission via la touche *entrer* du clavier et augmente l'accessibilité du formulaire .
 :::
 
-The following project illustrates the usage of `ngForm` and `(ngSubmit)`
+Le projet suivant illustre l'utilisation de `ngForm` et `(ngSubmit)`
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/yos-template-form-group?ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
-**Exercise: add an input field that must have a minimum length of 5 characters. Show the content of this field when the form is submitted**
+**Exercice : ajoutez un champ de saisie qui doit avoir une longueur minimale de 5 caractères. Afficher le contenu de ce champ lors de la soumission du formulaire**
 
-## Reactive forms
+## Formulaires réactifs
 
-Reactive forms allow to bind the whole HTML form element to its counterpart in the component class.
-This allows to combine the features of `ngModel` and form field references into a single concept which is a `FormControl` for a single form field and a `FormGroup` for a group of form fields.
-Please note that `FormControl`, `FormGroup` and other reactive form elements are defined in the `ReactiveFormsModule`.
+Les formulaires réactifs permettent de lier l'ensemble de l'élément de formulaire HTML à son homologue dans la classe de composant.
+Cela permet de combiner les fonctionnalités de `ngModel` et des références de champs de formulaire en un seul concept qui est un `FormControl` pour un seul champ de formulaire et un `FormGroup` pour un groupe de champs de formulaire.
+Veuillez noter que `FormControl`, `FormGroup` et d'autres éléments de formulaire réactifs sont définis dans le `ReactiveFormsModule`.
 
-### Form control
+### Contrôle de formulaire
 
-A `FormControl` is a class that wraps the value as well as other information of a form field.
+Un `FormControl` est une classe qui enveloppe la valeur ainsi que d'autres informations d'un champ de formulaire.
 
-The following project rewrites the first example of the previous section using Reactive forms. Here, we define `FormControl` objects and link them with their counterpart on the template with `[formControl]`.
-The value of the attribute must have the same name as the property in the component.
-As you may note in the template, the value and the valid status of form controls are obtained directly from the form control instance.
+Le projet suivant réécrit le premier exemple de la section précédente à l'aide de formulaires réactifs. Ici, nous définissons les objets `FormControl` et les lions avec leur contrepartie sur le template avec `[formControl]`.
+La valeur de l'attribut doit avoir le même nom que la propriété dans le composant.
+Comme vous pouvez le constater dans le template, la valeur et le statut valide des contrôles de formulaire sont obtenus directement à partir de l'instance de contrôle de formulaire.
 
 :::warning
-Note that using FormControls outside of a FormGroup is very unusual.
+Notez que l'utilisation de FormControls en dehors d'un FormGroup est très inhabituelle.
 :::
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ivy-qtsmx2?ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
 :::warning
-Do not forget to import the `ReactiveFormsModule` when using reactive forms
+N'oubliez pas d'importer le `ReactiveFormsModule` lors de l'utilisation des formulaires réactifs
 :::
 
-### Form Group
+### Groupe de formulaires
 
-A `FormGroup` is a collection of form controls that are grouped together. It consists of a `FormGroup` instance that is bound in the template to a `<form>` tag via the `[formGroup]` attribute.
-Please note that child controls and groups use the attributes `formControlName` and `formGroupName` respectively in the template.
+Un `FormGroup` est une collection de contrôles de formulaire regroupés. Il se compose d'une instance `FormGroup` qui est liée dans le template à une balise `<form>` via l'attribut `[formGroup]`.
+Veuillez noter que les contrôles et les groupes enfants utilisent respectivement les attributs `formControlName` et `formGroupName` dans le template.
 
-The following component defines a `FormGroup` that contains some form controls and another form group. It illustrates many uses cases related to forms: getting the form value, its status, defining validators on the form control or in the template, and accessing child controls and groups using the [get](https://angular.io/api/forms/AbstractControl#get) method.
+Le composant suivant définit un `FormGroup` qui contient des contrôles de formulaire et un autre groupe de formulaires. Il illustre de nombreux cas d'utilisation liés aux formulaires : obtenir la valeur du formulaire, son statut, définir des validateurs sur le contrôle de formulaire ou dans le template, et accéder aux contrôles et groupes enfants à l'aide du [get](https://angular.io/api/forms/AbstractControl#get).
 
 <iframe src="https://codesandbox.io/embed/reactive-form-group-e89g6?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fapp%2Fapp.component.ts&theme=dark"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
@@ -81,9 +82,9 @@ The following component defines a `FormGroup` that contains some form controls a
      sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
    ></iframe>
 
-### Form builder
-Angular `ReactiveFormsModule` provides a simpler API for creating FormGroups and FormControls via the `FormBuilder` service.
-The following code snippet shows how to convert the previous FormGroup declaration using the `FormBuilder` API.
+### Générateur de formulaires
+Angular `ReactiveFormsModule` fournit une API plus simple pour créer des FormGroups et des FormControls via le service `FormBuilder`.
+L'extrait de code suivant montre comment convertir la déclaration FormGroup précédente à l'aide de l'API `FormBuilder`.
 
 ```typescript
 // before
@@ -109,7 +110,7 @@ readonly mainForm = this.fb.group({
 constructor(private fb: FormBuilder) {} //do not forget to inject the service
 ```
 
-Please find below a complete example that uses the `FormBuilder` API.
+Veuillez trouver ci-dessous un exemple complet utilisant l'API `FormBuilder`.
 
 <iframe src="https://codesandbox.io/embed/reactive-form-builder-0uzfv?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fapp%2Fapp.component.ts&theme=dark"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
@@ -118,14 +119,14 @@ Please find below a complete example that uses the `FormBuilder` API.
      sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
    ></iframe>
 
-### Reactive Form validation
-The `ReactiveFormsModule` allows to define validators in the component code or using HTML5 validation attributes such as `required` and `minlength`. Angular provides built-in validators such as `Validators.required`, `Validators.min`, `Validators.pattern`, you can find a complete list [here](https://angular.io/api/forms/Validators). You can also define custom validators ([tutorial](https://angular.io/guide/form-validation#defining-custom-validators)).
+### Validation de formulaire réactif
+Le `ReactiveFormsModule` permet de définir des validateurs dans le code du composant ou en utilisant des attributs de validation HTML5 tels que `required` et `minlength`. Angular fournit des validateurs intégrés tels que `Validators.required`, `Validators.min`, `Validators.pattern`, vous pouvez trouver une liste complète [ici] (https://angular.io/api/forms/Validators) . Vous pouvez également définir des validateurs personnalisés ([tutoriel](https://angular.io/guide/form-validation#defining-custom-validators)).
 
 :::warning
-When using HTML5 validators, Angular recommends to combine them with built-in `@angular/forms` validators.
+Lorsque vous utilisez des validateurs HTML5, Angular recommande de les combiner avec les validateurs `@angular/forms` intégrés.
 :::
 
-The following component illustrates the usage of multiple validators on a form control as well as the usage of a custom validator.
+Le composant suivant illustre l'utilisation de plusieurs validateurs sur un contrôle de formulaire ainsi que l'utilisation d'un validateur personnalisé.
 
 <iframe src="https://codesandbox.io/embed/reactive-form-validation-1orvs?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fapp%2Fapp.component.ts&theme=dark"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
@@ -134,17 +135,17 @@ The following component illustrates the usage of multiple validators on a form c
      sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
    ></iframe>
 
-## Angular-managed CSS classes
+## Classes CSS gérées par Angular
 
-Angular automatically adds and removes specific styles based on the status of the form. For example, when a form control/group is invalid, Angular adds to its HTML element the `.ng-invalid` class. When the form control/group becomes valid, Angular removes the `.ng-invalid` class from it and adds the `.ng-valid` class to it.
+Angular ajoute et supprime automatiquement des styles spécifiques en fonction de l'état du formulaire. Par exemple, lorsqu'un contrôle/groupe de formulaire est invalide, Angular ajoute à son élément HTML la classe `.ng-invalid`. Lorsque le contrôle/groupe de formulaire devient valide, Angular en supprime la classe `.ng-invalid` et y ajoute la classe `.ng-valid`.
 
 :::warning
-When a form control becomes invalid, both the control and its parent controls will get the `.ng-invalid` class. If this behavior is unwanted, you can use pseudo-classes such as `:not`.
+Lorsqu'un contrôle de formulaire devient invalide, le contrôle et ses contrôles parents auront la classe `.ng-invalid`. Si ce comportement n'est pas souhaité, vous pouvez utiliser des pseudo-classes telles que `:not`.
 :::
 
-The following component shows an example of how to take advantage of:
-- `.ng-invalid` and `.ng-dirty` classes
-- `:not` pseudo-class to target only the control.
+Le composant suivant montre un exemple de la façon de tirer parti de :
+- classes `.ng-invalid` et `.ng-dirty`
+- `:not` pseudo-classe pour cibler uniquement le contrôle.
 
 <iframe src="https://codesandbox.io/embed/reactive-form-classes-y1ewk?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fapp%2Fapp.component.css&theme=dark"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
@@ -153,29 +154,29 @@ The following component shows an example of how to take advantage of:
      sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
    ></iframe>
 
-You can find an updated list of classes [here](https://angular.io/guide/form-validation#control-status-css-classes).
+Vous pouvez trouver une liste à jour des classes [ici](https://angular.io/guide/form-validation#control-status-css-classes).
 
-## Practical work: Login and registration with reactive forms
-1. Implement the login / registration form using reactive forms and the form builder: replace the `[(ngModel)]` in the template and delete the `email` and `password` from the class of the `LoginFormComponent`.
+## TP : Connexion et inscription avec des formulaires réactifs
+1. Implémentez le formulaire de connexion / inscription à l'aide de formulaires réactifs et du générateur de formulaire : remplacez le `[(ngModel)]` dans le modèle et supprimez le `email` et le `mot de passe` de la classe du `LoginFormComponent`.
 
-2. Add the required validator (`Validators.required`) to both fields and show the text `"This field is required"` next to each field if the form is dirty and that field has the error `required`:
+2. Ajoutez le validateur requis (`Validators.required`) aux deux champs et affichez le texte `"Ce champ est requis"` à côté de chaque champ si le formulaire est sale et que ce champ a l'erreur `required` :
 ```html
 <small>
   This field is required
 </small>
 ```
 
-3. Style the label and error text of each field with the `.error` class when the form is dirty and that field is invalid (remember the `[class]` attribute)
+1. Stylisez le label et le texte d'erreur de chaque champ avec la classe `.error` lorsque le formulaire est invalide et que ce champ n'est pas valide (rappelez-vous l'attribut `[class]`)
 
-4. Disable the Login and Register buttons using the `[disabled]` attribute if the form is invalid.
+2. Désactivez les boutons Connexion et Inscription à l'aide de l'attribut `[disabled]` si le formulaire n'est pas valide.
 
-5. Define a custom validator for the password field that refuses weak passwords. We will consider that a password is strong if it satisfies all of these requirements:
-- Contains at least one uppercase character (regex `/^.*[A-Z]+.*$/`)
-- Contains at least one lowercase character (regex `/^.*[a-z]+.*$/`)
-- Has at least one non-alphanumeric character (regex `/^.*\W+.*$/`)
-- Minimum length of 8 characters
+3. Définissez un validateur personnalisé pour le champ de mot de passe qui refuse les mots de passe faibles. Nous considérerons qu'un mot de passe est fort s'il satisfait à toutes ces exigences :
+- Contient au moins un caractère majuscule (regex `/^.*[A-Z]+.*$/`)
+- Contient au moins un caractère minuscule (regex `/^.*[a-z]+.*$/`)
+- Possède au moins un caractère non alphanumérique (regex `/^.*\W+.*$/`)
+- Longueur minimale de 8 caractères
 
-Put that validator in `app/utils` and name it `password.validator.ts`. Here is its basic implementation:
+Mettez ce validateur dans `app/utils` et nommez-le `password.validator.ts`. Voici son implémentation de base :
 ```ts
 export function password(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -185,7 +186,7 @@ export function password(): ValidatorFn {
 }
 ```
 
-You can use the `test` method on each pattern and pass it the value of the control to check if the pattern exists in it. Add an error text via the `<small>` tag on the password field that shows if the form is dirty and the field has the `password.pattern` error.
+Vous pouvez utiliser la méthode `test` sur chaque motif et lui passer la valeur du contrôle pour vérifier si le motif existe dedans. Ajoutez un texte d'erreur via la balise `<small>` dans le champ du mot de passe qui indique si le formulaire est invalide et si le champ contient l'erreur `password.pattern`.
 
 ## Sources
-- [Angular official forms documentation](https://angular.io/guide/forms-overview)
+- [Documentation des formulaires officiels d'Angular](https://angular.io/guide/forms-overview)

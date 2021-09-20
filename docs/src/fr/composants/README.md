@@ -1,30 +1,29 @@
-# Components
+# Composants
 
-We've previously seen that:
-- a component is a class decorated with the `@Component` decorator
-- it is generated via the CLI by the `ng g c component-name` command
-- by default, a component is generated with an associated html file and stylesheet file
-- the `@Component` decorator has [options](https://angular.io/api/core/Component#description) like `templateUrl`, `styleUrl` or `selector`.
+Nous avons vu précédemment que :
+- un composant est une classe décorée avec le décorateur `@Component`
+- il est généré via CLI par la commande `ng g c component-name`
+- par défaut, un composant est généré avec un fichier html et une feuille de style associés
+- le décorateur `@Component` a des [options](https://angular.io/api/core/Component#description) comme `templateUrl`, `styleUrl` ou `selector`.
 
-## View encapsulation and styling
+## Encapsulation de vue et style
 
-You can modify the stylesheet extension of the CLI-generated files in the `angular.json` file under the `schematics` option.
+Vous pouvez modifier l'extension de feuille de style des fichiers générés par CLI dans le fichier `angular.json` sous l'option `schematics`.
 
 ### Encapsulation
-
-Among the `@Component` decorator options, there is one dealing with ViewEncapsulation. Angular provides three types of view encapsulation:
-- `ViewEncapsulation.Emulated` (by default): emulates the Shadow DOM, styles are scoped to the component
-- `ViewEncapsulation.None`: anything put in the component's stylesheet is available globally throughout the application
-- `ViewEncapsulation.Native`: Angular creates Shadow DOM for the component, styles are scoped to the component
+Parmi les options du décorateur `@Component`, il y en a une qui traite de ViewEncapsulation. Angular fournit trois types d'encapsulation de vue :
+- `ViewEncapsulation.Emulated` (par défaut) : émule le Shadow DOM, les styles sont limités au composant
+- `ViewEncapsulation.None` : tout ce qui est mis dans la feuille de style du composant est disponible globalement dans toute l'application
+- `ViewEncapsulation.Native` : Angular crée un Shadow DOM pour le composant, les styles sont limités au composant
 
 :::warning
-Under the default option, styles specified in the component's style file are not inherited by any components nested within the template nor by any content projected into the component.
+Sous l'option par défaut, les styles spécifiés dans le fichier de style du composant ne sont hérités par aucun composant imbriqué dans le template ni par aucun contenu projeté dans le composant.
 :::
 
 ### `:host` selector
-Situations may arise where styling the host element of the component from the component's stylesheet is needed. To do so, Angular provides a pseudo-class selector: `:host`.
+Des situations peuvent survenir où le style de l'élément hôte du composant à partir de la feuille de style du composant est nécessaire. Pour ce faire, Angular fournit un sélecteur de pseudo-classe : `:host`.
 
-Let's imagine we require a border on the AppComponent. This is how to add it:
+Imaginons que nous ayons besoin d'une bordure sur AppComponent. Voici comment l'ajouter :
 
 <code-group>
 <code-block title="app.component.ts">
@@ -37,7 +36,7 @@ Let's imagine we require a border on the AppComponent. This is how to add it:
 </code-block>
 </code-group>
 
-The next example targets the host element again, but only when it also has the active CSS class.
+L'exemple suivant cible à nouveau l'élément hôte, mais uniquement lorsqu'il possède également la classe CSS active.
 
 <code-group>
 <code-block title="app.component.ts">
@@ -51,41 +50,41 @@ The next example targets the host element again, but only when it also has the a
 </code-group>
 
 ## Lifecycle
-A component instance has a lifecycle that starts when Angular instantiates the component class and renders the component view along with its child views. The lifecycle continues with change detection, as Angular checks to see when data-bound properties change, and updates both the view and the component instance as needed. The lifecycle ends when Angular destroys the component instance and removes its rendered template from the DOM.
+Une instance de composant a un cycle de vie qui commence lorsque Angular instancie la classe de composant et restitue la vue du composant avec ses vues enfants. Le cycle de vie se poursuit avec la détection des modifications, car Angular vérifie quand les propriétés liées aux données changent et met à jour à la fois la vue et l'instance de composant si nécessaire. Le cycle de vie se termine lorsque Angular détruit l'instance de composant et supprime son modèle rendu du DOM.
 
-Angular provides lifecycle hook methods to tap into key events in the lifecycle of a component.
+Angular fournit des méthodes de hook de cycle de vie pour exploiter les événements clés du cycle de vie d'un composant.
 
 ![Lifecycle hooks](../../assets/lifecycle.png)
 
-- `ngOnChanges`: called after the constructor and every time input values change. The method receives a SimpleChanges object of current and previous property values.
+- `ngOnChanges`: appelé après le constructeur et chaque fois que les valeurs d'entrée changent. La méthode reçoit un objet SimpleChanges des valeurs de propriété actuelles et précédentes.
 
-- `ngOnInit`: called only once. This is where the **component's initialisation** should take place, such as **fetching intial data**. Indeed components should be cheap to construct, so costly operations should be kept out of the constructor. The constructor should do no more than set the initial local variables to simple values.
+- `ngOnInit`: appelé une seule fois. C'est là que l'**initialisation du composant** doit avoir lieu, comme **la récupération des données initiales**. En effet, les composants doivent être peu coûteux à construire, les opérations coûteuses doivent donc être tenues à l'écart du constructeur. Le constructeur ne doit pas faire plus que définir les variables locales initiales sur des valeurs simples.
 
-- `ngDoCheck`: called immediately after `ngOnChanges` on every change detection run, and immediately after `ngOnInit` on the first run. Gives an opportunity to implement a custom change detection algorithm.
+- `ngDoCheck`: appelé immédiatement après `ngOnChanges` à chaque exécution de détection de changement, et immédiatement après `ngOnInit` lors de la première exécution. Donne la possibilité de mettre en œuvre un algorithme de détection de changement personnalisé.
 
-- `ngAfterContentInit`: called only once. Invoked after Angular performs any content projection into the component’s view.
+- `ngAfterContentInit`: appelé une seule fois. Invoqué après que Angular ait effectué une projection de contenu dans la vue du composant.
 
-- `ngAfterContentChecked`: called after `ngAfterContentInit` and every subsequent `ngDoCheck`.
+- `ngAfterContentChecked`: appelé après `ngAfterContentInit` et chaque `ngDoCheck` suivant.
 
-- `ngAfterViewInit`: called only once. Invoked when the component’s view has been fully initialised.
+- `ngAfterViewInit`: appelé une seule fois. Appelé lorsque la vue du composant a été complètement initialisée.
 
-- `ngAfterViewChecked`: called after `ngAfterViewInit` and every subsequent `ngDoCheck`.
+- `ngAfterViewChecked`: appelé après `ngAfterViewInit` et chaque `ngDoCheck` suivant.
 
 For each lifecycle hook there exists a corresponding interface. Their name is derived from the lifecycle hook's they define minus the `ng`. For instance, to use `ngOnInit()` implement the interface `OnInit`.
 
-## Communication between child and parent components
-A common pattern in Angular is sharing data between a parent component and one or more child components. You can implement this pattern by using the `@Input()` and `@Output()` directives. `@Input()` allows a parent component to update data in the child component. Conversely, `@Output()` allows the child to send data to a parent component.
+## Communication entre les composants enfant et parent
+Un modèle courant dans Angular est le partage de données entre un composant parent et un ou plusieurs composants enfants. Vous pouvez implémenter ce modèle en utilisant les directives `@Input()` et `@Output()`. `@Input()` permet à un composant parent de mettre à jour les données dans le composant enfant. Inversement, `@Output()` permet à l'enfant d'envoyer des données à un composant parent.
 
 ![Data sharing](../../assets/child-parent.png)
 
 ### @Input()
 
-Adding the `@Input()` decorator on a child component's property means that it can receive its value from its parent component. The parent component passes that value through property binding in its template. Such a property **should not be mutated by the child** directly. Mutations should happen in the parent, they will automatically propagate via the property binding.
+L'ajout du décorateur `@Input()` sur la propriété d'un composant enfant signifie qu'il peut recevoir sa valeur de son composant parent. Le composant parent transmet cette valeur via la liaison de propriété dans son template. Une telle propriété **ne devrait pas être muté par l'enfant** directement. Les mutations doivent se produire dans le parent, elles se propageront automatiquement via la liaison de propriété.
 
-Here is how the `AppComponent` would communicate to its child component `BlogPostComponent` the title and content of its article.
+Voici comment le `AppComponent` communiquerait à son composant enfant `BlogPostComponent` le titre et le contenu de son article.
 
 <code-group>
-<code-block title="Parent component">
+<code-block title="Composant parent">
 
 ```ts
 // app.component.ts
@@ -106,7 +105,7 @@ export class AppComponent {
 ```
 </code-block>
 
-<code-block title="Child component">
+<code-block title="Composant enfant">
 
 ```ts
 // blog-post.component.ts
@@ -129,21 +128,21 @@ export class BlogPostComponent {
 </code-block>
 </code-group>
 
-To watch for changes on an `@Input()` property, you can use the `ngOnChanges` lifecycle hook.
+Pour surveiller les changements sur une propriété `@Input()`, vous pouvez utiliser le hook de cycle de vie `ngOnChanges`.
 
-**Exercise: Pass down each book's info to the BookComponent**
+**Exercice : Transmettez les informations de chaque livre au BookComponent**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-input-training?ctl=1&embed=1&file=src/app/book/book.component.ts&hideNavigation=1"></iframe>
 
 ### @Output()
 
-Child components communicate with their parents by using events: they emit **events** that propagate to their parent. **A good component is agnostic of its environment**, it does not know its parents and does not know if the events it emits will ever be intercepted (or "listened to").
+Les composants enfants communiquent avec leurs parents à l'aide d'événements : ils émettent des **événements** qui se propagent à leur parent. **Un bon composant est agnostique de son environnement**, il ne connaît pas ses parents et ne sait pas si les événements qu'il émet seront un jour interceptés (ou "écoutés").
 
-Adding the `@Output()` decorator on a child component's `EventEmitter` property allows data to flow from the child to the parent. The parent component can react to the event through the event binding syntax.
+L'ajout du décorateur `@Output()` sur la propriété `EventEmitter` d'un composant enfant permet aux données de circuler de l'enfant vers le parent. Le composant parent peut réagir à l'événement via la syntaxe de liaison d'événement.
 
-Here is how the `AddTaskComponent` would communicate back to its parent that a new task has been added:
+Voici comment le `AddTaskComponent` communiquerait à son parent qu'une nouvelle tâche a été ajoutée :
 
 <code-group>
-<code-block title="Parent component">
+<code-block title="Composant parent">
 
 ```ts
 // app.component.ts
@@ -169,7 +168,7 @@ export class AppComponent {
 ```
 </code-block>
 
-<code-block title="Child component">
+<code-block title="Composant enfant">
 
 ```ts
 // add-task.component.ts
@@ -193,17 +192,17 @@ export class AddTaskComponent {
 </code-block>
 </code-group>
 
-You can play with this example [here](https://stackblitz.com/edit/angular-output-training-example?file=src/app/app.component.ts).
+Vous pouvez essayer avec cette exemple [ici](https://stackblitz.com/edit/angular-output-training-example?file=src/app/app.component.ts).
 
-**Exercise: Books are now borrowable, communicate when books are borrowed to their parent component**
+**Exercice : les livres sont désormais empruntables, communiquez lorsque les livres sont empruntés à leur composant parent**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-output-training?ctl=1&embed=1&file=src/app/book/book.component.html&hideNavigation=1"></iframe>
 
-### Local variable in the template
+### Variable locale dans le template
 
-A parent component cannot use data binding (`@Output` or `@Input`) to access a child's properties or methods. A local variable in the template can be used to achieve both.
+Un composant parent ne peut pas utiliser la liaison de données (`@Output` ou `@Input`) pour accéder aux propriétés ou méthodes d'un enfant. Une variable locale dans le template peut être utilisée pour réaliser les deux.
 
 <code-group>
-<code-block title="Parent component">
+<code-block title="Composant parent">
 
 ```ts
 // app.component.html
@@ -212,7 +211,7 @@ A parent component cannot use data binding (`@Output` or `@Input`) to access a c
 ```
 </code-block>
 
-<code-block title="Child component">
+<code-block title="Composant enfant">
 
 ```ts
 // greet.component.html
@@ -237,12 +236,12 @@ export class GreetComponent {
 
 ### @ViewChild
 
-The `ViewChild` decorator can achieve the same purpose as a template variable but directly inside the parent component's class by injecting the child component into the parent component. Use `ViewChild` over a local variable whenever you need to coordinate interactions between several child components.
+Le décorateur `ViewChild` peut atteindre le même objectif qu'une variable de template mais directement à l'intérieur de la classe du composant parent en injectant le composant enfant dans le composant parent. Utilisez `ViewChild` sur une variable locale chaque fois que vous devez coordonner les interactions entre plusieurs composants enfants.
 
-In this example, the `MenuComponent` gets access to the `MenuItemComponent`:
+Dans cet exemple, le `MenuComponent` obtient l'accès au `MenuItemComponent` :
 
 <code-group>
-<code-block title="Parent component">
+<code-block title="Composant parent">
 
 ```ts
 // menu.component.html
@@ -259,7 +258,7 @@ export class MenuComponent{
 }
 ```
 </code-block>
-<code-block title="Child component">
+<code-block title="Composant enfant">
 
 ```ts
 // menu-item.component.html
@@ -278,10 +277,10 @@ export class MenuItemComponent {
 </code-block>
 </code-group>
 
-In case the parent component contains several instances of the same child component, they can each be queried via template reference variable:
+Dans le cas où le composant parent contient plusieurs instances du même composant enfant, elles peuvent chacune être interrogées via la variable de référence du template :
 
 <code-group>
-<code-block title="Parent component">
+<code-block title="Composant parent">
 
 ```ts
 // menu.component.html
@@ -300,7 +299,7 @@ export class MenuComponent{
 }
 ```
 </code-block>
-<code-block title="Child component">
+<code-block title="Composant enfant">
 
 ```ts
 // menu-item.component.html
@@ -319,23 +318,23 @@ export class MenuItemComponent {
 </code-block>
 </code-group>
 
-Components injected via `@ViewChild` become available in the `ngAfterViewInit` lifecycle hook. To query all children of a certain type, use the decorator `@ViewChildren`.
+Les composants injectés via `@ViewChild` deviennent disponibles dans le hook de cycle de vie `ngAfterViewInit`. Pour interroger tous les enfants d'un certain type, utilisez le décorateur `@ViewChildren`.
 
-## Content projection
+## Projection de contenu
 
-With `@Input`, we were able to pass data to a child component, but what about passing HTML elements or even other components?
+Avec `@Input`, nous avons pu transmettre des données à un composant enfant, mais qu'en est-il de la transmission d'éléments HTML ou même d'autres composants ?
 
-Since Angular components are declared as tags, we can place other elements or content inside their tags. In the following example, the string `My profile` acts as the content of the `NavigationLink` component:
+Étant donné que les composants Angular sont déclarés en tant que balises, nous pouvons placer d'autres éléments ou contenus à l'intérieur de leurs balises. Dans l'exemple suivant, la chaîne `My profile` fait office de contenu du composant `NavigationLink` :
 
 <code-group>
-<code-block title="Parent component">
+<code-block title="Composant parent">
 
 ```html
 <!-- in a parent component's template-->
 <app-navigation-link [url]="/profile">My profile<app-navigation-link>
 ```
 </code-block>
-<code-block title="Child component">
+<code-block title="Composant enfant">
 
 ```html
 <!-- navigation-link.component.html -->
@@ -346,12 +345,12 @@ Since Angular components are declared as tags, we can place other elements or co
 </code-block>
 </code-group>
 
-Whatever is written between the child component's tags in the parent component gets injected in the child's template and replaces the `<ng-content>` tags.
+Tout ce qui est écrit entre les balises du composant enfant dans le composant parent est injecté dans le template de l'enfant et remplace les balises `<ng-content>`.
 
-Any HTML content, including other angular components can be projected. This feature is particularly useful in components that serve as a *container* rather than for *content*, such as dialog windows or layout elements:
+Tout contenu HTML, y compris d'autres composants Angular, peut être projeté. Cette fonctionnalité est particulièrement utile dans les composants qui servent de *conteneur* plutôt que de *contenu*, tels que les fenêtres de dialogue ou les éléments de mise en page :
 
 <code-group>
-<code-block title="Child component">
+<code-block title="Composant enfant">
 
 ```html
 <!-- my-popin.component.html -->
@@ -370,7 +369,7 @@ Any HTML content, including other angular components can be projected. This feat
 </div>
 ```
 </code-block>
-<code-block title="Parent component">
+<code-block title="Composant parent">
 
 ```html
 <!-- in a parent component template -->
@@ -383,11 +382,11 @@ Any HTML content, including other angular components can be projected. This feat
 </code-block>
 </code-group>
 
-In addition to the default `<ng-content>`, you can **name** other `<ng-content>` tags to distribute content to multiple locations in the child. You achieve this by using the `select` attribute on the `<ng-content>` tag and adding the chosen value as an attribute on the element to project.
+En plus du `<ng-content>` par défaut, vous pouvez **nommer** d'autres balises `<ng-content>` pour distribuer le contenu à plusieurs emplacements dans l'enfant. Vous y parvenez en utilisant l'attribut `select` sur la balise `<ng-content>` et en ajoutant la valeur choisie comme attribut sur l'élément à projeter.
 
-## Practical work: Decompose the app
-1. Refactor the `LoginFormComponent` to extract the code and template related to a film details. To that purpose, create with the CLI a `FilmComponent`, there will be as many instances of `FilmComponent` as there are films. Use `@Input()` to pass data from the `LoginFormComponent` to each `FilmComponent`.
-2. Create another component with the CLI: `FilmSearchComponent`. It will contain a search form and the `FilmComponent` list below:
+## TP : Décomposer l'application
+1. Refactorisez le `LoginFormComponent` pour extraire le code et le template liés aux détails d'un film. Pour cela, créez avec CLI un `FilmComponent`, il y aura autant d'instances de `FilmComponent` qu'il y a de films. Utilisez `@Input()` pour transmettre les données du `LoginFormComponent` à chaque `FilmComponent`.
+2. Créez un autre composant avec CLI : `FilmSearchComponent`. Il contiendra un formulaire de recherche et la liste `FilmComponent` ci-dessous :
 
 ```html
 <div id="search-film">
@@ -402,9 +401,9 @@ In addition to the default `<ng-content>`, you can **name** other `<ng-content>`
 </div>
 ```
 
-3. Insert this `FilmSearchComponent` alongside the `LoginFormComponent` in the `AppComponent` and move the corresponding code in this new component.
-4. Display the `FilmSearchComponent` component only if the user is logged in. You will have to communicate the `loggedIn` variable from the `LoginFormComponent` to the `AppComponent` via an `@Output()`.
-5. In the `FilmSearchComponent`, assign the `films` variable to an empty `[]` array initially. When submitting the search form, run a `searchFilms()` method that will put the 3 sample films in this list.
+3. Insérez ce `FilmSearchComponent` à côté du `LoginFormComponent` dans `AppComponent` et déplacez le code correspondant dans ce nouveau composant.
+4. Affichez le composant `FilmSearchComponent` uniquement si l'utilisateur est connecté. Vous devrez communiquer la variable `loggedIn` du `LoginFormComponent` au `AppComponent` via un `@Output()`.
+5. Dans le `FilmSearchComponent`, affectez initialement la variable `films` à un tableau `[]` vide. Lors de la soumission du formulaire de recherche, exécutez une méthode `searchFilms()` qui mettra les 3 exemples de films dans cette liste.
 
-## To go further
-Learn about context aware content projection using [ngTemplateOutlet](https://indepth.dev/posts/1405/ngtemplateoutlet)
+## Pour aller plus loin
+En savoir plus sur la projection de contenu contextuelle en utilisant [ngTemplateOutlet](https://indepth.dev/posts/1405/ngtemplateoutlet)

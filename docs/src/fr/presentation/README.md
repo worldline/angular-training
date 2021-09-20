@@ -1,4 +1,4 @@
-# Présentation de Angular
+# Présentation d'Angular
 
 ## Qu'est-ce que Angular ?
 Angular est plus qu'un simple framework frontend avec lequel créer des applications à page unique (Single Page Applications : SPA). Il s'agit d'une plate-forme de développement à part entière construite sur TypeScript qui comprend :

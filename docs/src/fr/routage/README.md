@@ -1,39 +1,39 @@
 # Routage
 
-Angular applications are mostly Single Page Applications (SPA). The server always serves a single HTML page, and navigation between the application pages/sections is managed on the client side in JavaScript. This approach allows smoother transitions between pages, and reduces the number of server calls needed to navigate between pages, improving the UX. This is essential for Progressive Web Apps or web applications that want to have offline features.
+Les applications Angular sont principalement des applications à page unique (SPA). Le serveur sert toujours une seule page HTML, et la navigation entre les pages/sections de l'application est gérée côté client en JavaScript. Cette approche permet des transitions plus fluides entre les pages et réduit le nombre d'appels de serveur nécessaires pour naviguer entre les pages, améliorant ainsi l'UX. Ceci est essentiel pour les applications Web progressives ou les applications Web qui souhaitent disposer de fonctionnalités hors ligne.
 
-The routing of an SPA is therefore managed on the client side, and the Angular team provides a library for this purpose: `@angular/router`. This router allows you to associate routes (URLs) with Angular components.
+Le routage d'un SPA est donc géré côté client, et l'équipe Angular met à disposition une librairie à cet effet : `@angular/router`. Ce routeur vous permet d'associer des routes (URL) avec des composants Angular.
 
-For this chapter, we will use the *Personal Library* app as a running example. Besides the `AppComponent` which contains a `NavbarComponent`, the app has 5 "pages":
-- Home
-- Book list
-- Book detail
-- Author list
-- Author detail
+Pour ce chapitre, nous utiliserons l'application *Bibliothèque personnelle* comme exemple d'exécution. Outre le `AppComponent` qui contient un `NavbarComponent`, l'application a 5 "pages":
+- Accueil
+- Liste de livres
+- Détail du livre
+- Liste des auteurs
+- Détails sur l'auteur
 
-The targeted routing of the example app is as follows:
+Le routage ciblé de l'exemple d'application est le suivant :
 
 ![Targeted routing](../../assets/routing.png)
 
-This [Stackblitz](https://stackblitz.com/edit/angular-routing-training-0?file=src/app/app-routing.module.ts) will serve as the base for the example.
+Ce [Stackblitz](https://stackblitz.com/edit/angular-routing-training-0?file=src/app/app-routing.module.ts) servira de base pour l'exemple.
 
-## Routing Module
+## Module de routage
 
-In Angular, the best practice is to load and configure the router in a separate, top-level module that is dedicated to routing and imported by the root `AppModule`. By convention, the module class name is `AppRoutingModule` and it belongs in the `app-routing.module.ts` in the `src/app` folder.
+Dans Angular, la meilleure pratique consiste à charger et à configurer le routeur dans un module de niveau supérieur distinct, dédié au routage et importé par la racine `AppModule`. Par convention, le nom de classe du module est `AppRoutingModule` et il appartient au `app-routing.module.ts` dans le dossier `src/app`.
 
-In the exercise and in the practical work, it has already been generated for you, in case it hadn't been, here is how to generate it with the CLI:
+Dans l'exercice et dans les travaux pratiques, il a déjà été généré pour vous, au cas où il ne l'aurait pas été, voici comment le générer avec CLI :
 
 ```sh
 ng generate module app-routing --flat --module=app
 ```
 
-`--flat` signals the CLI not to create a folder for the routing module so that it is placed at the same level as the `app.module.ts` file and `--module=app` means that the routing module is to be added to the imports of the `AppModule`.
+`--flat` signale à la CLI de ne pas créer de dossier pour le module de routage afin qu'il soit placé au même niveau que le fichier `app.module.ts` et `--module=app` signifie que le module de routage est à ajouter aux importations du `AppModule`.
 
 ::: tip
-Once your app grows and you start refactoring it in several modules, it is a good practice to define one routing module per feature module.
+Une fois que votre application grandit et que vous commencez à la refactoriser en plusieurs modules, il est recommandé de définir un module de routage par module de fonctionnalité.
 :::
 
-The generated `AppRoutingModule` looks like this:
+Le `AppRoutingModule` généré ressemble à ceci :
 
 ```ts
 import { NgModule } from "@angular/core";
@@ -48,10 +48,10 @@ const routes: Routes = [];
 export class AppRoutingModule {}
 ```
 
-The `routes` array is where we tell the `Router` which component should be displayed when the user clicks on a link or enters a URL in the address bar.
-A [Route](https://angular.io/api/router/Route) is mainly defined by a path and a component. It can also define a redirect, children routes, a path match strategy, guards, resolvers, lazy-loaded child routes, etc...
+Le tableau `routes` est l'endroit où nous indiquons au `routeur` quel composant doit être affiché lorsque l'utilisateur clique sur un lien ou entre une URL dans la barre d'adresse.
+Une [Route](https://angular.io/api/router/Route) est principalement définie par un chemin et un composant. Il peut également définir une redirection, des routes enfants, une stratégie de correspondance de chemin, des gardes, des résolveurs, des routes enfants lazy-loaded, etc...
 
-Here is an example of an app with a dashboard secured with authentication:
+Voici un exemple d'application avec un tableau de bord sécurisé avec authentification :
 ```ts
 const routes: Routes = [
   {path: 'registration', component: RegistrationComponent},
@@ -62,20 +62,20 @@ const routes: Routes = [
   {path: '**', redirectTo: '/dashboard'}
 ]
 ```
-- `canActivate` allows you to define route guards. A route guard blocks the activation of the route if the condition it defines is not verified.
-- `pathMatch: 'full'` forces the path to be matched against the entire URL. It is important to do this when redirecting empty-path routes. Otherwise, because an empty path is a prefix of any URL, the router would apply the redirect even when navigating to the redirect destination, creating an endless loop.
-- `'**'`: is a wildcard which means it matches any URL
+- `canActivate` vous permet de définir des gardes de route. Une garde de route bloque l'activation de la route si la condition qu'elle définit n'est pas vérifiée.
+- `pathMatch: 'full'` force le chemin à être comparé à l'URL entière. Il est important de le faire lors de la redirection des routes à chemin vide. Sinon, parce qu'un chemin vide est un préfixe de n'importe quelle URL, le routeur appliquerait la redirection même lors de la navigation vers la destination de redirection, créant une boucle sans fin.
+- `'**'`: est un caractère générique qui signifie qu'il correspond à n'importe quelle URL
 
-**Exercise:** open the Stackblitz and define the following routes:
-- home: `/home` & empty route
-- book list: `/books`
-- detail of book with id 1: `/books/1`
-- author list: book list: `/authors`
-- detail of author with id 1: book list: `/authors/1`
-- any other route should lead to the home page
+**Exercice :** ouvrez le Stackblitz et définissez les routes suivants :
+- accueil: `/home` & route vide
+- liste des livres : `/books`
+- détail du livre avec id 1 : `/books/1`
+- liste des auteurs : liste des livres : `/authors`
+- détail de l'auteur avec l'identifiant 1 : liste des livres : `/authors/1`
+- tout autre route doit conduire à la page d'accueil
 
 ::: tip Hint
-`{ path: 'detail/:id', component: TransactionDetailComponent }` is a *parameterized* route where the colon (`:`) in the path indicates that `:id` is a placeholder for a specific transaction id.
+`{ path: 'detail/:id', component: TransactionDetailComponent }` est une route *paramétrée* où les deux points (`:`) dans le chemin indiquent que `:id` est un espace réservé pour un identifiant de transaction spécifique.
 :::
 
 ::: details Correction
@@ -104,7 +104,7 @@ export class AppRoutingModule {}
 ```
 :::
 
-Using child routes makes the nesting between routes clearer and paves the way for lazy-loading. Here is how it would apply to the *Personal Library* app:
+L'utilisation de routes enfants rend l'imbrication entre les routes plus claire et ouvre la voie au lazy-loading. Voici comment cela s'appliquerait à l'application *Personal Library* :
 
 ::: details Correction with child routes
 ```ts
@@ -131,7 +131,7 @@ const routes: Routes = [
 :::
 
 ::: tip Hosting
-When using `ng serve`, Angular automatically starts a development server that is configured specifically for an SPA specificities. In a production environment, you will need to configure a server such as an Nginx. For the routing to work properly, the server configuration needs to have a rewrite rule so that the `index.html` file (produced by building the app) is served for all the "routes". Otherwise, the user would hit a 404 error. For Nginx, this is what it could look like:
+Lors de l'utilisation de `ng serve`, Angular démarre automatiquement un serveur de développement configuré spécifiquement pour les spécificités d'un SPA. Dans un environnement de production, vous devrez configurer un serveur tel qu'un Nginx. Pour que le routage fonctionne correctement, la configuration du serveur doit avoir une règle de réécriture afin que le fichier `index.html` (produit en construisant l'application) soit servi pour toutes les "routes". Sinon, l'utilisateur rencontrerait une erreur 404. Pour Nginx, voici à quoi cela pourrait ressembler :
 ```
 location / {
   try_files $uri $uri/ /index.html;
@@ -139,12 +139,12 @@ location / {
 ```
 :::
 
-## Router directives
+## Directives du routeur
 
-In the Stackblitz, try navigating to components by replacing the URL in the address bar. As you can see, besides the `NavbarComponent`, no other component is displayed even though we have just defined routes in the `AppRoutingModule`. That is because we have not yet told Angular where those components should be inserted in the DOM.
+Dans le Stackblitz, essayez de naviguer vers les composants en remplaçant l'URL dans la barre d'adresse. Comme vous pouvez le voir, à part le `NavbarComponent`, aucun autre composant n'est affiché même si nous venons de définir des routes dans le `AppRoutingModule`. C'est parce que nous n'avons pas encore dit à Angular où ces composants doivent être insérés dans le DOM.
 
 ### router-outlet
-This is the purpose of the `RouterOutlet`. The `NavbarComponent` should remain displayed at all times which means that components should be inserted under it. Let's add the `router-outlet` in the `AppComponent`.
+C'est le but du `RouterOutlet`. Le `NavbarComponent` doit rester affiché à tout moment, ce qui signifie que les composants doivent être insérés en dessous. Ajoutons le `router-outlet` dans le `AppComponent`.
 
 <code-group>
 <code-block title="app.component.html">
@@ -155,13 +155,13 @@ This is the purpose of the `RouterOutlet`. The `NavbarComponent` should remain d
 </code-block>
 </code-group>
 
-The `RouterOutlet` is one of the router directives that became available to the `AppComponent` because `AppModule` imports `AppRoutingModule` which exported `RouterModule`.
+Le `RouterOutlet` est l'une des directives de routeur qui sont devenues disponibles pour le `AppComponent` car `AppModule` importe `AppRoutingModule` qui a exporté `RouterModule`.
 
-Try again to display the various components by changing the URL in the address bar, it should now work. The next step consists in enabling navigation via links directly within the application.
+Essayez à nouveau d'afficher les différents composants en modifiant l'URL dans la barre d'adresse, cela devrait maintenant fonctionner. L'étape suivante consiste à activer la navigation via des liens directement au sein de l'application.
 
 ### routerLink
 
-First, let's take care of the links in the `NavbarComponent`. Open the `navbar.component.html` file and change the code as follows:
+Tout d'abord, occupons-nous des liens dans le `NavbarComponent`. Ouvrez le fichier `navbar.component.html` et modifiez le code comme suit :
 
 <code-group>
 <code-block title="navbar.component.html">
@@ -177,16 +177,15 @@ First, let's take care of the links in the `NavbarComponent`. Open the `navbar.c
 </code-block>
 </code-group>
 
-You can now navigate via the navbar links. `routerLink` is the selector for the [RouterLink directive](https://angular.io/api/router/RouterLink) that turns user clicks into router navigations. It's another of the public directives in the `RouterModule`.
+Vous pouvez maintenant naviguer via les liens de la barre de navigation. `routerLink` est le sélecteur de la [directive RouterLink](https://angular.io/api/router/RouterLink) qui transforme les clics de l'utilisateur en navigations de routeur. C'est une autre des directives publiques du `RouterModule`.
 
 ::: danger
-Usually a link destination is specified via the `href` attribute. However, this is not the way to go for navigation within an SPA and should only be used for navigation to external URLs. Indeed, navigating via href in an SPA makes the entire app reload which is highly inefficient and offers very poor user experience.
+Habituellement, une destination de lien est spécifiée via l'attribut `href`. Cependant, ce n'est pas la voie à suivre pour la navigation au sein d'un SPA et ne doit être utilisé que pour la navigation vers des URL externes. En effet, naviguer via href dans une SPA (Single Page Application) fait recharger l'ensemble de l'application, ce qui est très inefficace et offre une très mauvaise expérience utilisateur.
 :::
 
-**Exercise:** Add navigation to book details and author details in their respective list components.
+**Exercice :** Ajoutez la navigation vers les détails du livre et les détails de l'auteur dans leurs composants de liste respectifs.
 
-::: details Correction
-You have two options, either use an absolute path starting with `/` which means the entire path needs to be supplied (like in `book-list.component.html`) or use a relative path to the current location (like in `author-list.component.html`).
+Vous avez deux options, soit utiliser un chemin absolu commençant par `/` ce qui signifie que le chemin entier doit être fourni (comme dans `book-list.component.html`) ou utiliser un chemin relatif vers l'emplacement actuel (comme dans `author-list.component.html`).
 
 ```html
 <!-- author-list.component.html -->
@@ -202,10 +201,10 @@ You have two options, either use an absolute path starting with `/` which means 
 </ul>
 ```
 
-For the moment, only the data of the book with id 1 and the data of the author with id 1 is shown. Later in this chapter we will see how to extract the id present in the URL to select the proper data to display.
+Pour le moment, seules les données du livre avec l'id 1 et les données de l'auteur avec l'id 1 sont affichées. Plus loin dans ce chapitre, nous verrons comment extraire l'identifiant présent dans l'URL pour sélectionner les données appropriées à afficher.
 :::
 
-**Exercise:** Add navigation in the `BookDetailComponent` to the `AuthorDetailComponent` and vice versa.
+**Exercice:** Ajoutez la navigation dans le `BookDetailComponent` au `AuthorDetailComponent` et vice versa.
 
 ::: details Correction
 
@@ -224,17 +223,17 @@ For the moment, only the data of the book with id 1 and the data of the author w
 ```
 :::
 
-The `RouterLink` directive has a `queryParams` `Input`. This `Input` allows to pass optionnal parameters via query strings in the URL:
+La directive `RouterLink` a un `Query Params` `Input`. Cet `Input` permet de passer des paramètres facultatifs via des chaînes de requête dans l'URL :
 ```html
 <a routerLink="'/books" [queryParams]="{genre: 'Epic Fantasy'}">
   Epic Fantasy Books
 </a>
 ```
-The example generates the link: `/books?genre=Epic%20Fantasy`
+L'exemple génère le lien : `/books?genre=Epic%20Fantasy`
 
 ### routerLinkActive
 
-Navigating by clicking on the links in the `NavbarComponent` is now functional; however, there's no feedback to the user regarding which link is active. This is the purpose of the `routerLinkActive` directive. It allows you to specify one or more CSS classes to add to the element when the linked route is active.
+La navigation en cliquant sur les liens dans le `NavbarComponent` est maintenant fonctionnelle ; cependant, il n'y a aucun retour à l'utilisateur concernant le lien actif. C'est le but de la directive `routerLinkActive`. Il vous permet de spécifier une ou plusieurs classes CSS à ajouter à l'élément lorsque la route liée est active.
 
 <code-group>
 <code-block title="navbar.component.html">
@@ -267,19 +266,19 @@ li a:hover:not(.active) {
 </code-block>
 </code-group>
 
-## Router services
+## Services de routeur
 
-So far, we have mainly worked with the Angular `Router` from the template. The library also provides services to interact with it from a component class.
+Jusqu'à présent, nous avons principalement travaillé avec le "Router" Angular du template. La bibliothèque fournit également des services pour interagir avec elle à partir d'une classe de composants.
 
-### ActivatedRoute service
+### Service ActivatedRoute
 
-The `ActivatedRoute` service describes the current state of the *router*. Through it, the component associated with the current route can extract information from the URL via the `paramMap` and `queryParamMap` properties.
+Le service `ActivatedRoute` décrit l'état actuel du *routeur*. Grâce à lui, le composant associé à la route actuelle peut extraire des informations de l'URL via les propriétés `paramMap` et `queryParamMap`.
 
-`paramMap` and `queryParamMap` are Observables, a notion we will see more in detail in a later chapter. Observable allows to observe how information change over time. The `ActivatedRoute` service also provides a `snapshot` property to only get the state of the router at a given point in time. This property is enough to cover most cases.
+`paramMap` et `queryParamMap` sont des Observables, une notion que nous verrons plus en détail dans un chapitre ultérieur. Observable permet d'observer comment les informations évoluent dans le temps. Le service `ActivatedRoute` fournit également une propriété `snapshot` pour obtenir uniquement l'état du routeur à un moment donné. Cette propriété est suffisante pour couvrir la plupart des cas.
 
-To extract a parameter from a route, two steps are required:
-1. Inject the `ActivatedRoute` service in the constructor of the component needing it
-2. Retrieve the paramMap from the snapshot in the `OnInit` lifecycle hook
+Pour extraire un paramètre d'une route, deux étapes sont nécessaires :
+1. Injectez le service 'ActivatedRoute' dans le constructeur du composant qui en a besoin
+2. Récupérez le paramMap depuis le snapshot dans le hook de cycle de vie `OnInit`
 
 ```ts{10,13}
 import { Component, OnInit } from "@angular/core";
@@ -299,7 +298,7 @@ export class ExampleComponent implements OnInit {
 }
 ```
 
-Let's go back to the *Personal Library* app. With the help of the `ActivatedRoute`, show the details of the proper author and book according to the route.
+Revenons à l'application *Personal Library*. Avec l'aide de `ActivatedRoute`, montrez les détails de l'auteur et du livre appropriés en fonction de la route.
 
 ::: details Correction
 ```ts
@@ -330,17 +329,17 @@ export class AuthorDetailsComponent implements OnInit {
 ```
 :::
 
-::: warning When to use snapshot
-The `paramMap` and `queryParamMap` properties are `Observables` because of optimisations. Indeed, when navigating to the same route but with different paramaters (e.g. /books/123 => /books/456), Angular doesn't reload the component but propagates the new parameters via these `Observables`.
+::: warning Quand utiliser snapshot
+Les propriétés `paramMap` et `queryParamMap` sont `Observables` en raison des optimisations. En effet, lorsqu'on navigue sur la même route mais avec des paramètres différents (e.g. /books/123 => /books/456), Angular ne recharge pas le composant mais propage les nouveaux paramètres via ces `Observables`.
 
-What does it mean ? If you only allow the navigation to the same route via the address bar, you are covered when using the snapshot. However, if you provide a means to navigate to the same route via a link (such as a "Next" and "Previous" mechanism), you have to listen to the `paramMap`/`queryParamMap` changes.
+Qu'est-ce que ça veut dire ? Si vous autorisez uniquement la navigation vers la même route via la barre d'adresse, vous êtes couvert lors de l'utilisation de snapshot. Cependant, si vous fournissez un moyen de naviguer vers la même route via un lien (comme un mécanisme "Suivant" et "Précédent"), vous devez écouter les modifications de `paramMap`/`queryParamMap`.
 :::
 
-### Router service
+### Service de routeur
 
-Sometimes, it is necessary to trigger some actions before routing. This is what happens when we click on a login button. First, an http call is made and depending on the response, routing takes place. The `Router` service allows to trigger navigation from the component class.
-1. Inject the `Router` service via the constructor
-2. Use the `navigateByUrl` method to trigger the navigation. `navigateByUrl` always takes an absolute path. In case you would like to user a relative path, use the `navigate` method instead.
+Parfois, il est nécessaire de déclencher certaines actions avant le routage. C'est ce qui se passe lorsque nous cliquons sur un bouton de connexion. Tout d'abord, un appel http est effectué et en fonction de la réponse, le routage a lieu. Le service `Router` permet de déclencher la navigation depuis la classe du composant.
+1. Injecter le service 'Router' via le constructeur
+2. Utilisez la méthode `navigateByUrl` pour déclencher la navigation. `navigateByUrl` prend toujours un chemin absolu. Si vous souhaitez utiliser un chemin relatif, utilisez plutôt la méthode `navigate`.
 
 ```ts{6,9}
 @Component({
@@ -356,24 +355,24 @@ export class ExampleComponent {
 }
 ```
 
-A full correction of the *Personal Library* app is available in this [stackblitz](https://stackblitz.com/edit/angular-routing-training-correction?file=src/app/book-list/book-list.component.ts).
+Une correction complète de l'application *Personal Library* est disponible dans ce [stackblitz](https://stackblitz.com/edit/angular-routing-training-correction?file=src/app/book-list/book-list.component.ts).
 
-## Practical Work: Router-based navigation
+## TP : Navigation basée sur un routeur
 
-Let's implement the Film application routing.
+Implémentons le routage de l'application Film.
 
-1. During the project initial setup, the CLI asked if it should add Angular routing and we answered yes. The CLI installed the `@angular/router` library, you can check that in the dependencies declared in the `package.json`. It alo created the `app-routing.module.ts` file.
-2. Add a `login` route linked to the `LoginFormComponent` and a `search` route linked to `FilmSearchComponent` in the `app-routing.module.ts` file.
-3. Add a `<router-outlet></router-outlet>` at the top of the `AppComponent` template. You should now see the LoginComponent twice when navigating to `http://localhost:4200/login`.
-4. Replace the switch between the `LoginFormComponent` and `FilmSearchComponent` currently based on an `*ngIf` by a navigation from one route to another. You will have to inject the Router service in the LoginFormComponent.
+1. Lors de la configuration initiale du projet, la CLI a demandé si elle devait ajouter le routage Angular et nous avons répondu oui. La CLI a installé la bibliothèque `@angular/router`, vous pouvez le vérifier dans les dépendances déclarées dans le `package.json`. Il a également créé le fichier `app-routing.module.ts`.
+2. Ajoutez une route `login` liée au `LoginFormComponent` et une route `search` liée à `FilmSearchComponent` dans le fichier `app-routing.module.ts`.
+3. Ajoutez un `<router-outlet></router-outlet>` en haut du template `AppComponent`. Vous devriez maintenant voir le composant LoginComponent deux fois lorsque vous naviguez vers `http://localhost:4200/login`.
+4. Remplacer le commutateur entre le `LoginFormComponent` et le `FilmSearchComponent` actuellement basé sur un `*ngIf` par une navigation d'une route à une autre. Vous devrez injecter le service Router dans le LoginFormComponent.
 
- **Question:** Can you spot an issue with the way our current implementation works regarding security concerns?
+ **Question:** Pouvez-vous repérer un problème dans le fonctionnement de notre implémentation actuelle en ce qui concerne les problèmes de sécurité ?
 
-5. Add a redirect on the empty route `''` to the `FilmSearchComponent`
+5. Ajouter une redirection sur la route vide `''` vers le `FilmSearchComponent`
 
-**Question:** What do you think is the purpose of such a redirect?
+**Question:** À votre avis, quel est le but d'une telle redirection ?
 
-6. **Bonus:** Create a `NotFoundComponent` (404) with the CLI and add a wildcard route `'**'` that redirects to it. The code bellow is a proposition of the content of the 404 component. Add a `routerLink` on the `<a>` tag to go back to the search component.
+6. **Bonus:** Créez un `NotFoundComponent` (404) avec CLI et ajoutez une route générique `'**'` qui redirige vers celui-ci. Le code ci-dessous est une proposition du contenu du composant 404. Ajoutez un `routerLink` sur la balise `<a>` pour revenir au composant de recherche.
 
 <code-group>
 <code-block title="HTML">
@@ -394,4 +393,4 @@ Let's implement the Film application routing.
 </code-block>
 </code-group>
 
-7. **Bonus:** Learn about [navigation guards](https://angular.io/api/router/CanActivate) to secure routes. We will implement one in the next chapter.
+7. **Bonus:** En savoir plus sur les [gardes de navigation](https://angular.io/api/router/CanActivate) pour sécuriser les routes. Nous allons en implémenter un dans le chapitre suivant.

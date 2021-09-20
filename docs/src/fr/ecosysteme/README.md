@@ -1,4 +1,4 @@
-# Écosystème de Angular
+# Écosystème d'Angular
 
 Angular bénéficie d'un écosystème fantastique. Je vais fournir ici quelques excellentes sources pour démarrer votre parcours d'apprentissage.
 
@@ -8,9 +8,9 @@ Angular bénéficie d'un écosystème fantastique. Je vais fournir ici quelques 
 
 - **[Tour of Heroes tutorial](angular.io/tutorial):** Un didacticiel riche en théorie/concept/fonctionnalité. Je vous conseille fortement de l'essayer car cela vous donne l'occasion de revoir les concepts vus dans cette formation sous un angle différent.
 
-- **[Angular official blog](blog.angular.io):** Nouvelles et conseils de l'équipe Angular.
+- **[Blof officiel d'Angular](blog.angular.io):** Nouvelles et conseils de l'équipe Angular.
 
-- **[Angular Material](material.angular.io/components) and the [CDK](https://material.angular.io/cdk/categories):** Deux bibliothèques UI/UX développées et maintenues par l'équipe Angular Components qui fait partie de l'équipe Angular de Google. L'équipe comprend à la fois des employés de Google et des contributeurs de la communauté du monde entier. Material Angular contient des composants d'interface utilisateur de haute qualité qui peuvent être déposés dans des applications existantes. Le CDK (Component Development Kit) vous aide à créer vos propres composants personnalisés avec des modèles d'interaction communs. Les deux bibliothèques sont maintenues au même rythme que le framework Angular.
+- **[Angular Material](material.angular.io/components) et [CDK](https://material.angular.io/cdk/categories):** Deux bibliothèques UI/UX développées et maintenues par l'équipe Angular Components qui fait partie de l'équipe Angular de Google. L'équipe comprend à la fois des employés de Google et des contributeurs de la communauté du monde entier. Material Angular contient des composants d'interface utilisateur de haute qualité qui peuvent être déposés dans des applications existantes. Le CDK (Component Development Kit) vous aide à créer vos propres composants personnalisés avec des modèles d'interaction communs. Les deux bibliothèques sont maintenues au même rythme que le framework Angular.
 
 
 ## Ressources non spécifiques à Angular
