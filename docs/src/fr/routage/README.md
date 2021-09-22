@@ -106,7 +106,7 @@ export class AppRoutingModule {}
 
 L'utilisation de routes enfants rend l'imbrication entre les routes plus claire et ouvre la voie au lazy-loading. Voici comment cela s'appliquerait à l'application *Personal Library* :
 
-::: details Correction with child routes
+::: details Correction avec les routes enfants
 ```ts
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -277,7 +277,7 @@ Le service `ActivatedRoute` décrit l'état actuel du *routeur*. Grâce à lui, 
 `paramMap` et `queryParamMap` sont des Observables, une notion que nous verrons plus en détail dans un chapitre ultérieur. Observable permet d'observer comment les informations évoluent dans le temps. Le service `ActivatedRoute` fournit également une propriété `snapshot` pour obtenir uniquement l'état du routeur à un moment donné. Cette propriété est suffisante pour couvrir la plupart des cas.
 
 Pour extraire un paramètre d'une route, deux étapes sont nécessaires :
-1. Injectez le service 'ActivatedRoute' dans le constructeur du composant qui en a besoin
+1. Injectez le service `ActivatedRoute` dans le constructeur du composant qui en a besoin
 2. Récupérez le paramMap depuis le snapshot dans le hook de cycle de vie `OnInit`
 
 ```ts{10,13}

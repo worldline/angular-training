@@ -1,39 +1,39 @@
 # RxJS
 
-[RxJS](https://v6.rxjs.dev/guide/overview) is a library for reactive programming using Observables. It makes it easier to compose asynchronous or callback-based code. It is part of the [ReactiveX](http://reactivex.io/) collection of open-source libraries (RxJava, RxSwift, Rx.NET, RxScala...). They all share a very similar API, which means transfering Rx skills from one language to another is very easy.
+[RxJS](https://v6.rxjs.dev/guide/overview) est une bibliothèque de programmation réactive utilisant Observables. Cela facilite la composition de code asynchrone ou basé sur un callback. Il fait partie de la collection [ReactiveX](http://reactivex.io/) de bibliothèques open source (RxJava, RxSwift, Rx.NET, RxScala...). Ils partagent tous une API très similaire, ce qui signifie que le transfert des compétences Rx d'une langue à une autre est très facile.
 
-The ReactiveX `Observable` model allows you to treat streams of asynchronous events with the same sort of simple, composable operations that you use for collections of data items like arrays, operations such as `filter`, `map`, `flatMap`, `reduce` and many more. It frees you from tangled webs of callbacks, and thereby makes your code more readable and less prone to bugs.
+Le modèle ReactiveX `Observable` vous permet de traiter des flux d'événements asynchrones avec le même type d'opérations simples et composables que vous utilisez pour des collections d'éléments de données comme des tableaux, des opérations telles que `filter`, `map`, `flatMap`, ` reduce` et bien d'autres. Il vous libère des toiles enchevêtrées de callbacks et rend ainsi votre code plus lisible et moins sujet aux bugs.
 
-The library provides the `Observable` type as well as utiliy functions to:
-- convert existing code linked to async operations into observables
-- iterating through the values in a stream
-- mapping values to different types
-- filtering streams
-- catching errors
-- composing multiple streams
+La bibliothèque fournit le type `Observable` ainsi que des fonctions utilitaires pour :
+- convertir le code existant lié aux opérations asynchrones en observables
+- itérer à travers les valeurs d'un flux
+- mapper des valeurs à différents types
+- filtrer des flux
+- détecter les erreurs
+- composer plusieurs flux
 
-This chapter will not go in depth about the concepts of Rx, you can refer to the official documentation to that purpose. However it will illustrate common situations encountered in Angular applications.
+Ce chapitre n'entrera pas en profondeur sur les concepts de Rx, vous pouvez vous référer à la documentation officielle à cet effet. Cependant, il illustrera des situations courantes rencontrées dans les applications Angular.
 
 :::warning
-In this chapter, we will talk about [RxJS v6](https://v6.rxjs.dev/), RxJS v7 was released mid May 2021.
+Dans ce chapitre, nous parlerons de [RxJS v6](https://v6.rxjs.dev/), RxJS v7 est sorti mi-mai 2021.
 :::
 
-## The Observable
+## L'Observable
 
-The previous chapter showed you the basic usage of Observables. Here is what we saw in it:
-- Observables are returned by the `HttpClient` service methods.
-- Observables are only executed once subscribed to
-- The subscribe method takes three callbacks as parameters: next, error and complete
+Le chapitre précédent vous a montré l'utilisation de base des Observables. Voici ce que nous y avons vu :
+- Les observables sont renvoyés par les méthodes du service `HttpClient`.
+- Les observables ne sont exécutés qu'une fois subscribed
+- La méthode d'abonnement prend trois callbacks en paramètres : next, error and complete
 
-First, let's illustrate the second and third points:
+Tout d'abord, illustrons les deuxième et troisième points :
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-observable-training?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
 
-The `Observable` fires 3 next notifications followed by a complete notification. Observable either stop emitting values because they error out or because they complete. The two events are mutually exclusive.
+Le `Observable` déclenche 3 notifications suivantes suivies d'une notification complète. Observable arrête d'émettre des valeurs parce qu'elles sont erronées ou parce qu'elles se terminent. Les deux événements s'excluent mutuellement.
 
-## Observable creation
+## Création d'Observable
 
-In an Angular app, you will rarely have to create observables yourself. Most of the time you will handle streams that the framework created for you such as handling http call results, listening to router events or listening to form events when using the `ReactiveFormsModule` (the name of the module gives away its reactive nature). However, you may encounter situations where it may fall on you to create a stream. Here are a the main ways it could happen.
+Dans une application Angular, vous aurez rarement à créer vous-même des observables. La plupart du temps, vous gérerez les flux que le framework a créés pour vous, tels que la gestion des résultats d'appels http, l'écoute d'événements de routeur ou l'écoute d'événements de formulaire lors de l'utilisation du `ReactiveFormsModule` (le nom du module révèle sa nature réactive). Cependant, vous pouvez rencontrer des situations où il peut vous incomber de créer un flux. Voici les principales façons dont cela pourrait se produire.
 
 - interval ([marble](https://rxmarbles.com/#interval) / [documentation](https://v6.rxjs.dev/api/index/function/interval))
 
@@ -44,7 +44,7 @@ interval(1000)
   });
 ```
 
-- promise transformation ([marble](https://rxmarbles.com/#from) / [documentation](https://v6.rxjs.dev/api/index/function/from))
+- transformation promise ([marble](https://rxmarbles.com/#from) / [documentation](https://v6.rxjs.dev/api/index/function/from))
 
 ```ts
 const promise1 = new Promise((resolve, reject) => {
@@ -60,29 +60,29 @@ from(promise1).subscribe(
 )
 ```
 
-- browser event transformation ([documentation](https://v6.rxjs.dev/api/index/function/fromEvent))
+- transformation d'événement de navigateur ([documentation](https://v6.rxjs.dev/api/index/function/fromEvent))
 
 ```ts
 fromEvent(document, 'click').subscribe(_ => console.log("Clicked!"));
 ```
 
-The following Stackblitz let's you play around with those examples:
+Le Stackblitz suivant vous permet de jouer avec ces exemples :
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-observable-creation-training?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1"></iframe>
 
-## Filtering and mapping
+## Filtrage et mapping
 
-Similar to the well known `Array.prototype.map` function, the `map` operator ([marble](https://rxmarbles.com/#map) / [documentation](https://v6.rxjs.dev/api/operators/map)) applies a projection to each value and emits that projection in the output `Observable`.
+Semblable à la fonction bien connue `Array.prototype.map`, l'opérateur `map` ([marble](https://rxmarbles.com/#map) / [documentation](https://v6.rxjs.dev/api/operators/map)) applique une projection à chaque valeur et émet cette projection dans la sortie `Observable`.
 
-Let's transform the previous example about the click event on the document so that it prints the coordinates of the click:
+Transformons l'exemple précédent concernant l'événement click sur le document pour qu'il imprime les coordonnées du clic :
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-observable-mapping?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
 
 ::: tip Pipe
-`pipe()` is a function used to compose operators such as `map()`, `filter()`, `pluck()`... Operators are applied to the stream in the order they are passed to the pipe function
+`pipe()` est une fonction utilisée pour composer des opérateurs tels que `map()`, `filter()`, `pluck()`... Les opérateurs sont appliqués au flux dans l'ordre où ils sont passés à la fonction pipe
 :::
 
-Similar to the `Array.prototype.filter` function, the `filter` operator ([marble](https://rxmarbles.com/#filter) / [documentation](https://v6.rxjs.dev/api/operators/filter)) filters items emitted by the source Observable by only emitting those that satisfy a specified predicate.
+Similaire à la fonction `Array.prototype.filter`, l'opérateur `filter` ([marble](https://rxmarbles.com/#filter) / [documentation](https://v6.rxjs.dev/api/operators/filter)) filtre les éléments émis par la source Observable en n'émettant que ceux qui satisfont un prédicat spécifié.
 
 ```ts
 from([1, 2, 3, 4, 5, 6, 7, 8])
@@ -90,7 +90,7 @@ from([1, 2, 3, 4, 5, 6, 7, 8])
   .subscribe(data => console.log(data));
 ```
 
-This snippet will print:
+Cet extrait affichera :
 ```sh
 2
 4
@@ -98,11 +98,11 @@ This snippet will print:
 8
 ```
 
-**Exercise: Using the previous Stackblitz about the map operation, only update the message for clicks made withtin the coordinates between 0-100 on the x and y axis.**
+**Exercice : En utilisant le Stackblitz précédent sur l'opération map, ne mettez à jour le message que pour les clics effectués dans les coordonnées comprises entre 0-100 sur les axes x et y.**
 
-## Error handling
+## La gestion des erreurs
 
-Like seen previously, the `subscribe` method takes an `error` callback. When the `Observable` errors out, it is executed instead of the `next` callback and the `Observable` stops emitting.
+Comme vu précédemment, la méthode `subscribe` prend un callback `error`. Lorsque `Observable` sort une erreur, il est exécuté à la place du callback `next` et `Observable` cesse d'émettre.
 
 ```ts
 this.userService.getUsers()
@@ -113,9 +113,9 @@ this.userService.getUsers()
   )
 ```
 
-This behaviour is not always the desired one. RxJS provides a `catchError` operator ([documentation](https://v6.rxjs.dev/api/operators/catchError)) to deal with the error in a "silent" way, meaning that it is the `next` callback and not the `error` one that is called.
+Ce comportement n'est pas toujours celui souhaité. RxJS fournit un opérateur `catchError` ([documentation](https://v6.rxjs.dev/api/operators/catchError)) pour traiter l'erreur de manière "silencieuse", ce qui signifie qu'il s'agit du callback `next` et non celui `error` qui est appelé.
 
-Let's imagine you expect an array of users from the backend but it sends you back a 404 HTTP error, you can use `catchError` to return an empty array instead, and keep throwing an error for other HTTP errors.
+Imaginons que vous vous attendiez à un tableau d'utilisateurs du backend mais qu'il vous renvoie une erreur HTTP 404, vous pouvez utiliser `catchError` pour renvoyer un tableau vide à la place, et continuer à générer une erreur pour d'autres erreurs HTTP.
 
 ```ts
 this.userService.getUsers()
@@ -135,60 +135,59 @@ this.userService.getUsers()
   )
 ```
 
-**Question: What will be printed to the console in case of a 404 error returned by the backend? In case of a 500?**
+**Question : Qu'est-ce qui sera imprimé sur la console en cas d'erreur 404 renvoyée par le backend ? En cas de 500 ?**
 
-## Stream composition
-Streams can be composed for many purposes. To study this notion in a simpler environment, we will only study it in the context of backend calls.
+## Composition du flux
+Les flux peuvent être composés à de nombreuses fins. Pour étudier cette notion dans un environnement plus simple, nous ne l'étudierons que dans le cadre d'appels backend.
 
-Having to chain backend calls is quite common. For example, the user has just edited a resource and you want your page to display its updated details. Some backend do send back the details of the updated resource in the body of the edit call response. However, some just send back a 200 or 204 HTTP response without a body. This means that the edit call and detail call need be chained to update the UI. RxJS provides several operators to chain events in a declarative manner. We will use the `switchMap` operator ([documentation](https://rxjs.dev/api/operators/switchMap) / [marble](https://rxmarbles.com/#switchMap)) in this case. You can try it in the Stackblitz below (click anywhere on the preview and see what happens in the console, click again and see how things change in the console).
+Il est assez courant de devoir enchaîner les appels backend. Par exemple, l'utilisateur vient de modifier une ressource et vous souhaitez que votre page affiche ses détails mis à jour. Certains backends renvoient les détails de la ressource mise à jour dans le corps de la réponse à l'appel d'édition. Cependant, certains renvoient simplement une réponse HTTP 200 ou 204 sans corps. Cela signifie que l'appel de modification et l'appel de détail doivent être chaînés pour mettre à jour l'interface utilisateur. RxJS fournit plusieurs opérateurs pour enchaîner les événements de manière déclarative. Nous utiliserons l'opérateur `switchMap` ([documentation](https://rxjs.dev/api/operators/switchMap) / [marble](https://rxmarbles.com/#switchMap)) dans ce cas. Vous pouvez l'essayer dans le Stackblitz ci-dessous (cliquez n'importe où sur l'aperçu et voyez ce qui se passe dans la console, cliquez à nouveau et voyez comment les choses changent dans la console).
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/switchmap-training?ctl=1&devtoolsheight=33&embed=1&file=index.ts&hideExplorer=1&hideNavigation=1"></iframe>
 
-**Question: From this example, what do you learn on the way switchMap works? (Having a look at the marble diagram can help)**
-
-Let's adapt the above example to the context of chained backend calls:
+**Question : A partir de cet exemple, qu'apprenez-vous sur le fonctionnement de switchMap ? (Regarder le diagramme en marbre peut aider)**
+Adaptons l'exemple ci-dessus au contexte des appels backend chaînés :
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-chaining-observables?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
 
-Another useful operator to combine calls is `exhaustMap` ([documentation](https://v6.rxjs.dev/api/operators/exhaustMap)). While `switchMap` cancels the subscription to the previous projected Observable, exhaustMap ignores new events as long as the previous projected Observable hasn't completed.
+Un autre opérateur utile pour combiner les appels est `exhaustMap` ([documentation](https://v6.rxjs.dev/api/operators/exhaustMap)). Alors que `switchMap` annule l'abonnement à l'Observable projeté précédent, exhaustMap ignore les nouveaux événements tant que l'Observable projeté précédent n'est pas terminé.
 
-:::danger Don't nest subscribes
-A very common pitfall with RxJS is to nest subscribes. RxJS provides plenty of operators so that you won't ever have to mix synchronous and asynchronous code.
-Why shouldn't you mix them ?
- - it is spaghetti code that becomes hard to read and maintain as it doesn't benefit from the declarativeness of RxJS anymore,
- - it makes it hard to compose observables,
- - it causes memory leaks.
+:::danger Ne pas imbriquer les subscribes
+Un piège très courant avec RxJS est d'imbriquer des abonnés. RxJS fournit de nombreux opérateurs afin que vous n'ayez jamais à mélanger du code synchrone et asynchrone.
+Pourquoi ne pas les mélanger ?
+ - c'est du code spaghetti qui devient difficile à lire et à maintenir car il ne bénéficie plus du caractère déclaratif de RxJS,
+ - il est difficile de composer des observables,
+ - cela provoque des fuites de mémoire.
 
-Most often it is done without realising. For instance, inside the next callback of a subscribe you call a method that has a subscribe. That is nesting subscribes.
+Le plus souvent, cela se fait sans s'en rendre compte. Par exemple, dans le prochain callback d'un asubscribe, vous appelez une méthode qui a un subscribe. C'est l'imbrication des subscribes.
 
-Example of what you should NOT do:
+Exemple de ce que vous ne devriez PAS faire :
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-subscribe-do-not-do-this?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
 :::
 
 ## Unsubscribing
 
-For the moment we've seen how to subscribe to Observables. To avoid memory leaks with long-lived Observables, you should unsubscribe from them.
+Pour le moment nous avons vu comment subscribe à Observables. Pour éviter les fuites de mémoire avec les Observables de longue durée, vous devez vous unsubscribe d'eux.
 
-Let's reuse our previous routing example to illustrate how memory leaks can happen. An interval Observable is created in the ngOnInit method of the book details component.
-**Navigate to the details of a book and watch the console. Then leave the page and come back. What happens in the console? What does it mean?**
+Réutilisons notre exemple de routage précédent pour illustrer comment les fuites de mémoire peuvent se produire. Un intervalle Observable est créé dans la méthode ngOnInit du composant de détails du livre.
+**Accédez aux détails d'un livre et regardez la console. Puis quittez la page et revenez. Que se passe-t-il dans la console ? Qu'est-ce que ça veut dire ?**
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-why-unubscribe?ctl=1&embed=1&file=src/app/book-details/book-details.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
 
-When should you unsubscribe? If you have no certainty the `Observable` will complete or error out, you should manually unsubscribe from it. The `HttpClient` always completes the Observable it returns after having received a response. So, theorically, if you only encounter Observables from the `HttpClient`, you do not have to take care of unsubscribing. In other cases, **be safe and unsubscribe**.
+Quand unsubscribe ? Si vous n'avez aucune certitude que `Observable` s'achèvera ou qu'il produira une erreur, vous devez unsubscribe manuellement. Le `HttpClient` complète toujours l'Observable qu'il renvoie après avoir reçu une réponse. Donc, théoriquement, si vous ne rencontrez que des Observables du `HttpClient`, vous n'avez pas à unsubscribe. Dans les autres cas, **soyez prudent et unsubscribe**.
 
-How to unsubscribe? There are two ways:
-- The `subscribe` method returns a `Subscription` object that can be disposed of by calling the unsubscribe method on it when desired, usually when the component it lives in is destroyed.
-- Using the `takeUntil` operator ([marble](https://rxmarbles.com/#takeUntil) / [documentation](https://v6.rxjs.dev/api/operators/takeUntil)) and a [`Subject`](https://v6.rxjs.dev/guide/subject) which is a special kind of `Obversable` on which it is possible to call the next(), error() and complete() methods.
+Comment unsubscribe ? Il y a deux manières :
+- La méthode`subscribe` renvoie un objet `Subscription` qui peut être supprimé en appelant la méthode unsubscribe sur celui-ci lorsque vous le souhaitez, généralement lorsque le composant dans lequel il réside est détruit.
+- En utilisant l'opérateur `takeUntil` ([marble](https://rxmarbles.com/#takeUntil) / [documentation](https://v6.rxjs.dev/api/operators/takeUntil)) et un [`Subject` ](https://v6.rxjs.dev/guide/subject) qui est un type spécial de `Obversable` sur lequel il est possible d'appeler les méthodes next(), error() et complete().
 
-The second way is easier to maintain when your code base grows so it is the one you should favour using.
+La deuxième méthode est plus facile à maintenir lorsque votre base de code grandit, c'est donc celle que vous devriez privilégier.
 
-Let's fix the memory leak of the previous example. To demonstrate both techniques, the interval Observable has been added to the author details component as well:
+Corrigons la fuite de mémoire de l'exemple précédent. Pour illustrer les deux techniques, l'intervalle Observable a également été ajouté au composant des détails de l'auteur :
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-unubscribe-example?ctl=1&embed=1&file=src/app/book-details/book-details.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
 
-## The async pipe
+## Pipe async 
 
-Subscribing to an `Observable` and saving the value in a property of the component is not the only way to display the values from the `Observable`. Angular provides a pipe to which the `Observable` can be passed directly.
+Subscribing à un `Observable` et enregistrer la valeur dans une propriété du composant n'est pas le seul moyen d'afficher les valeurs de l'`Observable`. Angular fournit un tuyau auquel l'`Observable` peut être transmis directement.
 
 <code-group>
 <code-block title="Component class">
@@ -212,7 +211,7 @@ export class AppComponent {
 </code-block>
 </code-group>
 
-For objects, an alternative syntax exists to avoid repetitively using the async pipe to access each field:
+Pour les objets, une syntaxe alternative existe pour éviter d'utiliser de manière répétitive le pipe async pour accéder à chaque champ :
 
 <code-group>
 <code-block title="Component template">
@@ -251,30 +250,30 @@ interface User {
 </code-block>
 </code-group>
 
-Since no subscription is made, unsusbscribing is not necessary. The async pipe takes care of it for us.
+Aucun subscribe n'étant effectué, il n'est pas nécessaire de se unsubscribe. Le pipe async s'en charge pour nous.
 
-## Summary
+## Sommaire
 
-::: tip Key Takeaways
-- Unsubscribe or use the async pipe
-- Never nest subscribes, find the right operators instead
+::: tip Points clés à retenir
+- Vous pouvez vous unsubscribe ou utilisez le pipe asynchrone
+- Ne jamais imbriquer les subscribes, trouver les bons opérateurs à la place
 :::
 
-Here is a table of the most commonly used operators.
+Voici un tableau des opérateurs les plus couramment utilisés.
 
-| Area           | Operators                                                     |
+| Zone           | Opérateurs                                                    |
 | -------------- |---------------------------------------------------------------|
-| Creation       | from, of, fromEvent, interval                                 |
-| Filtering      | filter, takeUntil, take, distinctUntilChanged                 |
+| Création       | from, of, fromEvent, interval                                 |
+| Filtrage       | filter, takeUntil, take, distinctUntilChanged                 |
 | Transformation | switchMap, exhaustMap, concatMap, mergeMap, map               |
-| Combination    | combineLatest, concat, merge, startWith, withLatestFrom, zip |
-| Utility        | tap, finalize, catchError                                     |
+| Combination    | combineLatest, concat, merge, startWith, withLatestFrom, zip  |
+| Utilitaire     | tap, finalize, catchError                                     |
 
-There also exists two `Observable` constants: `NEVER` (emits neither values nor errors nor the completion notification) and `EMPTY` (emits no items and immediately emits a complete notification). `EMPTY` is quite useful as a return value of the `catchError` operator.
+Il existe également deux constantes `Observable` : `NEVER` (n'émet ni valeurs ni erreurs ni la notification d'achèvement) et `EMPTY` (n'émet aucun élément et émet immédiatement une notification complète). `EMPTY` est très utile comme valeur de retour de l'opérateur `catchError`.
 
-To help you decide which operator fits your use case, the RxJS documentation provides an [operator decision tree](https://v6.rxjs.dev/operator-decision-tree). It also helps with just discovering the many operators RxJS provides.
+Pour vous aider à décider quel opérateur correspond à votre cas d'utilisation, la documentation RxJS fournit un [arbre de décision d'opérateur](https://v6.rxjs.dev/operator-decision-tree). Cela aide également à découvrir les nombreux opérateurs fournis par RxJS.
 
-## Practical work
+## TP
 
-- In the `film-search.component.ts` file, stop subscribing to the search response and use an async pipe instead in the template.
-- Even though it is not strictly necessary in those cases, unsubscribe from the login and register calls in the `LoginFormComponent` using the `Subject` technique.
+- Dans le fichier `film-search.component.ts`, arrêtez de vous subscribe à la réponse de recherche et utilisez plutôt un pipe asynchrone dans le template.
+- Même si cela n'est pas strictement nécessaire dans ces cas, vous pouvez vous unsubscribe du login et enregistrez les appels dans le `LoginFormComponent` en utilisant la technique `Subject`.
