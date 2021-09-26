@@ -57,7 +57,7 @@ const routes: Routes = [
   {path: 'registration', component: RegistrationComponent},
   {path: 'forgotten-password', component: ForgottenPasswordComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'dashboard', component: DashboardComponent, canActivate: AuthenticationGuard},
+  {path: 'dashboard', component: DashboardComponent, canActivate: [AuthenticationGuard]},
   {path: '', pathMatch: 'full', redirectTo: '/dashboard'},
   {path: '**', redirectTo: '/dashboard'}
 ]
@@ -94,6 +94,8 @@ const routes: Routes = [
   {path: 'authors/:id', component: AuthorDetailsComponent},
   {path: 'books', component: BookListComponent},
   {path: 'books/:id', component: BookDetailsComponent},
+  {path: '', pathMatch: 'full', redirectTo: '/home'}
+  {path: '**', redirectTo: '/home'}
 ];
 
 @NgModule({

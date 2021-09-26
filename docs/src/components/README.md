@@ -13,9 +13,9 @@ You can modify the stylesheet extension of the CLI-generated files in the `angul
 ### Encapsulation
 
 Among the `@Component` decorator options, there is one dealing with ViewEncapsulation. Angular provides three types of view encapsulation:
-- `ViewEncapsulation.Emulated` (by default): emulates the Shadow DOM, styles are scoped to the component
+- `ViewEncapsulation.Emulated` (by default): emulates the Native scoping, styles are scoped to the component
 - `ViewEncapsulation.None`: anything put in the component's stylesheet is available globally throughout the application
-- `ViewEncapsulation.Native`: Angular creates Shadow DOM for the component, styles are scoped to the component
+- `ViewEncapsulation.ShadowDom`: Angular creates Shadow DOM for the component, styles are scoped to the component
 
 :::warning
 Under the default option, styles specified in the component's style file are not inherited by any components nested within the template nor by any content projected into the component.
@@ -27,7 +27,7 @@ Situations may arise where styling the host element of the component from the co
 Let's imagine we require a border on the AppComponent. This is how to add it:
 
 <code-group>
-<code-block title="app.component.ts">
+<code-block title="app.component.scss">
 
 ```css
 :host {
@@ -40,7 +40,7 @@ Let's imagine we require a border on the AppComponent. This is how to add it:
 The next example targets the host element again, but only when it also has the active CSS class.
 
 <code-group>
-<code-block title="app.component.ts">
+<code-block title="app.component.scss">
 
 ```css
 :host(.active) {

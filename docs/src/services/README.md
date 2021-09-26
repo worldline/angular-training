@@ -300,7 +300,7 @@ export class LoginRequest {
 ```ts
 export class UserResponse {
   constructor(
-    public user: UserResponse,
+    public user: User,
     public token: string
   ) {}
 }
@@ -409,9 +409,16 @@ login(): void {
 10. It is time to handle errors. The subscribe method can be passed three callbacks: a next, an error and a complete (we will look at this in more details in the next chapter). Pass the `errorHandler` method as the error callback of the login and registration subscribe method, you will have to declare an `errorMessage` field on the `LoginFormComponent`. Display the error message on the form.
 
 ```ts
-private errorHandler(error: HttpErrorResponse): void {
-  this.errorMessage = error.error.error ?? `${error.status} - ${error.statusText}`
+private errorHandler(errorResponse: HttpErrorResponse): void {
+  this.errorMessage = errorResponse.error.error ?? `${error.status} - ${error.statusText}`
 }
+
+// subscribe syntax
+this.authenticationService.login(this.loginRequest)
+  .subscribe(
+    response => {/* */},
+    error => {/* */}
+  )
 ```
 
 11. Let's now call the backend to get the list of films. The route is secured which means that passing the token in the header is necessary. Angular provides a mechanism - http interceptors - to systematically intercept http requests, allowing to define the headers in one place.
