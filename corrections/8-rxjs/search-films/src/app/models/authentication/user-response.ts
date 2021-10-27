@@ -11,7 +11,7 @@ export class User {
     public firstname: string,
     public lastname: string,
     public email: string,
-    // tslint:disable: variable-name
+    /* eslint-disable @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match */
     public created_at: string,
     public update_at: string
   ) {}
