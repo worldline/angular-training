@@ -23,7 +23,7 @@ Generated applications go into the `projects/` folder instead of a top-level `sr
 ## File structure
 
 Our previously created project has the following folders and files:
-- `tslint.json`: the default TSLint configuration of the workspace
+- `.eslintrc.json`: the default ESLint configuration of the workspace
 - `tsconfig.json`: the base TypeScript configuration for projects in the workspace
 - `tsconfig.app.json`: the root application TypeScript configuration file which inherits from the base one
 - `tsconfig.spec.json`: the e2e tests TypeScript configuration file which inherits from the base one
