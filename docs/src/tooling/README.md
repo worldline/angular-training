@@ -30,7 +30,7 @@ You use the Angular CLI to create projects, generate application and library cod
 
 To install the Angular CLI, open a terminal window and run the following command:
 ```sh
-npm install -g @angular/cli@12
+npm install -g @angular/cli@12.2.11
 ```
 
 The `ng` command is now accessible from the terminal. Try it to check the installation and to have more information about the available commands. You can also check the [documentation](https://angular.io/cli#command-overview).
@@ -66,7 +66,10 @@ You then have two choices:
 
 OR
 
-- For a lighter installation, install only [Angular language service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template). This extension will provide autocompletion, among other things.
+- For a lighter installation, install only [Angular language service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template).
+This extension will provide autocompletion, among other things.
+Then, install the linter [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint). 
+Wikipedia describes a [linter](https://en.wikipedia.org/wiki/Lint_%28software%29) as a tool that allows to flag programming errors, bugs, stylistic errors and suspicious constructs.
 
 ## Practical work: Create your first project
 Go into the folder where you store your git repositories, open a terminal there and type the following commands:
