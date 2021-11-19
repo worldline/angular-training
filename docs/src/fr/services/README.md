@@ -1,15 +1,15 @@
 # Services
 
-Avec les composants et les directives, les services sont l'un des principaux éléments constitutifs d'une application Angular.
+Avec les composants et les directives, les services sont l'un des principaux blocs de construction d'une application Angular.
 
 La seule préoccupation d'un composant devrait être d'afficher des données et non de les gérer. Les services sont là où l'équipe Angular préconise de placer la logique métier et la gestion des données de l'application. Avoir une séparation claire entre la couche de présentation et les autres traitements de l'application augmente la réutilisabilité et la modularité.
 
-La création d'un service avec CLI se fait comme suit :
+La création d'un service avec le CLI se fait comme suit :
 ```sh
 ng generate service services/example
 ```
 
-Cela créera le service et sa classe de test associée dans le dossier `app/services`. Il est courant de placer les services dans un dossier de services, CLI créera le dossier s'il n'existe pas déjà.
+Cela créera le service et sa classe de test associée dans le dossier `app/services`. Il est courant de placer les services dans un dossier de services, le CLI créera le dossier s'il n'existe pas déjà.
 
 Le contenu suivant est généré automatiquement dans le fichier `example.service.ts` :
 ```ts
@@ -39,26 +39,26 @@ export class ExampleComponent {
 ```
 
 :::tip
-Déclarez toujours une dépendance à un service comme privée. En effet le template ne doit jamais accéder directement à un service mais toujours passer par une propriété ou une méthode exposée par la classe composant.
+Déclarez toujours une dépendance à un service comme privée. En effet le template ne devrait jamais accéder directement à un service mais toujours passer par une propriété ou une méthode exposée par la classe composant.
 :::
 
 ## Dependency Injection
 
-Dans le chapitre précédent, nous avons injecté des services fournis par la bibliothèque `@angular/router` dans les composants qui en ont besoin. Si vous êtes familier avec Spring, vous n'y avez peut-être pas beaucoup réfléchi car c'est l'un des mécanismes du framework.
+Dans le chapitre précédent, nous avons injecté des services fournis par la librairie `@angular/router` dans les composants qui en ont besoin. Si vous êtes familier avec Spring, vous n'y avez peut-être pas beaucoup réfléchi car c'est l'un des mécanismes du framework.
 
-Au démarrage, Angular crée un injecteur à l'échelle de l'application. Si d'autres injecteurs sont nécessaires, Angular les créera en cours de route. L'injecteur crée des dépendances (le plus souvent sous forme de services) et maintient un conteneur d'instances de dépendances qu'il réutilise si possible. L'injecteur obtient les informations sur la façon de créer ou de récupérer une dépendance auprès d'un fournisseur. Un service agit généralement comme son propre fournisseur.
+Au démarrage, Angular crée un injecteur à l'échelle de l'application. Si d'autres injecteurs sont nécessaires, Angular les créera en cours de route. L'injecteur crée des dépendances (le plus souvent sous forme de services) et maintient un conteneur d'instances de dépendances qu'il réutilise si possible. L'injecteur obtient les informations sur la façon de créer ou de récupérer une dépendance auprès d'un fournisseur (provider). Un service agit généralement comme son propre fournisseur.
 
-Vous ne l'avez peut-être pas réalisé, mais nous avons déjà fait appel à des fournisseurs. Dans le chapitre Pipe, pour utiliser le `UpperCasePipe` dans la classe du composant plutôt que dans le template, nous l'avons ajouté au tableau des fournisseurs du composant.
+Vous ne l'avez peut-être pas réalisé, mais nous avons déjà fait appel à des fournisseurs. Dans le chapitre sur les pipes, pour utiliser le `UpperCasePipe` dans la classe du composant plutôt que dans le template, nous l'avons ajouté au tableau des providers du composant.
 
-Lorsque Angular découvre qu'un composant dépend d'un service, il vérifie d'abord si l'injecteur a des instances existantes de ce service. Si une instance de service demandée n'existe pas encore, l'injecteur en crée une à l'aide du fournisseur enregistré et l'ajoute à l'injecteur avant de renvoyer le service à Angular. Lorsque tous les services demandés ont été résolus et renvoyés, Angular peut appeler le constructeur du composant avec ces services comme arguments.
+Lorsque Angular découvre qu'un composant dépend d'un service, il vérifie d'abord si l'injecteur a une instance existante de ce service. Si une instance du service demandé n'existe pas encore, l'injecteur en crée une à l'aide du provider enregistré et l'ajoute à l'injecteur avant de renvoyer le service à Angular. Lorsque tous les services demandés ont été résolus et renvoyés, Angular peut appeler le constructeur du composant avec ces services comme arguments.
 
 Les dépendances peuvent être fournies à trois niveaux :
-- **root level:** c'est le comportement par défaut lors de la création d'un service avec CLI. C'est ce que signifie `providedIn: 'root'`. La *même instance* de la dépendance est injectée partout où elle est nécessaire comme s'il s'agissait d'un singleton.
-- **module level:** la dépendance est ajoutée au tableau des fournisseurs du `NgModule`. Le module obtient sa propre instance de la dépendance
-- **component level:** la dépendance est ajoutée au tableau des fournisseurs du composant. Chaque instance de ce composant obtient sa propre instance de la dépendance.
+- **au niveau root:** c'est le comportement par défaut lors de la création d'un service avec le CLI. C'est ce que signifie `providedIn: 'root'`. La *même instance* de la dépendance est injectée partout où elle est nécessaire comme s'il s'agissait d'un singleton.
+- **au niveau du module:** la dépendance est ajoutée au tableau de providers du `NgModule`. Le module obtient sa propre instance de la dépendance
+- **au niveau du composant:** la dépendance est ajoutée au tableau des providers du composant. Chaque instance de ce composant obtient sa propre instance de la dépendance.
 
 ## TP : Gestion de l'État
-1. Générez un `AuthenticationService` avec CLI dans le dossier `app/services`
+1. Générez un `AuthenticationService` avec le CLI dans le dossier `app/services`
 ::: tip Alias
 Au fur et à mesure que la complexité de la structure des dossiers de l'application augmente, il est recommandé d'ajouter des alias dans le fichier `tsconfig.json`
 ```json
@@ -72,9 +72,9 @@ Au fur et à mesure que la complexité de la structure des dossiers de l'applica
 ```
 VsCode utilisera automatiquement ces chemins pour les imports au lieu de ceux relatifs qui peuvent être difficiles à lire ou à débuguer.
 :::
-2. Déplacez la logique `loggedIn` de `AppComponent` vers le service
-3.Injectez le service dans le `LoginFormComponent` et utilisez-le.
-4. Implémentez une méthode de déconnexion dans le service d'authentification et ajoutez un bouton de déconnexion dans le `AppComponent` qui l'appelle et retourne au `LoginFormComponent`. Voici le html et le css :
+2. Déplacez la logique du `loggedIn` de l'`AppComponent` vers le service
+3. Injectez le service dans le `LoginFormComponent` et utilisez-le.
+4. Implémentez une méthode de déconnexion dans le service d'authentification et ajoutez un bouton de déconnexion dans l'`AppComponent` qui l'appelle et provoque une navigation vers le `LoginFormComponent`. Voici l'html et le css :
 
 <code-group>
 <code-block title="app.component.html">
@@ -103,7 +103,7 @@ VsCode utilisera automatiquement ces chemins pour les imports au lieu de ceux re
 </code-group>
 
 5. Afficher conditionnellement le bouton Logout en fonction du statut `loggedIn` de l'utilisateur
-6. Utilisez la navigation guard pour rediriger l'utilisateur qui souhaite accéder à la page de recherche de films vers `/login` s'il n'est pas authentifié (rendez le CanActivate vrai si la route est accessible sinon retournez un `UrlTree` via la méthode `createUrlTree` du service `Routeur`). Pour préserver dans le temps la protection, ajoutez un returnUrl en tant que queryParam au `UrlTree` renvoyé afin que le `LoginFormComponent` sache où revenir après l'authentification et modifiez le `LoginFormComponent` en conséquence. Pour générer la navigation guard, utilisez la commande CLI suivante :
+6. Utilisez un navigation guard pour rediriger l'utilisateur qui souhaite accéder à la page de recherche de films vers `/login` s'il n'est pas authentifié (rendez le CanActivate vrai si la route est accessible sinon retournez un `UrlTree` via la méthode `createUrlTree` du service `Router`). Pour prendre en considération des cas d'usage futur, ajoutez un returnUrl en tant que queryParam au `UrlTree` renvoyé afin que le `LoginFormComponent` sache où revenir après l'authentification et modifiez le `LoginFormComponent` en conséquence. Pour générer le navigation guard, utilisez la commande duCLI suivante :
 
 ```sh
 ng generate guard guards/authentication
@@ -183,7 +183,7 @@ export class UserComponent {
 </code-block>
 </code-group>
 
-Les méthodes du service `HttpClient` renvoient des Observables. Ils seront traités dans le prochain chapitre sur la bibliothèque RxJS. Un Observable n'est exécuté qu'une fois souscrit via la méthode `subscribe`. La méthode d'abonnement attend au moins un rappel. Il est le plus souvent fourni sous forme de fonction flèche.
+Les méthodes du service `HttpClient` renvoient des Observables. Ils seront traités dans le prochain chapitre sur la librairie RxJS. Un Observable n'est exécuté qu'une fois souscrit via la méthode `subscribe`. La méthode subscribe s'attend à ce qu'au moins une callback lui soit passé. La callback est le plus souvent fournie sous forme d'une fonction flèche (arrow function).
 
 ## TP : Appeler un backend
 
@@ -242,14 +242,14 @@ module.exports = setupForCorporateProxy(proxyConfig)
 </code-block>
 </code-group>
 
-Le proxy détournera tous les appels pour http://localhost:4200/api vers le serveur exécuté sur https://vue-js-backend.herokuapp.com. Cela garantit également que nous ne rencontrons aucun problème CORS. Cette configuration concerne uniquement le serveur de développement webpack fourni par CLI pour exécuter l'application sur votre machine dans un environnement de développement. Ce ne sera pas la configuration utilisée en production.
+Le proxy détournera tous les appels à l'URL commençant par http://localhost:4200/api vers le serveur disponible à l'adresse https://vue-js-backend.herokuapp.com. Cela garantit également que nous ne rencontrerons aucun problème lié aux CORS. Cette configuration concerne uniquement le serveur de développement webpack fourni par le CLI pour exécuter l'application sur votre machine dans un environnement de développement. Ce ne sera pas la configuration utilisée en production.
 
 2. Installez la dépendance suivante uniquement si vous êtes derrière un proxy d'entreprise
 ```sh
 npm install --save-dev https-proxy-agent
 ```
 
-3. Dans le fichier de configuration CLI - `angular.json` - ajoutez l'option `proxyConfig` à la cible de service :
+3. Dans le fichier de configuration CLI - `angular.json` - ajoutez l'option `proxyConfig` à la target serve :
 
 ```json{7}
 ...
@@ -300,7 +300,7 @@ export class LoginRequest {
 ```ts
 export class UserResponse {
   constructor(
-    public user: UserResponse,
+    public user: User,
     public token: string
   ) {}
 }
@@ -320,7 +320,7 @@ export class User {
 </code-block>
 </code-group>
 
-Notez le token dans la `UserResponse`, il servira à authentifier l'utilisateur via l'entête Authorization : `Authorization: Bearer <token>`. En savoir plus sur JWT [ici](https://jwt.io/introduction).
+Prenez note du token dans la `UserResponse`, il servira à authentifier l'utilisateur via l'entête Authorization : `Authorization: Bearer <token>`. Apprenez-en plus sur les JWT [ici](https://jwt.io/introduction).
 
 6. Implémentez les méthodes `register` et `login` dans `AuthenticationService` comme suit :
 
@@ -349,7 +349,7 @@ register(loginRequest: LoginRequest): Observable<UserResponse> {
 </code-block>
 </code-group>
 
-7. La modification de la signature d'appel de la méthode `login` nécessitera un peu de refactorisation dans le `LoginFormComponent` :
+7. La modification de la signature d'appel de la méthode `login` va nécessiter un peu de refactorisation dans le `LoginFormComponent` :
 
 <code-group>
 <code-block title="login-form.component.ts">
@@ -404,19 +404,25 @@ login(): void {
 </code-block>
 </code-group>
 
-9. Ajoutez un bouton d'enregistrement à côté du bouton de connexion dans le `LoginFormComponent`, donnez-lui l'attribut `type="button"` afin qu'Angular sache que ce n'est pas ce bouton qui déclenche l'événement `ngSubmit` sur le formulaire et faites-le appeler le méthode d'enregistrement. Vous devriez maintenant pouvoir enregistrer un utilisateur et vous connecter.
+9. Ajoutez un bouton d'enregistrement à côté du bouton de connexion dans le `LoginFormComponent`, donnez-lui l'attribut `type="button"` afin qu'Angular sache que ce n'est pas ce bouton qui déclenche l'événement `ngSubmit` sur le formulaire et faites-lui appeler le méthode d'enregistrement. Vous devriez maintenant pouvoir enregistrer un utilisateur et vous connecter.
 
-10. Il est temps de gérer les erreurs. La méthode subscription peut recevoir trois rappels : un suivant, une erreur et un complet (nous verrons cela plus en détail dans le chapitre suivant). Passez la méthode `errorHandler` comme rappel d'erreur de la méthode d'abonnement de connexion et d'enregistrement, vous devrez déclarer un champ `errorMessage` sur le `LoginFormComponent`. Afficher le message d'erreur sur le formulaire.
+10. Il est temps de gérer les erreurs. La méthode subscribe peut recevoir trois callbacks: une next, une error et une complete (nous verrons cela plus en détail dans le chapitre suivant). Passez la méthode `errorHandler` comme callback error à la méthode subscribe de la connexion et de l'enregistrement, vous devrez déclarer un champ `errorMessage` sur le `LoginFormComponent`. Afficher le message d'erreur sur le formulaire.
 
 ```ts
-private errorHandler(error: HttpErrorResponse): void {
-  this.errorMessage = error.error.error ?? `${error.status} - ${error.statusText}`
+private errorHandler(errorResponse: HttpErrorResponse): void {
+  this.errorMessage = errorResponse.error.error ?? `${errorResponse.status} - ${errorResponse.statusText}`
+  // subscribe syntax
+  this.authenticationService.login(this.loginRequest)
+    .subscribe(
+      response => {/* */},
+      error => {/* */}
+    )
 }
 ```
 
 11. Appelons maintenant le backend pour obtenir la liste des films. La route est sécurisée, ce qui signifie que le passage du token dans l'en-tête est nécessaire. Angular fournit un mécanisme - les intercepteurs http - pour intercepter systématiquement les requêtes http, permettant de définir les en-têtes en un seul endroit.
 
-a. Utilisez CLI pour en générer un : `ng generate interceptor interceptors/authentication`.
+a. Utilisez le CLI pour en générer un : `ng generate interceptor interceptors/authentication`.
 
 b. Voici son implémentation :
 
@@ -440,9 +446,9 @@ export class AuthenticationInterceptor implements HttpInterceptor {
 }
 ```
 
-S'il y a un token dans le `AuthenticationService`, l'intercepteur l'ajoutera aux en-têtes de la requête http.
+S'il y a un token dans l'`AuthenticationService`, l'intercepteur l'ajoutera aux en-têtes de la requête http.
 
-c. Ajouter l'intercepteur aux fournisseurs du `AppModule`
+c. Ajouter l'intercepteur aux providers de l'`AppModule`
 
 ```ts
 providers: [
@@ -450,7 +456,7 @@ providers: [
 ],
 ```
 
-1.  Créez un `FilmService` à l'aide de CLI et implémentez l'appel au point de terminaison `api/movies/search`. Notez que le queryParam `title` n'est pas facultatif. Pour ajouter des paramètres de requête à une requête, utilisez le paramètre `options` de la méthode get.
+12. Créez un `FilmService` à l'aide du CLI et implémentez l'appel au endpoint `api/movies/search`. Notez que le queryParam `title` n'est pas facultatif. Pour ajouter des query param sà une requête, utilisez le paramètre `options` de la méthode get.
 
 ```ts
 const options = {
@@ -458,8 +464,8 @@ const options = {
 }
 ```
 
-13. Apportez des modifications au `FilmSearchComponent` pour appeler ce nouveau service avec le titre rempli par l'utilisateur, enregistrez la réponse au champ `films` dans le `FilmSearchComponent`.
+13. Apportez des modifications au `FilmSearchComponent` pour appeler ce nouveau service avec le titre renseigné par l'utilisateur, enregistrez la réponse dans le champ `films` du `FilmSearchComponent`.
 
-13. Vérifiez que le token est envoyé sous forme d'en-tête HTTP via les outils de développement de votre navigateur.
+14. Vérifiez que le token est envoyé sous forme d'en-tête HTTP via les outils de développement de votre navigateur.
 
-14. **Bonus :** Modifiez la méthode de déconnexion `AuthenticationService` pour qu'elle définisse le token sur `null`.
+15. **Bonus :** Modifiez la méthode de déconnexion `AuthenticationService` pour qu'elle passe le token à `null`.

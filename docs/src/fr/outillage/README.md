@@ -15,7 +15,7 @@ Si vous n'êtes pas sûr de la version de Node.js qui s'exécute sur votre syst�
 :::
 
 ### npm package manager
-Les applications Angular, Angular CLI et Angular dépendent de [npm packages](https://docs.npmjs.com/about-npm) pour de nombreuses fonctionnalités et fonctions. Pour télécharger et installer des packages npm, vous avez besoin d'un gestionnaire de packages npm. Ce guide utilise l'interface de ligne de commande de [npm client](https://docs.npmjs.com/cli/v7/commands/npm-install), qui est installée avec Node.js par défaut.
+Angular, le CLI Angular et les applications Angular dépendent de [packages npm](https://docs.npmjs.com/about-npm) pour de nombreuses fonctionnalités et fonctions. Pour télécharger et installer des packages npm, vous aurez besoin d'un gestionnaire de packages npm. Ce guide utilise l'interface en ligne de commande du [npm client](https://docs.npmjs.com/cli/v7/commands/npm-install), qui est installée avec Node.js par défaut.
 
 ::: tip
 Pour vérifier que le client npm est installé, exécutez `npm -v` dans une fenêtre de terminal.
@@ -24,14 +24,14 @@ Pour vérifier que le client npm est installé, exécutez `npm -v` dans une fen�
 Comme alternative, [yarn](https://classic.yarnpkg.com/en/docs/install/) peut être utilisé comme gestionnaire de packages npm.
 
 ## Angular CLI
-Vous utilisez Angular CLI pour créer des projets, générer du code d'application et de bibliothèque et effectuer diverses tâches de développement en cours telles que les tests, le regroupement et le déploiement.
+Vous utiliserez le CLI Angular pour créer des projets, générer du code dans vos applications et librairies et effectuer diverses tâches de développement telles que les tests, le bundling et le déploiement.
 
-Pour installer Angular CLI, ouvrez une fenêtre de terminal et exécutez la commande suivante :
+Pour installer le CLI Angular, ouvrez une fenêtre de terminal et exécutez la commande suivante :
 ```sh
 npm install -g @angular/cli@11.1.3
 ```
 
-La commande `ng` est maintenant accessible depuis le terminal. Essayez-la pour vérifier l'installation et avoir plus d'informations sur les commandes disponibles. Vous pouvez également vérifier la [documentation](https://angular.io/cli#command-overview).
+La commande `ng` est maintenant accessible depuis le terminal. Essayez-la pour vérifier l'installation et avoir plus d'informations sur les commandes disponibles. Vous pouvez également jeter un coup d’œil à la [documentation](https://angular.io/cli#command-overview).
 ```
 $ ng
 Available Commands:
@@ -59,14 +59,14 @@ For more detailed help run "ng [command name] --help"
 ## Visual Studio Code
 Pendant la formation, vous aurez besoin d'un éditeur de code JavaScript solide. Nous recommandons [Visual Studio Code](https://code.visualstudio.com/), un éditeur gratuit assez léger qui est maintenant très populaire dans la communauté JavaScript. VS Code dispose de nombreuses extensions pour enrichir l'expérience. Vous pouvez accéder au marché pour les avoir, directement dans VS Code dans l'onglet Extensions de la barre latérale gauche.
 
-Tout d'abord, installez le linter [TSLint](https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-tslint-plugin). Même s'il est maintenant obsolète, l'Angular CLI l'utilise toujours par défaut.
+Tout d'abord, installez le linter [TSLint](https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-tslint-plugin). Même s'il est maintenant déprécié, le CLI Angular l'utilise toujours par défaut.
 
 Vous avez alors deux choix :
 - Pour une expérience fluide, installez [John Papa's package](https://marketplace.visualstudio.com/items?itemName=johnpapa.angular-essentials)
 
 OU
 
-- Pour une installation plus légère, installez uniquement [Angular language service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template). Cette extension fournira, entre autres, l'autocomplétion.
+- Pour une installation plus légère, installez uniquement l'[Angular language service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template). Cette extension fournira, entre autres, l'autocomplétion.
 
 ## TP: Création de votre premier projet
 Placez-vous dans le dossier où vous stockez vos dépôts git, ouvrez-y un terminal et tapez la commande suivante :
@@ -86,20 +86,20 @@ Choisissez la configuration suivante :
 ? Which stylesheet format would you like to use? SCSS   [ https://sass-lang.com/documentation/syntax#scss ]
 ```
 
-La première question influence les options des fichiers `tsconfig.json` et `angular.json`. Notamment, il définit l'indicateur `strict` sur true dans le fichier TSConfig, ce qui permet un large éventail de comportements de vérification de type qui se traduisent par de meilleures garanties d'exactitude du programme. L'activer équivaut à activer toutes les options de la famille en mode strict : `strictBindCallApply`, `strictFunctionTypes`, `strictNullChecks` et `strictPropertyInitialization`. Il définit également sur true les trois `angularCompilerOptions` suivants : `strictInjectionParameters`, `strictInputAccessModifiers` et `strictTemplates`. Ces options configurent le compilateur de modèle AOT (*Ahead-of-Time*).
+La première question influence les options des fichiers `tsconfig.json` et `angular.json`. Notamment, il définit le flag `strict` à true dans le fichier TSConfig, ce qui active un large éventail de fonctionnalités de vérification de type qui se traduisent par de meilleures garanties d'exactitude du programme. L'activer équivaut à activer toutes les options de la famille en mode strict : `strictBindCallApply`, `strictFunctionTypes`, `strictNullChecks` et `strictPropertyInitialization`. Il définit également sur true les trois `angularCompilerOptions` suivantes : `strictInjectionParameters`, `strictInputAccessModifiers` et `strictTemplates`. Ces options configurent le compilateur de template AOT (*Ahead-of-Time*).
 
-La deuxième question ajoute un fichier app-routing.module.ts qui importe le RouterModule. Dans Angular, la meilleure pratique consiste à charger et à configurer le routeur dans un module de niveau supérieur distinct, dédié au routage et importé par la racine `AppModule`.
+La deuxième question ajoute un fichier app-routing.module.ts qui importe le RouterModule. En Angular, une bonne pratique consiste à charger et à configurer le routeur dans un module distinct, dédié au routage et importé par le module root `AppModule`.
 
-La dernière question vous fait choisir le format de la feuille de style. Ce format sera utilisé à deux endroits : pour le premier fichier `styles` et pour chaque composant généré. Le format SCSS vous permet d'écrire du CSS standard et vous donne la possibilité de tirer parti de la puissance de Sass si vous choisissez de le faire.
+La dernière question vous fait choisir le format des feuilles de style. Ce format sera utilisé à deux endroits : pour le fichier global `styles` et pour chaque composant généré. Le format SCSS vous permet d'écrire du CSS standard et vous donne la possibilité de tirer parti de la puissance de Sass si vous choisissez de le faire.
 
-Une fois que le projet a fini d'être généré, ouvrez le dossier du projet avec VS Code. (soit un clic droit sur le dossier soit via Fichier VSCode > Ouvrir le dossier...)
+Une fois que le projet a fini d'être généré, ouvrez le dossier du projet avec VS Code. (soit un clic droit sur le dossier soit via VSCode: Fichier > Ouvrir le dossier...)
 
 ### Mode développeur
 Pour travailler sur l'application et la tester en direct, exécutez la commande suivante dans le répertoire du projet (`cd search-films` si nécessaire) :
 ```sh
 npm start
 ```
-Votre application est accessible sur localhost:4200 (port par défaut si disponible). Il se recompilera automatiquement après chaque sauvegarde de fichier.
+Votre application est accessible sur localhost:4200 (port par défaut si disponible). Elle se recompilera automatiquement après chaque sauvegarde de fichier.
 
 ### Mode production
 Vous pouvez, à tout moment, packager votre projet pour la production en exécutant:
@@ -109,7 +109,7 @@ npm run build --prod
 Cette commande compilera votre projet à l'aide de **Webpack** en mode production. Webpack est un *bundler*, un outil qui va transformer vos sources en un petit nombre de *bundles*, des fichiers JS et CSS optimisés et compressés, et les mettre dans le dossier `/dist` de votre projet. Vous pouvez ensuite déployer ce dossier sur un serveur de fichiers tel que Apache ou nginx.
 
 :::tip
-Les commandes de base en Angular CLI sont répertoriées dans le fichier README.md généré à la racine du projet
+Les commandes de base du CLI Angular CLI répertoriées dans le fichier README.md généré à la racine du projet
 :::
 
 ## Aller plus loin

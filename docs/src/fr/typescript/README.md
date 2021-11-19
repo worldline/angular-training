@@ -10,7 +10,7 @@ La compréhension d'un type par TypeScript est en fait assez différente de C# o
 
 ### Systèmes de types réifiés nominaux : Java/C#
 
-En Java ou C#, toute valeur ou objet donné a un type exact - soit null, une primitive ou un type de classe connu. Nous pouvons appeler des méthodes telles que `value.GetType()` ou `value.getClass()` pour interroger le type exact lors de l'exécution. La définition de ce type résidera dans une classe quelque part avec un nom, et nous ne pouvons pas utiliser deux classes avec des formes similaires à la place l'une de l'autre à moins qu'il n'y ait une relation d'héritage explicite ou une interface couramment implémentée.
+En Java ou C#, toute valeur ou objet donné a un type exact - soit null, une primitive ou un type de classe connu. Nous pouvons appeler des méthodes telles que `value.GetType()` ou `value.getClass()` pour récupérer le type exact au runtime. La définition de ce type résidera dans une classe quelque part avec un nom, et nous ne pouvons pas utiliser deux classes avec des formes similaires à la place l'une de l'autre à moins qu'il n'y ait une relation d'héritage explicite ou une interface couramment implémentée par les deux.
 
 Ces aspects décrivent un système de type *réifié, nominal*. Les types que nous écrivons dans le code sont présents à l'exécution et les types sont liés via leurs déclarations, et non leurs structures.
 
@@ -35,11 +35,11 @@ const force = { x: 12, y: 26 }
 logPoint(force)
 ```
 
-La variable `force` n'est jamais déclarée comme étant de type Point. Cependant, TypeScript compare la forme de la force à la forme du point dans la vérification de type. Ils ont la même forme, donc le code passe.
+La variable `force` n'est jamais déclarée comme étant de type Point. Cependant, lors de la vérification de type, TypeScript compare la forme de `force` à la forme de `Point`. Ils ont la même forme, donc le code passe.
 
-Le système de types de TypeScript n'est pas non plus *réifié* : il n'y a rien au moment de l'exécution qui nous dira que `force` est Point. En fait, le type Point n'est présent sous aucune forme à l'exécution.
+Le système de types de TypeScript n'est pas non plus *réifié* : il n'y a rien au runtime qui nous dira que `force` est Point. En fait, le type Point n'est présent sous aucune forme à l'exécution.
 
-La correspondance de forme ne nécessite qu'un sous-ensemble des champs de l'objet pour correspondre.
+La concordance des formes marchent même si uniquement un sous-ensemble des champs de l'objet correspond.
 
 ``` typescript
 const point3 = { x: 12, y: 26, z: 89 }
@@ -54,7 +54,7 @@ logPoint(color)
 // Type '{ hex: string; }' is missing the following properties from type 'Point': x, y
 ```
 
-Il n'y a pas de différence entre la façon dont les classes et les objets se conforment aux formes :
+Il n'y a pas de différence dans la façon dont les classes et les objets se conforment aux formes :
 
 ```typescript
 class VirtualPoint {
@@ -71,45 +71,45 @@ const newVPoint = new VirtualPoint(13, 56);
 logPoint(newVPoint); // logs "13, 56"
 ```
 
-Si l'objet ou la classe possède toutes les propriétés requises, TypeScript dira qu'elles correspondent, quels que soient les détails de l'implémentation.
+Si l'objet ou la classe possède toutes les propriétés requises, TypeScript dira qu'elles correspondent, quels que soient les détails d'implémentation.
 
 ## Relation avec JavaScript
 
-TypeScript entretient une relation inhabituelle avec JavaScript. TypeScript offre toutes les fonctionnalités de JavaScript, et une couche supplémentaire en plus de celles-ci : le système de types de TypeScript. Cela signifie que votre code JavaScript de travail existant est également du code TypeScript.
+TypeScript entretient une relation inhabituelle avec JavaScript. TypeScript offre toutes les fonctionnalités de JavaScript additionnées d'un surcouche : le système de types de TypeScript. Cela signifie que votre code fonctionnel JavaScript existant est également du code TypeScript.
 
 ![ts vs js](../../assets/ts-vs-js.png)
 
 ### Syntaxe
 
-TypeScript est un langage qui est un sur-ensemble de JavaScript : la syntaxe JS est donc légale TS. TypeScript ne considère aucun code JavaScript comme une erreur en raison de sa *syntaxe*. Cela signifie que vous pouvez prendre n'importe quel code JavaScript fonctionnel et le mettre dans un fichier TypeScript sans vous soucier exactement de la façon dont il est écrit. Cependant, si vous déplacez du code d'un fichier JavaScript vers un fichier TypeScript, vous pouvez voir des erreurs de *type* selon la façon dont le code est écrit.
+TypeScript est un langage qui est un sur-ensemble de JavaScript : la syntaxe JS est donc du TS légal. TypeScript ne considère aucun code JavaScript comme en erreur en raison de sa *syntaxe*. Cela signifie que vous pouvez prendre n'importe quel code JavaScript fonctionnel et le mettre dans un fichier TypeScript sans vous soucier exactement de la façon dont il est écrit. Cependant, si vous déplacez du code d'un fichier JavaScript vers un fichier TypeScript, vous pourriez voir des erreurs de *type* selon la façon dont le code est écrit.
 
 ### Comportement à l'exécution
 
-TypeScript est un langage de programmation qui préserve le *comportement* d'exécution de JavaScript. Par exemple, la division par zéro en JavaScript produit « Infinity » au lieu de lever une exception d'exécution. En principe, TypeScript **ne change jamais** le comportement d'exécution du code JavaScript et produira également `Infinity`.
+TypeScript est un langage de programmation qui préserve le *comportement* runtime de JavaScript. Par exemple, la division par zéro en JavaScript produit « Infinity » au lieu de lever une exception au runtime. Par principe, TypeScript **ne change jamais** le comportement runtime du code JavaScript et produira également `Infinity`.
 
 Cela signifie que si vous déplacez le code de JavaScript vers TypeScript, il est **garanti** de s'exécuter de la même manière, même si TypeScript pense que le code contient des erreurs de type.
 
-Garder le même comportement d'exécution que JavaScript est une promesse fondamentale de TypeScript, car cela signifie que vous pouvez facilement passer d'un langage à l'autre sans vous soucier des différences subtiles qui pourraient empêcher votre programme de fonctionner.
+Garder le même comportement au runtime que JavaScript est une promesse fondamentale de TypeScript, car cela signifie que vous pouvez facilement passer d'un langage à l'autre sans vous soucier des différences subtiles qui pourraient empêcher votre programme de fonctionner.
 
 ### Types effacés
 
 Grosso modo, une fois que le compilateur de TypeScript a terminé de vérifier votre code, il efface les types pour produire le code "compilé" résultant. Cela signifie qu'une fois votre code compilé, le code JS brut résultant n'a aucune information de type.
 
-Cela signifie également que TypeScript ne modifie jamais le comportement de votre programme en fonction des types qu'il a déduits. L'essentiel est que même si vous pouvez voir des erreurs de type lors de la compilation, le système de type lui-même n'a aucune incidence sur le fonctionnement de votre programme lorsqu'il s'exécute.
+Cela signifie également que TypeScript ne modifie jamais le comportement de votre programme en fonction des types qu'il a déduits. L'essentiel est que même si vous veniez à voir des erreurs de type lors de la compilation, le système de type n'a, en lui-même, aucune incidence sur le fonctionnement de votre programme lorsqu'il s'exécute.
 
-Enfin, TypeScript ne fournit aucune bibliothèque d'exécution supplémentaire. Vos programmes utiliseront la même bibliothèque standard (ou bibliothèques externes) que les programmes JavaScript, il n'y a donc pas de framework supplémentaire spécifique à TypeScript à apprendre.
+Enfin, TypeScript ne fournit aucune librairie runtime supplémentaire. Vos programmes utiliseront la même librairie standard (ou librairies externes) que les programmes JavaScript, il n'y a donc pas de framework supplémentaire spécifique à TypeScript à apprendre.
 
-## Jouer autour
+## Expérimeter
 
 ::: tip
-Si vous voulez jouer avec TypeScript, vous pouvez soit l'installer localement `npm install -g typescript`, mettre votre code dans un fichier `.ts` et exécuter `tsc path/to/file.ts` pour le compiler, ou alors, essayer directement en ligne [ici](https://www.typescriptlang.org/play?#code)
+Si vous voulez expérimenter avec TypeScript, vous pouvez soit l'installer localement `npm install -g typescript`, mettre votre code dans un fichier `.ts` et exécuter `tsc path/to/file.ts` pour le compiler, ou alors, essayer directement en ligne dans un [playground](https://www.typescriptlang.org/play?#code)
 :::
 
 Les exemples suivants sont disponibles [ici](https://www.typescriptlang.org/play?strictFunctionTypes=false#code/PTAEEMCdPBPBYAUAGwKYBdTtQWwA6ozoCukqAzgFygB2xOARoQNoC6S2+h4JZ5oAXlDMATAAYANKACMADikiRU6SPaJOBIqQoA6PMXIALABRyAlEgDGAexrlraHcmsBzYxu68KZ0CFDOXflFJGXlQRWUlULUkP1Q6HCR4+lAAEQBLMkt0dNtQAG8kUFAAUXByTCEAIhKAQQBlABUqiSLQAHUKStAq9pKmlrb662J0Q0Ee+oB5AFVGgAlBxGKAOWtIMYmqlamAJQWlgF8rWwrQABNM1GzcmgmMrJzbHTKKk7sHVCdXY0vH258fgC-BqDWaSFiYBIeDQSDQmEspDINHQnR4hkI1GYFUg6RoLikCSYkCkD2uTxoakR0HiqNQ6MIE2YAHJyMQaDRYMyFFEyTdnsNRoYqadMOlyPV2ZyJtTkXSGZBmGJWIIBEJWVKuRDEH4AGbs-l3ciwFHgAAeSH1NENFwollxTDRY0IxgA7vTnZAsTi8QTaPRiaSrobWGZqAA3azpc4FNo2D6OALGAAGjQxoHdCtA4tAABJ8pnPUrWIcpK70ptwFhcJoeNpQNZdXmCx6MYrpCXkxZEMdEOc7Q7UE628ZZbTh4Ru-3yPb0o7Wy6-uSAdq-LUaLZYDgRvwrYb3md3agANbxc4TyBMllsjlcnlB-4CkZjVhSa-odY4O-hMJ8ik6QUXzUPxGlgAh6lnPAxRoXVCH4MYeCwdN0DA1AGybQs22zIIfXxQkA0IB9l1sFVdUgawcCQtD42wM10APTAj1PGhzkaGtPG0fghCYs8Lx0HBwDwN0F0vAQAD4MxE5gO27eN7ETH4eJYtiuC0PhATAAAZVwggicIABYYh1MApgYAArckGNAHBxXQGBkGofIl0Nag-1uKRyAIVBzmoIlCEOCZ8guYMKVckLbh0NYNkMDyvJ80B9IAVlAXs9wpW0Z0Hdo8XON0csc5zQrScLbFi1BvN8gjIEOMNQEjaNY2WUA5M+b43CqNM0PLFjQE88qYxzKpQAAagzHKdD67zu2KFqFLcVN026gb+BsGz8VAMiKKo5slp0QqIo-bT3UgABhcpUGMMxDi7JBe2nWdHRy4wbJxcBkG7JA8WwSBdXASw0OynrCia-bbDCx8aDaSb4r8yBbtXKFUI6HLAshYpgoh8HiMh4z0ehyrGEINHe0tA10vurKcvqOK8pY6hAfOWr6pjYGZtOVqkw6xaUeh7CehGsaWImuLu1Ssnbgyh6hxytzbFp+KGaZqMWbjdm5pTTrBeW5qKN9DbyMo50dvG0GaB0Q7rGOs7yAuq6bp7BHQBmGgJZQghyFJ610rwXEUQASVy6MCeJUAAB9ers30fFZnWEy+TmAE0RkvP3Uj5obRujUWkB9r6A9MMRpA0-wdJ6JPSFAVO+ekQuqhz330HzqpxBEKpi+BMvk8rtOcxbuvEFz-3cqCr9U+oRQAGZ9JEFLi5KaB1kdzSK24ZAsFQj3EDSiXB-QNi6OMKgI99v03vSFwaBwWlqCqNBdXQIbw6qXEXEMB+w56f6UUINvGuKPwdCAPhgPBu+90DGCqPMVAyBnBlnWMgc4LQeh3wft2XeYCIEAHFmTnDgFIAS2AkFVC-nZVAbdHapHpMgPW5ZNh0BgRAHq7J+y6jxBVUAKwoDkW6i4T2NpzjWGGFfMYvpjBmmoLhFwH9mGoFYTQKaBRfBgBtmhI2Bg0KNggKAdkrskZtlQG0dITYxGgAAIRqm0SxWRbDGaKL8DQLhltfRtDZnHNqECoEwOsFIDOoAzTm2sDMPAmhra22milYBaNKFn3WrQ8Y9C17gCYVYuR7CphQVuG9ZqhhwB4mcSgDAzUkTjnysjHq4cZGpPOAeDmPwxwogZntEqNBi7MBKLsXYKpTIWWyHzPA1hyDkDnMgWAoBmSVJscyHQNT1b1NRDlAA-E0iG7dS4TPkdU3GtRLAAEdiCZD1rg9AVZAHTMQHMhmgUMbYyxoaF45R0BlXYeICJ5y1bxzqcUhpizhb9Q0h3cQFCqE0IrPE4gDCkkxnWewlY4LqFGB1m9O0+T4Ra2pv1YOjIKkpJsTMj5bglrou8qABZCyxkbguDwKssAMDMlWYEWg1hKXHNADS+iWzdn7JPsyk5QDECErihMEQE88XuIFf1ElZLmQUqOdS2l9L+DCqQEAA)
 
 ## Type
 
-### Primitives communes
+### Primitives courantes
 JavaScript a trois primitives très couramment utilisées : `string`, `number` et `boolean`. Chacune a un type correspondant en TypeScript. Comme vous pouvez vous y attendre, ce sont les mêmes noms que vous verriez si vous utilisiez l'opérateur JavaScript `typeof` sur une valeur de ces types :
 
 - `string` représente des valeurs de chaîne de caractères comme `"Hello, world"`
@@ -125,11 +125,11 @@ const obviousString = "hello!"
 ```
 
 ::: tip
-TypeScript n'utilise pas de déclarations de style « types à gauche » comme `int x = 0`. Les annotations de type iront toujours après la chose tapée.
+TypeScript n'utilise pas le style de déclarations « types à gauche » comme `int x = 0`. Les annotations de type iront toujours après la chose typée.
 :::
 
 ::: warning
-Les noms de type `String`, `Number` et `Boolean` (commençant par des lettres majuscules) sont légaux, mais font référence à certains types intégrés spéciaux qui apparaîtront très rarement dans votre code. *Toujours* utiliser `string`, `number` ou `boolean` pour les types.
+Les noms de type `String`, `Number` et `Boolean` (commençant par des lettres majuscules) sont légaux, mais font référence à certains types spéciaux intégrés  à TS qui apparaîtront très rarement dans votre code. *Toujours* utiliser `string`, `number` ou `boolean` pour les types.
 :::
 
 ### Types de base
@@ -140,7 +140,7 @@ Les noms de type `String`, `Number` et `Boolean` (commençant par des lettres ma
 - `null` une valeur explicitement vide
 - `void` représente la valeur de retour des fonctions qui ne renvoient pas de valeur. C'est le type inféré chaque fois qu'une fonction n'a pas d'instructions de retour ou ne renvoie aucune valeur explicite à partir de ces instructions de retour
 - `never` représente des valeurs qui ne sont *jamais* observées. Dans un type de retour, cela signifie que la fonction lève une exception ou termine l'exécution du programme
-- `unknown` représente *toute* valeur. Ceci est similaire au type `any`, mais est plus sûr car il n'est pas légal de faire quoi que ce soit avec une valeur inconnue
+- `unknown` représente *toute* valeur. Ceci est similaire au type `any`, mais est plus sûr car il n'est pas légal de faire quoi que ce soit avec une valeur de type unknown
 - `T[]` un tableau de type T, peut aussi s'écrire `Array<T>`
 - `[T, U]` un tuple de type T et U
 - `enum`
@@ -169,14 +169,14 @@ const isSunny = currentWeather[0] === 'sunny'
 ```
 
 ::: warning
-Les énumérations sont une fonctionnalité ajoutée à JavaScript par TypeScript qui permet de décrire une valeur qui pourrait faire partie d'un ensemble de constantes nommées possibles. Contrairement à la plupart des fonctionnalités de TypeScript, il ne s'agit pas d'un ajout au niveau du type à JavaScript, mais d'un élément ajouté au langage et à l'exécution. Pour cette raison, il s'agit d'une fonctionnalité dont vous devez savoir qu'elle existe, mais attendez peut-être à l'utiliser à moins d'en être sûr. Vous pouvez en savoir plus sur les enums dans la [page de référence Enum](https://www.typescriptlang.org/docs/handbook/enums.html).
+Les énumérations sont une fonctionnalité ajoutée à JavaScript par TypeScript qui permet de décrire une valeur qui pourrait faire partie d'un ensemble de constantes nommées possibles. Contrairement à la plupart des fonctionnalités de TypeScript, il ne s'agit pas d'un ajout de typage à JavaScript, mais d'un élément ajouté au langage et à son exécution. Pour cette raison, il s'agit d'une fonctionnalité dont il est intéressant de connaître l'existence, mais que vous pouvez vous retenir d'utiliser à moins d'en être sûr. Vous pouvez en savoir plus sur les enums dans la [page de référence Enum](https://www.typescriptlang.org/docs/handbook/enums.html).
 :::
 
 ### const, let et var
 
 Typescript permet de définir deux types de variables :
 
-- Variables mutables déclarées à l'aide du mot-clé `let`. L'ancien mot-clé `var` peut également être utilisé mais n'est pas recommandé car sa façon de gérer la portée peut être trompeuse.
+- Variables mutables déclarées à l'aide du mot-clé `let`. L'ancien mot-clé `var` peut également être utilisé mais n'est pas recommandé car sa façon de gérer le scope peut être trompeur.
 - Les variables ou constantes immuables sont déclarées avec `const`. Veuillez noter que les champs de constantes peuvent toujours être modifiés, les constantes ne peuvent tout simplement pas être réaffectées.
 
 ```typescript
@@ -193,7 +193,7 @@ meal.name = "soup"; // ok
 ```
 
 :::tip
-Certains programmeurs aiment utiliser `const` par défaut, puis passer à `let` si nécessaire. Cela permet d'avoir un code optimisé par défaut et évite de modifier les valeurs par erreur.
+Certains programmeurs aiment utiliser `const` par défaut, puis passer à `let` si nécessaire. Cela permet d'avoir un code optimisé par défaut et évite de modifier des valeurs par erreur.
 :::
 
 ### Les fonctions
@@ -209,7 +209,7 @@ describeWeather(direction) // Error
 // Argument of type 'Direction' is not assignable to parameter of type '[string, number, Direction]'.
 ```
 
-Les fonctions anonymes sont un peu différentes des déclarations de fonction. Lorsqu'une fonction apparaît à un endroit où TypeScript peut déterminer comment elle va être appelée, les paramètres de cette fonction reçoivent automatiquement des types.
+Les fonctions anonymes sont un peu différentes des déclarations de fonction. Lorsqu'une fonction apparaît à un endroit où TypeScript peut déterminer comment elle va être appelée, les paramètres de cette fonction reçoivent automatiquement leurs types.
 
 ``` typescript
 const weekendWeather = [['sunny', 22, Direction.South], ['stormy', 24, Direction.South]]
@@ -219,7 +219,7 @@ console.log(weekendTemperatures) // Logs [22, 24]
 ```
 
 ### Types d'objets
-En dehors des primitives, le type de type le plus courant que vous rencontrerez est un type d'objet. Cela fait référence à n'importe quelle valeur JavaScript avec des propriétés, c'est-à-dire presque toutes ! Pour définir un type d'objet, on liste simplement ses propriétés et leurs types.
+En dehors des primitives, le type le plus courant que vous rencontrerez est le type `objet`. Cela fait référence à n'importe quelle valeur JavaScript avec des propriétés, c'est-à-dire presque toutes ! Pour définir un type objet, on liste simplement ses propriétés et leurs types.
 
 ``` typescript
 const mistral: {direction: Direction, speed: number} = {direction: Direction.North, speed: 45}
@@ -230,7 +230,7 @@ function describeWind(wind: {direction: Direction, speed: number}): void {
 describeWind(mistral)
 ```
 
-Pour éviter les répétitions, les types d'objets peuvent être nommés à l'aide d'une interface
+Pour éviter les répétitions, les types d'objets peuvent être nommés à l'aide soit d'une interface
 
 ``` typescript
 interface Wind {
@@ -243,7 +243,7 @@ function describeWindSpeed(wind: Wind): void {
 }
 ```
 
-ou un alias de type.
+soit d'un alias de type.
 ``` typescript
 type Wind = {
   direction: Direction
@@ -283,7 +283,7 @@ printText("G'day, mate", "centre") // Error
 // Argument of type '"centre"' is not assignable to parameter of type '"left" | "right" | "center"'.
 ```
 
-## Traiter les valeurs nulles et non défini
+## Traiter les valeurs null et undefined
 
 Comment `null` et `undefined` se comportent dépend de l'activation ou de la désactivation de l'option `strictNullChecks` du compilateur TypeScript
 
@@ -304,8 +304,8 @@ function doSomething(x: string | undefined) { // see the use of a union type her
 }
 ```
 
-### Chaînage optionnel
-À la base, le chaînage optionnel - l'opérateur `?` - nous permet d'écrire du code où TypeScript peut immédiatement arrêter l'exécution de certaines expressions si nous rencontrons un `null` ou `undefined`.
+### Optional chaining
+L'optional chaining - l'opérateur `?` - nous permet d'écrire du code où TypeScript peut immédiatement arrêter l'exécution de certaines expressions si nous rencontrons un `null` ou `undefined`.
 ``` typescript
 let currentWind: Wind | undefined
 console.log(currentWind.direction) // [ERR] Object is possibly 'undefined'.
@@ -315,8 +315,8 @@ currentWind = { direction: Direction.East, speed: 20 }
 console.log(currentWind?.speed) //logs 20
 ```
 
-### Groupement nulle
-Vous pouvez considérer cette fonctionnalité - l'opérateur `??` - comme un moyen de « revenir » à une valeur par défaut lorsqu'il s'agit de `null` ou `undefined`.
+### Nullish coalescing
+Vous pouvez considérer cette fonctionnalité - l'opérateur `??` - comme un moyen de « repli »  vers une valeur par défaut lorsque `null` ou `undefined` sont rencontrées.
 ``` typescript
 let windSpeed: number | undefined
 console.log(windSpeed ?? 'no data yet') // logs no data yet
@@ -358,7 +358,7 @@ pt.y = "0" // Type 'string' is not assignable to type 'number'.
 
 #### Les champs
 
-`x`, `y` et `z` sont des déclarations de champs, ils créent des propriétés publiques en écriture sur la classe. Comme pour les autres emplacements, l'annotation de type est facultative, mais sera implicitement *any* si elle n'est pas spécifiée. Les champs peuvent avoir des *initiliseurs* comme `z`. Ceux-ci s'exécuteront automatiquement lorsque la classe sera instanciée. Tout comme avec `const`, `let` et `var`, l'initialiseur d'une propriété de classe sera utilisé pour déduire son type. Ici, cela signifie que, même s'il n'est pas explicitement écrit que `z` est de type `numéro`, le compilateur TypeScript le déduit du fait que `0` a été passé à `z`. Les champs peuvent être préfixés par le modificateur `readonly`. Cela empêche les affectations au champ en dehors du constructeur.
+`x`, `y` et `z` sont des déclarations de champs, ils créent des propriétés publiques en écriture sur la classe. Comme pour les autres emplacements, l'annotation de type est facultative, mais sera implicitement *any* si elle n'est pas spécifiée. Les champs peuvent avoir des *initiliseurs* comme `z`. Ceux-ci s'exécuteront automatiquement lorsque la classe sera instanciée. Tout comme avec `const`, `let` et `var`, l'initialiseur d'une propriété de classe sera utilisé pour déduire son type. Ici, cela signifie que, même s'il n'est pas explicitement écrit que `z` est de type `number`, le compilateur TypeScript le déduit du fait que `0` a été passé à `z`. Les champs peuvent être préfixés par le modificateur `readonly`. Cela empêche l'affectation du champ en dehors du constructeur.
 
 #### Constructeurs
 
@@ -366,7 +366,7 @@ Les constructeurs de classe sont très similaires aux fonctions. Vous pouvez ajo
 
 #### Méthodes
 
-Une propriété de fonction sur une classe est appelée une méthode. Les méthodes peuvent utiliser toutes les annotations de même type que les fonctions et les constructeurs. Notez qu'à l'intérieur d'un corps de méthode, il est toujours obligatoire d'accéder aux champs et autres méthodes via `this`. Un nom non qualifié dans un corps de méthode fera toujours référence à quelque chose dans la portée englobante
+Une propriété fonction sur une classe est appelée une méthode. Les méthodes peuvent utiliser les mêmes annotations de type que les fonctions et les constructeurs. Notez qu'à l'intérieur d'un corps de méthode, il est toujours obligatoire d'accéder aux champs et autres méthodes via `this`. Un nom non qualifié dans un corps de méthode fera toujours référence à quelque chose dans le scope englobant.
 
 ### Visibilité des membres
 
@@ -378,16 +378,16 @@ Il y a 3 mots clés : `public`, `protected` et `private`.
 - `private` est comme `protected`, mais ne permet pas l'accès au membre même à partir des sous-classes
 
 ::: warning
-Comme d'autres aspects du système de types de TypeScript, `private` et `protected` ne sont appliqués que lors de la vérification de type. Cela signifie que les constructions d'exécution JavaScript ou la recherche de propriété simple peuvent toujours accéder à un membre `private` ou `protected`. Si vous devez protéger les valeurs de votre classe contre les acteurs malveillants, vous devez utiliser des mécanismes offrant une confidentialité stricte à l'exécution, tels que des fermetures, des cartes faibles ou des champs privés.
+Comme d'autres aspects du système de types de TypeScript, `private` et `protected` ne sont appliqués que lors de la vérification de type. Cela signifie que les opérateurs JavaScript tels que `in` ou la simple recherche de propriété peuvent toujours accéder à un membre `private` ou `protected`. Si vous devez protéger les valeurs de votre classe contre les acteurs malveillants, vous devez utiliser des mécanismes offrant une confidentialité stricte à l'exécution, tels que des closures, des weak maps ou des champs private.
 :::
 
 ::: tip
-Depuis la version 3.8, Typescript prend en charge [les champs privés ECMAScript](https://www.typescriptlang.org/docs/handbook/classes.html#ecmascript-private-fields).
+Depuis la version 3.8, Typescript prend en charge [les champs private ECMAScript](https://www.typescriptlang.org/docs/handbook/classes.html#ecmascript-private-fields).
 :::
 
 ### Héritage de classe
 
-Comme d'autres langages dotés de fonctionnalités orientées objet, les classes en JavaScript peuvent hériter des classes de base.
+Comme d'autres langages dotés de fonctionnalités orientées objet, les classes en JavaScript peuvent hériter de classes de base.
 
 - `implements`: Vous pouvez utiliser une clause implements pour vérifier qu'une classe satisfait une interface particulière.
 ```typescript
@@ -410,7 +410,7 @@ class Ball implements Pingable {
 }
 ```
 
-- `extends`: Les classes peuvent s'étendre à partir d'une classe de base. Une classe dérivée possède toutes les propriétés et méthodes de sa classe de base et peut également définir des membres supplémentaires.
+- `extends`: Les classes peuvent étendre une classe de base. Une classe dérivée possède toutes les propriétés et méthodes de sa classe de base et peut également définir des membres supplémentaires.
 ```typescript
 class Animal {
   move() {
@@ -432,11 +432,11 @@ d.woof(3) // Derived class method
 ```
 
 ## Modules
-Dans TypeScript, tout comme dans ECMAScript 2015 (ES6), tout fichier contenant une importation ou une exportation de niveau supérieur est considéré comme un module.
+En TypeScript, tout comme dans ECMAScript 2015 (ES6), tout fichier contenant à son début un import ou un export  est considéré comme un module.
 
-A l'inverse, un fichier sans aucune déclaration d'import ou d'export de niveau supérieur est traité comme un script dont le contenu est disponible dans la portée globale (et donc aussi pour les modules).
+A l'inverse, un fichier sans déclaration d'import ou d'export en début de fichier est traité comme un script dont le contenu est disponible dans le scope global (et donc aussi pour les modules).
 
-Les modules sont exécutés dans leur propre portée, pas dans la portée globale. Cela signifie que les variables, fonctions, classes, etc. déclarées dans un module ne sont pas visibles en dehors du module à moins qu'elles ne soient explicitement exportées à l'aide de l'un des formulaires d'exportation. Inversement, pour consommer une variable, une fonction, une classe, une interface, etc. exportée d'un module différent, il faut l'importer à l'aide d'un des formulaires d'import.
+Les modules sont exécutés dans leur propre scope, pas dans le scope global. Cela signifie que les variables, fonctions, classes, etc. déclarées dans un module ne sont pas visibles en dehors du module à moins qu'elles ne soient explicitement exportées à l'aide de l'une des syntaxes d'export. Inversement, pour consommer une variable, une fonction, une classe, une interface, etc. exportée d'un module différent, il faut l'importer à l'aide d'une des syntaxes d'import.
 
 Un fichier peut déclarer des exports :
 ```typescript
@@ -462,7 +462,7 @@ const absPhi = absolute(phi)
 
 ## TypeScript et Angular
 
-Comme dit précédemment, TypeScript est le langage principal d'Angular. La plupart des fonctionnalités de langage vues ci-dessus sont pleinement exploitées par Angular. Jetons un coup d'œil à un exemple simple d'un composant qui est l'un des principaux blocs de construction d'une application Angular.
+Comme dit précédemment, TypeScript est le langage principal d'Angular. La plupart des fonctionnalités du langage vues ci-dessus sont pleinement exploitées par Angular. Jetons un coup d'œil à un exemple simple d'un composant qui est l'un des principaux blocs de construction d'une application Angular.
 
 ```typescript
 import { Component, OnInit } from '@angular/core' //[3]
@@ -487,7 +487,7 @@ export class HeroListComponent implements OnInit { //[1]
 }
 ```
 ### [1] Les classes
-Les principaux blocs de construction de Angular (services, composants, pipes, directives...) sont des classes. Le constructeur sert principalement à des fins d'injection de dépendance. Ici, nous voyons une syntaxe où l'argument `service` est fourni avec un modificateur de visibilité, c'est une notation abrégée pour déclarer un champ sur une classe. Les deux exemples suivants sont strictement équivalents :
+Les principaux blocs de construction d'Angular (services, composants, pipes, directives...) sont des classes. Le constructeur sert principalement à des fins d'injection de dépendance. Ici, nous voyons une syntaxe où l'argument `service` est fourni avec un modificateur de visibilité, c'est une notation abrégée pour déclarer un champ sur une classe. Les deux exemples suivants sont strictement équivalents :
 ```typescript
 class Cat {
   constructor(public name: string) {}
@@ -504,12 +504,10 @@ class Cat {
 Le `HeroListComponent` implémente la méthode `ngOnInit()` du hook de cycle de vie `OnInit`.
 
 ### [2] Décorateurs
-Decorators provide a way to add both annotations and a meta-programming syntax for class declarations and members. A Decorator is a special kind of declaration that can be attached to a class declaration, method, accessor, property, or parameter. Decorators use the form `@expression`, where `expression` must evaluate to a function that will be called at runtime with information about the decorated declaration. Angular makes extensive use of decorators: `@Component`, `@Directive`, `@Injectable`, `@Pipe`, `@Input`, `@Output`...
-
-Les décorateurs permettent d'ajouter à la fois des annotations et une syntaxe de méta-programmation pour les déclarations de classe et les membres. Un décorateur est un type spécial de déclaration qui peut être attaché à une déclaration de classe, une méthode, un accesseur, une propriété ou un paramètre. Les décorateurs utilisent la forme `@expression`, où `expression` doit être évalué en une fonction qui sera appelée au moment de l'exécution avec des informations sur la déclaration décorée. Angular utilise largement les décorateurs : `@Component`, `@Directive`, `@Injectable`, `@Pipe`, `@Input`, `@Output`...
+Les décorateurs permettent d'ajouter à la fois des annotations et une syntaxe de méta-programmation pour les déclarations et les membres de classe. Un décorateur est un type spécial de déclaration qui peut être attaché à une déclaration de classe, une méthode, un accesseur, une propriété ou un paramètre. Les décorateurs utilisent la forme `@expression`, où `expression` doit être évalué en une fonction qui sera appelée au moment de l'exécution avec des informations sur la déclaration décorée. Angular utilise largement les décorateurs : `@Component`, `@Directive`, `@Injectable`, `@Pipe`, `@Input`, `@Output`...
 
 ### [3] Modules ES6
-Les modules ES6 sont présents dans presque tous, sinon tous, les fichiers ts d'un projet Angular. Angular ajoute sa propre couche de module en plus de ceux-ci : NgModules. NgModules consolide les composants, les directives et les tuyaux en blocs de fonctionnalités cohérents, chacun axé sur une zone de fonctionnalité, un domaine d'activité d'application, un flux de travail ou une collection commune d'utilitaires. Nous en verrons plus à leur sujet plus tard dans la formation.
+Les modules ES6 sont présents dans presque tous, sinon tous, les fichiers ts d'un projet Angular. Angular ajoute sa propre couche de module en plus de ceux-ci : les NgModules. Les NgModules consolident les composants, les directives et les pipes en blocs de fonctionnalités cohérents, chacun axé sur un groupe de fonctionnalités, un domaine business, un flux de travail ou une collection commune d'utilitaires. Nous en verrons plus à leur sujet plus tard dans la formation.
 
 ## Sources
 

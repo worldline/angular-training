@@ -7,10 +7,10 @@ actionLink: /fr/presentation/
 features:
   - title: Composants
     details: Découvrez les briques d'une application Angular
-  - title: Bibliothèque
-    details: Plongez dans Angular Router, les formulaires et HttpClient
+  - title: Librairies officielles
+    details: Plongez dans Angular Router, Forms et HttpClient
   - title: Angular CLI
-    details: Développez des applications Angular directement à partir d'une commande shell
+    details: Développez des applications Angular directement en ligne de commande
 footer: Worldline, 2021
 ---
 
@@ -20,8 +20,8 @@ This training is also available in [English](/) / Cette formation est aussi disp
 
 ## Prérequis
 
-- Connaissance de base en JavaScript
-- Connaissance de base en HTML & CSS
+- Connaissances de base en JavaScript
+- Connaissances de base en HTML & CSS
 - Préparez votre environnement de développement et installez des éléments avant la session (voir la section [Outillage](outillage))
 
 ## Liens utiles

@@ -1,10 +1,10 @@
-# Renforcez votre HTML
+# Dynamisez votre HTML
 
-Angular apporte une syntaxe puissante aux templates. Dans le chapitre précédent, nous avons vu l'interpolation de texte `{{}}`. Dans ce chapitre, nous aborderons quelques éléments de ce système de syntaxe : la liaison de propriété, la liaison d'événement, la liaison de classe et de style, les directives d'attribut et les directives structurelles.
+Angular apporte une syntaxe puissante aux templates. Dans le chapitre précédent, nous avons vu l'interpolation de texte `{{}}`. Dans ce chapitre, nous aborderons quelques éléments de ce système de syntaxe : le property binding, l'event binding, le class et style binding, les directives d'attribut et les directives structurelles.
 
-## Liaison de propriété
+## Property binding
 
-Pour lier un élément HTML à la propriété d'un composant, placez-le entre crochets `[]`. Les crochets, `[]`, obligent Angular à évaluer le côté droit de l'affectation en tant qu'expression dynamique. Sans les crochets, Angular traite le côté droit comme un littéral de chaîne et définit la propriété sur cette valeur statique. `[]` est la syntaxe pour la liaison de données unidirectionnelle avec des données circulant du composant vers le template.
+Pour lier un élément HTML à la propriété d'un composant, placez-le entre crochets `[]`. Les crochets, `[]`, obligent Angular à évaluer le côté droit de l'affectation en tant qu'expression dynamique. Sans les crochets, Angular traite le côté droit comme un littéral  et donne pour valeur à la propriété cette valeur statique. `[]` est la syntaxe pour le one-way data binding avec les données circulant du composant vers le template.
 
 ```html
 <a [href]="url">Link</a>
@@ -14,9 +14,9 @@ Pour lier un élément HTML à la propriété d'un composant, placez-le entre cr
 **Exercice: Essayez de lier les attributs `src` et `width` de l'image**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-property-binding-training?ctl=1&embed=1&file=src/app/app.component.ts&hideNavigation=1"></iframe>
 
-## Liaison de classe et de style
-### Liaison de classe
-Vous pouvez utiliser la liaison de classe pour ajouter et supprimer des noms de classe CSS de l'attribut `class` d'un élément. Pour créer une liaison de classe unique, utilisez le préfixe `class` suivi d'un point et du nom de la classe CSS, par exemple, `[class.sale]="onSale"`. Angular ajoute la classe lorsque l'expression liée, `onSale` est vraie, et supprime la classe lorsque l'expression est fausse.
+## Class et style binding
+### Class binding
+Vous pouvez utiliser le class binding pour ajouter et supprimer des noms de classe CSS à l'attribut `class` d'un élément. Pour créer un class binding pour une seule classe, utilisez le préfixe `class` suivi d'un point et du nom de la classe CSS, par exemple, `[class.sale]="onSale"`. Angular ajoute la classe lorsque l'expression liée, `onSale` est vraie, et supprime la classe lorsque l'expression est fausse.
 
 ```html
 <p [class.my-class-1]="isWarning"></p>
@@ -31,8 +31,8 @@ Plusieurs classes peuvent également être liées avec la syntaxe `[class]` :
 <p [class]="classExpression"></p>
 ```
 
-### Liaison de style
-Vous pouvez utiliser la liaison de style pour définir des styles de manière dynamique. Pour créer une liaison de style unique, utilisez le préfixe `style` suivi d'un point et du nom de la propriété de style CSS, par exemple, [style.width]="width" avec `width = "100px"` (width est un chaîne de caractères). En option, vous pouvez ajouter une extension d'unité comme `em` ou `%` : [style.width.px]="width" avec `width = 100` (width est un nombre).
+### Style binding
+Vous pouvez utiliser le style binding pour définir des styles de manière dynamique. Pour créer un style binding pour une seule propriété de style CSS, utilisez le préfixe `style` suivi d'un point et du nom de la propriété de style CSS, par exemple, [style.width]="width" avec `width = "100px"` (width est un chaîne de caractères). En option, vous pouvez ajouter une extension d'unité comme `em` ou `%` : [style.width.px]="width" avec `width = 100` (width est un nombre).
 
 ```html
 <!-- Style properties can be written in dash-case or camelCase -->
@@ -47,7 +47,7 @@ Pour basculer entre plusieurs styles, lier à l'attribut `[style]` :
 ```
 
 ## Directives NgClass et NgStyle
-Alternativement, vous pouvez basculer les styles et les classes via deux directives :
+Alternativement, vous pouvez dynamiquement activer les styles et les classes via deux directives :
 
 ```html
 <!-- toggle the "special" class on/off with a property -->
@@ -70,15 +70,15 @@ Alternativement, vous pouvez basculer les styles et les classes via deux directi
 ```
 
 :::warning
-L'utilisation de la syntaxe de liaison de style sans NgStyle est préférable. En raison des améliorations, `NgStyle` ne fournit plus de valeur significative par rapport à `[style]` et pourrait éventuellement être supprimé d'Angular à l'avenir.
+L'utilisation de la syntaxe de style binding sans NgStyle est préférable. En raison des améliorations, `NgStyle` ne fournit plus de valeur significative par rapport à `[style]` et pourrait éventuellement être supprimé d'Angular à l'avenir.
 :::
 
-**Exercise: attribuer une classe et une couleur à chaque fantôme en utilisant la classe**
+**Exercise: attribuer une classe et une couleur à chaque fantôme en utilisant class, style, ngClass ou ngStyle**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-attribute-directive-training?ctl=1&embed=1&file=src/app/app.component.ts&hideNavigation=1"></iframe>
 
 ## Directive NgModel
 
-La directive NgModel vous permet de lier la valeur d'un champ de formulaire à un élément de données de composant. Il s'agit d'une liaison bidirectionnelle : la variable est mise à jour lorsque le contenu du champ change (typiquement par l'utilisateur) et vice versa. La syntaxe pour la liaison de données bidirectionnelle est `[()]`.
+La directive NgModel vous permet de lier la valeur d'un champ de formulaire à une propriété du composant. Il s'agit d'une liaison bidirectionnelle : la propriété est mise à jour lorsque le contenu du champ change (typiquement par l'utilisateur) et vice versa. La syntaxe pour la liaison de données bidirectionnelle est `[()]`.
 
 ```html {3}
 <label>
@@ -92,7 +92,7 @@ Testez-le vous-même :
 <v-model-example />
 
 ::: warning Import
-La directive `NgModel` ne fait pas partie des importations par défaut d'un `NgModule`. Vous devez l'ajouter vous-même : ajoutez `FormsModule` à la liste des importations de `AppModule`.
+La directive `NgModel` ne fait pas partie des imports par défaut d'un `NgModule`. Vous devez l'ajouter vous-même : ajoutez `FormsModule` à la liste d'imports de l'`AppModule`.
 :::
 
 **Exercice : utilisez NgModel sur les balises input, select, radio et checkbox**
@@ -117,13 +117,13 @@ Vous pouvez fournir une instruction else comme suit :
 ```
 `<ng-template>` crée un fragment de template, il n'est pas rendu par défaut. `#elseBlock` est une variable de template qui permet d'obtenir une référence au `<ng-template>`.
 
-**Exercise: use an NgIf to toggle the loader**
+**Exercice: utilisez un NgIf pour montrer/cacher le loader**
 
-**Bonus: use an NgIf Else to conditionnally show either the data or the no data message**
+**Bonus: utilisez un NgIf Else pour conditionnellement montrer soir les données soit le message comme quoi les données ne sont pas disponibles**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngif-training?ctl=1&embed=1&file=src/app/app.component.ts&hideNavigation=1"></iframe>
 
 ## Directive NgSwitch
-`NgSwitch` échange conditionnellement le contenu de l'élément hôte en sélectionnant l'un des modèles intégrés en fonction de la valeur actuelle de conditionExpression.
+`NgSwitch` échange conditionnellement le contenu de l'élément hôte en sélectionnant l'un des template enfants en fonction de la valeur actuelle de l'expression.
 
 ```html
 <div [ngSwitch]="myBeer">
@@ -153,7 +153,7 @@ Vous pouvez utiliser la directive NgFor pour présenter une liste d'éléments. 
 ```
 Les valeurs exportées suivantes sont également disponibles pour être associées à des variables locales : `count`, `first`, `last`, `odd`.
 
-`*ngIf` et `*ngFor` ne peuvent pas être placés en même temps sur un élément HTML. Pour répéter un bloc de HTML lorsqu'une condition particulière est vraie, soit un niveau supplémentaire de HTML doit être introduit, ce qui n'est pas toujours souhaitable et peut casser le style, soit la balise `<ng-container>` fournie par Angular peut être utilisée . `<ng-container>` n'est pas présent dans le DOM.
+`*ngIf` et `*ngFor` ne peuvent pas être placés en même temps sur un élément HTML. Pour répéter un bloc d'HTML lorsqu'une condition particulière est vraie, soit un niveau supplémentaire d'HTML doit être introduit, ce qui n'est pas toujours souhaitable et peut casser le style, soit la balise `<ng-container>` fournie par Angular peut être utilisée . `<ng-container>` n'est pas présent dans le DOM.
 
 ```html
 <!-- Without ng-container -->
@@ -171,8 +171,8 @@ Les valeurs exportées suivantes sont également disponibles pour être associé
 **Bonus : Un intrus est dans la corbeille de fruits, cachez le maïs avec un NgIf**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngfor-training?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
 
-## Liaison d'événement
-La liaison d'événements vous permet d'écouter et de répondre aux actions de l'utilisateur telles que les frappes, les mouvements de souris, les clics et les touches ou un événement personnalisé émis par un composant enfant. Pour lier à un événement, vous utilisez la syntaxe de liaison d'événement angulaire `()`.
+## Event binding
+L'event binding permet d'écouter et de répondre aux actions de l'utilisateur telles que les frappes, les mouvements de souris, les clics et les touchers ou un événement custom émis par un composant enfant. Pour lier le composant à un événement, utilisez la syntaxe d'event binding d'Angular `()`.
 
 ```html
 <button (click)="delete()">Delete</button>
@@ -186,7 +186,7 @@ Dans ce chapitre, nous avons vu 5 directives intégrées. Les directives sont de
 
 Il existe trois types de directives :
 - Les composants qui sont des directives avec un template (`@Component` hérite de `@Directive`)
-- Directives d'attributs qui modifient l'apparence ou le comportement d'un élément
+- Les directives d'attributs qui modifient l'apparence ou le comportement d'un élément
 - Directive structurelle qui modifie la mise en page DOM en ajoutant et en supprimant des éléments DOM
 
 **Quiz : Quelles directives intégrées sont des directives d'attribut et lesquelles sont des directives structurelles ?**
@@ -196,7 +196,7 @@ Vous pouvez en savoir plus sur la création de vos propres directives [ici](http
 
 ## TP : Liste des films
 1. Dans le composant LoginFormComponent, ajoutez deux champs `email` et `password` et utilisez la directive `[(ngModel)]` sur les champs email et mot de passe pour les lier.
-2. Ajoutez un autre champ « loggedIn » initialement défini sur « false », puis utilisez la liaison d'événement avec « (ngSubmit) » sur la balise du formulaire pour le définir sur « true » lorsque le formulaire est soumis.
+2. Ajoutez un autre champ `loggedIn` initialement défini à `false`, puis utilisez l'event binding avec `(ngSubmit)` sur la balise `form` pour le passer à `true` lorsque le formulaire est soumis.
 3. Dans `login-form.component.html`, ajoutez le code HTML suivant sous le formulaire d'authentification :
 
 ```html
@@ -234,7 +234,7 @@ Vous pouvez en savoir plus sur la création de vos propres directives [ici](http
 </ul>
 ```
 
-4. Utilisez la directive `*ngIf` et la liaison de template `else` pour afficher le formulaire d'authentification et masquer la liste des films lorsque `loggedIn === false`, et vice versa.
+4. Utilisez la directive `*ngIf else` pour afficher le formulaire d'authentification et masquer la liste des films lorsque `loggedIn === false`, et vice versa.
 5. Ajoutez le champ suivant dans le composant LoginFormComponent :
 
 ```ts
@@ -276,6 +276,6 @@ films = [
 ```
 
 6. En utilisant la directive `*ngFor`, répétez l'élément `.film.card` pour afficher autant de films qu'il y en a dans la liste `films`.
-7. Complétez la carte avec les données de chaque film en utilisant la liaison des propriétés et l'interpolation.
+7. Complétez la carte avec les données de chaque film en utilisant le property binding et l'interpolation.
 8. **Bonus :** Utilisez la propriété `metascore` pour afficher un nombre d'étoiles à côté de chaque titre de film.
 9. **Bonus :** Utilisez une balise `ng-container` pour afficher uniquement les films avec un score métacritique supérieur à 70
