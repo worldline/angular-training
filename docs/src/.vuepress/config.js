@@ -5,16 +5,17 @@ module.exports = {
       lang: "en-US",// this will be set as the lang attribute on <html>
       title: "Angular Training",
       description: "Angular training docs"
-    }/*,
+    },
 
     "/fr/": {
       lang: "fr-FR",
       title: "Formation Angular",
       description: "Support de formation Angular"
-    }*/
+    }
   },
 
   head: [
+    ['link', { rel: 'icon', href: '/logo.svg' }],
     ['meta', { name: 'theme-color', content: '#C3002F' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }]
@@ -52,7 +53,7 @@ module.exports = {
           "/to-go-further/",
           "/ecosystem/"
         ]
-      } /*,
+      },
 
       "/fr/": {
         selectText: "Langue",
@@ -60,18 +61,20 @@ module.exports = {
         sidebar: [
           "/fr/",
           "/fr/presentation/",
-          "/fr/outillage/",
           "/fr/typescript/",
+          "/fr/outillage/",
+          "/fr/premiers-pas/",
+          "/fr/directives/",
+          "/fr/pipes/",
+          "/fr/composants/",
+          "/fr/routage/",
+          "/fr/services/",
           "/fr/rxjs/",
-          "fr/premiers-pas/",
-          "fr/composants/",
-          "fr/routage/",
-          "fr/services/",
-          "fr/formulaires/",
-          "fr/ecosysteme/",
-          "fr/aller-plus-loin/"
+          "/fr/formulaires/",
+          "/fr/pour-aller-plus-loin/",
+          "/fr/ecosysteme/"
         ]
-      }*/
+      }
     }
   },
 
