@@ -324,7 +324,6 @@ export class User {
     public firstname: string,
     public lastname: string,
     public email: string,
-    // tslint:disable: variable-name
     public created_at: string,
     public update_at: string
   ) {}

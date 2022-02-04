@@ -92,19 +92,21 @@ The double curly braces are Angular's *interpolation binding syntax*. This inter
 The browser refreshes and displays the new application title.
 
 :::tip
-By the way, semi-colons are optional, if you choose to not use them you can do so. You can enforce a rule about it via the [linter](https://palantir.github.io/tslint/rules/) by replacing `always` by `never`:
+By the way, semi-colons are optional, if you choose to not use them you can do so. You can enforce a rule about it via the [linter](https://eslint.org/docs/rules/) by replacing `always` by `never`:
 ```json
-"semicolon": {
-  "options": [
-    "always"
-  ]
-},
+"overrides": [{
+  "rules": {
+    ...,
+    "semi": ["error", "never"],
+    ...
+  }
+}]
 ```
 and automatically fix all the places where semi-colons are already in use by running:
 ```bash
 ng lint --fix
 ```
-You can download the tslint.json file I usually use [here](https://worldline.github.io/angular-training/tslint.json)
+You can download the .eslintrc.json file I usually use [here](https://worldline.github.io/angular-training/.eslintrc.json)
 :::
 
 ::: v-pre

@@ -66,13 +66,16 @@ Vous avez alors deux choix :
 
 OU
 
-- Pour une installation plus légère, installez uniquement l'[Angular language service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template). Cette extension fournira, entre autres, l'autocomplétion.
+- Pour une installation plus légère, installez uniquement l'[Angular language service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template). Cette extension fournira, entre autres, l'autocomplétion. Installer ensuite le linter [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
 
 ## TP: Création de votre premier projet
 Placez-vous dans le dossier où vous stockez vos dépôts git, ouvrez-y un terminal et tapez la commande suivante :
 
 ```sh
-ng new search-films
+ng new --collection=@angular-eslint/schematics search-films
+# which is equivalent to:
+# ng new search-films
+# ng add @angular-eslint/schematics
 ```
 
 **search-films** étant le nom du répertoire dans lequel notre projet sera créé.
@@ -136,16 +139,16 @@ Voici un exemple de fichier *.vscode/launch.json*:
 
 ```json
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "pwa-chrome",
-            "request": "launch",
-            "name": "Launch Chrome against localhost",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "pwa-chrome",
+      "request": "launch",
+      "name": "Launch Chrome against localhost",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}"
+    }
+  ]
 }
 ```
 Une fois la configuration générée et une application servie localement (via *ng serve*), appuyer sur F5. Cela ouvrira l'application dans une nouvelle fenêtre du navigateur et activer les fonctionnalités de débogage directement dans VSCode. Pour vérifier cela, il est possible de mettre un breakpoint dans l'AppComponent et de lancer une session de débogage. Le debugger devrait s'arrêter dessus.

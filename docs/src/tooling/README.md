@@ -75,8 +75,10 @@ Wikipedia describes a [linter](https://en.wikipedia.org/wiki/Lint_%28software%29
 Go into the folder where you store your git repositories, open a terminal there and type the following commands:
 
 ```sh
-ng new search-films
-ng add @angular-eslint/schematics
+ng new --collection=@angular-eslint/schematics search-films
+# which is equivalent to:
+# ng new search-films
+# ng add @angular-eslint/schematics
 ```
 
 **search-films** being the name of the directory in which our project will be created.
@@ -140,16 +142,16 @@ Here is a sample *.vscode/launch.json*:
 
 ```json
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "pwa-chrome",
-            "request": "launch",
-            "name": "Launch Chrome against localhost",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "pwa-chrome",
+      "request": "launch",
+      "name": "Launch Chrome against localhost",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}"
+    }
+  ]
 }
 ```
 

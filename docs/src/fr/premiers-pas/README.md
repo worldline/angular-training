@@ -23,7 +23,7 @@ Les applications générées vont dans le dossier `projects/` au lieu d'un dossi
 ## Structure des fichiers
 
 Notre projet précédemment créé contient les dossiers et fichiers suivants :
-- `tslint.json`: la configuration TSLint par défaut du workspace
+- `.eslintrc.json`: la configuration ESLint par défaut du workspace
 - `tsconfig.json`: la configuration TypeScript de base pour les projets dans le workspace
 - `tsconfig.app.json`: le fichier de configuration TypeScript de l'application racine qui hérite de celui de base
 - `tsconfig.spec.json`: le fichier de configuration TypeScript des tests e2e qui hérite de celui de base
@@ -92,19 +92,21 @@ Les doubles accolades sont la *syntaxe d'interpolation binding* d'Angular. Cet i
 Le navigateur s'actualise et affiche le nouveau titre de l'application.
 
 :::tip
-Soit dit en passant, les points-virgules sont facultatifs, si vous choisissez de ne pas les utiliser, vous pouvez le faire. Vous pouvez appliquer une règle à ce sujet via le [linter](https://palantir.github.io/tslint/rules/) en remplaçant `always` par `never`:
+Soit dit en passant, les points-virgules sont facultatifs, si vous choisissez de ne pas les utiliser, vous pouvez le faire. Vous pouvez appliquer une règle à ce sujet via le [linter](https://eslint.org/docs/rules/) en remplaçant `always` par `never`:
 ```json
-"semicolon": {
-  "options": [
-    "always"
-  ]
-},
+"overrides": [{
+  "rules": {
+    ...,s
+    "semi": ["error", "never"],
+    ...
+  }
+}]
 ```
 et corrigez automatiquement tous les endroits où les points-virgules sont déjà utilisés en exécutant :
 ```bash
 ng lint --fix
 ```
-Vous pouvez télécharger le fichier tslint.json que j'utilise habituellement [ici](https://worldline.github.io/angular-training/tslint.json)
+Vous pouvez télécharger le fichier .eslintrc.json que j'utilise habituellement [ici](https://worldline.github.io/angular-training/.eslintrc.json)
 :::
 
 ::: v-pre
