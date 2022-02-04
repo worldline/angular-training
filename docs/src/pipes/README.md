@@ -108,5 +108,5 @@ export class AppComponent {
 ```
 ## Practical work: format rating
 1. Create a `starRating` pipe using the CLI in `app/pipes`.
-2. Implement the inside of the transform methods so that a film's metascore is displayed with ★ to five ★★★★★ rating.
+2. Implement the inside of the transform method so that a film's metascore is displayed with ★ to five ★★★★★ rating.
 3. Use this pipe in the template of the `LoginFormComponent`.

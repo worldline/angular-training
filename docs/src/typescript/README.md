@@ -81,7 +81,7 @@ TypeScript stands in an unusual relationship to JavaScript. TypeScript offers al
 
 ### Syntax
 
-TypeScript is a language that is a superset of JavaScript: JS syntax is therefore legal TS. TypeScript doesn’t consider any JavaScript code to be an error because of its *syntax*. This means you can take any working JavaScript code and put it in a TypeScript file without worrying about exactly how it is written. However, if you move some code from a JavaScript file to a TypeScript file, you might see *type* errors depending on how the code is written.
+TypeScript is a language that is a superset of JavaScript: JS syntax is therefore legal TS. TypeScript doesn’t consider any JavaScript code to be in error because of its *syntax*. This means you can take any working JavaScript code and put it in a TypeScript file without worrying about exactly how it is written. However, if you move some code from a JavaScript file to a TypeScript file, you might see *type* errors depending on how the code is written.
 
 ### Runtime behavior
 
@@ -373,7 +373,7 @@ A function property on a class is called a method. Methods can use all the same 
 You can use TypeScript to control whether certain methods or properties are visible to code outside the class.
 
 There are 3 key words: `public`, `protected` and `private`.
-- The default visibility of a class member is `public`. Public members can be accessed by anywhere. Because `public` is already the default visibility modifier, you don’t ever need to write it on a class member, but might choose to do so for style/readability reasons.
+- The default visibility of a class member is `public`. Public members can be accessed from anywhere. Because `public` is already the default visibility modifier, you don’t ever need to write it on a class member, but might choose to do so for style/readability reasons.
 - `protected` members are only visible to subclasses of the class they’re declared in.
 - `private` is like `protected`, but doesn’t allow access to the member even from subclasses
 

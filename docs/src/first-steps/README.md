@@ -256,6 +256,6 @@ By default, the CLI will always generate in the `app` folder. You can tell it to
 </div>
 ```
 
-3. Delete the existing contents of the `AppComponent` template, and display the `LoginFormComponent` instead with `<app-login-form></app-login-form>`. Check that the CLI has added the `LoginFormComponent` to the lists of `declarations` in the `AppModule`.
+3. Delete the existing contents of the `AppComponent` template, and display the `LoginFormComponent` instead with `<app-login-form></app-login-form>`. Check that the CLI has added the `LoginFormComponent` to the list of `declarations` in the `AppModule`.
 
 4. Complete the `login-form.component.ts` file: add a field containing a title property. Then, use text interpolation in the template to pass the title of the form to the h1 tag.

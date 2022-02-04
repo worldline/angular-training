@@ -29,7 +29,7 @@ First, let's illustrate the second and third points:
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-observable-training?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
 
-The `Observable` fires 3 next notifications followed by a complete notification. Observable either stop emitting values because they error out or because they complete. The two events are mutually exclusive.
+The `Observable` fires 3 next notifications followed by a complete notification. Observables either stop emitting values because they error out or because they complete. The two events are mutually exclusive.
 
 ## Observable creation
 

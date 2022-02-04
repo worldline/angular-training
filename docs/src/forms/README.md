@@ -55,7 +55,7 @@ A `FormControl` is a class that wraps the value as well as other information of 
 
 The following project rewrites the first example of the previous section using Reactive forms. Here, we define `FormControl` objects and link them with their counterpart on the template with `[formControl]`.
 The value of the attribute must have the same name as the property in the component.
-As you may note in the template, the value and the valid status of form controls are obtained directly from the form control instance.
+As you may note in the template, the value and the valid status of form inputs are obtained directly from the form control instance.
 
 :::warning
 Note that using FormControls outside of a FormGroup is very unusual.

@@ -73,7 +73,7 @@ Alternatively, you can toggle styles and classes via two directives:
 Using the style binding syntax without NgStyle is preferred. Due to improvements, `NgStyle` no longer provides significant value compared to `[style]`, and might eventually be removed from Angular in the future.
 :::
 
-**Exercise: assign a class and a color to each ghost using class**
+**Exercise: assign a class and a color to each ghost using class, style, ngClass and ngStyle**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-attribute-directive-training?ctl=1&embed=1&file=src/app/app.component.ts&hideNavigation=1"></iframe>
 
 ## NgModel directive
@@ -123,7 +123,7 @@ You can provide an else statement as follows:
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngif-training?ctl=1&embed=1&file=src/app/app.component.ts&hideNavigation=1"></iframe>
 
 ## NgSwitch directive
-`NgSwitch` conditionally swaps the content of the host element by selecting one of the embedded templates based on the current value of conditionExpression.
+`NgSwitch` conditionally swaps the content of the host element by selecting one of the embedded templates based on the current value of condition expression.
 
 ```html
 <div [ngSwitch]="myBeer">
@@ -187,7 +187,7 @@ In this chapter, we have seen 5 built-in directives. Directives are classes decl
 There are three types of directives:
 - Components which are directives with a template (`@Component` inherits from `@Directive`)
 - Attribute directives which change the appearance or behavior of an element
-- Structural directive which change the DOM layout by adding and removing DOM elements
+- Structural directives which change the DOM layout by adding and removing DOM elements
 
 **Quizz: Which built-in directives are attribute directives and which are structural directives?**
 

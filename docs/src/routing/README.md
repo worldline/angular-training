@@ -70,7 +70,7 @@ const routes: Routes = [
 - home: `/home` & empty route
 - book list: `/books`
 - detail of book with id 1: `/books/1`
-- author list: book list: `/authors`
+- author list: `/authors`
 - detail of author with id 1: book list: `/authors/1`
 - any other route should lead to the home page
 
