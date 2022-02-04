@@ -1,41 +1,32 @@
-https://worldline.github.io/angular-training/
+# Worldline's Angular training material
 
-# angular-training
+## Train with us
+You can follow the training here: https://worldline.github.io/angular-training/
 
-- Welcome (iso vuejs)
-- Presentation d'Angular (iso vuejs)
-- Tooling (iso vuejs)
-- Typescript
-  - Typage
-  - Module ESM / attention à ne pas confondre avec NGmodule
-- Rx JS
-  - Notions d'observables
-  - Event emitter
-  - Opérateurs
-- CLI + premier projet
-  - Explication rapide de la structure
-- Composants et approche composants
-  - Templating
-  - Pipes
-  - Directives
-  - Communication parent <-> Enfant
-  - Mentionner Encapsulation du CSS
-  - Trasnclusion (NGContent)
-- Routage
-  - Ajout de routes
-  - passage de params
-  - Wildcards
-- Services
-  - Rappel que le service est un singleton
-  - Service basique
-- HttpClient
-  - Appel API hébergée sur Heroku
-- Formulaires
-  - Template driven forms
-  - Reactive forms
-- Ecosystème Angular
-- Pour aller plus loin:
-  - Injection de dépendances
-  - Internationalisation / localisation
-  - Tests unitaires / intégration
-  - Lazy loading
+Most chapters include some practical work to do on your own machine, the corrections are available here: [Corrections folder](https://github.com/worldline/angular-training/tree/main/corrections)
+
+## Contribute
+
+In most cases, you do not need any special knowledge of [Vuepress](https://vuepress.vuejs.org/) (the static-site generator used to transform the markdown into the final training website) or Vue to contribute.
+
+### Start locally
+
+You will need Node 10+, check you local version in the command line:
+```sh
+node -v
+```
+
+Then run:
+
+```sh
+npm install
+npm run dev
+```
+
+### Contribution guide
+
+- Fork the repository
+- Code (Don't forget to change both the English and French files)
+- Open a pull request
+- Request a review from Ocunidee
+- Take into consideration the requested changes
