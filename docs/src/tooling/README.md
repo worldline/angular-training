@@ -105,9 +105,31 @@ npm start
 ```
 Your application is accessible on localhost:4200 (default port if available). It will recompile automatically after each file save.
 
-#### Debug with VSCode
+### Build for production
+You can, at any time, package your project for production by running:
+```sh
+npm run build --prod
+```
+This command will compile your project using **Webpack** in production mode. Webpack is a *bundler*, a tool that will transform your sources into a small number of *bundles*, optimized and compressed JS and CSS files, and put them in the `/dist` folder of your project. You can then deploy this folder on a file server such as Apache or nginx.
 
-VSCode allows you to natively debug your development application on Chrome or Edge. To do that you first need to create a launch configuration for debugging. VSCode can create such a file automatically by following these steps:
+:::tip
+Basic Angular CLI commands are listed in the README.md generated at the root of the project
+:::
+
+### Debugging
+#### Debug with your browser's Developer Tools
+The Developer Tools can be invoked by pressing F12 on your keyboard and offer a panel of features such as a JS console, network request traces and so on. 
+
+The *Sources* tab of the Developer Tools enable you to open any source file by name (Ctrl + P) as long as you are not in a production build where files are minified. This is where you can place breakpoints.
+
+Alternatively, Angular provides a browser extension for Chrome called [Angular DevTools](https://angular.io/guide/devtools). It adds Angular specific debugging and profiling capabilities. The following screenshot illustrates the component tree feature of Angular DevTools. When the developer clicks on the "<>" button surrounded in red, he gets access to the source code of the component where he can place breakpoints.
+
+![Angular DevTools component tree](../assets/devtools-component-tree.png)
+
+![Component source in Chrome DevTools](../assets/devtools-component-source.png)
+
+#### Debug with VSCode (only for locally served application)
+VSCode allows you to natively debug your development application on Chrome or Edge. To do that, you first need to create a launch configuration for debugging. VSCode can create such a file automatically by following these steps:
 
 - Press *F5* on your keyboard or clic on *create a launch.json file* in the debug panel (left sidebar).
 - After a quick scan of the projet, VSCode will suggest relevent debug configurations. Choose *Chrome*.
@@ -134,27 +156,6 @@ Here is a sample *.vscode/launch.json*:
 Once you have a launch configuration and a running development server, press *F5*. This will open your app in a new browser window and enable debugging features in VSCode. To verify that, please add a breakpoint in the app component and launch a debug session. The debugger should break on your breakpoint.
 
 ![debug vscode](../assets/vscode-breakpoint.png)
-
-#### Debug with Chrome DevTools
-
-The Chrome dev tools can be invoked by pressing F12 on your keyboard and offer a panel of features such as a JS console, network request traces and so on. In addition to that, Angular provides a browser extension for Chrome called [Angular DevTools](https://angular.io/guide/devtools). It adds Angular specific debugging and profiling capabilities.
-
-The following screenshot illustrates the component tree feature of Angular DevTools. When the developer clicks on the "<>" button surrounded in red, he gets access to the source code of the component where he can place breakpoints.
-
-![Angular DevTools component tree](../assets/devtools-component-tree.png)
-
-![Component source in Chrome DevTools](../assets/devtools-component-source.png)
-
-### Build for production
-You can, at any time, package your project for production by running:
-```sh
-npm run build --prod
-```
-This command will compile your project using **Webpack** in production mode. Webpack is a *bundler*, a tool that will transform your sources into a small number of *bundles*, optimized and compressed JS and CSS files, and put them in the `/dist` folder of your project. You can then deploy this folder on a file server such as Apache or nginx.
-
-:::tip
-Basic Angular CLI commands are listed in the README.md generated at the root of the project
-:::
 
 ## Going further
 - [Intro to the TSConfig Reference: tsconfig.json](https://www.typescriptlang.org/tsconfig/)

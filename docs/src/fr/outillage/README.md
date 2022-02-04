@@ -8,7 +8,7 @@ Si cela est autorisé par votre politique de sécurité locale, vous pouvez trav
 Pour installer Angular sur votre système local, vous avez besoin des éléments suivants :
 
 ### Node.js
-Angular nécessite une [version LTS actuelle, active ou LTS de maintenance](https://nodejs.org/en/about/releases/) de Node.js. Pour Angular 11, Node 10.13.0 est la version minimale prise en charge. Pour plus d'informations sur l'installation de Node.js, consultez [nodejs.org](https://nodejs.org/en/).
+Angular nécessite une [version LTS actuelle, active ou LTS de maintenance](https://nodejs.org/en/about/releases/) de Node.js. Pour Angular 12, Node 12.14.0 est la version minimale prise en charge. Une table de compatibilité est disponible [ici](https://gist.github.com/LayZeeDK/c822cc812f75bb07b7c55d07ba2719b3). Pour plus d'informations sur l'installation de Node.js, consultez [nodejs.org](https://nodejs.org/en/).
 
 ::: tip
 Si vous n'êtes pas sûr de la version de Node.js qui s'exécute sur votre système, exécutez la commande `node -v` dans une fenêtre de terminal.
@@ -111,6 +111,46 @@ Cette commande compilera votre projet à l'aide de **Webpack** en mode productio
 :::tip
 Les commandes de base du CLI Angular CLI répertoriées dans le fichier README.md généré à la racine du projet
 :::
+
+### Déboguer
+#### Via les Developer Tools du navigateur
+Les Developer Tools du navigateur peuvent être affichés via la touche F12. Ils offrent un panel de fonctionnalités telles qu'une console JS (onglet *Console*), un outil de traçage réseau (onglet *Network*) etc... 
+
+L'onglet *Sources* des Developer Tools permet d'ouvrir les fichiers sources de votre application et y placer des breakpoints. Vous pouvez les chercher par nom en utilisant `Ctrl + P`. Cela marche tant que vous n'êtes pas dans le cas d'un build de production pour lequel les fichiers source sont minimifiés. 
+
+Alternativement, Angular fournit une extention pour Chrome [Angular DevTools](https://angular.io/guide/devtools) qui permet d'accéder à des fonctionnalités de débogage et de profiling spécifiques à Angular. L'imprimécran suivant illustre la fonctionnalité de visualisation de l'arbre des composants. En cliquant sur le bouton *<>*, vous pouvez accéder au code source du composant concerné et y placer des breakpoints.
+
+![Angular DevTools component tree](../../assets/devtools-component-tree.png)
+
+![Component source in Chrome DevTools](../../assets/devtools-component-source.png)
+
+#### Via VSCode (uniquement en local)
+VSCode permet de débugguer les applications sur Chrome ou Edge sans avoir recours au Developer Tools du navigateur. Pour cela, il faut tout d'abord créer un configuration de lancement du débogage. VSCode est capable de créer le fichier de configuration lui-même en suivant les étapes ci-dessous:
+
+- Appuyer sur *F5* puis choisir *create a launch.json file* dans le panel de gauche.
+- Après un scan rapide du projet, VSCode va proposer une configuration adéquate. Choisir Chrome.
+- Un nouveau fichier *.vscode/launch.json* est généré.
+- Ouvrir ce fichier et changer le port par défaut (4200 est la valeur commune pour les applications Angular)
+
+Voici un exemple de fichier *.vscode/launch.json*:
+
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "pwa-chrome",
+            "request": "launch",
+            "name": "Launch Chrome against localhost",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}"
+        }
+    ]
+}
+```
+Une fois la configuration générée et une application servie localement (via *ng serve*), appuyer sur F5. Cela ouvrira l'application dans une nouvelle fenêtre du navigateur et activer les fonctionnalités de débogage directement dans VSCode. Pour vérifier cela, il est possible de mettre un breakpoint dans l'AppComponent et de lancer une session de débogage. Le debugger devrait s'arrêter dessus.
+
+![debug vscode](../../assets/vscode-breakpoint.png)
 
 ## Aller plus loin
 - [Intro à la référence TSConfig: tsconfig.json](https://www.typescriptlang.org/tsconfig/)
