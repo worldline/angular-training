@@ -157,7 +157,7 @@ Le composant suivant montre comment tirer parti :
 Vous pouvez trouver une liste à jour des classes [ici](https://angular.io/guide/form-validation#control-status-css-classes).
 
 ## TP : Connexion et inscription avec des reactive forms
-1. Implémentez le formulaire de connexion / inscription à l'aide dereactive forms et du form builder : remplacez le `[(ngModel)]` dans le template et supprimez les propriétés `email` et `mot de passe` de la classe du `LoginFormComponent`.
+1. Implémentez le formulaire de connexion / inscription à l'aide de reactive forms et du form builder : remplacez le `[(ngModel)]` dans le template et supprimez les propriétés `email` et `mot de passe` de la classe du `LoginFormComponent`.
 
 2. Ajoutez le validateur required (`Validators.required`) aux deux champs et affichez le texte `"Ce champ est requis"` à côté de chaque champ si le formulaire a un statut dirty et que ce champ a l'erreur `required` :
 ```html

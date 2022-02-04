@@ -103,7 +103,7 @@ VsCode utilisera automatiquement ces chemins pour les imports au lieu de ceux re
 </code-group>
 
 5. Afficher conditionnellement le bouton Logout en fonction du statut `loggedIn` de l'utilisateur
-6. Utilisez un navigation guard pour rediriger l'utilisateur qui souhaite accéder à la page de recherche de films vers `/login` s'il n'est pas authentifié (rendez le CanActivate vrai si la route est accessible sinon retournez un `UrlTree` via la méthode `createUrlTree` du service `Router`). Pour prendre en considération des cas d'usage futur, ajoutez un returnUrl en tant que queryParam au `UrlTree` renvoyé afin que le `LoginFormComponent` sache où revenir après l'authentification et modifiez le `LoginFormComponent` en conséquence. Pour générer le navigation guard, utilisez la commande duCLI suivante :
+6. Utilisez un navigation guard pour rediriger l'utilisateur qui souhaite accéder à la page de recherche de films vers `/login` s'il n'est pas authentifié (rendez le CanActivate vrai si la route est accessible sinon retournez un `UrlTree` via la méthode `createUrlTree` du service `Router`). Pour prendre en considération des cas d'usage futur, ajoutez un returnUrl en tant que queryParam au `UrlTree` renvoyé afin que le `LoginFormComponent` sache où revenir après l'authentification et modifiez le `LoginFormComponent` en conséquence. Pour générer le navigation guard, utilisez la commande du CLI suivante :
 
 ```sh
 ng generate guard guards/authentication
@@ -456,7 +456,7 @@ providers: [
 ],
 ```
 
-12. Créez un `FilmService` à l'aide du CLI et implémentez l'appel au endpoint `api/movies/search`. Notez que le queryParam `title` n'est pas facultatif. Pour ajouter des query param sà une requête, utilisez le paramètre `options` de la méthode get.
+12. Créez un `FilmService` à l'aide du CLI et implémentez l'appel au endpoint `api/movies/search`. Notez que le queryParam `title` n'est pas facultatif. Pour ajouter des query params à une requête, utilisez le paramètre `options` de la méthode get.
 
 ```ts
 const options = {

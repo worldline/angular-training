@@ -119,7 +119,7 @@ Vous pouvez fournir une instruction else comme suit :
 
 **Exercice: utilisez un NgIf pour montrer/cacher le loader**
 
-**Bonus: utilisez un NgIf Else pour conditionnellement montrer soir les données soit le message comme quoi les données ne sont pas disponibles**
+**Bonus: utilisez un NgIf Else pour conditionnellement montrer soit les données soit le message comme quoi les données ne sont pas disponibles**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngif-training?ctl=1&embed=1&file=src/app/app.component.ts&hideNavigation=1"></iframe>
 
 ## Directive NgSwitch

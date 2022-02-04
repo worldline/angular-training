@@ -99,7 +99,7 @@ Cela signifie également que TypeScript ne modifie jamais le comportement de vot
 
 Enfin, TypeScript ne fournit aucune librairie runtime supplémentaire. Vos programmes utiliseront la même librairie standard (ou librairies externes) que les programmes JavaScript, il n'y a donc pas de framework supplémentaire spécifique à TypeScript à apprendre.
 
-## Expérimeter
+## Expérimenter
 
 ::: tip
 Si vous voulez expérimenter avec TypeScript, vous pouvez soit l'installer localement `npm install -g typescript`, mettre votre code dans un fichier `.ts` et exécuter `tsc path/to/file.ts` pour le compiler, ou alors, essayer directement en ligne dans un [playground](https://www.typescriptlang.org/play?#code)
@@ -432,7 +432,7 @@ d.woof(3) // Derived class method
 ```
 
 ## Modules
-En TypeScript, tout comme dans ECMAScript 2015 (ES6), tout fichier contenant à son début un import ou un export  est considéré comme un module.
+En TypeScript, tout comme dans ECMAScript 2015 (ES6), tout fichier contenant à son début un import ou un export est considéré comme un module.
 
 A l'inverse, un fichier sans déclaration d'import ou d'export en début de fichier est traité comme un script dont le contenu est disponible dans le scope global (et donc aussi pour les modules).
 

@@ -35,7 +35,7 @@ Notre projet précédemment créé contient les dossiers et fichiers suivants :
 - `.gitignore`: Spécifie les fichiers intentionnellement non suivis que Git doit ignorer
 - `.editorconfig`: Configuration pour les éditeurs de code
 - `.browserlistrc`: Configuration pour partager les navigateurs cibles
-- `src`: Fichiers sources pour le projet d'application de niveau racine
+- `src`: Fichiers sources pour l'application racine
 - `node_modules`: Fournit des packages npm à l'ensemble du workspace
 - `e2e`: Fichiers sources pour l'ensemble de tests de bout en bout de l'application racine, ainsi que des fichiers de configuration spécifiques aux tests
 

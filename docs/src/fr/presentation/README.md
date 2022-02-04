@@ -43,5 +43,5 @@ Angular présente de nombreux avantages :
 
 - Il est particulièrement bien adapté aux projets qui doivent scale et à cet effet, il est principalement utilisé pour les projets d'entreprise.
 - Son riche écosystème de librairies officielles permet une grande cohérence entre projets, ce qui signifie que lors d'un changement d'équipes ou de projets, vous n'aurez besoin que de monter en compétences sur le nouveau domaine d'activité et non sur une façon différente de développer, car, par exemple,  un autre choix de librairies aura été fait.
-- Il est très bien documenté et la cohérence dans la manière dont le cadre est utilisé signifie que vous êtes plus que susceptible de trouver une réponse à toutes les questions que vous pourriez rencontrer au cours de votre parcours d'apprentissage.
+- Il est très bien documenté et la cohérence dans la manière dont le framework est utilisé signifie que vous êtes plus que susceptible de trouver en ligne des réponses à toutes les questions que vous pourriez rencontrer au cours de votre parcours d'apprentissage.
 - L'équipe Angular est très fière de la manière avec laquelle elle facilite la mise à jour des projets Angular, en fournissant des étapes faciles à suivre et une migration entièrement automatisée.
