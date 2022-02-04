@@ -253,14 +253,14 @@ npm install --save-dev https-proxy-agent
 
 ```json{7}
 ...
-"architect": {
-  "serve": {
-    "builder": "@angular-devkit/build-angular:dev-server",
-    "options": {
-      "browserTarget": "your-application-name:build",
-      "proxyConfig": "src/proxy.conf.json" // or "src/proxy.conf.js"
-    },
-...
+"serve": {
+  "builder": "@angular-devkit/build-angular:dev-server",
+  ...
+  "development": {
+    "browserTarget": "search-films:build:development",
+    "proxyConfig": "src/proxy.conf.json" // ou "src/proxy.conf.js"
+  }
+},
 ```
 
 4. Ajoutez le `HttpClientModule` au tableau `imports` de `AppModule`. Si VSCode ne parvient pas à trouver l'importation, ajoutez la ligne suivante manuellement en haut du fichier `app.module.ts` :

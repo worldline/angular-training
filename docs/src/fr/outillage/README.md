@@ -28,7 +28,7 @@ Vous utiliserez le CLI Angular pour créer des projets, générer du code dans v
 
 Pour installer le CLI Angular, ouvrez une fenêtre de terminal et exécutez la commande suivante :
 ```sh
-npm install -g @angular/cli@11.1.3
+npm install -g @angular/cli@12.2.11
 ```
 
 La commande `ng` est maintenant accessible depuis le terminal. Essayez-la pour vérifier l'installation et avoir plus d'informations sur les commandes disponibles. Vous pouvez également jeter un coup d’œil à la [documentation](https://angular.io/cli#command-overview).
