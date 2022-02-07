@@ -68,8 +68,14 @@ OU
 
 - Pour une installation plus légère, installez uniquement l'[Angular language service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template). Cette extension fournira, entre autres, l'autocomplétion. Installer ensuite le linter [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
 
+::: tip WSL
+Dans le cas où vous souhaiteriez développer dans WSL, Node et le CLI Angular doivent être installés dans le sous-système linux et Visual Studio Code dans Windows avec l'extension [Remote - WSL extension](https://code.visualstudio.com/docs/remote/wsl).
+:::
+
 ## TP: Création de votre premier projet
-Placez-vous dans le dossier où vous stockez vos dépôts git, ouvrez-y un terminal et tapez la commande suivante :
+
+### Génération du projet Angular
+Placez-vous dans le dossier où vous stockez vos repos git, ouvrez-y un terminal et tapez la commande suivante :
 
 ```sh
 ng new --collection=@angular-eslint/schematics search-films
@@ -77,6 +83,10 @@ ng new --collection=@angular-eslint/schematics search-films
 # ng new search-films
 # ng add @angular-eslint/schematics
 ```
+
+::: warning WSL
+Si vous utilisez WSL, le repo git doit être stocké du côté WSL pour éviter de gros problèmes de performance. Par exemple, lancez la commande `ng new` dans le répertoire `~/repo`.
+:::
 
 **search-films** étant le nom du répertoire dans lequel notre projet sera créé.
 Choisissez la configuration suivante :
@@ -95,7 +105,17 @@ La deuxième question ajoute un fichier app-routing.module.ts qui importe le Rou
 
 La dernière question vous fait choisir le format des feuilles de style. Ce format sera utilisé à deux endroits : pour le fichier global `styles` et pour chaque composant généré. Le format SCSS vous permet d'écrire du CSS standard et vous donne la possibilité de tirer parti de la puissance de Sass si vous choisissez de le faire.
 
-Une fois que le projet a fini d'être généré, ouvrez le dossier du projet avec VS Code. (soit un clic droit sur le dossier soit via VSCode: Fichier > Ouvrir le dossier...)
+### Ouverture du projet dans VSCode
+
+Une fois que le projet a fini d'être généré, ouvrez le projet dans VSCode en tappant les commandes suivantes:
+```sh
+cd search-films
+code .
+```
+
+::: tip WSL
+Une fois le projet ouvert dans VSCode via la ligne de commande, vous devriez apercevoir le sous-système utilisé dans le coin bas gauche de l'IDE.
+:::
 
 ### Mode développeur
 Pour travailler sur l'application et la tester en direct, exécutez la commande suivante dans le répertoire du projet (`cd search-films` si nécessaire) :

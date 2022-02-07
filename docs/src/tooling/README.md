@@ -71,8 +71,14 @@ This extension will provide autocompletion, among other things.
 Then, install the linter [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint). 
 Wikipedia describes a [linter](https://en.wikipedia.org/wiki/Lint_%28software%29) as a tool that allows to flag programming errors, bugs, stylistic errors and suspicious constructs.
 
+::: tip WSL
+In case you intend to develop in WSL, Node and the Angular CLI need to be installed on your linux subsystem and Visual Studio Code on Windows with the [Remote - WSL extension](https://code.visualstudio.com/docs/remote/wsl).
+:::
+
 ## Practical work: Create your first project
-Go into the folder where you store your git repositories, open a terminal there and type the following commands:
+
+### Generate the Angular project
+Go into the folder where you store your git repositories, open a terminal there and type the following command:
 
 ```sh
 ng new --collection=@angular-eslint/schematics search-films
@@ -80,6 +86,10 @@ ng new --collection=@angular-eslint/schematics search-films
 # ng new search-films
 # ng add @angular-eslint/schematics
 ```
+
+::: warning WSL
+If you are using WSL, the repo needs to be stored on the WSL side to avoid big performance issues. For instance, run the `ng new` command in the `~/repo` directory.
+:::
 
 **search-films** being the name of the directory in which our project will be created.
 Choose the following configuration:
@@ -98,7 +108,17 @@ The second question adds an app-routing.module.ts file which imports the RouterM
 
 The last question makes you choose the stylesheet format. This format will be used in two places: for the top `styles` file and for each generated component. The SCSS format enables you to write standard CSS and gives you the opportunity to leverage the power of Sass if you choose to do so.
 
-Once the project has finished being generated, open the project folder with VS Code. (either right-click on the folder or via VSCode File > Open Folder...)
+### Open the project in VSCode
+
+Once the project has finished being generated, open the project in VSCode by typing the following commands:
+```sh
+cd search-films
+code .
+```
+
+::: tip WSL
+Once you have opened VSCode via the terminal, you should see at its bottom left corner the linux subsystem it uses.
+:::
 
 ### Work in developer mode
 To work on the application and test it live, run the following command in the project's directory (`cd search-films` if necessary):
