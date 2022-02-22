@@ -22,23 +22,21 @@ export class LoginFormComponent {
   ) {}
 
   login(): void {
-    this.authenticationService.login(this.loginRequest)
-      .subscribe(
-        response => {
+    this.authenticationService.login(this.loginRequest).subscribe({
+      next: response => {
           this.authenticationService.token = response.token
           const returnUrl = this.route.snapshot.paramMap.get('returnUrl')
           this.router.navigateByUrl(returnUrl ? `/${returnUrl}` : '')
         },
-        error => this.errorHandler(error)
-      )
+      error: error => this.errorHandler(error),
+    })
   }
 
   register(): void {
-    this.authenticationService.register(this.loginRequest)
-      .subscribe(
-        response => {},
-        error => this.errorHandler(error)
-      )
+    this.authenticationService.register(this.loginRequest).subscribe({
+      next: response => {},
+      error: error => this.errorHandler(error),
+    })
   }
 
   get loginRequest(): LoginRequest {

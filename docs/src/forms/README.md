@@ -158,12 +158,18 @@ You can find an updated list of classes [here](https://angular.io/guide/form-val
 ## Practical work: Login and registration with reactive forms
 1. Implement the login / registration form using reactive forms and the form builder: replace the `[(ngModel)]` in the template and delete the `email` and `password` from the class of the `LoginFormComponent`.
 
-2. Add the required validator (`Validators.required`) to both fields and show the text `"This field is required"` next to each field if the form is dirty and that field has the error `required`:
+2. Add the required validator (`Validators.required`) to both email and password fields. Show the text `"This field is required"` next to each field if the form is dirty and that field has the error `required`:
+
 ```html
 <small>
   This field is required
 </small>
 ```
+
+::: tip Hint
+- You can get a specific form control using the `get('form control name')` method of a form group.
+- You can check if a form control has a specific error by using the `hasError('error name')` method of form controls.
+:::
 
 3. Style the label and error text of each field with the `.error` class when the form is dirty and that field is invalid (remember the `[class]` attribute)
 
@@ -176,11 +182,23 @@ You can find an updated list of classes [here](https://angular.io/guide/form-val
 - Minimum length of 8 characters
 
 Put that validator in `app/utils` and name it `password.validator.ts`. Here is its basic implementation:
+
 ```ts
 export function password(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    // TODO
-    return {'password.pattern': true}
+    const regExpUpeerCase = /^.*[A-Z]+.*$/;
+    const regExpLowerCase = /^.*[a-z]+.*$/;
+    const refExpSpecialChars = /^.*\W+.*$/;
+
+    if (
+      regExpUpeerCase.test(control.value) &&
+      regExpLowerCase.test(control.value) &&
+      refExpSpecialChars.test(control.value) &&
+      control.value.length > 8
+    ) {
+      return null;
+    }
+    return { 'password.pattern': 'Password format is incorrect' };
   }
 }
 ```

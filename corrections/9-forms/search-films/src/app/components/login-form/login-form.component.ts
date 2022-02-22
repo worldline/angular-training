@@ -34,23 +34,23 @@ export class LoginFormComponent implements OnDestroy {
   login(): void {
     this.authenticationService.login(this.loginRequest)
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(
-        response => {
+      .subscribe({
+        next: response => {
           this.authenticationService.token = response.token
           const returnUrl = this.route.snapshot.paramMap.get('returnUrl')
           this.router.navigateByUrl(returnUrl ? `/${returnUrl}` : '')
         },
-        error => this.errorHandler(error)
-      )
+        error: error => this.errorHandler(error)
+      })
   }
 
   register(): void {
     this.authenticationService.register(this.loginRequest)
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(
-        response => {},
-        error => this.errorHandler(error)
-      )
+      .subscribe({
+        next: response => {},
+        error: error => this.errorHandler(error)
+      })
   }
 
   get loginRequest(): LoginRequest {

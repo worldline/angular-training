@@ -406,21 +406,20 @@ login(): void {
 
 9. Ajoutez un bouton d'enregistrement à côté du bouton de connexion dans le `LoginFormComponent`, donnez-lui l'attribut `type="button"` afin qu'Angular sache que ce n'est pas ce bouton qui déclenche l'événement `ngSubmit` sur le formulaire et faites-lui appeler le méthode d'enregistrement. Vous devriez maintenant pouvoir enregistrer un utilisateur et vous connecter.
 
-10. Il est temps de gérer les erreurs. La méthode subscribe peut recevoir trois callbacks: une next, une error et une complete (nous verrons cela plus en détail dans le chapitre suivant). Passez la méthode `errorHandler` comme callback error à la méthode subscribe de la connexion et de l'enregistrement, vous devrez déclarer un champ `errorMessage` sur le `LoginFormComponent`. Afficher le message d'erreur sur le formulaire.
+10. Il est temps de gérer les erreurs. La méthode subscribe peut prendre un objet qui propose trois callbacks: une *next*, une *error* et une *complete* (nous verrons cela plus en détail dans le chapitre suivant). déclarer un champ `errorMessage` sur le `LoginFormComponent` et le mettre à jour en vous servant de l'argument renvoyé par la callback `error`. Afficher le message d'erreur sur le formulaire. Vérifier que le message d'erreur s'affiche bien lorsqu'on saisit des identifiants incorrects.
 
 ```ts
-private errorHandler(errorResponse: HttpErrorResponse): void {
-  const error = errorResponse.error
-  this.errorMessage = error.error ?? `${error.status} - ${error.statusText}`
-}
-
 // subscribe syntax
 this.authenticationService.login(this.loginRequest)
-  .subscribe(
-    response => {/* */},
-    error => {/* */}
-  )
+  .subscribe({
+    next: (userResponse) => { /* TODO */},
+    error: (errorResponse) => { errorResponse.error.error ?? `${errorResponse.status} - ${errorResponse.statusText}` }
+  })
 ```
+
+::: tip hint
+Pour une meilleure UX (User eXperience), penser à vider le champ `errorMessage` soit avant de lancer un nouvelle requête d'authentification ou d'enregistrment, soit dès que celles-ci se terminent en succès.
+:::
 
 11. Appelons maintenant le backend pour obtenir la liste des films. La route est sécurisée, ce qui signifie que le passage du token dans l'en-tête est nécessaire. Angular fournit un mécanisme - les intercepteurs http - pour intercepter systématiquement les requêtes http, permettant de définir les en-têtes en un seul endroit.
 
