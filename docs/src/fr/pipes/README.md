@@ -110,3 +110,6 @@ export class AppComponent {
 1. Créez un pipe `starRating` à l'aide du CLI dans `app/pipes`.
 2. Implémentez l'intérieur de la méthode transform de sorte que le métascore d'un film s'affiche avec une note de ★ à cinq ★★★★★.
 3. Utilisez ce pipe dans le template du `LoginFormComponent`.
+
+## Pour aller plus loin
+La différence entre les [pipes purs et impurs](https://medium.com/@ghoul.ahmed5/pure-vs-impure-pipe-in-angular-2152cf073e4d)

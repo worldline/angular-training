@@ -251,16 +251,17 @@ npm install --save-dev https-proxy-agent
 
 3. Dans le fichier de configuration CLI - `angular.json` - ajoutez l'option `proxyConfig` à la target serve :
 
-```json{7}
+```json{5,6,7}
 ...
 "serve": {
   "builder": "@angular-devkit/build-angular:dev-server",
   ...
-  "development": {
-    "browserTarget": "search-films:build:development",
-    "proxyConfig": "src/proxy.conf.json" // ou "src/proxy.conf.js"
-  }
+  "options": {
+    "proxyConfig": "src/proxy.conf.json" // or "src/proxy.conf.js"
+  },
+  "defaultConfiguration": "development"
 },
+...
 ```
 
 4. Ajoutez le `HttpClientModule` au tableau `imports` de `AppModule`. Si VSCode ne parvient pas à trouver l'importation, ajoutez la ligne suivante manuellement en haut du fichier `app.module.ts` :
@@ -409,14 +410,16 @@ login(): void {
 
 ```ts
 private errorHandler(errorResponse: HttpErrorResponse): void {
-  this.errorMessage = errorResponse.error.error ?? `${errorResponse.status} - ${errorResponse.statusText}`
-  // subscribe syntax
-  this.authenticationService.login(this.loginRequest)
-    .subscribe(
-      response => {/* */},
-      error => {/* */}
-    )
+  const error = errorResponse.error
+  this.errorMessage = error.error ?? `${error.status} - ${error.statusText}`
 }
+
+// subscribe syntax
+this.authenticationService.login(this.loginRequest)
+  .subscribe(
+    response => {/* */},
+    error => {/* */}
+  )
 ```
 
 11. Appelons maintenant le backend pour obtenir la liste des films. La route est sécurisée, ce qui signifie que le passage du token dans l'en-tête est nécessaire. Angular fournit un mécanisme - les intercepteurs http - pour intercepter systématiquement les requêtes http, permettant de définir les en-têtes en un seul endroit.

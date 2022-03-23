@@ -251,16 +251,16 @@ npm install --save-dev https-proxy-agent
 
 3. In the CLI configuration file - `angular.json` - add the `proxyConfig` option to the serve target:
 
-```json{7}
+```json{5,6,7}
 ...
 "serve": {
   "builder": "@angular-devkit/build-angular:dev-server",
   ...
-    "development": {
-      "browserTarget": "search-films:build:development",
-      "proxyConfig": "src/proxy.conf.json" // or "src/proxy.conf.js"
-    }
+  "options": {
+    "proxyConfig": "src/proxy.conf.json" // or "src/proxy.conf.js"
   },
+  "defaultConfiguration": "development"
+},
 ...
 ```
 
@@ -410,7 +410,8 @@ login(): void {
 
 ```ts
 private errorHandler(errorResponse: HttpErrorResponse): void {
-  this.errorMessage = errorResponse.error.error ?? `${error.status} - ${error.statusText}`
+  const error = errorResponse.error
+  this.errorMessage = error.error ?? `${error.status} - ${error.statusText}`
 }
 
 // subscribe syntax

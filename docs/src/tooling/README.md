@@ -8,7 +8,7 @@ If it is allowed by your local security policy, you can work under a Linux VM, t
 To install Angular on your local system, you need the following:
 
 ### Node.js
-Angular requires a [current, active LTS, or maintenance LTS version](https://nodejs.org/en/about/releases/) of Node.js.
+Angular requires a [current, active LTS, or maintenance LTS version](https://nodejs.org/en/about/releases/) of Node.js. For Angular 12, Node 12.14.0 is the minimal version and Node 16 is too high.
 There is a compatibility table [maintained by LayZeeDK](https://gist.github.com/LayZeeDK/c822cc812f75bb07b7c55d07ba2719b3)
 For more information on installing Node.js, see [nodejs.org](https://nodejs.org/en/).
 
@@ -81,10 +81,7 @@ In case you intend to develop in WSL, Node and the Angular CLI need to be instal
 Go into the folder where you store your git repositories, open a terminal there and type the following command:
 
 ```sh
-ng new --collection=@angular-eslint/schematics search-films
-# which is equivalent to:
-# ng new search-films
-# ng add @angular-eslint/schematics
+ng new search-films
 ```
 
 ::: warning WSL
@@ -95,24 +92,28 @@ If you are using WSL, the repo needs to be stored on the WSL side to avoid big p
 Choose the following configuration:
 
 ```sh
-? Do you want to enforce stricter type checking and stricter bundle budgets in the workspace?
-  This setting helps improve maintainability and catch bugs ahead of time.
-  For more information, see https://angular.io/strict Yes
 ? Would you like to add Angular routing? Yes
 ? Which stylesheet format would you like to use? SCSS   [ https://sass-lang.com/documentation/syntax#scss ]
 ```
 
-The first question influences the options in the `tsconfig.json` and `angular.json` files. Notably it sets the `strict` flag to true inside the TSConfig file which enables a wide range of type checking behavior that results in stronger guarantees of program correctness. Turning it on is equivalent to enabling all of the strict mode family options: `strictBindCallApply`, `strictFunctionTypes`, `strictNullChecks` and `strictPropertyInitialization`. It also sets to true the three following `angularCompilerOptions`: `strictInjectionParameters`, `strictInputAccessModifiers` and `strictTemplates`. These options configure the AOT (*Ahead-of-Time*) template compiler.
+The first question adds an app-routing.module.ts file which imports the RouterModule. In Angular, the best practice is to load and configure the router in a separate, top-level module that is dedicated to routing and imported by the root `AppModule`.
 
-The second question adds an app-routing.module.ts file which imports the RouterModule. In Angular, the best practice is to load and configure the router in a separate, top-level module that is dedicated to routing and imported by the root `AppModule`.
+The second question makes you choose the stylesheet format. This format will be used in two places: for the top `styles` file and for each generated component. The SCSS format enables you to write standard CSS and gives you the opportunity to leverage the power of Sass if you choose to do so.
 
-The last question makes you choose the stylesheet format. This format will be used in two places: for the top `styles` file and for each generated component. The SCSS format enables you to write standard CSS and gives you the opportunity to leverage the power of Sass if you choose to do so.
+Since the Angular 12 version, the CLI generates the project in strict mode. Notably, it sets the `strict` flag to true inside the `tsconfig.json` file which enables a wide range of type checking behavior that results in stronger guarantees of program correctness. Turning it on is equivalent to enabling all of the strict mode family options: `strictBindCallApply`, `strictFunctionTypes`, `strictNullChecks` and `strictPropertyInitialization`. It also sets to true the three following `angularCompilerOptions`: `strictInjectionParameters`, `strictInputAccessModifiers` and `strictTemplates`. These options configure the AOT (*Ahead-of-Time*) template compiler.
+
+We're then going to install the linter ESLint:
+
+```sh
+cd search-films
+ng add @angular-eslint/schematics
+```
 
 ### Open the project in VSCode
 
-Once the project has finished being generated, open the project in VSCode by typing the following commands:
+Once the project has finished being generated and the linter is installed, open the project in VSCode by typing the following command in the folder of the search-films app:
+
 ```sh
-cd search-films
 code .
 ```
 
@@ -130,9 +131,9 @@ Your application is accessible on localhost:4200 (default port if available). It
 ### Build for production
 You can, at any time, package your project for production by running:
 ```sh
-npm run build --prod
+npm run build
 ```
-This command will compile your project using **Webpack** in production mode. Webpack is a *bundler*, a tool that will transform your sources into a small number of *bundles*, optimized and compressed JS and CSS files, and put them in the `/dist` folder of your project. You can then deploy this folder on a file server such as Apache or nginx.
+This command will build your project using **Webpack** in production mode. Webpack is a *bundler*, a tool that will transform your sources into a small number of *bundles*, optimized and compressed JS and CSS files, and put them in the `/dist` folder of your project. You can then deploy this folder on a file server such as Apache or nginx.
 
 :::tip
 Basic Angular CLI commands are listed in the README.md generated at the root of the project

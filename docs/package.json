@@ -23,10 +23,10 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "shelljs": "^0.8.4",
-    "vuepress": "^1.8.2"
+    "shelljs": "0.8.4",
+    "vuepress": "1.8.2"
   },
   "dependencies": {
-    "vuepress-plugin-global-toc": "^1.0.1"
+    "vuepress-plugin-global-toc": "1.0.1"
   }
 }

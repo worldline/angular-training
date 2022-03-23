@@ -106,7 +106,15 @@ et corrigez automatiquement tous les endroits où les points-virgules sont déj�
 ```bash
 ng lint --fix
 ```
-Vous pouvez télécharger le fichier .eslintrc.json que j'utilise habituellement [ici](https://worldline.github.io/angular-training/.eslintrc.json)
+Vous pouvez télécharger le fichier .eslintrc.json que j'utilise habituellement [ici](https://worldline.github.io/angular-training/eslintrc.json)
+
+Pour que cette configuration marche, quelques dépendences de développement supplémentaires sont nécessaires. Elles ajoutent des règles de linting.
+```bash
+npm i -D eslint-plugin-unicorn@40.0.0 
+npm i -D eslint-plugin-prefer-arrow
+npm i -D eslint-plugin-jsdoc
+npm i -D eslint-plugin-import
+```
 :::
 
 ::: v-pre

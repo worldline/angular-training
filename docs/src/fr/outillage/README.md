@@ -8,7 +8,7 @@ Si cela est autorisé par votre politique de sécurité locale, vous pouvez trav
 Pour installer Angular sur votre système local, vous avez besoin des éléments suivants :
 
 ### Node.js
-Angular nécessite une [version LTS actuelle, active ou LTS de maintenance](https://nodejs.org/en/about/releases/) de Node.js. Pour Angular 12, Node 12.14.0 est la version minimale prise en charge. Une table de compatibilité est disponible [ici](https://gist.github.com/LayZeeDK/c822cc812f75bb07b7c55d07ba2719b3). Pour plus d'informations sur l'installation de Node.js, consultez [nodejs.org](https://nodejs.org/en/).
+Angular nécessite une [version LTS actuelle, active ou LTS de maintenance](https://nodejs.org/en/about/releases/) de Node.js. Pour Angular 12, Node 12.14.0 est la version minimale prise en charge et la version 16 est non supportée car trop élevée. Une table de compatibilité est disponible [ici](https://gist.github.com/LayZeeDK/c822cc812f75bb07b7c55d07ba2719b3). Pour plus d'informations sur l'installation de Node.js, consultez [nodejs.org](https://nodejs.org/en/).
 
 ::: tip
 Si vous n'êtes pas sûr de la version de Node.js qui s'exécute sur votre système, exécutez la commande `node -v` dans une fenêtre de terminal.
@@ -78,10 +78,7 @@ Dans le cas où vous souhaiteriez développer dans WSL, Node et le CLI Angular d
 Placez-vous dans le dossier où vous stockez vos repos git, ouvrez-y un terminal et tapez la commande suivante :
 
 ```sh
-ng new --collection=@angular-eslint/schematics search-films
-# which is equivalent to:
-# ng new search-films
-# ng add @angular-eslint/schematics
+ng new search-films
 ```
 
 ::: warning WSL
@@ -92,24 +89,27 @@ Si vous utilisez WSL, le repo git doit être stocké du côté WSL pour éviter 
 Choisissez la configuration suivante :
 
 ```sh
-? Do you want to enforce stricter type checking and stricter bundle budgets in the workspace?
-  This setting helps improve maintainability and catch bugs ahead of time.
-  For more information, see https://angular.io/strict Yes
 ? Would you like to add Angular routing? Yes
 ? Which stylesheet format would you like to use? SCSS   [ https://sass-lang.com/documentation/syntax#scss ]
 ```
 
-La première question influence les options des fichiers `tsconfig.json` et `angular.json`. Notamment, il définit le flag `strict` à true dans le fichier TSConfig, ce qui active un large éventail de fonctionnalités de vérification de type qui se traduisent par de meilleures garanties d'exactitude du programme. L'activer équivaut à activer toutes les options de la famille en mode strict : `strictBindCallApply`, `strictFunctionTypes`, `strictNullChecks` et `strictPropertyInitialization`. Il définit également sur true les trois `angularCompilerOptions` suivantes : `strictInjectionParameters`, `strictInputAccessModifiers` et `strictTemplates`. Ces options configurent le compilateur de template AOT (*Ahead-of-Time*).
+La première question ajoute un fichier app-routing.module.ts qui importe le RouterModule. En Angular, une bonne pratique consiste à charger et à configurer le routeur dans un module distinct, dédié au routage et importé par le module root `AppModule`.
 
-La deuxième question ajoute un fichier app-routing.module.ts qui importe le RouterModule. En Angular, une bonne pratique consiste à charger et à configurer le routeur dans un module distinct, dédié au routage et importé par le module root `AppModule`.
+La seconde question vous fait choisir le format des feuilles de style. Ce format sera utilisé à deux endroits : pour le fichier global `styles` et pour chaque composant généré. Le format SCSS vous permet d'écrire du CSS standard et vous donne la possibilité de tirer parti de la puissance de Sass si vous choisissez de le faire.
 
-La dernière question vous fait choisir le format des feuilles de style. Ce format sera utilisé à deux endroits : pour le fichier global `styles` et pour chaque composant généré. Le format SCSS vous permet d'écrire du CSS standard et vous donne la possibilité de tirer parti de la puissance de Sass si vous choisissez de le faire.
+Depuis la version 12 d'Angular, le CLI génère les nouveaux projets en mode strict. Notamment, il définit le flag `strict` à true dans le fichier `tsconfig.json`, ce qui active un large éventail de fonctionnalités de vérification de type qui se traduisent par de meilleures garanties d'exactitude du programme. L'activer équivaut à activer toutes les options de la famille en mode strict : `strictBindCallApply`, `strictFunctionTypes`, `strictNullChecks` et `strictPropertyInitialization`. Il définit également sur true les trois `angularCompilerOptions` suivantes : `strictInjectionParameters`, `strictInputAccessModifiers` et `strictTemplates`. Ces options configurent le compilateur de template AOT (*Ahead-of-Time*).
+
+Nous allons maintenant installer le linter ESLint:
+
+```sh
+cd search-films
+ng add @angular-eslint/schematics
+```
 
 ### Ouverture du projet dans VSCode
 
-Une fois que le projet a fini d'être généré, ouvrez le projet dans VSCode en tappant les commandes suivantes:
+Une fois que le projet a fini d'être généré et que le linter est installé, ouvrez le projet dans VSCode en tappant la commande suivante dans le dossier de l'app search-films:
 ```sh
-cd search-films
 code .
 ```
 
@@ -127,9 +127,9 @@ Votre application est accessible sur localhost:4200 (port par défaut si disponi
 ### Mode production
 Vous pouvez, à tout moment, packager votre projet pour la production en exécutant:
 ```sh
-npm run build --prod
+npm run build
 ```
-Cette commande compilera votre projet à l'aide de **Webpack** en mode production. Webpack est un *bundler*, un outil qui va transformer vos sources en un petit nombre de *bundles*, des fichiers JS et CSS optimisés et compressés, et les mettre dans le dossier `/dist` de votre projet. Vous pouvez ensuite déployer ce dossier sur un serveur de fichiers tel que Apache ou nginx.
+Cette commande buildera votre projet à l'aide de **Webpack** en mode production. Webpack est un *bundler*, un outil qui va transformer vos sources en un petit nombre de *bundles*, des fichiers JS et CSS optimisés et compressés, et les mettre dans le dossier `/dist` de votre projet. Vous pouvez ensuite déployer ce dossier sur un serveur de fichiers tel que Apache ou nginx.
 
 :::tip
 Les commandes de base du CLI Angular CLI répertoriées dans le fichier README.md généré à la racine du projet

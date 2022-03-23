@@ -106,7 +106,15 @@ and automatically fix all the places where semi-colons are already in use by run
 ```bash
 ng lint --fix
 ```
-You can download the .eslintrc.json file I usually use [here](https://worldline.github.io/angular-training/.eslintrc.json)
+You can download the .eslintrc.json file I usually use [here](https://worldline.github.io/angular-training/eslintrc.json)
+
+For it to work, you will need some additional dev dependencies which add linting rules:
+```bash
+npm i -D eslint-plugin-unicorn@40.0.0 
+npm i -D eslint-plugin-prefer-arrow
+npm i -D eslint-plugin-jsdoc
+npm i -D eslint-plugin-import
+```
 :::
 
 ::: v-pre
