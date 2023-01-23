@@ -1,10 +1,12 @@
 # RxJS
 
-[RxJS](https://v6.rxjs.dev/guide/overview) is a library for reactive programming using Observables. It makes it easier to compose asynchronous or callback-based code. It is part of the [ReactiveX](http://reactivex.io/) collection of open-source libraries (RxJava, RxSwift, Rx.NET, RxScala...). They all share a very similar API, which means transfering Rx skills from one language to another is very easy.
+[RxJS](https://v6.rxjs.dev/guide/overview) is a library for reactive programming using Observables. It makes it easier to compose asynchronous or callback-based code. 
+It is part of the [ReactiveX](http://reactivex.io/) collection of open-source libraries (RxJava, RxSwift, Rx.NET, RxScala...). 
+They all share a very similar API, which means transferring Rx skills from one language to another is very easy.
 
 The ReactiveX `Observable` model allows you to treat streams of asynchronous events with the same sort of simple, composable operations that you use for collections of data items like arrays, operations such as `filter`, `map`, `flatMap`, `reduce` and many more. It frees you from tangled webs of callbacks, and thereby makes your code more readable and less prone to bugs.
 
-The library provides the `Observable` type as well as utiliy functions to:
+The library provides the `Observable` type as well as utility functions to:
 - convert existing code linked to async operations into observables
 - iterating through the values in a stream
 - mapping values to different types
@@ -15,7 +17,7 @@ The library provides the `Observable` type as well as utiliy functions to:
 This chapter will not go in depth about the concepts of Rx, you can refer to the official documentation to that purpose. However it will illustrate common situations encountered in Angular applications.
 
 :::warning
-In this chapter, we will talk about [RxJS v6](https://v6.rxjs.dev/), RxJS v7 was released mid May 2021.
+This chapter is based on [RxJS v6](https://v6.rxjs.dev/) as it was the default version used by Angular 12.
 :::
 
 ## The Observable
@@ -98,7 +100,7 @@ This snippet will print:
 8
 ```
 
-**Exercise: Using the previous Stackblitz about the map operation, only update the message for clicks made withtin the coordinates between 0-100 on the x and y axis.**
+**Exercise: Using the previous Stackblitz about the map operation, only update the message for clicks made within the coordinates between 0-100 on the x and y axis.**
 
 ## Error handling
 
@@ -174,7 +176,7 @@ Let's reuse our previous routing example to illustrate how memory leaks can happ
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-why-unubscribe?ctl=1&embed=1&file=src/app/book-details/book-details.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
 
-When should you unsubscribe? If you have no certainty the `Observable` will complete or error out, you should manually unsubscribe from it. The `HttpClient` always completes the Observable it returns after having received a response. So, theorically, if you only encounter Observables from the `HttpClient`, you do not have to take care of unsubscribing. In other cases, **be safe and unsubscribe**.
+When should you unsubscribe? If you have no certainty the `Observable` will complete or error out, you should manually unsubscribe from it. The `HttpClient` always completes the Observable it returns after having received a response. So, theoretically, if you only encounter Observables from the `HttpClient`, you do not have to take care of unsubscribing. In other cases, **be safe and unsubscribe**.
 
 How to unsubscribe? There are two ways:
 - The `subscribe` method returns a `Subscription` object that can be disposed of by calling the unsubscribe method on it when desired, usually when the component it lives in is destroyed.
@@ -251,7 +253,7 @@ interface User {
 </code-block>
 </code-group>
 
-Since no subscription is made, unsusbscribing is not necessary. The async pipe takes care of it for us.
+Since no subscription is made, unsubscribing is not necessary. The async pipe takes care of it for us.
 
 ## Summary
 

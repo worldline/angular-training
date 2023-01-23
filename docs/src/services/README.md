@@ -102,7 +102,7 @@ VsCode will automatically use those paths for the imports instead of relative on
 </code-block>
 </code-group>
 
-5. Conditionnally show the Logout button depending on the `loggedIn` status of the user
+5. Conditionally show the Logout button depending on the `loggedIn` status of the user
 6. Use a navigation guard to redirect the user who wants to access the film search page to `/login` if they is not authenticated (make the CanActivate return true if the route can be accessed else return a `UrlTree` via the `createUrlTree` method of the `Router` service). To future-proof the guard, add a returnUrl as a queryParam to the returned `UrlTree` so that the `LoginFormComponent` knows where to navigate back to after authentication and modify the `LoginFormComponent` accordingly. To generate the navigation guard use the following CLI command:
 
 ```sh
@@ -406,21 +406,24 @@ login(): void {
 
 9. Add a register button next to the login button in the `LoginFormComponent`, give it the attribute `type="button"` so that Angular knows it is not this button that triggers the `ngSubmit` event on the form and make it call the register method. You should now be able to register a user and login.
 
-10. It is time to handle errors. The subscribe method can be passed three callbacks: a next, an error and a complete (we will look at this in more details in the next chapter). Pass the `errorHandler` method as the error callback of the login and registration subscribe method, you will have to declare an `errorMessage` field on the `LoginFormComponent`. Display the error message on the form.
+10. It is time to handle errors. The subscribe method can be passed an object that takes three callbacks: a *next*, an *error* and a *complete* (we will look at this in more details in the next chapter). Declare an `errorMessage` field on the `LoginFormComponent` and update it with the error information retrieved from the argument of the `error` callback. Display the error message on the form. Check that the error message is actually shown when you login with incorrect credentials.
 
 ```ts
 private errorHandler(errorResponse: HttpErrorResponse): void {
-  const error = errorResponse.error
-  this.errorMessage = error.error ?? `${error.status} - ${error.statusText}`
+  this.errorMessage = errorResponse.error.error ?? `${error.status} - ${error.statusText}`
 }
 
 // subscribe syntax
 this.authenticationService.login(this.loginRequest)
-  .subscribe(
-    response => {/* */},
-    error => {/* */}
-  )
+  .subscribe({
+    next: (userResponse) => { /*  */},
+    error: (errorResponse) => { /*  */ }
+  })
 ```
+
+::: tip hint
+For a better UX (User eXperience), do not forget to clear the `errorMessage` field before launching a new login or registration request or as soon as a register or login succeed.
+:::
 
 11. Let's now call the backend to get the list of films. The route is secured which means that passing the token in the header is necessary. Angular provides a mechanism - http interceptors - to systematically intercept http requests, allowing to define the headers in one place.
 

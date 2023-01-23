@@ -15,7 +15,7 @@ La librairie fournit le type `Observable` ainsi que des fonctions utilitaires po
 Ce chapitre n'entrera pas en profondeur dans les concepts de Rx, vous pouvez vous référer à la documentation officielle à cet effet. Cependant, il illustrera des situations courantes rencontrées dans les applications Angular.
 
 :::warning
-Dans ce chapitre, nous parlerons de [RxJS v6](https://v6.rxjs.dev/), RxJS v7 est sorti mi-mai 2021.
+Ce chapitre est basé sur [RxJS v6](https://v6.rxjs.dev/) car c'est la version utilisée par Angular 12 par défaut.
 :::
 
 ## L'Observable

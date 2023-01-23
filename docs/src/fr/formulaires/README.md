@@ -166,6 +166,11 @@ Vous pouvez trouver une liste à jour des classes [ici](https://angular.io/guide
 </small>
 ```
 
+::: tip Hint
+- Il est possible de récupérer une référence vers un *form control* en appelant la méthode `get('form control name')` du *form group*.
+- Il est possible de vérifier la présence d'une erreur spécifique en appelant la méthode `hasError('error name')` d'un *form control*.
+:::
+
 3. Stylisez le label et le texte d'erreur de chaque champ avec la classe `.error` lorsque le formulaire est invalide et que ce champ n'est pas valide (rappelez-vous l'attribut `[class]`)
 
 4. Désactivez les boutons Connexion et Inscription à l'aide de l'attribut `[disabled]` si le formulaire n'est pas valide.
@@ -177,11 +182,24 @@ Vous pouvez trouver une liste à jour des classes [ici](https://angular.io/guide
 - Longueur minimale de 8 caractères
 
 Mettez ce validateur dans `app/utils` et nommez-le `password.validator.ts`. Voici son implémentation de base :
+
 ```ts
 export function password(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    // TODO
-    return {'password.pattern': true}
+    const uppercasePattern = /^.*[A-Z]+.*$/
+    const lowercasePattern = /^.*[a-z]+.*$/
+    const specialCharPattern = /^.*\W+.*$/
+
+    if (
+      uppercasePattern.test(control.value) &&
+      lowercasePattern.test(control.value) &&
+      specialCharPattern.test(control.value) &&
+      control.value.length > 8
+    ) {
+      return null
+    }
+
+    return { 'password.pattern': 'Password format is incorrect' }
   }
 }
 ```
