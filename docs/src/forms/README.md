@@ -186,19 +186,20 @@ Put that validator in `app/utils` and name it `password.validator.ts`. Here is i
 ```ts
 export function password(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    const regExpUpeerCase = /^.*[A-Z]+.*$/;
-    const regExpLowerCase = /^.*[a-z]+.*$/;
-    const refExpSpecialChars = /^.*\W+.*$/;
+    const uppercasePattern = /^.*[A-Z]+.*$/
+    const lowercasePattern = /^.*[a-z]+.*$/
+    const specialCharPattern = /^.*\W+.*$/
 
     if (
-      regExpUpeerCase.test(control.value) &&
-      regExpLowerCase.test(control.value) &&
-      refExpSpecialChars.test(control.value) &&
+      uppercasePattern.test(control.value) &&
+      lowercasePattern.test(control.value) &&
+      specialCharPattern.test(control.value) &&
       control.value.length > 8
     ) {
-      return null;
+      return null
     }
-    return { 'password.pattern': 'Password format is incorrect' };
+
+    return { 'password.pattern': 'Password format is incorrect' }
   }
 }
 ```

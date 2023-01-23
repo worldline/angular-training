@@ -82,7 +82,7 @@ In case you intend to develop in WSL, Node and the Angular CLI need to be instal
 ## Practical work: Create your first project
 
 ### Generate the Angular project
-Go into the folder where you store your git repositories, open a terminal there and type the following commands:
+Go into the folder where you store your git repositories, open a terminal there and type the following command:
 
 ```sh
 ng new search-films

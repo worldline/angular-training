@@ -406,14 +406,18 @@ login(): void {
 
 9. Add a register button next to the login button in the `LoginFormComponent`, give it the attribute `type="button"` so that Angular knows it is not this button that triggers the `ngSubmit` event on the form and make it call the register method. You should now be able to register a user and login.
 
-10. It is time to handle errors. The subscribe method can be passed an object that takes three callbacks: a *next*, an *error* and a *complete* (we will look at this in more details in the next chapter). Declare and `errorMessage` field on the `LoginFormComponent` and update it with the error information retrieved from the argument of the `error` callback. Display the error message on the form. Check that the error message is actually show when you login with incorrect credentials.
+10. It is time to handle errors. The subscribe method can be passed an object that takes three callbacks: a *next*, an *error* and a *complete* (we will look at this in more details in the next chapter). Declare an `errorMessage` field on the `LoginFormComponent` and update it with the error information retrieved from the argument of the `error` callback. Display the error message on the form. Check that the error message is actually shown when you login with incorrect credentials.
 
 ```ts
+private errorHandler(errorResponse: HttpErrorResponse): void {
+  this.errorMessage = errorResponse.error.error ?? `${error.status} - ${error.statusText}`
+}
+
 // subscribe syntax
 this.authenticationService.login(this.loginRequest)
   .subscribe({
-    next: (userResponse) => { /* TODO */},
-    error: (errorResponse) => { errorResponse.error.error ?? `${errorResponse.status} - ${errorResponse.statusText}` }
+    next: (userResponse) => { /*  */},
+    error: (errorResponse) => { /*  */ }
   })
 ```
 

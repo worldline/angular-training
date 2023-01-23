@@ -17,9 +17,7 @@ The library provides the `Observable` type as well as utility functions to:
 This chapter will not go in depth about the concepts of Rx, you can refer to the official documentation to that purpose. However it will illustrate common situations encountered in Angular applications.
 
 :::warning
-RxJS v7 is the default version since Angular 13.
-This chapter is based on [RxJS v6](https://v6.rxjs.dev/) as it was the default version at the time of writing.
-Fortunately, the provided code should be fully compatible with RxJS v7.
+This chapter is based on [RxJS v6](https://v6.rxjs.dev/) as it was the default version used by Angular 12.
 :::
 
 ## The Observable
