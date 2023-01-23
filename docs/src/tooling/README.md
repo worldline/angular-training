@@ -9,8 +9,12 @@ To install Angular on your local system, you need the following:
 
 ### Node.js
 Angular requires a [current, active LTS, or maintenance LTS version](https://nodejs.org/en/about/releases/) of Node.js. For Angular 12, Node 12.14.0 is the minimal version and Node 16 is too high.
-There is a compatibility table [maintained by LayZeeDK](https://gist.github.com/LayZeeDK/c822cc812f75bb07b7c55d07ba2719b3)
-For more information on installing Node.js, see [nodejs.org](https://nodejs.org/en/).
+There is a compatibility table [maintained by LayZeeDK](https://gist.github.com/LayZeeDK/c822cc812f75bb07b7c55d07ba2719b3).
+
+To install node.js, you can follow one of the following approach:
+- For macOS or Linux or WSL based installations, it is preferable to use [nvm](https://github.com/nvm-sh/nvm) instead of a standalone node.js installation.
+- For Windows, you can use [nvm-windows](https://github.com/coreybutler/nvm-windows) instead of a standalone node.js installation. 
+- For more information on downloading, installing and using a standalone Node.js, see [nodejs.org](https://nodejs.org/en/).
 
 ::: tip
 If you are unsure about what version of Node.js runs on your system, run `node -v` in a terminal window.
