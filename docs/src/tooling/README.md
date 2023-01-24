@@ -8,7 +8,7 @@ If it is allowed by your local security policy, you can work under a Linux VM, t
 To install Angular on your local system, you need the following:
 
 ### Node.js
-Angular requires a [current, active LTS, or maintenance LTS version](https://nodejs.org/en/about/releases/) of Node.js. For Angular 12, Node 12.14.0 is the minimal version and Node 16 is too high.
+Angular requires a [current, active LTS, or maintenance LTS version](https://nodejs.org/en/about/releases/) of Node.js. For Angular 15, Node 14.20.0 is the minimal version.
 There is a compatibility table [maintained by LayZeeDK](https://gist.github.com/LayZeeDK/c822cc812f75bb07b7c55d07ba2719b3).
 
 To install node.js, you can follow one of the following approach:
@@ -34,32 +34,45 @@ You use the Angular CLI to create projects, generate application and library cod
 
 To install the Angular CLI, open a terminal window and run the following command:
 ```sh
-npm install -g @angular/cli@12.2.11
+npm install -g @angular/cli@15.1.0
 ```
 
-The `ng` command is now accessible from the terminal. Try it to check the installation and to have more information about the available commands. You can also check the [documentation](https://angular.io/cli#command-overview).
+::: tip Powershell
+The execution of Powershell scripts is not enabled by default but it is necessary for global npm binaries. To enable it, it is required to set the following execution policy (read the instructions diplayed after the execution of the command carefully):
+```sh
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 ```
-$ ng
-Available Commands:
-  add Adds support for an external library to your project.
-  analytics Configures the gathering of Angular CLI usage metrics. See https://angular.io/cli/usage-analytics-gathering.
-  build (b) Compiles an Angular app into an output directory named dist/ at the given output path. Must be executed from within a workspace directory.
-  deploy Invokes the deploy builder for a specified project or for the default project in the workspace.
-  config Retrieves or sets Angular configuration values in the angular.json file for the workspace.
-  doc (d) Opens the official Angular documentation (angular.io) in a browser, and searches for a given keyword.
-  e2e (e) Builds and serves an Angular app, then runs end-to-end tests using Protractor.
-  extract-i18n (i18n-extract, xi18n) Extracts i18n messages from source code.
-  generate (g) Generates and/or modifies files based on a schematic.
-  help Lists available commands and their short descriptions.
-  lint (l) Runs linting tools on Angular app code in a given project folder.
-  new (n) Creates a new workspace and an initial Angular application.
-  run Runs an Architect target with an optional custom builder configuration defined in your project.
-  serve (s) Builds and serves your app, rebuilding on file changes.
-  test (t) Runs unit tests in a project.
-  update Updates your application and its dependencies. See https://update.angular.io/
-  version (v) Outputs Angular CLI version.
+:::
 
-For more detailed help run "ng [command name] --help"
+The `ng --help` command is now accessible from the terminal. Try it to check the installation and to have more information about the available commands. You can also check the [documentation](https://angular.io/cli#command-overview).
+```
+$ ng --help
+ng <command>
+
+Commands:
+  ng add <collection>            Adds support for an external library to your project.
+  ng analytics                   Configures the gathering of Angular CLI usage metrics.
+  ng build [project]             Compiles an Angular application or library into an output directory named dist/ at the given output path.            [aliases: b]
+  ng cache                       Configure persistent disk cache and retrieve cache statistics.
+  ng completion                  Set up Angular CLI autocompletion for your terminal.
+  ng config [json-path] [value]  Retrieves or sets Angular configuration values in the angular.json file for the workspace.
+  ng deploy [project]            Invokes the deploy builder for a specified project or for the default project in the workspace.
+  ng doc <keyword>               Opens the official Angular documentation (angular.io) in a browser, and searches for a given keyword.                [aliases: d]
+  ng e2e [project]               Builds and serves an Angular application, then runs end-to-end tests.                                                [aliases: e]
+  ng extract-i18n [project]      Extracts i18n messages from source code.
+  ng generate                    Generates and/or modifies files based on a schematic.                                                                [aliases: g]
+  ng lint [project]              Runs linting tools on Angular application code in a given project folder.
+  ng new [name]                  Creates a new Angular workspace.                                                                                     [aliases: n]
+  ng run <target>                Runs an Architect target with an optional custom builder configuration defined in your project.
+  ng serve [project]             Builds and serves your application, rebuilding on file changes.                                                      [aliases: s]
+  ng test [project]              Runs unit tests in a project.                                                                                        [aliases: t]
+  ng update [packages..]         Updates your workspace and its dependencies. See https://update.angular.io/.
+  ng version                     Outputs Angular CLI version.                                                                                         [aliases: v]
+
+Options:
+  --help  Shows a help message for this command in the console.
+
+For more information, see https://angular.io/cli/.
 ```
 
 ## Visual Studio Code
@@ -113,6 +126,9 @@ cd search-films
 ng add @angular-eslint/schematics
 ```
 
+This has installed dependencies and created a `.eslintrc.json` file at the root of you project, we will replace its content shortly.
+
+
 ### Open the project in VSCode
 
 Once the project has finished being generated and the linter is installed, open the project in VSCode by typing the following command in the folder of the search-films app:
@@ -124,6 +140,27 @@ code .
 ::: tip WSL
 Once you have opened VSCode via the terminal, you should see at its bottom left corner the linux subsystem it uses.
 :::
+
+Let's now configure the linter. Open the `.eslintrc.json` file I use [here](https://worldline.github.io/angular-training/eslintrc.json) and replace the content of the `.eslintrc.json` at the root of the project by the content of that file.
+
+For it to work, you will need some additional dev dependencies which add linting rules:
+```sh
+npm i -D eslint-plugin-unicorn
+npm i -D eslint-plugin-import
+```
+
+Fix automatically all the existing issues by running:
+```sh
+ng lint --fix
+```
+
+Don't hesitate to run this command as often as necessary during the training.
+
+The Angular CLI created a git repository when it generated the project. Commit your projet regularly all throughout the training:
+```sh
+git add .
+git commit -m "Add ESLint"
+```
 
 ### Work in developer mode
 To work on the application and test it live, run the following command in the project's directory (`cd search-films` if necessary):

@@ -8,7 +8,7 @@ Si cela est autorisé par votre politique de sécurité locale, vous pouvez trav
 Pour installer Angular sur votre système local, vous avez besoin des éléments suivants :
 
 ### Node.js
-Angular nécessite une [version LTS actuelle, active ou LTS de maintenance](https://nodejs.org/en/about/releases/) de Node.js. Pour Angular 12, Node 12.14.0 est la version minimale prise en charge et la version 16 est non supportée car trop élevée. Une table de compatibilité est disponible [ici](https://gist.github.com/LayZeeDK/c822cc812f75bb07b7c55d07ba2719b3). Pour plus d'informations sur l'installation de Node.js, consultez [nodejs.org](https://nodejs.org/en/).
+Angular nécessite une [version LTS actuelle, active ou LTS de maintenance](https://nodejs.org/en/about/releases/) de Node.js. Pour Angular 15, Node 14.20.0 est la version minimale prise en charge. Une table de compatibilité est disponible [ici](https://gist.github.com/LayZeeDK/c822cc812f75bb07b7c55d07ba2719b3). Pour plus d'informations sur l'installation de Node.js, consultez [nodejs.org](https://nodejs.org/en/).
 
 ::: tip
 Si vous n'êtes pas sûr de la version de Node.js qui s'exécute sur votre système, exécutez la commande `node -v` dans une fenêtre de terminal.
@@ -28,32 +28,45 @@ Vous utiliserez le CLI Angular pour créer des projets, générer du code dans v
 
 Pour installer le CLI Angular, ouvrez une fenêtre de terminal et exécutez la commande suivante :
 ```sh
-npm install -g @angular/cli@12.2.11
+npm install -g @angular/cli@15.1.0
 ```
 
-La commande `ng` est maintenant accessible depuis le terminal. Essayez-la pour vérifier l'installation et avoir plus d'informations sur les commandes disponibles. Vous pouvez également jeter un coup d’œil à la [documentation](https://angular.io/cli#command-overview).
+::: tip Powershell
+L'exécution des scripts Powershell n'est pas activée par défaut mais elle est nécessaire pour les binaires globaux npm. Pour l'activer, il faut setter la police d'exécution suivante (bien lire les instructions affichées après l'exécution de la commande):
+```sh
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 ```
-$ ng
-Available Commands:
-  add Adds support for an external library to your project.
-  analytics Configures the gathering of Angular CLI usage metrics. See https://angular.io/cli/usage-analytics-gathering.
-  build (b) Compiles an Angular app into an output directory named dist/ at the given output path. Must be executed from within a workspace directory.
-  deploy Invokes the deploy builder for a specified project or for the default project in the workspace.
-  config Retrieves or sets Angular configuration values in the angular.json file for the workspace.
-  doc (d) Opens the official Angular documentation (angular.io) in a browser, and searches for a given keyword.
-  e2e (e) Builds and serves an Angular app, then runs end-to-end tests using Protractor.
-  extract-i18n (i18n-extract, xi18n) Extracts i18n messages from source code.
-  generate (g) Generates and/or modifies files based on a schematic.
-  help Lists available commands and their short descriptions.
-  lint (l) Runs linting tools on Angular app code in a given project folder.
-  new (n) Creates a new workspace and an initial Angular application.
-  run Runs an Architect target with an optional custom builder configuration defined in your project.
-  serve (s) Builds and serves your app, rebuilding on file changes.
-  test (t) Runs unit tests in a project.
-  update Updates your application and its dependencies. See https://update.angular.io/
-  version (v) Outputs Angular CLI version.
+:::
 
-For more detailed help run "ng [command name] --help"
+La commande `ng --help` est maintenant accessible depuis le terminal. Essayez-la pour vérifier l'installation et avoir plus d'informations sur les commandes disponibles. Vous pouvez également jeter un coup d’œil à la [documentation](https://angular.io/cli#command-overview).
+```
+$ ng --help
+ng <command>
+
+Commands:
+  ng add <collection>            Adds support for an external library to your project.
+  ng analytics                   Configures the gathering of Angular CLI usage metrics.
+  ng build [project]             Compiles an Angular application or library into an output directory named dist/ at the given output path.            [aliases: b]
+  ng cache                       Configure persistent disk cache and retrieve cache statistics.
+  ng completion                  Set up Angular CLI autocompletion for your terminal.
+  ng config [json-path] [value]  Retrieves or sets Angular configuration values in the angular.json file for the workspace.
+  ng deploy [project]            Invokes the deploy builder for a specified project or for the default project in the workspace.
+  ng doc <keyword>               Opens the official Angular documentation (angular.io) in a browser, and searches for a given keyword.                [aliases: d]
+  ng e2e [project]               Builds and serves an Angular application, then runs end-to-end tests.                                                [aliases: e]
+  ng extract-i18n [project]      Extracts i18n messages from source code.
+  ng generate                    Generates and/or modifies files based on a schematic.                                                                [aliases: g]
+  ng lint [project]              Runs linting tools on Angular application code in a given project folder.
+  ng new [name]                  Creates a new Angular workspace.                                                                                     [aliases: n]
+  ng run <target>                Runs an Architect target with an optional custom builder configuration defined in your project.
+  ng serve [project]             Builds and serves your application, rebuilding on file changes.                                                      [aliases: s]
+  ng test [project]              Runs unit tests in a project.                                                                                        [aliases: t]
+  ng update [packages..]         Updates your workspace and its dependencies. See https://update.angular.io/.
+  ng version                     Outputs Angular CLI version.                                                                                         [aliases: v]
+
+Options:
+  --help  Shows a help message for this command in the console.
+
+For more information, see https://angular.io/cli/.
 ```
 
 ## Visual Studio Code
@@ -106,6 +119,9 @@ cd search-films
 ng add @angular-eslint/schematics
 ```
 
+Cette commande a installé les dépendances strictement nécessaires au linter et a aussi créé le fichier `.eslintrc.json` à la racine du projet. On remplacera son contenu dans la prochaine section.
+
+
 ### Ouverture du projet dans VSCode
 
 Une fois que le projet a fini d'être généré et que le linter est installé, ouvrez le projet dans VSCode en tappant la commande suivante dans le dossier de l'app search-films:
@@ -116,6 +132,27 @@ code .
 ::: tip WSL
 Une fois le projet ouvert dans VSCode via la ligne de commande, vous devriez apercevoir le sous-système utilisé dans le coin bas gauche de l'IDE.
 :::
+
+Configurons maintenant le linter. Ouvrez le fichier `.eslintrc.json` que j'utilise [ici](https://worldline.github.io/angular-training/eslintrc.json) et remplacer le contenu du fichier `.eslintrc.json` à la racine du projet par le contenu de ce fichier.
+
+Pour que cette configuration marche, quelques dépendences de développement supplémentaires sont nécessaires. Elles ajoutent des règles de linting.
+```bash
+npm i -D eslint-plugin-unicorn
+npm i -D eslint-plugin-import
+```
+
+Corrigez automatiquement tous les problèmes existants en exécutant :
+```bash
+ng lint --fix
+```
+
+N'hésitez à utiliser cette commande aussi souvent que nécessaire tout au long de la formation.
+
+le CLI d'Angular a créé un repo git en générant le projet. Commitez votre projet régulièrement tout au long de la formation:
+```sh
+git add .
+git commit -m "Add ESLint"
+```
 
 ### Mode développeur
 Pour travailler sur l'application et la tester en direct, exécutez la commande suivante dans le répertoire du projet (`cd search-films` si nécessaire) :

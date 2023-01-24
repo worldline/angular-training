@@ -91,32 +91,6 @@ Les doubles accolades sont la *syntaxe d'interpolation binding* d'Angular. Cet i
 
 Le navigateur s'actualise et affiche le nouveau titre de l'application.
 
-:::tip
-Soit dit en passant, les points-virgules sont facultatifs, si vous choisissez de ne pas les utiliser, vous pouvez le faire. Vous pouvez appliquer une règle à ce sujet via le [linter](https://eslint.org/docs/rules/) en remplaçant `always` par `never`:
-```json
-"overrides": [{
-  "rules": {
-    ...,s
-    "semi": ["error", "never"],
-    ...
-  }
-}]
-```
-et corrigez automatiquement tous les endroits où les points-virgules sont déjà utilisés en exécutant :
-```bash
-ng lint --fix
-```
-Vous pouvez télécharger le fichier .eslintrc.json que j'utilise habituellement [ici](https://worldline.github.io/angular-training/eslintrc.json)
-
-Pour que cette configuration marche, quelques dépendences de développement supplémentaires sont nécessaires. Elles ajoutent des règles de linting.
-```bash
-npm i -D eslint-plugin-unicorn@40.0.0 
-npm i -D eslint-plugin-prefer-arrow
-npm i -D eslint-plugin-jsdoc
-npm i -D eslint-plugin-import
-```
-:::
-
 ::: v-pre
 Le moyen le plus simple d'insérer des données de manière dynamique dans vos composants consiste à interpoler du texte, en utilisant la syntaxe `{{myVariable}}`. À l'intérieur des accolades doubles, vous pouvez spécifier n'importe quelle expression JavaScript valide qui n'a pas ou ne favorise pas d'effets secondaires.
 :::

@@ -91,32 +91,6 @@ The double curly braces are Angular's *interpolation binding syntax*. This inter
 
 The browser refreshes and displays the new application title.
 
-:::tip
-By the way, semi-colons are optional, if you choose to not use them you can do so. You can enforce a rule about it via the [linter](https://eslint.org/docs/rules/) by replacing `always` by `never`:
-```json
-"overrides": [{
-  "rules": {
-    ...,
-    "semi": ["error", "never"],
-    ...
-  }
-}]
-```
-and automatically fix all the places where semi-colons are already in use by running:
-```bash
-ng lint --fix
-```
-You can download the .eslintrc.json file I usually use [here](https://worldline.github.io/angular-training/eslintrc.json)
-
-For it to work, you will need some additional dev dependencies which add linting rules:
-```bash
-npm i -D eslint-plugin-unicorn@40.0.0 
-npm i -D eslint-plugin-prefer-arrow
-npm i -D eslint-plugin-jsdoc
-npm i -D eslint-plugin-import
-```
-:::
-
 ::: v-pre
 The simplest way to insert data dynamically into your components is through text interpolation, using the `{{myVariable}}` syntax. Inside double curly braces, you can specify any valid JavaScript expression that don't have or promote side-effects.
 :::
