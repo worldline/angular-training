@@ -16,7 +16,7 @@ To bind an HTML element to a component's property, enclose it in square brackets
 
 ## Class and style binding
 ### Class binding
-You can use class binding to add and remove CSS class names from an element's `class` attribute. To create a single class binding, use the prefix `class` followed by a dot and the name of the CSS class, for example, `[class.sale]="onSale"`. Angular adds the class when the bound expression, `onSale` is truthy, and it removes the class when the expression is falsy.
+You can use class binding to add and remove CSS class names from an element's `class` attribute. To create a single class binding, use the prefix `class` followed by a dot and the name of the CSS class, for example, `[class.sale]="onSale"`. Angular adds the class when the bound expression, `onSale`, is truthy and it removes the class when the expression is falsy.
 
 ```html
 <p [class.my-class-1]="isWarning"></p>
@@ -47,7 +47,7 @@ To toggle multiple styles, bind to the `[style]` attribute:
 ```
 
 ## NgClass and NgStyle directive
-Alternatively, you can toggle styles and classes via two directives:
+Alternatively, you can toggle several styles or several classes in one go via two directives NgStyle et NgClass:
 
 ```html
 <!-- toggle the "special" class on/off with a property -->
@@ -61,19 +61,15 @@ Alternatively, you can toggle styles and classes via two directives:
 </div>
 
 <div [ngStyle]="{
-      'font-style': canSave ? 'italic' : 'normal',
-      'font-weight': !isUnchanged ? 'bold' : 'normal',
-      'font-size': isSpecial ? '24px' : '12px'
-    }">
+  'font-style': canSave ? 'italic' : 'normal',
+  'font-weight': !isUnchanged ? 'bold' : 'normal',
+  'font-size': isSpecial ? '24px' : '12px'
+}">
   NgStyle test div
 </div>
 ```
 
-:::warning
-Using the style binding syntax without NgStyle is preferred. Due to improvements, `NgStyle` no longer provides significant value compared to `[style]`, and might eventually be removed from Angular in the future.
-:::
-
-**Exercise: assign a class and a color to each ghost using class, style, ngClass and ngStyle**
+**Exercise: assign a class and a color to each ghost using [class], [style], [ngClass] and [ngStyle]**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-attribute-directive-training?ctl=1&embed=1&file=src/app/app.component.ts&hideNavigation=1"></iframe>
 
 ## NgModel directive
@@ -95,12 +91,12 @@ Test it yourself:
 The `NgModel` directive is not part of the default imports of an `NgModule`. You have to add it yourself: add `FormsModule` to the `AppModule`'s imports list.
 :::
 
-**Exercise: use NgModel on input, select, radio and checkbox tags**
+**Exercise: use [(ngModel)] on input, select, radio and checkbox tags**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngmodel-training?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
 
 
 ## NgIf directive
-You can add or remove an element by applying an `NgIf` directive to a host element. When `NgIf` is false, Angular removes an element and its descendants from the DOM. Angular then disposes of their components, which frees up memory and resources. If you only want to hide the element you can use `[hidden]` which only adds/removes the `display:none` CSS property on the element. `NgIf` is helpful in providing a way to guard against null values.
+You can add or remove an element by applying an `NgIf` directive to a host element. When `NgIf` is false, Angular removes an element and its descendants from the DOM. Angular then disposes of their class instances if there are any, which frees up memory and resources. If you only want to hide the element you can use `[hidden]` which only adds/removes the `display:none` CSS property on the element. `NgIf` is helpful in providing a way to guard against null or undefined values.
 ```html
 <!--Will only show Hello, ... if currentCustomer is not null or undefined-->
 <div *ngIf="currentCustomer">Hello, {{currentCustomer.name}}</div>
@@ -117,9 +113,9 @@ You can provide an else statement as follows:
 ```
 `<ng-template>` creates a template fragment, it is not rendered by default. `#elseBlock` is a template variable that enables to gain a reference to the `<ng-template>`.
 
-**Exercise: use an NgIf to toggle the loader**
+**Exercise: use an *ngIf to toggle the loader**
 
-**Bonus: use an NgIf Else to conditionnally show either the data or the no data message**
+**Bonus: use an *ngIf else to conditionnally show either the data or the no data message**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngif-training?ctl=1&embed=1&file=src/app/app.component.ts&hideNavigation=1"></iframe>
 
 ## NgSwitch directive
@@ -134,7 +130,7 @@ You can provide an else statement as follows:
 </div>
 ```
 
-**Exercise: use NgSwitch to alternate plant growth stage according to the season's temperature**
+**Exercise: use *ngSwitch to alternate plant growth stage according to the season's temperature**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngswitch-training?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
 
 ## NgFor directive
@@ -166,9 +162,9 @@ The following exported values are also available to be aliased to local variable
   <div *ngFor="let item of items">{{item.name}}</div>
 </ng-container>
 ```
-**Exercise: use two NgFor loops to display all the contents of the basket (one loop for each type of item, and within that loop another loop to print as many emoji of that item as its quantity)**
+**Exercise: use two *ngFor loops to display all the contents of the basket (one loop for each type of item, and within that loop another loop to print as many emoji of that item as its quantity)**
 
-**Bonus: An intruder is in the fruit basket, hide the corn with an NgIf**
+**Bonus: An intruder is in the fruit basket, hide the corn with an *ngIf**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngfor-training?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
 
 ## Event binding
@@ -195,8 +191,8 @@ You can find more about building your own directives [here](https://angular.io/g
 
 
 ## Practical work: Film list
-1. In the LoginFormComponent, add two fields `email` and `password` in the and use the `[(ngModel)]` directive on the email and password fields to bind them.
-2. Add another `loggedIn` field initially set to `false`, then use event binding with `(ngSubmit)` on the form tag to set it to `true` when the form is submitted.
+1. In the LoginFormComponent, add two fields *email* (`email = ''`) and *password* (`password = ''`) in the and use the `[(ngModel)]` directive on the email and password inputs to bind them. Remember the warning in the NgModel section of the chapter: don't forget to import the `FormsModule` in the module to use the NgModel directive.
+2. Add another `loggedIn` field initially set to `false`, then use event binding with `(ngSubmit)` on the form tag to set it to `true` when the form is submitted (create a method `login()` in the component's class for that).
 3. In `login-form.component.html`, add the following HTML under the authentication form :
 
 ```html
@@ -206,76 +202,96 @@ You can find more about building your own directives [here](https://angular.io/g
       class="poster"
       src="https://m.media-amazon.com/images/M/MV5BMDdmZGU3NDQtY2E5My00ZTliLWIzOTUtMTY4ZGI1YjdiNjk3XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg"
     />
-    <p class="title">
-      Titanic
-      <span class="rating">★★★★</span>
-    </p>
-    <dl>
-      <dt>Release date</dt>
-      <dd>07/01/1998</dd>
-      <dt>Director</dt>
-      <dd>James Cameron</dd>
-      <dt>Actors</dt>
-      <dd>Leonardo DiCaprio, Kate Winslet, Billy Zane, Kathy Bates</dd>
-    </dl>
-    <p class="plot">
-      84 years later, a 100 year-old woman named Rose DeWitt Bukater tells the
-      story to her granddaughter Lizzy Calvert, Brock Lovett, Lewis Bodine,
-      Bobby Buell and Anatoly Mikailavich on the Keldysh about her life set in
-      April 10th 1912, on a ship called Titanic when young Rose boards the
-      departing ship with the upper-class passengers and her mother, Ruth DeWitt
-      Bukater, and her fiancé, Caledon Hockley. Meanwhile, a drifter and artist
-      named Jack Dawson and his best friend Fabrizio De Rossi win third-class
-      tickets to the ship in a game. And she explains the whole story from
-      departure until the death of Titanic on its first and last voyage April
-      15th, 1912 at 2:20 in the morning.
-    </p>
+    <div>
+      <p class="title">
+        Titanic
+        <span class="rating">★★★★</span>
+      </p>
+      <dl>
+        <dt>Release date</dt>
+        <dd>07/01/1998</dd>
+        <dt>Director</dt>
+        <dd>James Cameron</dd>
+        <dt>Actors</dt>
+        <dd>Leonardo DiCaprio, Kate Winslet, Billy Zane, Kathy Bates</dd>
+      </dl>
+      <p class="plot">
+        84 years later, a 100 year-old woman named Rose DeWitt Bukater tells the
+        story to her granddaughter Lizzy Calvert, Brock Lovett, Lewis Bodine,
+        Bobby Buell and Anatoly Mikailavich on the Keldysh about her life set in
+        April 10th 1912, on a ship called Titanic when young Rose boards the
+        departing ship with the upper-class passengers and her mother, Ruth DeWitt
+        Bukater, and her fiancé, Caledon Hockley. Meanwhile, a drifter and artist
+        named Jack Dawson and his best friend Fabrizio De Rossi win third-class
+        tickets to the ship in a game. And she explains the whole story from
+        departure until the death of Titanic on its first and last voyage April
+        15th, 1912 at 2:20 in the morning.
+      </p>
+    </div>
   </li>
 </ul>
 ```
 
 4. Use the `*ngIf` directive and `else` template binding to display the authentication form and hide the films list when `loggedIn === false`, and vice versa.
-5. Add the following field in the LoginFormComponent:
+5. Add the following model in the *src/app/models* folder, name the file *film.ts*:
 
 ```ts
-films = [
+export interface Film {
+  title: string
+  released: string
+  director: string
+  actors: string
+  poster: string
+  plot: string
+  metascore: string
+}
+```
+
+6. Add the following field in the class of the LoginFormComponent (you should get an error and be offered a fix suggestion to import the Film model in the component, you will see the @models alias in action):
+
+```ts
+films: Film[] = [
   {
-    title: "Titanic",
-    released: "19 Dec 1997",
-    director: "James Cameron",
-    actors: "Leonardo DiCaprio, Kate Winslet, Billy Zane, Kathy Bates",
-    poster:
-      "https://m.media-amazon.com/images/M/MV5BMDdmZGU3NDQtY2E5My00ZTliLWIzOTUtMTY4ZGI1YjdiNjk3XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg",
-    plot:
-      "84 years later, a 100 year-old woman named Rose DeWitt Bukater tells the story to her granddaughter Lizzy Calvert, Brock Lovett, Lewis Bodine, Bobby Buell and Anatoly Mikailavich on the Keldysh about her life set in April 10th 1912, on a ship called Titanic when young Rose boards the departing ship with the upper-class passengers and her mother, Ruth DeWitt Bukater, and her fiancé, Caledon Hockley. Meanwhile, a drifter and artist named Jack Dawson and his best friend Fabrizio De Rossi win third-class tickets to the ship in a game. And she explains the whole story from departure until the death of Titanic on its first and last voyage April 15th, 1912 at 2:20 in the morning.",
-    metascore: "75"
+    title: 'Titanic',
+    released: '19 Dec 1997',
+    director: 'James Cameron',
+    actors: 'Leonardo DiCaprio, Kate Winslet, Billy Zane, Kathy Bates',
+    poster: 'https://m.media-amazon.com/images/M/MV5BMDdmZGU3NDQtY2E5My00ZTliLWIzOTUtMTY4ZGI1YjdiNjk3XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg',
+    plot: `84 years later, a 100 year-old woman named Rose DeWitt Bukater tells the story to her granddaughter Lizzy Calvert, Brock Lovett, Lewis Bodine, Bobby Buell and Anatoly Mikailavich on the Keldysh about
+    her life set in April 10th 1912, on a ship called Titanic when young Rose boards the departing ship with the upper-class passengers and her mother, Ruth DeWitt Bukater, and her fiancé, Caledon Hockley.
+    Meanwhile, a drifter and artist named Jack Dawson and his best friend Fabrizio De Rossi win third-class tickets to the ship in a game. And she explains the whole story from departure until the death of Titanic
+    on its first and last voyage April 15th, 1912 at 2:20 in the morning.`,
+    metascore: '75'
   },
   {
-    title: "Blade Runner",
-    released: "25 Jun 1982",
-    director: "Ridley Scott",
-    actors: "Harrison Ford, Rutger Hauer, Sean Young, Edward James Olmos",
-    poster:
-      "https://m.media-amazon.com/images/M/MV5BNzQzMzJhZTEtOWM4NS00MTdhLTg0YjgtMjM4MDRkZjUwZDBlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
-    plot:
-      "A blade runner must pursue and terminate four replicants who stole a ship in space, and have returned to Earth to find their creator.",
-    metascore: "89"
+    title: 'Blade Runner',
+    released: '25 Jun 1982',
+    director: 'Ridley Scott',
+    actors: 'Harrison Ford, Rutger Hauer, Sean Young, Edward James Olmos',
+    poster: 'https://m.media-amazon.com/images/M/MV5BNzQzMzJhZTEtOWM4NS00MTdhLTg0YjgtMjM4MDRkZjUwZDBlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg',
+    plot: 'A blade runner must pursue and terminate four replicants who stole a ship in space, and have returned to Earth to find their creator.',
+    metascore: '89'
   },
   {
-    title: "The Shining",
-    released: "13 Jun 1980",
-    director: "Stanley Kubrick",
-    actors: "Jack Nicholson, Shelley Duvall, Danny Lloyd, Scatman Crothers",
-    poster:
-      "https://m.media-amazon.com/images/M/MV5BZWFlYmY2MGEtZjVkYS00YzU4LTg0YjQtYzY1ZGE3NTA5NGQxXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
-    plot:
-      "A family heads to an isolated hotel for the winter where an evil spiritual presence influences the father into violence, while his psychic son sees horrific forebodings from both past and future.",
-    metascore: "63"
+    title: 'The Shining',
+    released: '13 Jun 1980',
+    director: 'Stanley Kubrick',
+    actors: 'Jack Nicholson, Shelley Duvall, Danny Lloyd, Scatman Crothers',
+    poster: 'https://m.media-amazon.com/images/M/MV5BZWFlYmY2MGEtZjVkYS00YzU4LTg0YjQtYzY1ZGE3NTA5NGQxXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg',
+    plot: 'A family heads to an isolated hotel for the winter where an evil spiritual presence influences the father into violence, while his psychic son sees horrific forebodings from both past and future.',
+    metascore: '63'
   }
 ]
 ```
 
-6. Using the `*ngFor` directive, repeat the `.film.card` element to display as many films as there is in the `films` list.
-7. Complete the card with data from each film using property binding and interpolation.
-8. **Bonus:** Use the `metascore` property to display a number of stars next to each film title.
-9. **Bonus:** Use an `ng-container` tag to only display movies with a metacritic score above 70
+7. Using the `*ngFor` directive, repeat the `.film.card` element to display as many films as there is in the `films` list. At this stage you are seeing Titanic three times, let's take care of this in the next step.
+8. Complete the card with data from each film using property binding and interpolation.
+9. **Bonus:** Use the `metascore` property to display a number of stars (from 1 to 5 ★) next to each film title. (Create a method `starRating` returning a string containing the right number of stars)
+10. **Bonus:** Use an `ng-container` tag to only display movies with a metacritic score above 70 (moving forward we won't need this change so revert it once you have managed to make it work).
+11. Don't forget to commit.
+
+::: details Expected result
+![Visual result of the directive practical work 1](../assets/visual-1.png)
+
+![Visual result of the directive practical work 2](../assets/visual-2b.png)
+:::
