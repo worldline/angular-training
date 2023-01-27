@@ -25,7 +25,7 @@ This training is also available in [English](/) / Cette formation est aussi disp
 
 - Connaissances de base en JavaScript
 - Connaissances de base en HTML & CSS
-- Préparez votre environnement de développement et installez des éléments avant la session (voir la section [Outillage](outillage))
+- Préparez votre environnement de développement et installez des éléments avant la session (voir la section [Outillage](tooling))
 
 ## Liens utiles
 

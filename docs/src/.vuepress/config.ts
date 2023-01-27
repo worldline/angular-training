@@ -55,17 +55,17 @@ export default defineUserConfig({
         sidebar: [
           "/fr/presentation/",
           "/fr/typescript/",
-          "/fr/outillage/",
-          "/fr/premiers-pas/",
+          "/fr/tooling/",
+          "/fr/first-steps/",
           "/fr/directives/",
           "/fr/pipes/",
-          "/fr/composants/",
-          "/fr/routage/",
+          "/fr/components/",
+          "/fr/routing/",
           "/fr/services/",
           "/fr/rxjs/",
-          "/fr/formulaires/",
-          "/fr/pour-aller-plus-loin/",
-          "/fr/ecosysteme/"
+          "/fr/forms/",
+          "/fr/to-go-further/",
+          "/fr/ecosystem/"
         ]
       }
     },
