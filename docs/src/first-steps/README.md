@@ -30,27 +30,21 @@ Our previously created project has the following folders and files:
 - `README.md`: introductory documentation for the root app
 - `package.json`: configures npm package dependencies that are available to all projects in the workspace
 - `package-lock.json`: provides version information for all packages installed into node_modules by the npm client
-- `karma.conf.js`: Karma configuration
 - `angular.json`: CLI configuration, including configuration options for build, serve, and test tools that the CLI uses
 - `.gitignore`: Specifies intentionally untracked files that Git should ignore
 - `.editorconfig`: Configuration for code editors
-- `.browserlistrc`: Configuration to share target browsers
 - `src`: Source files for the root-level application project
 - `node_modules`: Provides npm packages to the entire workspace
-- `e2e`: Source files for a set of end-to-end tests that correspond to the root-level application, along with test-specific configuration files
 
 :::tip
 To ensure that all developers working on a project use the same library versions, it is possible to [block the version numbers](https://docs.npmjs.com/cli/v7/configuring-npm/package-json#dependencies) via the `package.json` file.
 :::
 
-The `src`folder contains:
-- `test.ts`: 	The main entry point for your unit tests, with some Angular-specific configuration. You don't typically need to edit this file.
+The `src` folder contains:
 - `styles.scss`: Lists CSS files that supply styles for a project. The extension reflects the style preprocessor you have configured for the project.
-- `polyfill.ts`: Provides polyfill scripts for browser support
 - `main.ts`: The main entry point for your application
 - `index.html`: The main HTML page that is served when someone visits your site. The CLI automatically adds all JavaScript and CSS files when building your app, so you typically don't need to add any `<script>` or `<link>` tags here manually.
 - `favicon.ico`: An icon to use for this application in the bookmark bar
-- `environments`: Contains build configuration options for particular target environments
 - `assets`: Contains image and other asset files to be copied as-is when you build your application
 - `app`: Contains the component files in which your application logic and data are defined
 
@@ -128,7 +122,7 @@ The `AppComponent` is only the root component of an Angular application. A web a
 
 ![Component tree](../assets/tree.png)
 
-Let's create a seconde component. It is advised to generate components using the [Angular CLI](https://angular.io/cli/generate#component).
+Let's create a second component. It is advised to generate components using the [Angular CLI](https://angular.io/cli/generate#component).
 
 ```bash
 ng g c child #shorthand for ng generate component child
@@ -138,19 +132,14 @@ The `ng g c` command added a `child` folder containing the `ChildComponent` file
 
 ```typescript
 // child.component.ts
-import { Component, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 
 @Component({
   selector: 'app-child',
   templateUrl: './child.component.html',
   styleUrls: ['./child.component.scss']
 })
-export class ChildComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+export class ChildComponent {
 
 }
 ```
@@ -217,29 +206,51 @@ This folder structure is best suited to simple projects that have only one modul
 By default, the CLI will always generate in the `app` folder. You can tell it to generate in another folder by passing the path before the name of the element you want it to generate. For instance `ng generate component components/test` will generate the `TestComponent` 4 files in `app/components/test`. The `components` folder is created by the CLI if doesn't already exist, as well as the `test` folder.
 :::
 
+As the complexity of the folder structure of the application increases, it is a good practice to add aliases in the `tsconfig.json` file. Let's do it now to avoid a tedious refactoring later:
+```json
+"compilerOptions": { 
+  ...
+  "paths": {
+    "@models/*": ["src/app/models/*"],
+    "@services/*": ["src/app/services/*"],
+    "@guards/*": ["src/app/guards/*"],
+    "@pipes/*": ["src/app/pipes/*"],
+    "@components/*": ["src/app/components/*"]
+  }
+}
+```
+VsCode will automatically use those paths for the imports instead of relative ones that can be tough to read or debug.
+
+
 ## Practical work: Your first component
 
-1. Most apps strive for a consistent look across the application. The CLI generated an empty `styles.scss` for this purpose. Copy paste the content of the SCSS stylesheet that will serve as basis for all the practical work, downloadable here: [styles.scss](https://worldline.github.io/angular-training/styles.scss) in it.
+1. Remove all the changes made since the commit introducing ESLint as we won't need them moving forward.
 
-2. Create a new component login-form containing the following authentication form:
+2. Most apps strive for a consistent look across the application. The CLI generated an empty `styles.scss` for this purpose. Copy paste the content of the SCSS stylesheet that will serve as basis for all the practical work, downloadable here: [styles.scss](https://worldline.github.io/angular-training/styles.scss) in it.
+
+3. Create a new component login-form containing the following authentication form (don't forget to generate it in the *components* folder):
 ```html
-<div id="login-form">
-  <form>
-    <h1>Authentication</h1>
-    <p>Fill out this form to login.</p>
-    <hr />
+<form id="login-form">
+  <h1>Authentication</h1>
+  <p>Fill out this form to login.</p>
 
-    <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter your email" id="email" name="email" required/>
+  <label for="email">Email</label>
+  <input type="text" placeholder="Enter your email" id="email" required/>
 
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter your password" id="psw" name="psw" required/>
+  <label for="psw">Password</label>
+  <input type="password" placeholder="Enter your password" id="psw" required/>
 
-    <p><button type="submit">Login</button></p>
-  </form>
-</div>
+  <button type="submit">Login</button>
+</form>
+
 ```
 
-3. Delete the existing contents of the `AppComponent` template, and display the `LoginFormComponent` instead with `<app-login-form></app-login-form>`. Check that the CLI has added the `LoginFormComponent` to the list of `declarations` in the `AppModule`.
+4. Delete the existing content of the `AppComponent` template (html file of the component), and display the `LoginFormComponent` instead with `<app-login-form></app-login-form>`. Check that the CLI has added the `LoginFormComponent` to the list of `declarations` in the `AppModule`.
 
-4. Complete the `login-form.component.ts` file: add a field containing a title property. Then, use text interpolation in the template to pass the title of the form to the h1 tag.
+5. Complete the `login-form.component.ts` file: add a field `title = 'Authentication'`. Then, use text interpolation in the template to pass the title from the component ts file to the h1 tag.
+
+6. Don't forget to commit
+
+::: details Expected result
+![Visual result of the first component practical work](../assets/visual-1.png)
+:::

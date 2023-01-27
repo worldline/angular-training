@@ -59,19 +59,6 @@ Les dépendances peuvent être fournies à trois niveaux :
 
 ## TP : Gestion de l'État
 1. Générez un `AuthenticationService` avec le CLI dans le dossier `app/services`
-::: tip Alias
-Au fur et à mesure que la complexité de la structure des dossiers de l'application augmente, il est recommandé d'ajouter des alias dans le fichier `tsconfig.json`
-```json
-"paths": {
-  "@models/*": ["src/app/models/*"],
-  "@services/*": ["src/app/services/*"],
-  "@guards/*": ["src/app/guards/*"],
-  "@pipes/*": ["src/app/pipes/*"],
-  "@components/*": ["src/app/components/*"]
-}
-```
-VsCode utilisera automatiquement ces chemins pour les imports au lieu de ceux relatifs qui peuvent être difficiles à lire ou à débuguer.
-:::
 2. Déplacez la logique du `loggedIn` de l'`AppComponent` vers le service
 3. Injectez le service dans le `LoginFormComponent` et utilisez-le.
 4. Implémentez une méthode de déconnexion dans le service d'authentification et ajoutez un bouton de déconnexion dans l'`AppComponent` qui l'appelle et provoque une navigation vers le `LoginFormComponent`. Voici l'html et le css :

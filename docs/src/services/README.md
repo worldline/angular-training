@@ -59,19 +59,6 @@ Dependencies can be provided at three levels:
 
 ## Practical Work: State management
 1. Generate an `AuthenticationService` with the CLI in the `app/services` folder
-::: tip Alias
-As the complexity of the folder structure of the application increases, it is a good practice to add aliases in the `tsconfig.json` file
-```json
-"paths": {
-  "@models/*": ["src/app/models/*"],
-  "@services/*": ["src/app/services/*"],
-  "@guards/*": ["src/app/guards/*"],
-  "@pipes/*": ["src/app/pipes/*"],
-  "@components/*": ["src/app/components/*"]
-}
-```
-VsCode will automatically use those paths for the imports instead of relative ones that can be tough to read or debug.
-:::
 2. Move the `loggedIn` logic from the `AppComponent` to the service
 3. Inject the service in the `LoginFormComponent` and use it.
 4. Implement a logout method in the authentication service and add a logout button in the `AppComponent` that calls it and navigates back to the `LoginFormComponent`. Here is the html and css:
