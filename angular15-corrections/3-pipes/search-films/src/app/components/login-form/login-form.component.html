@@ -1,0 +1,37 @@
+<form (ngSubmit)="login()" id="login-form" *ngIf="!loggedIn; else filmContainer">
+  <h1>{{title}}</h1>
+  <p>Fill out this form to login.</p>
+
+  <label for="email">Email</label>
+  <input type="text" placeholder="Enter your email" id="email" [(ngModel)]="email" required/>
+
+  <label for="psw">Password</label>
+  <input type="password" placeholder="Enter your password" id="psw" [(ngModel)]="password" required/>
+
+  <button type="submit">Login</button>
+</form>
+
+<ng-template #filmContainer>
+  <ul class="films">
+    <ng-container *ngFor="let film of films">
+      <li class="film card">
+        <img class="poster" [src]="film.poster"/>
+        <div>
+          <p class="title">
+            {{film.title}}
+            <span class="rating">{{film.metascore | starRating}}</span>
+          </p>
+          <dl>
+            <dt>Release date</dt>
+            <dd>{{film.released}}</dd>
+            <dt>Director</dt>
+            <dd>{{film.director}}</dd>
+            <dt>Actors</dt>
+            <dd>{{film.actors}}</dd>
+          </dl>
+          <p class="plot">{{film.plot}}</p>
+        </div>
+      </li>
+    </ng-container>
+  </ul>
+</ng-template>

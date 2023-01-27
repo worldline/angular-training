@@ -42,7 +42,7 @@ Angular fournit plus d'une [douzaine de pipes intégrés](https://angular.io/api
 - `TitleCasePipe` transforme le texte en casse de titre
 - `UpperCasePipe` transforme le texte en majuscules
 
-**Exercice : Formatez le prix (en EUR) et la date ('EEEE MMMM y'), tous deux en français**
+**Exercice : Formatez le prix (en EUR) et la date ('EEEE dd MMMM y'), tous deux en français**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-currency-pipe-training-example?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
 
 ## Custom pipe
@@ -62,7 +62,7 @@ ng generate pipe <name>
 
 Il génère le fichier suivant :
 ```ts
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core'
 
 @Pipe({
   name: 'demo'
@@ -70,7 +70,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class DemoPipe implements PipeTransform {
 
   transform(value: unknown, ...args: unknown[]): unknown {
-    return null;
+    return null
   }
 
 }
@@ -90,8 +90,8 @@ Dans l'exemple suivant, le prix remisé est calculé en fonction d'un taux de re
 Il est également possible d'utiliser des pipes dans une classe de composant en l'injectant dans son constructeur et en appelant sa méthode transform. Le pipe doit être importé dans le module auquel appartient le composant et ajouté aux providers du composant ou du module (à privilégier).
 
 ```ts
-import { Component } from '@angular/core';
-import { UpperCasePipe } from '@angular/common';
+import { Component } from '@angular/core'
+import { UpperCasePipe } from '@angular/common'
 
 @Component({
   selector: 'app-root',
@@ -103,13 +103,21 @@ export class AppComponent {
 
   constructor(private upperCasePipe: UpperCasePipe) {}
 
-  title = this.upperCasePipe.transform('title');
+  title = this.upperCasePipe.transform('title')
 }
 ```
 ## TP : Format du score
-1. Créez un pipe `starRating` à l'aide du CLI dans `app/pipes`.
+1. Créez un pipe `starRating` à l'aide du CLI dans le dossier `app/pipes`.
 2. Implémentez l'intérieur de la méthode transform de sorte que le métascore d'un film s'affiche avec une note de ★ à cinq ★★★★★.
 3. Utilisez ce pipe dans le template du `LoginFormComponent`.
+4. Commitez
+
+::: details Résultat attendu
+![Résultat visuel du TP sur les pipes 1](../../assets/visual-1.png)
+
+![Résultat visuel du TP sur les pipes 2](../../assets/visual-3.png)
+:::
+
 
 ## Pour aller plus loin
 La différence entre les [pipes purs et impurs](https://medium.com/@ghoul.ahmed5/pure-vs-impure-pipe-in-angular-2152cf073e4d)
