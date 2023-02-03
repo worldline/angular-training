@@ -1,0 +1,5 @@
+<app-login-form (loggedIn)="onLogin()" *ngIf="!isLoggedIn; else loggedInContainer"></app-login-form>
+<ng-template #loggedInContainer>
+  <app-film-search ></app-film-search>
+</ng-template>
+

@@ -385,25 +385,40 @@ Tout contenu HTML, y compris d'autres composants Angular, peut être projeté. C
 En plus du `<ng-content>` par défaut, vous pouvez **nommer** d'autres balises `<ng-content>` pour distribuer le contenu à plusieurs emplacements dans l'enfant. Vous y parvenez en utilisant l'attribut `select` sur la balise `<ng-content>` et en ajoutant la valeur choisie comme attribut sur l'élément à projeter.
 
 ## TP : Décomposer l'application
-1. Refactorisez le `LoginFormComponent` pour extraire le code et le template liés aux détails d'un film. Pour cela, créez avec le CLI un `FilmComponent`, il y aura autant d'instances de `FilmComponent` qu'il y a de films. Utilisez `@Input()` pour transmettre les données du `LoginFormComponent` à chaque `FilmComponent`.
+1. Refactorisez le `LoginFormComponent` pour extraire le code et le template liés aux détails d'un film. Pour cela, créez avec le CLI un `FilmComponent` (`ng g c components/film`). Il y aura autant d'instances de `FilmComponent` qu'il y a de films (déplacez la balise `<li></li>` et son contenu vers le nouveau composant). Utilisez `@Input()` pour transmettre les données du `LoginFormComponent` à chaque `FilmComponent`.
 2. Créez un autre composant avec le CLI : `FilmSearchComponent`. Il contiendra un formulaire de recherche et la liste de `FilmComponent` ci-dessous :
 
 ```html
-<div id="search-film">
-  <form>
-    <label for="search">Search :</label>
-    <input id="search" type="text" name="title"/>
-  </form>
+<form (ngSubmit)="searchFilms()">
+  <label for="search">Search :</label>
+  <input id="search" type="text" name="title"/>
+</form>
 
-  <ul class="films">
-    <!-- list of <app-film> -->
-  </ul>
-</div>
+<ul class="films">
+  <!-- list of <app-film> -->
+</ul>
 ```
+Ne remplacez pas déjà le commentaire par la liste des `FilmComponent`. C'est le but du point 3.
 
-3. Insérez ce `FilmSearchComponent` à côté du `LoginFormComponent` dans `AppComponent` et déplacez le code correspondant dans ce nouveau composant.
-4. Affichez le composant `FilmSearchComponent` uniquement si l'utilisateur est connecté. Vous devrez communiquer la variable `loggedIn` du `LoginFormComponent` à l'`AppComponent` via un `@Output()`.
+3. Insérez ce `FilmSearchComponent` en dessous du `LoginFormComponent` dans le template de l'`AppComponent` et déplacez le code nécessaire (html et ts) du `LoginFormComponent` vers ce nouveau composant, supprimez le code qui n'est plus utilisé.
+
+::: details Résultat attendu de l'étape 3
+![Visual result of the component practical work step 3](../../assets/visual-4a.png)
+:::
+
+4. Affichez le composant `FilmSearchComponent` uniquement si l'utilisateur est connecté. Vous devrez communiquer la variable `loggedIn` du `LoginFormComponent` à l'`AppComponent` via un `@Output()` (transformez le champ *loggedIn*). Vous aurez besoin d'une méthode `onLogin()` dans l'`AppComponent`.
 5. Dans le `FilmSearchComponent`, affectez initialement la variable `films` à un tableau `[]` vide. Lors de la soumission du formulaire de recherche, exécutez une méthode `searchFilms()` qui mettra les 3 exemples de films dans cette liste.
+6. Commitez
+
+::: details Résultat attendu
+![Résultat visuel du TP sur les pipes 1](../../assets/visual-1.png)
+
+![Résultat visuel du TP sur les pipes 2](../../assets/visual-4b.png)
+
+![Résultat visuel du TP sur les pipes 3](../../assets/visual-4c.png)
+:::
 
 ## Pour aller plus loin
 En savoir plus sur la projection de contenu contextuelle en utilisant [ngTemplateOutlet](https://indepth.dev/posts/1405/ngtemplateoutlet)
+
+Angular 14 a introduit les *standalone components* en version beta dans le framework et Angular 15 a rendu leur API stable. Vous pouvez en apprendre plus sur ce type de composants [ici](https://blog.ninja-squad.com/2022/05/12/a-guide-to-standalone-components-in-angular/)

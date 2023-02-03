@@ -1,0 +1,10 @@
+<form (ngSubmit)="searchFilms()">
+  <label for="search">Search :</label>
+  <input id="search" type="text" name="title"/>
+</form>
+
+<ul class="films">
+  <ng-container *ngFor="let film of films">
+    <app-film [film]="film"></app-film>
+  </ng-container>
+</ul>

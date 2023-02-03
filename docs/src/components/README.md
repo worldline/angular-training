@@ -386,25 +386,40 @@ Any HTML content, including other angular components can be projected. This feat
 In addition to the default `<ng-content>`, you can **name** other `<ng-content>` tags to distribute content to multiple locations in the child. You achieve this by using the `select` attribute on the `<ng-content>` tag and adding the chosen value as an attribute on the element to project.
 
 ## Practical work: Decompose the app
-1. Refactor the `LoginFormComponent` to extract the code and template related to a film details. To that purpose, create with the CLI a `FilmComponent`, there will be as many instances of `FilmComponent` as there are films. Use `@Input()` to pass data from the `LoginFormComponent` to each `FilmComponent`.
+1. Refactor the `LoginFormComponent` to extract the code and template related to a film details. To that purpose, create with the CLI a `FilmComponent` (`ng g c components/film`). There will be as many instances of `FilmComponent` as there are films (move the `<li></li>` tag and its content to the new component). Use `@Input()` to pass data from the `LoginFormComponent` to each `FilmComponent`.
 2. Create another component with the CLI: `FilmSearchComponent`. It will contain a search form and the `FilmComponent` list below:
 
 ```html
-<div id="search-film">
-  <form>
-    <label for="search">Search :</label>
-    <input id="search" type="text" name="title"/>
-  </form>
+<form (ngSubmit)="searchFilms()">
+  <label for="search">Search :</label>
+  <input id="search" type="text" name="title"/>
+</form>
 
-  <ul class="films">
-    <!-- list of <app-film> -->
-  </ul>
-</div>
+<ul class="films">
+  <!-- list of <app-film> -->
+</ul>
 ```
+Do not replace the comment with the list of `FilmComponent` yet. This will be done in the next step.
 
-3. Insert this `FilmSearchComponent` alongside the `LoginFormComponent` in the `AppComponent` and move the corresponding code in this new component.
-4. Display the `FilmSearchComponent` component only if the user is logged in. You will have to communicate the `loggedIn` variable from the `LoginFormComponent` to the `AppComponent` via an `@Output()`.
+3. Insert this `FilmSearchComponent` under the `LoginFormComponent` in the `AppComponent` and move the necessary code (html and ts) from the `LoginFormComponent` to this new component, delete the unused code.
+
+::: details Expected result of step 3
+![Visual result of the component practical work step 3](../assets/visual-4a.png)
+:::
+
+4. Display the `FilmSearchComponent` component only if the user is logged in. You will have to communicate the `loggedIn` variable from the `LoginFormComponent` to the `AppComponent` via an `@Output()` (transform the field *loggedIn*). You will need an `onLogin()` method in the `AppComponent`.
 5. In the `FilmSearchComponent`, assign the `films` variable to an empty `[]` array initially. When submitting the search form, run a `searchFilms()` method that will put the 3 sample films in this list.
+6. Commit
+
+::: details Expected result
+![Visual result of the component practical work 1](../assets/visual-1.png)
+
+![Visual result of the component practical work 2](../assets/visual-4b.png)
+
+![Visual result of the component practical work 3](../assets/visual-4c.png)
+:::
 
 ## To go further
 Learn about context aware content projection using [ngTemplateOutlet](https://indepth.dev/posts/1405/ngtemplateoutlet)
+
+Angular 14 has introduced *standalone components* and there were taken out of beta in Angular 15. You can learn more about them [here](https://blog.ninja-squad.com/2022/05/12/a-guide-to-standalone-components-in-angular/)
