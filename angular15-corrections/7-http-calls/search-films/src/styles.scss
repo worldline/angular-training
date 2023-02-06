@@ -1,0 +1,255 @@
+/*!
+ * Forked from Writ v1.0.4
+ * Copyright © 2015, Curtis McEnroe <curtis@cmcenroe.me>
+ * https://cmcenroe.me/writ/LICENSE (ISC)
+ */
+
+/* Fonts, sizes & vertical rhythm */
+html {
+  font-family: Arial, Georgia, Lucida Bright, Book Antiqua, serif;
+  font-size: 16px;
+  line-height: 1.5rem;
+}
+
+h1, h2, h3, h4, h5, h6, th {
+  font-weight: normal;
+}
+
+/* Minor third */
+h1 { font-size: 2.488em; }
+h2 { font-size: 2.074em; }
+h3 { font-size: 1.728em; }
+h4 { font-size: 1.44em; }
+h5 { font-size: 1.2em; }
+h6 { font-size: 1em; }
+small { font-size: 0.833em; }
+
+h1, h2, h3 { line-height: 3rem; }
+
+p, ul, ol, dl, table {
+  margin: 1.5rem 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+ul ul, ol ol, ul ol, ol ul {
+  margin: 0;
+}
+
+/* Colors */
+body {
+  color: #222;
+  background-color: #fcfcfc;
+}
+
+a, header nav a:visited {
+  color: #00e;
+}
+
+a:visited, a:visited code {
+  color: #60b;
+}
+
+input {
+  border-color: rgb(143, 143, 143);
+}
+
+button {
+  background-color: #2f586b;
+}
+
+button:hover, button:focus {
+  background-color: #618697;
+}
+
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+/* Layout */
+body { margin: 1ch 1ch; }
+
+img { max-width: 100%; }
+
+/* Lists */
+ul, ol, dd {
+  padding: 0 0 1em 0;
+}
+
+nav ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+nav ul li {
+  display: inline;
+  padding-left: 1ch;
+  white-space: nowrap;
+}
+
+nav ul li:first-child {
+  padding-left: 0;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto;
+}
+
+th, td {
+  border-width: 1px;
+  padding: 0 0.5ch;
+}
+
+/* Copy inline */
+a {
+  text-decoration: none;
+}
+
+mark {
+  padding: 1px;
+}
+
+form, .card {
+  background: white;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 1em 0;
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  font-size: 1.2rem;
+  padding: 0.25em 0.5em;
+  border-width: 1px;
+  border-style: solid;
+}
+
+button {
+  font-size: 1.2rem;
+  padding: 0.5em 1em;
+  margin: 0;
+  border-radius: 8px;
+  border-style: none;
+  color: #FFF;
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 100ms;
+  display: block;
+}
+
+dl {
+  padding: 0;
+  margin: 0;
+}
+
+ul {
+  padding: 0;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+li {
+  list-style: none;
+}
+
+dt, label {
+  font-weight: bold;
+  margin-top: 1em;
+}
+
+dt, dd {
+  margin: 0;
+  padding: 0;
+}
+
+input {
+  display: inline-block;
+  min-width: 40%;
+  flex: 1;
+  text-align: left;
+  background-color: white;
+  border-radius: 4px;
+}
+
+/* Custom components */
+app-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#login-form {
+  justify-content: center;
+  width: max(30vw, 300px);
+
+  button {
+    margin-top: 2em;
+  }
+}
+
+#logout-btn {
+  align-self: end;
+}
+
+.film {
+  &.card {
+    width: 960px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .poster {
+    margin: 0 1em 0 0;
+  }
+
+  .title {
+    font-size: 2rem;
+    margin: 0 0 1.25em;
+  }
+
+  .rating {
+    color: gold;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1)
+  }
+
+  .plot {
+    margin: 2.5rem 0 0;
+  }
+}
+
+app-film-search {
+  width: 960px;
+
+  label {
+    margin-top: 0;
+    margin-right: 16px;
+  }
+
+  form {
+
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+app-film {
+  display: flex;
+  width: 960px;
+}
+
+login-form {
+  display: flex;
+  flex-direction: column;
+}

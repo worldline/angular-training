@@ -25,7 +25,7 @@ export class ExampleService {
 
 When a component requires a service, the service should be added to its constructor in the following manner:
 
-```ts{9}
+```ts{11}
 import { Component } from '@angular/core'
 import { ExampleService } from '@services/example.service'
 
@@ -34,7 +34,10 @@ import { ExampleService } from '@services/example.service'
   templateUrl: './example.component.html'
 })
 export class ExampleComponent {
-  constructor(private exampleService: ExampleService) {}
+
+  constructor(
+    private exampleService: ExampleService
+  ) {}
 }
 ```
 
@@ -67,23 +70,15 @@ Dependencies can be provided at three levels:
 <CodeGroupItem title="app.component.html">
 
 ```html
-<div class="logout-container">
-  <button>Logout</button>
-</div>
+<button class="logout">Logout</button>
 <router-outlet></router-outlet>
 ```
 </CodeGroupItem>
 <CodeGroupItem title="app.component.scss">
 
 ```scss
-.logout-container {
-  display: flex;
-  justify-content: flex-end;
-
-  button {
-    margin: 0;
-    font-size: 1em;
-  }
+.logout {
+  align-self: end;
 }
 ```
 </CodeGroupItem>
@@ -101,6 +96,12 @@ ng generate guard guards/authentication
 ```ts
 this.router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url }})
 ```
+:::
+
+::: details Expected result
+![Visual result of the services practical work](../assets/visual-6a.png)
+
+![Visual result of the services practical work](../assets/visual-6.png)
 :::
 
 ## The HttpClient
@@ -204,7 +205,6 @@ The backend interface contract is available here: [api-docs](http://localhost:30
     }
   }
 }
-
 ```
 </CodeGroupItem>
 <CodeGroupItem title="proxy.conf.js">
@@ -238,7 +238,7 @@ module.exports = setupForCorporateProxy(proxyConfig)
 </CodeGroupItem>
 </CodeGroup>
 
-The proxy will divert all calls for http://localhost:4200/api to the server running at http://localhost:3030. It also makes sure we don't encounter any CORS issues. This configuration is only for the webpack dev server the CLI provides to run the application on your machine in a dev environment. It will not be the configuration used in production.
+The proxy will divert all calls for http://localhost:4200/api to the server running at http://localhost:3030. It also makes sure we don't encounter any CORS issues (in the case the backend is not hosted on your machine). This configuration is only for the webpack dev server the CLI provides to run the application on your machine in a dev environment. It will not be the configuration used in production.
 
 2. Install the following dependency only if you are behind a corporate proxy
 ```sh
@@ -295,13 +295,20 @@ export class LoginRequest {
 <CodeGroupItem title="user-response.ts">
 
 ```ts
+import { User } from './user'
+
 export class UserResponse {
   constructor(
     public user: User,
     public token: string
   ) {}
 }
+```
+</CodeGroupItem>
+<CodeGroupItem title="user.ts">
 
+```ts
+/* eslint-disable @typescript-eslint/naming-convention */
 export class User {
   constructor(
     public id: number,
@@ -329,7 +336,7 @@ private baseUrl = 'api/user'
 constructor(private httpClient: HttpClient) {}
 
 login(loginRequest: LoginRequest): Observable<UserResponse> {
-  return this.httpClient.post<UserResponse>(this.baseUrl + '/login', loginRequest)
+  return this.httpClient.post<UserResponse>(`${this.baseUrl}/login`, loginRequest)
 }
 
 register(loginRequest: LoginRequest): Observable<UserResponse> {
@@ -339,7 +346,8 @@ register(loginRequest: LoginRequest): Observable<UserResponse> {
     'John',
     'Smith'
   )
-  return this.httpClient.post<UserResponse>(this.baseUrl + '/register', registrationRequest)
+
+  return this.httpClient.post<UserResponse>(`${this.baseUrl}/register`, registrationRequest)
 }
 ```
 </CodeGroupItem>
@@ -351,17 +359,23 @@ register(loginRequest: LoginRequest): Observable<UserResponse> {
 <CodeGroupItem title="login-form.component.ts">
 
 ```ts
+constructor(
+  private router: Router,
+  private route: ActivatedRoute,
+  private authenticationService: AuthenticationService
+) {}
+
 login(): void {
   this.authenticationService.login(this.loginRequest)
-    .subscribe(response => {
+    .subscribe({ next: () => {
       const returnUrl = this.route.snapshot.paramMap.get('returnUrl')
       this.router.navigateByUrl(returnUrl ? `/${returnUrl}` : '')
-    })
+    } })
 }
 
 register(): void {
   this.authenticationService.register(this.loginRequest)
-    .subscribe(response => {})
+    .subscribe()
 }
 
 get loginRequest(): LoginRequest {
@@ -402,6 +416,27 @@ login(): void {
 
 9. Add a register button next to the login button in the `LoginFormComponent`, give it the attribute `type="button"` so that Angular knows it is not this button that triggers the `ngSubmit` event on the form and make it call the register method. You should now be able to register a user and login.
 
+<CodeGroup>
+<CodeGroupItem title="HTML">
+
+```html
+<div class="button-container">
+  <button type="button">Register</button>
+  <button type="submit">Login</button>
+</div>
+```
+</CodeGroupItem>
+<CodeGroupItem title="SCSS">
+
+```scss
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+```
+</CodeGroupItem>
+</CodeGroup>
+
 10. It is time to handle errors. The subscribe method can be passed an object that takes three callbacks: a *next*, an *error* and a *complete* (we will look at this in more details in the next chapter). Declare an `errorMessage` field on the `LoginFormComponent` and update it with the error information retrieved from the argument of the `error` callback. Display the error message on the form. Check that the error message is actually shown when you login with incorrect credentials.
 
 ```ts
@@ -428,6 +463,11 @@ a. Use the CLI to generate one: `ng generate interceptor interceptors/authentica
 b. Here is its implementation:
 
 ```ts
+import { Injectable } from '@angular/core'
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http'
+import { Observable } from 'rxjs'
+import { AuthenticationService } from '@services/authentication.service'
+
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
 
@@ -439,6 +479,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
       const cloned = request.clone({
         headers: request.headers.set('Authorization', `Bearer ${this.authenticationService.token}`)
       })
+
       return next.handle(cloned)
     }
 
@@ -470,3 +511,9 @@ const options = {
 13. Check that the token is sent as a HTTP header via the developer tools of your browser.
 
 14. **Bonus:** Modify the `AuthenticationService` logout method so that it sets the token to `null`.
+
+::: details Expected result
+![Visual result of the http practical work](../assets/visual-7a.png)
+
+![Visual result of the http practical work](../assets/visual-7b.png)
+:::

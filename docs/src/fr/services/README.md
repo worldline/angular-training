@@ -25,7 +25,7 @@ export class ExampleService {
 
 Lorsqu'un composant nécessite un service, le service doit être ajouté à son constructeur de la manière suivante :
 
-```ts{9}
+```ts{11}
 import { Component } from '@angular/core'
 import { ExampleService } from '@services/example.service'
 
@@ -34,7 +34,10 @@ import { ExampleService } from '@services/example.service'
   templateUrl: './example.component.html'
 })
 export class ExampleComponent {
-  constructor(private exampleService: ExampleService) {}
+
+  constructor(
+    private exampleService: ExampleService
+  ) {}
 }
 ```
 
@@ -67,23 +70,15 @@ Les dépendances peuvent être fournies à trois niveaux :
 <CodeGroupItem title="app.component.html">
 
 ```html
-<div class="logout-container">
-  <button>Logout</button>
-</div>
+<button class="logout">Logout</button>
 <router-outlet></router-outlet>
 ```
 </CodeGroupItem>
 <CodeGroupItem title="app.component.scss">
 
 ```scss
-.logout-container {
-  display: flex;
-  justify-content: flex-end;
-
-  button {
-    margin: 0;
-    font-size: 1em;
-  }
+.logout {
+  align-self: end;
 }
 ```
 </CodeGroupItem>
@@ -101,6 +96,12 @@ ng generate guard guards/authentication
 ```ts
 this.router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url }})
 ```
+:::
+
+::: details Résultat attendu
+![Résultat visuel du TP services](../../assets/visual-6a.png)
+
+![Résultat visuel du TP services](../../assets/visual-6.png)
 :::
 
 ## Le HttpClient
@@ -204,7 +205,6 @@ Le contrat d'interface backend est disponible ici : [api-docs](http://localhost
     }
   }
 }
-
 ```
 </CodeGroupItem>
 <CodeGroupItem title="proxy.conf.js">
@@ -238,7 +238,7 @@ module.exports = setupForCorporateProxy(proxyConfig)
 </CodeGroupItem>
 </CodeGroup>
 
-Le proxy détournera tous les appels à l'URL commençant par http://localhost:4200/api vers le serveur disponible à l'adresse http://localhost:3030. Cela garantit également que nous ne rencontrerons aucun problème lié aux CORS. Cette configuration concerne uniquement le serveur de développement webpack fourni par le CLI pour exécuter l'application sur votre machine dans un environnement de développement. Ce ne sera pas la configuration utilisée en production.
+Le proxy détournera tous les appels à l'URL commençant par http://localhost:4200/api vers le serveur disponible à l'adresse http://localhost:3030. Cela garantit également que nous ne rencontrerons aucun problème lié aux CORS (dans le cas où le backend ne serait hébergé en local). Cette configuration concerne uniquement le serveur de développement webpack fourni par le CLI pour exécuter l'application sur votre machine dans un environnement de développement. Ce ne sera pas la configuration utilisée en production.
 
 2. Installez la dépendance suivante uniquement si vous êtes derrière un proxy d'entreprise
 ```sh
@@ -295,13 +295,20 @@ export class LoginRequest {
 <CodeGroupItem title="user-response.ts">
 
 ```ts
+import { User } from './user'
+
 export class UserResponse {
   constructor(
     public user: User,
     public token: string
   ) {}
 }
+```
+</CodeGroupItem>
+<CodeGroupItem title="user.ts">
 
+```ts
+/* eslint-disable @typescript-eslint/naming-convention */
 export class User {
   constructor(
     public id: number,
@@ -329,7 +336,7 @@ private baseUrl = 'api/user'
 constructor(private httpClient: HttpClient) {}
 
 login(loginRequest: LoginRequest): Observable<UserResponse> {
-  return this.httpClient.post<UserResponse>(this.baseUrl + '/login', loginRequest)
+  return this.httpClient.post<UserResponse>(`${this.baseUrl}/login`, loginRequest)
 }
 
 register(loginRequest: LoginRequest): Observable<UserResponse> {
@@ -339,7 +346,8 @@ register(loginRequest: LoginRequest): Observable<UserResponse> {
     'John',
     'Smith'
   )
-  return this.httpClient.post<UserResponse>(this.baseUrl + '/register', registrationRequest)
+
+  return this.httpClient.post<UserResponse>(`${this.baseUrl}/register`, registrationRequest)
 }
 ```
 </CodeGroupItem>
@@ -351,17 +359,23 @@ register(loginRequest: LoginRequest): Observable<UserResponse> {
 <CodeGroupItem title="login-form.component.ts">
 
 ```ts
+constructor(
+  private router: Router,
+  private route: ActivatedRoute,
+  private authenticationService: AuthenticationService
+) {}
+
 login(): void {
   this.authenticationService.login(this.loginRequest)
-    .subscribe(response => {
+    .subscribe({ next: () => {
       const returnUrl = this.route.snapshot.paramMap.get('returnUrl')
       this.router.navigateByUrl(returnUrl ? `/${returnUrl}` : '')
-    })
+    } })
 }
 
 register(): void {
   this.authenticationService.register(this.loginRequest)
-    .subscribe(response => {})
+    .subscribe()
 }
 
 get loginRequest(): LoginRequest {
@@ -402,11 +416,32 @@ login(): void {
 
 9. Ajoutez un bouton d'enregistrement à côté du bouton de connexion dans le `LoginFormComponent`, donnez-lui l'attribut `type="button"` afin qu'Angular sache que ce n'est pas ce bouton qui déclenche l'événement `ngSubmit` sur le formulaire et faites-lui appeler le méthode d'enregistrement. Vous devriez maintenant pouvoir enregistrer un utilisateur et vous connecter.
 
+<CodeGroup>
+<CodeGroupItem title="HTML">
+
+```html
+<div class="button-container">
+  <button type="button">Register</button>
+  <button type="submit">Login</button>
+</div>
+```
+</CodeGroupItem>
+<CodeGroupItem title="SCSS">
+
+```scss
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+```
+</CodeGroupItem>
+</CodeGroup>
+
 10. Il est temps de gérer les erreurs. La méthode subscribe peut prendre un objet qui propose trois callbacks: une *next*, une *error* et une *complete* (nous verrons cela plus en détail dans le chapitre suivant). Déclarer un champ `errorMessage` sur le `LoginFormComponent` et le mettre à jour en vous servant de l'argument renvoyé par la callback `error`. Afficher le message d'erreur sur le formulaire. Vérifier que le message d'erreur s'affiche bien lorsqu'on saisit des identifiants incorrects.
 
 ```ts
 private errorHandler(errorResponse: HttpErrorResponse): void {
-  this.errorMessage = errorResponse.error.error ?? `${error.status} - ${error.statusText}`
+  this.errorMessage = errorResponse.error.error ?? `${errorResponse.error.status} - ${errorResponse.error.statusText}`
 }
 
 // subscribe syntax
@@ -428,6 +463,11 @@ a. Utilisez le CLI pour en générer un : `ng generate interceptor interceptors/
 b. Voici son implémentation :
 
 ```ts
+import { Injectable } from '@angular/core'
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http'
+import { Observable } from 'rxjs'
+import { AuthenticationService } from '@services/authentication.service'
+
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
 
@@ -439,6 +479,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
       const cloned = request.clone({
         headers: request.headers.set('Authorization', `Bearer ${this.authenticationService.token}`)
       })
+
       return next.handle(cloned)
     }
 
@@ -470,3 +511,9 @@ const options = {
 14. Vérifiez que le token est envoyé sous forme d'en-tête HTTP via les outils de développement de votre navigateur.
 
 15. **Bonus :** Modifiez la méthode de déconnexion `AuthenticationService` pour qu'elle passe le token à `null`.
+
+::: details Résultat attendu
+![Résultat visuel du TP http](../../assets/visual-7a.png)
+
+![Résultat visuel du TP http](../../assets/visual-7b.png)
+:::
