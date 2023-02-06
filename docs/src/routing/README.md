@@ -36,16 +36,16 @@ Once your app grows and you start refactoring it in several modules, it is a goo
 The generated `AppRoutingModule` looks like this:
 
 ```ts
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
 
-const routes: Routes = [];
+const routes: Routes = []
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
 ```
 
 The `routes` array is where we tell the `Router` which component should be displayed when the user clicks on a link or enters a URL in the address bar.
@@ -54,19 +54,19 @@ A [Route](https://angular.io/api/router/Route) is mainly defined by a path and a
 Here is an example of an app with a dashboard secured with authentication:
 ```ts
 const routes: Routes = [
-  {path: 'registration', component: RegistrationComponent},
-  {path: 'forgotten-password', component: ForgottenPasswordComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'dashboard', component: DashboardComponent, canActivate: [AuthenticationGuard]},
-  {path: '', pathMatch: 'full', redirectTo: '/dashboard'},
-  {path: '**', redirectTo: '/dashboard'}
+  { path: 'registration', component: RegistrationComponent },
+  { path: 'forgotten-password', component: ForgottenPasswordComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthenticationGuard] },
+  { path: '', pathMatch: 'full', redirectTo: '/dashboard' },
+  { path: '**', redirectTo: '/dashboard' }
 ]
 ```
 - `canActivate` allows you to define route guards. A route guard blocks the activation of the route if the condition it defines is not verified.
 - `pathMatch: 'full'` forces the path to be matched against the entire URL. It is important to do this when redirecting empty-path routes. Otherwise, because an empty path is a prefix of any URL, the router would apply the redirect even when navigating to the redirect destination, creating an endless loop.
 - `'**'`: is a wildcard which means it matches any URL
 
-**Exercise:** open the Stackblitz and define the following routes:
+**Exercise:** open the Stackblitz and define the following routes in the `Routes` array:
 - home: `/home` & empty route
 - book list: `/books`
 - detail of book with id 1: `/books/1`
@@ -80,23 +80,23 @@ const routes: Routes = [
 
 ::: details Correction
 ```ts
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import { AuthorDetailsComponent } from "./author-details/author-details.component";
-import { AuthorListComponent } from "./author-list/author-list.component";
-import { BookDetailsComponent } from "./book-details/book-details.component";
-import { BookListComponent } from "./book-list/book-list.component";
-import { HomeComponent } from "./home/home.component";
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
+import { AuthorDetailsComponent } from './author-details/author-details.component'
+import { AuthorListComponent } from './author-list/author-list.component'
+import { BookDetailsComponent } from './book-details/book-details.component'
+import { BookListComponent } from './book-list/book-list.component'
+import { HomeComponent } from './home/home.component'
 
 const routes: Routes = [
-  {path: 'home', component: HomeComponent},
-  {path: 'authors', component: AuthorListComponent},
-  {path: 'authors/:id', component: AuthorDetailsComponent},
-  {path: 'books', component: BookListComponent},
-  {path: 'books/:id', component: BookDetailsComponent},
-  {path: '', pathMatch: 'full', redirectTo: '/home'}
-  {path: '**', redirectTo: '/home'}
-];
+  { path: 'home', component: HomeComponent },
+  { path: 'authors', component: AuthorListComponent },
+  { path: 'authors/:id', component: AuthorDetailsComponent },
+  { path: 'books', component: BookListComponent },
+  { path: 'books/:id', component: BookDetailsComponent },
+  { path: '', pathMatch: 'full', redirectTo: '/home' }
+  { path: '**', redirectTo: '/home' }
+]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
@@ -128,7 +128,7 @@ const routes: Routes = [
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' }
-];
+]
 ```
 :::
 
@@ -194,13 +194,13 @@ You have two options, either use an absolute path starting with `/` which means 
 <!-- author-list.component.html -->
 <h1>Authors ✍️</h1>
 <ul>
-  <li *ngFor="let author of authors">{{author.name}} <a routerLink="{{author.id}}">🔍</a></li>
+  <li *ngFor="let author of authors">{{author.name}} <a [routerLink]="[author.id]">🔍</a></li>
 </ul>
 
 <!-- book-list.component.html -->
 <h1>Books 📚</h1>
 <ul>
-  <li *ngFor="let book of books">{{book.title}} - {{book.author}} <a routerLink="/books/{{book.id}}">🔍</a></li>
+  <li *ngFor="let book of books">{{book.title}} - {{book.author}} <a [routerLink]="[book.id]">🔍</a></li>
 </ul>
 ```
 
@@ -215,12 +215,12 @@ For the moment, only the data of the book with id 1 and the data of the author w
 <!-- author-details.component.html -->
 <h2>Books</h2>
 <ul>
-  <li *ngFor="let book of details.books">{{book.title}} <a routerLink="/books/{{book.id}}">🔍</a></li>
+  <li *ngFor="let book of details.books">{{book.title}} <a [routerLink]="['/books', book.id]">🔍</a></li>
 </ul>
 
 <!-- book-details.component.html -->
 <div class="info">
-  <div><a routerLink="/authors/{{details.author.id}}">✍️</a></div>
+  <div><a [routerLink]="['/authors', details.author.id]">✍️</a></div>
   <p> {{details?.author.name}}</p>
 </div>
 ```
@@ -284,19 +284,19 @@ To extract a parameter from a route, two steps are required:
 2. Retrieve the paramMap from the snapshot in the `OnInit` lifecycle hook
 
 ```ts{10,13}
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { Component, OnInit } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
-  selector: "app-example",
-  templateUrl: "./exemple.component.html"
+  selector: 'app-example',
+  templateUrl: './exemple.component.html'
 })
 export class ExampleComponent implements OnInit {
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    const id: string = this.route.snapshot.paramMap.get("id");
+    const id: string = this.route.snapshot.paramMap.get('id')
   }
 }
 ```
@@ -307,25 +307,25 @@ Let's go back to the *Personal Library* app. With the help of the `ActivatedRout
 ```ts
 // book-details.component.ts
 export class BookDetailsComponent implements OnInit {
-  details: BookDetail | null;
+  details: BookDetail | null
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get("id");
-    this.details = bookDetails.get(Number(id));
+    const id = this.route.snapshot.paramMap.get('id')
+    this.details = bookDetails.get(Number(id))
   }
 }
 
 // author-details.component.ts
 export class AuthorDetailsComponent implements OnInit {
-  details: AuthorDetail | null;
+  details: AuthorDetail | null
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get("id");
-    this.details = authorDetails.get(Number(id));
+    const id = this.route.snapshot.paramMap.get('id')
+    this.details = authorDetails.get(Number(id))
   }
 }
 
@@ -342,12 +342,13 @@ What does it mean ? If you only allow the navigation to the same route via the a
 
 Sometimes, it is necessary to trigger some actions before routing. This is what happens when we click on a login button. First, an http call is made and depending on the response, routing takes place. The `Router` service allows to trigger navigation from the component class.
 1. Inject the `Router` service via the constructor
+
 2. Use the `navigateByUrl` method to trigger the navigation. `navigateByUrl` always takes an absolute path. In case you would like to user a relative path, use the `navigate` method instead.
 
 ```ts{6,9}
 @Component({
-  selector: "app-example",
-  templateUrl: "./example.component.html"
+  selector: 'app-example',
+  templateUrl: './example.component.html'
 })
 export class ExampleComponent {
   constructor(private router: Router) {}
@@ -362,12 +363,33 @@ A full correction of the *Personal Library* app is available in this [stackblitz
 
 ## Practical Work: Router-based navigation
 
-Let's implement the Film application routing.
+Let's implement the Search Film application routing.
 
 1. During the project initial setup, the CLI asked if it should add Angular routing and we answered yes. The CLI installed the `@angular/router` library, you can check that in the dependencies declared in the `package.json`. It also created the `app-routing.module.ts` file.
+
 2. Add a `login` route linked to the `LoginFormComponent` and a `search` route linked to `FilmSearchComponent` in the `app-routing.module.ts` file.
+
 3. Add a `<router-outlet></router-outlet>` at the top of the `AppComponent` template. You should now see the LoginComponent twice when navigating to `http://localhost:4200/login`.
+
+::: details Expected result
+![Visual result of the routing practical work step 3](../assets/visual-1.png)
+
+![Visual result of the routing practical work step 3](../assets/visual-5a.png)
+:::
+
 4. Replace the switch between the `LoginFormComponent` and `FilmSearchComponent` currently based on an `*ngIf` by a navigation from one route to another. You will have to inject the Router service in the LoginFormComponent.
+
+::: details Tip
+Only one line should remain in your `app.component.html` file: `<router-outler></router-outlet>`
+:::
+
+::: details Expected result
+![Visual result of the routing practical work step 4](../assets/visual-5b.png)
+
+![Visual result of the routing practical work step 4](../assets/visual-5c.png)
+
+![Visual result of the routing practical work step 4](../assets/visual-5d.png)
+:::
 
  **Question:** Can you spot an issue with the way our current implementation works regarding security concerns?
 

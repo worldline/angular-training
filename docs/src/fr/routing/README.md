@@ -36,16 +36,16 @@ Une fois que votre application grandit et que vous commencez à la refactoriser 
 L'`AppRoutingModule` généré ressemble à ceci :
 
 ```ts
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
 
-const routes: Routes = [];
+const routes: Routes = []
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
 ```
 
 Le tableau `routes` est l'endroit où nous indiquons au `routeur` quel composant doit être affiché lorsque l'utilisateur clique sur un lien ou tape une URL dans la barre d'adresse.
@@ -54,19 +54,19 @@ Une [Route](https://angular.io/api/router/Route) est principalement définie par
 Voici un exemple d'application avec un tableau de bord sécurisé par authentification :
 ```ts
 const routes: Routes = [
-  {path: 'registration', component: RegistrationComponent},
-  {path: 'forgotten-password', component: ForgottenPasswordComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'dashboard', component: DashboardComponent, canActivate: [AuthenticationGuard]},
-  {path: '', pathMatch: 'full', redirectTo: '/dashboard'},
-  {path: '**', redirectTo: '/dashboard'}
+  { path: 'registration', component: RegistrationComponent },
+  { path: 'forgotten-password', component: ForgottenPasswordComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthenticationGuard] },
+  { path: '', pathMatch: 'full', redirectTo: '/dashboard' },
+  { path: '**', redirectTo: '/dashboard' }
 ]
 ```
 - `canActivate` vous permet de définir des route guards. Un route guard bloque l'activation de la route si la condition qu'il définit n'est pas vérifiée.
 - `pathMatch: 'full'` force le chemin à être comparé à l'URL entière. Il est important de le faire lors de la redirection des routes à chemin vide. Sinon, parce qu'un chemin vide est un préfixe de n'importe quelle URL, le routeur appliquerait la redirection même lors de la navigation vers la destination de redirection, créant une boucle sans fin.
 - `'**'`: est une wildcard qui signifie que le chemin correspond à n'importe quelle URL
 
-**Exercice :** ouvrez le Stackblitz et définissez les routes suivants :
+**Exercice :** ouvrez le Stackblitz et définissez les routes suivants dans le tableau `Routes`:
 - accueil: `/home` & route vide
 - liste des livres : `/books`
 - détail du livre avec dont l'id est 1 : `/books/1`
@@ -80,23 +80,23 @@ const routes: Routes = [
 
 ::: details Correction
 ```ts
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import { AuthorDetailsComponent } from "./author-details/author-details.component";
-import { AuthorListComponent } from "./author-list/author-list.component";
-import { BookDetailsComponent } from "./book-details/book-details.component";
-import { BookListComponent } from "./book-list/book-list.component";
-import { HomeComponent } from "./home/home.component";
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
+import { AuthorDetailsComponent } from './author-details/author-details.component'
+import { AuthorListComponent } from './author-list/author-list.component'
+import { BookDetailsComponent } from './book-details/book-details.component'
+import { BookListComponent } from './book-list/book-list.component'
+import { HomeComponent } from './home/home.component'
 
 const routes: Routes = [
-  {path: 'home', component: HomeComponent},
-  {path: 'authors', component: AuthorListComponent},
-  {path: 'authors/:id', component: AuthorDetailsComponent},
-  {path: 'books', component: BookListComponent},
-  {path: 'books/:id', component: BookDetailsComponent},
-  {path: '', pathMatch: 'full', redirectTo: '/home'},
-  {path: '**', redirectTo: '/home'}
-];
+  { path: 'home', component: HomeComponent },
+  { path: 'authors', component: AuthorListComponent },
+  { path: 'authors/:id', component: AuthorDetailsComponent },
+  { path: 'books', component: BookListComponent },
+  { path: 'books/:id', component: BookDetailsComponent },
+  { path: '', pathMatch: 'full', redirectTo: '/home' },
+  { path: '**', redirectTo: '/home' }
+]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
@@ -128,7 +128,7 @@ const routes: Routes = [
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' }
-];
+]
 ```
 :::
 
@@ -188,20 +188,19 @@ Habituellement, la destination d'un lien est spécifiée via l'attribut `href`. 
 **Exercice :** Ajoutez la navigation vers les détails du livre et les détails de l'auteur dans leurs composants de liste respectifs.
 
 ::: details Correction
-
 Vous avez deux options, soit utiliser un chemin absolu commençant par `/` ce qui signifie que le chemin entier doit être fourni (comme dans `book-list.component.html`) ou utiliser un chemin relatif vers l'emplacement actuel (comme dans `author-list.component.html`).
 
 ```html
 <!-- author-list.component.html -->
 <h1>Authors ✍️</h1>
 <ul>
-  <li *ngFor="let author of authors">{{author.name}} <a routerLink="{{author.id}}">🔍</a></li>
+  <li *ngFor="let author of authors">{{author.name}} <a [routerLink]="[author.id]">🔍</a></li>
 </ul>
 
 <!-- book-list.component.html -->
 <h1>Books 📚</h1>
 <ul>
-  <li *ngFor="let book of books">{{book.title}} - {{book.author}} <a routerLink="/books/{{book.id}}">🔍</a></li>
+  <li *ngFor="let book of books">{{book.title}} - {{book.author}} <a [routerLink]="[book.id]">🔍</a></li>
 </ul>
 ```
 
@@ -216,12 +215,12 @@ Pour le moment, seules les données du livre avec l'id 1 et les données de l'au
 <!-- author-details.component.html -->
 <h2>Books</h2>
 <ul>
-  <li *ngFor="let book of details.books">{{book.title}} <a routerLink="/books/{{book.id}}">🔍</a></li>
+  <li *ngFor="let book of details.books">{{book.title}} <a [routerLink]="['/books', book.id]">🔍</a></li>
 </ul>
 
 <!-- book-details.component.html -->
 <div class="info">
-  <div><a routerLink="/authors/{{details.author.id}}">✍️</a></div>
+  <div><a [routerLink]="['/authors', details.author.id]">✍️</a></div>
   <p> {{details?.author.name}}</p>
 </div>
 ```
@@ -285,19 +284,19 @@ Pour extraire un paramètre d'une route, deux étapes sont nécessaires :
 2. Récupérez le paramMap depuis le snapshot dans le hook de cycle de vie `OnInit`
 
 ```ts{10,13}
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { Component, OnInit } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
-  selector: "app-example",
-  templateUrl: "./exemple.component.html"
+  selector: 'app-example',
+  templateUrl: './exemple.component.html'
 })
 export class ExampleComponent implements OnInit {
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    const id: string = this.route.snapshot.paramMap.get("id");
+    const id: string = this.route.snapshot.paramMap.get('id')
   }
 }
 ```
@@ -308,25 +307,25 @@ Revenons à l'application *Personal Library*. Avec l'aide de `ActivatedRoute`, m
 ```ts
 // book-details.component.ts
 export class BookDetailsComponent implements OnInit {
-  details: BookDetail | null;
+  details: BookDetail | null
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get("id");
-    this.details = bookDetails.get(Number(id));
+    const id = this.route.snapshot.paramMap.get('id')
+    this.details = bookDetails.get(Number(id))
   }
 }
 
 // author-details.component.ts
 export class AuthorDetailsComponent implements OnInit {
-  details: AuthorDetail | null;
+  details: AuthorDetail | null
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get("id");
-    this.details = authorDetails.get(Number(id));
+    const id = this.route.snapshot.paramMap.get('id')
+    this.details = authorDetails.get(Number(id))
   }
 }
 
@@ -347,8 +346,8 @@ Parfois, il est nécessaire de déclencher certaines actions avant le routage. C
 
 ```ts{6,9}
 @Component({
-  selector: "app-example",
-  templateUrl: "./example.component.html"
+  selector: 'app-example',
+  templateUrl: './example.component.html'
 })
 export class ExampleComponent {
   constructor(private router: Router) {}
@@ -363,12 +362,33 @@ Une correction complète de l'application *Personal Library* est disponible dans
 
 ## TP : Navigation basée sur un routeur
 
-Implémentons le routage de l'application Film.
+Implémentons le routage de l'application Search Film.
 
-1. Lors de la configuration initiale du projet, le CLI a demandé si il devait ajouter le routage Angular et nous avons répondu oui. Le CLI a installé la librairie `@angular/router`, vous pouvez le vérifier dans les dépendances déclarées dans le `package.json`. Il a également créé le fichier `app-routing.module.ts`.
+1. Lors de la configuration initiale du projet, le CLI a demandé s'il devait ajouter le routage Angular et nous avons répondu oui. Le CLI a installé la librairie `@angular/router`, vous pouvez le vérifier dans les dépendances déclarées dans le `package.json`. Il a également créé le fichier `app-routing.module.ts`.
+
 2. Ajoutez une route `login` liée au `LoginFormComponent` et une route `search` liée au `FilmSearchComponent` dans le fichier `app-routing.module.ts`.
+
 3. Ajoutez un `<router-outlet></router-outlet>` en haut du template `AppComponent`. Vous devriez maintenant voir le composant LoginComponent deux fois lorsque vous naviguez vers `http://localhost:4200/login`.
+
+::: details Résultat attendu
+![Résultat visuel du TP Routage étape 3](../../assets/visual-1.png)
+
+![Résultat visuel du TP Routage étape 3](../../assets/visual-5a.png)
+:::
+
 4. Remplacez l'affichage conditionnel des `LoginFormComponent` et `FilmSearchComponent` actuellement basé sur un `*ngIf` par une navigation d'une route à une autre. Vous devrez injecter le service Router dans le LoginFormComponent.
+
+::: details Indice
+Le fichier `app.component.html` ne devrait contenir plus qu'une seule ligne: `<router-outler></router-outlet>`
+:::
+
+::: details Résultat attendu
+![Résultat visuel du TP Routage étape 4](../../assets/visual-5b.png)
+
+![Résultat visuel du TP Routage étape 4](../../assets/visual-5c.png)
+
+![Résultat visuel du TP Routage étape 4](../../assets/visual-5d.png)
+:::
 
 **Question:** Pouvez-vous repérer un problème dans le fonctionnement de notre implémentation actuelle en ce qui concerne la sécurité ?
 
