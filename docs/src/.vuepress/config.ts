@@ -19,7 +19,7 @@ export default defineUserConfig({
   },
 
   head: [
-    ['link', { rel: 'icon', href: '/logo.svg' }],
+    ['link', { rel: 'icon', href: 'logo.svg' }],
     ['meta', { name: 'theme-color', content: '#C3002F' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }]
@@ -33,7 +33,6 @@ export default defineUserConfig({
         selectLanguageText: "Language",
         selectLanguageName: "English",
         sidebar: [
-          "/",
           "/presentation/",
           "/typescript/",
           "/tooling/",
@@ -54,7 +53,6 @@ export default defineUserConfig({
         selectLanguageText: "Langue",
         selectLanguageName: "Français",
         sidebar: [
-          "/fr/",
           "/fr/presentation/",
           "/fr/typescript/",
           "/fr/outillage/",
