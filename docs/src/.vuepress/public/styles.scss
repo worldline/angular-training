@@ -64,11 +64,8 @@ button:hover, button:focus {
   background-color: #618697;
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
 /* Layout */
@@ -78,7 +75,7 @@ img { max-width: 100%; }
 
 /* Lists */
 ul, ol, dd {
-  padding: 0 0 0 3ch;
+  padding: 0 0 1em 0;
 }
 
 nav ul {
@@ -149,8 +146,7 @@ button {
 
 dl {
   padding: 0;
-  display: flex;
-  flex-wrap: wrap;
+  margin: 0;
 }
 
 ul {
@@ -171,7 +167,12 @@ dt, label {
   margin-top: 1em;
 }
 
-dd, input {
+dt, dd {
+  margin: 0;
+  padding: 0;
+}
+
+input {
   display: inline-block;
   min-width: 40%;
   flex: 1;
@@ -200,22 +201,47 @@ app-root {
   align-self: end;
 }
 
-.film.card {
+.film {
+  &.card {
+    width: 960px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .poster {
+    margin: 0 1em 0 0;
+  }
+
+  .title {
+    font-size: 2rem;
+    margin: 0 0 1.25em;
+  }
+
+  .rating {
+    color: gold;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1)
+  }
+
+  .plot {
+    margin: 2.5rem 0 0;
+  }
+}
+
+app-film-search {
   width: 960px;
-}
 
-.film .poster {
-  float: left;
-  margin: 0 0.5em 0.5em 0;
-}
+  label {
+    margin-top: 0;
+    margin-right: 16px;
+  }
 
-.film .title {
-  font-size: 2rem;
-}
+  form {
 
-.rating {
-  color: gold;
-  text-shadow: 1px 1px 1px rgba(0,0,0,0.5)
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 }
 
 app-film {

@@ -227,6 +227,23 @@ app-root {
   }
 }
 
+app-film-search {
+  width: 960px;
+
+  label {
+    margin-top: 0;
+    margin-right: 16px;
+  }
+
+  form {
+
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
 app-film {
   display: flex;
   width: 960px;
