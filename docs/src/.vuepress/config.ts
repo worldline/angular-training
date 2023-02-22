@@ -1,4 +1,8 @@
-module.exports = {
+import { defaultTheme, defineUserConfig } from 'vuepress-webpack'
+import { path } from '@vuepress/utils'
+import { registerComponentsPlugin } from '@vuepress/plugin-register-components'
+
+export default defineUserConfig({
   base: "/angular-training/",
   locales: {
     "/": {
@@ -20,23 +24,14 @@ module.exports = {
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }]
   ],
-
-  /**
-   * Theme configuration, here is the default theme configuration for VuePress.
-   *
-   * ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
-   */
-  themeConfig: {
-    repo: '',
-    editLinks: false,
-    docsDir: '',
-    editLinkText: '',
-    lastUpdated: false,
-    nav: [],
+  theme: defaultTheme({
+    logo: '/logo.svg',
+    logoDark: '/logo.svg',
+    navbar: [],
     locales: {
       "/": {
-        selectText: "Language",
-        label: "English",
+        selectLanguageText: "Language",
+        selectLanguageName: "English",
         sidebar: [
           "/",
           "/presentation/",
@@ -56,8 +51,8 @@ module.exports = {
       },
 
       "/fr/": {
-        selectText: "Langue",
-        label: "Français",
+        selectLanguageText: "Langue",
+        selectLanguageName: "Français",
         sidebar: [
           "/fr/",
           "/fr/presentation/",
@@ -75,13 +70,14 @@ module.exports = {
           "/fr/ecosysteme/"
         ]
       }
-    }
-  },
-
-  /**
-   * Apply plugins，ref：https://v1.vuepress.vuejs.org/zh/plugin/
-   */
+    },
+    editLink: false,
+    lastUpdated: false,
+    contributors: false
+  }),
   plugins: [
-    'vuepress-plugin-global-toc'
+    registerComponentsPlugin({
+      componentsDir: path.resolve(__dirname, './components'),
+    })
   ]
-}
+})

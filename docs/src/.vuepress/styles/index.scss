@@ -1,0 +1,24 @@
+:root {
+  // brand colors
+  --c-brand: #C3002F;
+  --c-brand-light: #c47488;
+}
+
+html.dark {
+  // brand colors
+  --c-brand: #C3002F;
+  --c-brand-light: #c47488;
+}
+
+.demo {
+  padding: 1.25rem;
+  overflow: auto;
+  border-radius: 6px;
+  box-shadow: 0 0 5px rgba(0,0,0,.5);
+
+  ul, p { margin: 0 }
+}
+
+.home .hero img {
+  max-height: 200px;
+}

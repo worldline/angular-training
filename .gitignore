@@ -6,6 +6,8 @@ npm-debug.log
 
 # Build
 dist
+.cache
+.temp
 
 # private
 TODO.md

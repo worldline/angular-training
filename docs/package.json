@@ -2,6 +2,7 @@
   "name": "angular-training",
   "version": "0.0.1",
   "description": "Angular training material",
+  "main": "index.js",
   "authors": [
     {
       "name": "Sylvain Pollet-Villard",
@@ -23,10 +24,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "shelljs": "0.8.4",
-    "vuepress": "1.8.2"
-  },
-  "dependencies": {
-    "vuepress-plugin-global-toc": "1.0.1"
+    "@vuepress/bundler-webpack": "2.0.0-beta.60",
+    "@vuepress/plugin-register-components": "2.0.0-beta.60",
+    "vuepress-webpack": "2.0.0-beta.60"
   }
 }

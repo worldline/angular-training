@@ -1,9 +1,12 @@
 ---
 home: true
 heroImage: /logo.svg
+heroAlt: Angular logo
 tagline: A beginner's guide to the Angular platform
-actionText: Get started →
-actionLink: /presentation/
+actions: 
+  - text: Get started →
+    link: /presentation/
+    type: primary
 features:
   - title: Components
     details: Discover the building blocks of an Angular application
@@ -11,7 +14,7 @@ features:
     details: Delve into Angular Router, Forms & HttpClient
   - title: Angular CLI
     details: Develop Angular applications directly from a command shell
-footer: Worldline, 2021
+footer: Worldline, 2023
 ---
 
 ::: tip
@@ -28,7 +31,3 @@ This training is also available in [French](/fr/) / Cette formation est aussi di
 
 - [Official Angular documentation](https://angular.io/docs)
 - [Github repository for this training](https://github.com/worldline/angular-training)
-
-## Table of contents
-
-<GlobalTableOfContents />
