@@ -187,10 +187,19 @@ The methods from the `HttpClient` service return Observables. They will be cover
 
 ## Practical Work: Calling a backend
 
-We will use an API (the *backend*) to authenticate users and search for films. This backend has already been developed and deployed on Heroku.
+We will use an API (the *backend*) to authenticate users and search for films. This backend has already been developed and can be deployed locally using the following command line commands (clone in your usual repo folder):
+
+```sh
+git clone https://github.com/worldline/vuejs-training-backend.git
+cd vuejs-training-backend
+npm install
+npm start
+```
+
+The `npm start` command will ask you for an API key. Either wait on the instructor to give it to you, alternatively, you can generate one [here](https://www.omdbapi.com/apikey.aspx?__EVENTTARGET=freeAcct&__EVENTARGUMENT=&__LASTFOCUS=&__VIEWSTATE=%2FwEPDwUKLTIwNDY4MTIzNQ9kFgYCAQ9kFgICBw8WAh4HVmlzaWJsZWhkAgIPFgIfAGhkAgMPFgIfAGhkGAEFHl9fQ29udHJvbHNSZXF1aXJlUG9zdEJhY2tLZXlfXxYDBQtwYXRyZW9uQWNjdAUIZnJlZUFjY3QFCGZyZWVBY2N0oCxKYG7xaZwy2ktIrVmWGdWzxj%2FDhHQaAqqFYTiRTDE%3D&__VIEWSTATEGENERATOR=5E550F58&__EVENTVALIDATION=%2FwEdAAU%2BO86JjTqdg0yhuGR2tBukmSzhXfnlWWVdWIamVouVTzfZJuQDpLVS6HZFWq5fYpioiDjxFjSdCQfbG0SWduXFd8BcWGH1ot0k0SO7CfuulHLL4j%2B3qCcW3ReXhfb4KKsSs3zlQ%2B48KY6Qzm7wzZbR&at=freeAcct&Email=)
 
 ::: tip
-The backend interface contract is available here: [api-docs](https://vue-js-backend.herokuapp.com/api-docs)
+The backend interface contract is available here: [api-docs](http://localhost:3030/api-docs)
 :::
 
 1. Add to the `src` folder either the `proxy.conf.json` file if you are not behind a corporate proxy or the `proxy.conf.js` file.
@@ -201,7 +210,7 @@ The backend interface contract is available here: [api-docs](https://vue-js-back
 ```json
 {
   "/api/*": {
-    "target": "https://vue-js-backend.herokuapp.com",
+    "target": "http://localhost:3030",
     "changeOrigin": true,
     "pathRewrite": {
       "^/api": ""
@@ -217,7 +226,7 @@ The backend interface contract is available here: [api-docs](https://vue-js-back
 var HttpsProxyAgent = require('https-proxy-agent')
 var proxyConfig = [{
   context: '/api',
-  target: 'https://vue-js-backend.herokuapp.com',
+  target: 'http://localhost:3030',
   changeOrigin: true,
   pathRewrite: {
     "^/api": ""
@@ -242,7 +251,7 @@ module.exports = setupForCorporateProxy(proxyConfig)
 </code-block>
 </code-group>
 
-The proxy will divert all calls for http://localhost:4200/api to the server running at https://vue-js-backend.herokuapp.com. It also makes sure we don't encounter any CORS issues. This configuration is only for the webpack dev server the CLI provides to run the application on your machine in a dev environment. It will not be the configuration used in production.
+The proxy will divert all calls for http://localhost:4200/api to the server running at http://localhost:3030. It also makes sure we don't encounter any CORS issues. This configuration is only for the webpack dev server the CLI provides to run the application on your machine in a dev environment. It will not be the configuration used in production.
 
 2. Install the following dependency only if you are behind a corporate proxy
 ```sh
