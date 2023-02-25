@@ -466,6 +466,8 @@ Comme dit précédemment, TypeScript est le langage principal d'Angular. La plup
 
 ```typescript
 import { Component, OnInit } from '@angular/core' //[3]
+import { HeroService } from '@services/hero.service.ts'
+import { Hero } from '@models/hero.ts'
 
 @Component({ //[2]
   selector:    'app-hero-list',

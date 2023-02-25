@@ -466,6 +466,8 @@ Like said before, TypeScript is Angular's primary language. Many of the language
 
 ```typescript
 import { Component, OnInit } from '@angular/core' //[3]
+import { HeroService } from '@services/hero.service.ts'
+import { Hero } from '@models/hero.ts'
 
 @Component({ //[2]
   selector:    'app-hero-list',
