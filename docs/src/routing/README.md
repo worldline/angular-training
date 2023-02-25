@@ -148,14 +148,14 @@ In the Stackblitz, try navigating to components by replacing the URL in the addr
 ### router-outlet
 This is the purpose of the `RouterOutlet`. The `NavbarComponent` should remain displayed at all times which means that components should be inserted under it. Let's add the `router-outlet` in the `AppComponent`.
 
-<code-group>
-<code-block title="app.component.html">
+<CodeGroup>
+<CodeGroupItem title="app.component.html">
 ```html
 <app-navbar></app-navbar>
 <router-outlet></router-outlet>
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 The `RouterOutlet` is one of the router directives that became available to the `AppComponent` because `AppModule` imports `AppRoutingModule` which exported `RouterModule`.
 
@@ -165,8 +165,8 @@ Try again to display the various components by changing the URL in the address b
 
 First, let's take care of the links in the `NavbarComponent`. Open the `navbar.component.html` file and change the code as follows:
 
-<code-group>
-<code-block title="navbar.component.html">
+<CodeGroup>
+<CodeGroupItem title="navbar.component.html">
 ```html
 <nav>
   <ul>
@@ -176,8 +176,8 @@ First, let's take care of the links in the `NavbarComponent`. Open the `navbar.c
   </ul>
 </nav>
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 You can now navigate via the navbar links. `routerLink` is the selector for the [RouterLink directive](https://angular.io/api/router/RouterLink) that turns user clicks into router navigations. It's another of the public directives in the `RouterModule`.
 
@@ -238,8 +238,8 @@ The example generates the link: `/books?genre=Epic%20Fantasy`
 
 Navigating by clicking on the links in the `NavbarComponent` is now functional; however, there's no feedback to the user regarding which link is active. This is the purpose of the `routerLinkActive` directive. It allows you to specify one or more CSS classes to add to the element when the linked route is active.
 
-<code-group>
-<code-block title="navbar.component.html">
+<CodeGroup>
+<CodeGroupItem title="navbar.component.html">
 
 ```html
 <nav>
@@ -250,8 +250,8 @@ Navigating by clicking on the links in the `NavbarComponent` is now functional; 
   </ul>
 </nav>
 ```
-</code-block>
-<code-block title="navbar.component.css">
+</CodeGroupItem>
+<CodeGroupItem title="navbar.component.css">
 
 ```css
 li a:hover:not(.active) {
@@ -266,8 +266,8 @@ li a:hover:not(.active) {
   background-color: #256264;
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 ## Router services
 
@@ -399,23 +399,23 @@ Only one line should remain in your `app.component.html` file: `<router-outler><
 
 6. **Bonus:** Create a `NotFoundComponent` (404) with the CLI and add a wildcard route `'**'` that redirects to it. The code bellow is a proposition of the content of the 404 component. Add a `routerLink` on the `<a>` tag to go back to the search component.
 
-<code-group>
-<code-block title="HTML">
+<CodeGroup>
+<CodeGroupItem title="HTML">
 
-``` html
+```html
 <h1>404</h1>
 <p>Seems you are lost</p>
 <p>Get back in<a> known territory</a></p>
 ```
-</code-block>
-<code-block title="SCSS">
+</CodeGroupItem>
+<CodeGroupItem title="SCSS">
 
-``` scss
+```scss
 :host {
   text-align: center;
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 7. **Bonus:** Learn about [navigation guards](https://angular.io/api/router/CanActivate) to secure routes. We will implement one in the next chapter.

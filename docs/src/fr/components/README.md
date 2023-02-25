@@ -25,29 +25,29 @@ Des situations peuvent survenir où styler l'élément hôte du composant à par
 
 Imaginons que nous ayons besoin d'une bordure sur AppComponent. Voici comment l'ajouter :
 
-<code-group>
-<code-block title="app.component.scss">
+<CodeGroup>
+<CodeGroupItem title="app.component.scss">
 
 ```css
 :host {
   border: 1px solid black;
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 L'exemple suivant cible à nouveau l'élément hôte, mais uniquement lorsqu'il possède également la classe CSS active.
 
-<code-group>
-<code-block title="app.component.scss">
+<CodeGroup>
+<CodeGroupItem title="app.component.scss">
 
 ```css
 :host(.active) {
   border-width: 3px;
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 ## Lifecycle
 Une instance de composant a un cycle de vie qui commence lorsqu'Angular instancie la classe du composant et présente la vue du composant avec ses vues enfants. Le cycle de vie se poursuit avec la détection des modifications, car Angular vérifie quand les propriétés liées aux données changent et met à jour à la fois la vue et l'instance de composant si nécessaire. Le cycle de vie se termine lorsqu'Angular détruit l'instance du composant et retire son template du DOM.
@@ -83,8 +83,8 @@ L'ajout du décorateur `@Input()` sur une propriété d'un composant enfant sign
 
 Voici comment l'`AppComponent` communiquerait à son composant enfant `BlogPostComponent` le titre et le contenu de son article.
 
-<code-group>
-<code-block title="Composant parent">
+<CodeGroup>
+<CodeGroupItem title="Composant parent">
 
 ```ts
 // app.component.ts
@@ -103,9 +103,9 @@ export class AppComponent {
 // app.component.html
 <app-blog-post [title]="article.title" [content]="article.content"><app-blog-post>
 ```
-</code-block>
+</CodeGroupItem>
 
-<code-block title="Composant enfant">
+<CodeGroupItem title="Composant enfant">
 
 ```ts
 // blog-post.component.ts
@@ -125,8 +125,8 @@ export class BlogPostComponent {
   <p>{{ content }}</p>
 </article>
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 Pour surveiller les changements sur une propriété `@Input()`, vous pouvez utiliser le hook de cycle de vie `ngOnChanges`.
 
@@ -141,8 +141,8 @@ L'ajout du décorateur `@Output()` sur une propriété de type `EventEmitter` d'
 
 Voici comment le `AddTaskComponent` communiquerait à son parent qu'une nouvelle tâche a été ajoutée :
 
-<code-group>
-<code-block title="Composant parent">
+<CodeGroup>
+<CodeGroupItem title="Composant parent">
 
 ```ts
 // app.component.ts
@@ -166,9 +166,9 @@ export class AppComponent {
 </ul>
 <app-add-task (newTask)="addItem($event)"></app-add-task>
 ```
-</code-block>
+</CodeGroupItem>
 
-<code-block title="Composant enfant">
+<CodeGroupItem title="Composant enfant">
 
 ```ts
 // add-task.component.ts
@@ -189,8 +189,8 @@ export class AddTaskComponent {
 <label>New task: <input #newTask/></label>
 <button (click)="addNewTask(newTask.value)">Add</button>
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 Vous pouvez expérimenter avec cet exemple [ici](https://stackblitz.com/edit/angular-output-training-example?file=src/app/app.component.ts).
 
@@ -201,17 +201,17 @@ Vous pouvez expérimenter avec cet exemple [ici](https://stackblitz.com/edit/ang
 
 Un composant parent ne peut pas utiliser le data binding (`@Output` ou `@Input`) pour accéder aux propriétés ou méthodes d'un enfant. Une variable locale dans le template peut être utilisée pour réaliser les deux.
 
-<code-group>
-<code-block title="Composant parent">
+<CodeGroup>
+<CodeGroupItem title="Composant parent">
 
 ```ts
 // app.component.html
 <app-greet #child></app-greet>
 <button (click)="child.greetMe()">Greet Me</button>
 ```
-</code-block>
+</CodeGroupItem>
 
-<code-block title="Composant enfant">
+<CodeGroupItem title="Composant enfant">
 
 ```ts
 // greet.component.html
@@ -231,8 +231,8 @@ export class GreetComponent {
   }
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 ### @ViewChild
 
@@ -240,8 +240,8 @@ Le décorateur `ViewChild` peut accomplir le même objectif qu'une variable de t
 
 Dans cet exemple, le `MenuComponent` obtient l'accès au `MenuItemComponent` :
 
-<code-group>
-<code-block title="Composant parent">
+<CodeGroup>
+<CodeGroupItem title="Composant parent">
 
 ```ts
 // menu.component.html
@@ -257,8 +257,8 @@ export class MenuComponent{
   @ViewChild(MenuItemComponent) menu: MenuItemComponent
 }
 ```
-</code-block>
-<code-block title="Composant enfant">
+</CodeGroupItem>
+<CodeGroupItem title="Composant enfant">
 
 ```ts
 // menu-item.component.html
@@ -274,13 +274,13 @@ export class MenuItemComponent {
   @Input() menuText: string;
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 Dans le cas où le composant parent contient plusieurs instances du même composant enfant, elles peuvent chacune être récupérées via une variable de référence du template :
 
-<code-group>
-<code-block title="Composant parent">
+<CodeGroup>
+<CodeGroupItem title="Composant parent">
 
 ```ts
 // menu.component.html
@@ -298,8 +298,8 @@ export class MenuComponent{
   @ViewChild('contactUs') contactItem: MenuItemComponent
 }
 ```
-</code-block>
-<code-block title="Composant enfant">
+</CodeGroupItem>
+<CodeGroupItem title="Composant enfant">
 
 ```ts
 // menu-item.component.html
@@ -315,8 +315,8 @@ export class MenuItemComponent {
   @Input() menuText: string;
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 Les composants injectés via `@ViewChild` deviennent disponibles dans le hook de cycle de vie `ngAfterViewInit`. Pour récupérer tous les enfants d'un certain type, utilisez le décorateur `@ViewChildren`.
 
@@ -326,15 +326,15 @@ Avec `@Input`, nous avons pu transmettre des données à un composant enfant, ma
 
 Étant donné que les composants Angular sont déclarés en tant que balises, nous pouvons placer d'autres éléments ou contenus à l'intérieur de leurs balises. Dans l'exemple suivant, la chaîne `My profile` fait office de contenu du composant `NavigationLink` :
 
-<code-group>
-<code-block title="Composant parent">
+<CodeGroup>
+<CodeGroupItem title="Composant parent">
 
 ```html
 <!-- in a parent component's template-->
 <app-navigation-link [url]="/profile">My profile<app-navigation-link>
 ```
-</code-block>
-<code-block title="Composant enfant">
+</CodeGroupItem>
+<CodeGroupItem title="Composant enfant">
 
 ```html
 <!-- navigation-link.component.html -->
@@ -342,15 +342,15 @@ Avec `@Input`, nous avons pu transmettre des données à un composant enfant, ma
   <a [routerLink]="url"><ng-content></ng-content></a>
 </div>
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 Tout ce qui est écrit entre les balises du composant enfant dans le composant parent est injecté dans le template de l'enfant et remplace les balises `<ng-content>`.
 
 Tout contenu HTML, y compris d'autres composants Angular, peut être projeté. Cette fonctionnalité est particulièrement utile dans les composants qui servent de *conteneur* plutôt que de *contenu*, tels que les fenêtres de dialogue ou les éléments de mise en page :
 
-<code-group>
-<code-block title="Composant enfant">
+<CodeGroup>
+<CodeGroupItem title="Composant enfant">
 
 ```html
 <!-- my-popin.component.html -->
@@ -368,8 +368,8 @@ Tout contenu HTML, y compris d'autres composants Angular, peut être projeté. C
   </div>
 </div>
 ```
-</code-block>
-<code-block title="Composant parent">
+</CodeGroupItem>
+<CodeGroupItem title="Composant parent">
 
 ```html
 <!-- in a parent component template -->
@@ -379,8 +379,8 @@ Tout contenu HTML, y compris d'autres composants Angular, peut être projeté. C
   <button slot="actions">OK</button>
 </my-popin>
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 En plus du `<ng-content>` par défaut, vous pouvez **nommer** d'autres balises `<ng-content>` pour distribuer le contenu à plusieurs emplacements dans l'enfant. Vous y parvenez en utilisant l'attribut `select` sur la balise `<ng-content>` et en ajoutant la valeur choisie comme attribut sur l'élément à projeter.
 

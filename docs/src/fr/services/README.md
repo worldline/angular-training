@@ -63,8 +63,8 @@ Les dépendances peuvent être fournies à trois niveaux :
 3. Injectez le service dans le `LoginFormComponent` et utilisez-le.
 4. Implémentez une méthode de déconnexion dans le service d'authentification et ajoutez un bouton de déconnexion dans l'`AppComponent` qui l'appelle et provoque une navigation vers le `LoginFormComponent`. Voici l'html et le css :
 
-<code-group>
-<code-block title="app.component.html">
+<CodeGroup>
+<CodeGroupItem title="app.component.html">
 
 ```html
 <div class="logout-container">
@@ -72,8 +72,8 @@ Les dépendances peuvent être fournies à trois niveaux :
 </div>
 <router-outlet></router-outlet>
 ```
-</code-block>
-<code-block title="app.component.scss">
+</CodeGroupItem>
+<CodeGroupItem title="app.component.scss">
 
 ```scss
 .logout-container {
@@ -86,8 +86,8 @@ Les dépendances peuvent être fournies à trois niveaux :
   }
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 5. Afficher conditionnellement le bouton Logout en fonction du statut `loggedIn` de l'utilisateur
 6. Utilisez un navigation guard pour rediriger l'utilisateur qui souhaite accéder à la page de recherche de films vers `/login` s'il n'est pas authentifié (rendez le CanActivate vrai si la route est accessible sinon retournez un `UrlTree` via la méthode `createUrlTree` du service `Router`). Pour prendre en considération des cas d'usage futur, ajoutez un returnUrl en tant que queryParam au `UrlTree` renvoyé afin que le `LoginFormComponent` sache où revenir après l'authentification et modifiez le `LoginFormComponent` en conséquence. Pour générer le navigation guard, utilisez la commande du CLI suivante :
@@ -111,8 +111,8 @@ Angular fournit un module, le `HttpClientModule`, pour effectuer des appels HTTP
 
 Voici quelques exemples:
 
-<code-group>
-<code-block title="Service">
+<CodeGroup>
+<CodeGroupItem title="Service">
 
 ```ts
 import { Injectable } from '@angular/core'
@@ -143,8 +143,8 @@ export class UserService {
   }
 }
 ```
-</code-block>
-<code-block title="Component">
+</CodeGroupItem>
+<CodeGroupItem title="Component">
 
 ```ts
 import { Component } from '@angular/core'
@@ -167,8 +167,8 @@ export class UserComponent {
   }
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 Les méthodes du service `HttpClient` renvoient des Observables. Ils seront traités dans le prochain chapitre sur la librairie RxJS. Un Observable n'est exécuté qu'une fois souscrit via la méthode `subscribe`. La méthode subscribe s'attend à ce qu'au moins une callback lui soit passé. La callback est le plus souvent fournie sous forme d'une fonction flèche (arrow function).
 
@@ -191,8 +191,8 @@ Le contrat d'interface backend est disponible ici : [api-docs](http://localhost
 
 1. Ajoutez au dossier `src` soit le fichier `proxy.conf.json` si vous n'êtes pas derrière un proxy d'entreprise, soit le fichier `proxy.conf.js`.
 
-<code-group>
-<code-block title="proxy.conf.json">
+<CodeGroup>
+<CodeGroupItem title="proxy.conf.json">
 
 ```json
 {
@@ -206,8 +206,8 @@ Le contrat d'interface backend est disponible ici : [api-docs](http://localhost
 }
 
 ```
-</code-block>
-<code-block title="proxy.conf.js">
+</CodeGroupItem>
+<CodeGroupItem title="proxy.conf.js">
 
 ```js
 var HttpsProxyAgent = require('https-proxy-agent')
@@ -235,8 +235,8 @@ function setupForCorporateProxy(proxyConfig) {
 module.exports = setupForCorporateProxy(proxyConfig)
 
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 Le proxy détournera tous les appels à l'URL commençant par http://localhost:4200/api vers le serveur disponible à l'adresse http://localhost:3030. Cela garantit également que nous ne rencontrerons aucun problème lié aux CORS. Cette configuration concerne uniquement le serveur de développement webpack fourni par le CLI pour exécuter l'application sur votre machine dans un environnement de développement. Ce ne sera pas la configuration utilisée en production.
 
@@ -267,8 +267,8 @@ import { HttpClientModule } from '@angular/common/http'
 
 5. Créez les interfaces/classes pour les modèles utilisés par le backend, ajoutez un fichier par modèle dans le dossier `models/authentication` :
 
-<code-group>
-<code-block title="registration-request.ts">
+<CodeGroup>
+<CodeGroupItem title="registration-request.ts">
 
 ```ts
 export class RegistrationRequest {
@@ -280,8 +280,8 @@ export class RegistrationRequest {
   ) {}
 }
 ```
-</code-block>
-<code-block title="login-request.ts">
+</CodeGroupItem>
+<CodeGroupItem title="login-request.ts">
 
 ```ts
 export class LoginRequest {
@@ -291,8 +291,8 @@ export class LoginRequest {
   ) {}
 }
 ```
-</code-block>
-<code-block title="user-response.ts">
+</CodeGroupItem>
+<CodeGroupItem title="user-response.ts">
 
 ```ts
 export class UserResponse {
@@ -313,15 +313,15 @@ export class User {
   ) {}
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 Prenez note du token dans la `UserResponse`, il servira à authentifier l'utilisateur via l'entête Authorization : `Authorization: Bearer <token>`. Apprenez-en plus sur les JWT [ici](https://jwt.io/introduction).
 
 6. Implémentez les méthodes `register` et `login` dans `AuthenticationService` comme suit :
 
-<code-group>
-<code-block title="authentication.service.ts">
+<CodeGroup>
+<CodeGroupItem title="authentication.service.ts">
 
 ```ts
 private baseUrl = 'api/user'
@@ -342,13 +342,13 @@ register(loginRequest: LoginRequest): Observable<UserResponse> {
   return this.httpClient.post<UserResponse>(this.baseUrl + '/register', registrationRequest)
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 7. La modification de la signature d'appel de la méthode `login` va nécessiter un peu de refactorisation dans le `LoginFormComponent` :
 
-<code-group>
-<code-block title="login-form.component.ts">
+<CodeGroup>
+<CodeGroupItem title="login-form.component.ts">
 
 ```ts
 login(): void {
@@ -368,13 +368,13 @@ get loginRequest(): LoginRequest {
   return new LoginRequest(this.email, this.password)
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 8. Une refactorisation est également nécessaire pour que `AuthenticationGuard` continue de fonctionner. Faites en sorte que le booléen `loggedIn` dans `AuthenticationService` dépende d'un champ `token` et faites en sorte que le `LoginFormComponent` sauvegarde le token qu'il obtient de l'appel de connexion dans ce champ.
 
-<code-group>
-<code-block title="authentication.service.ts">
+<CodeGroup>
+<CodeGroupItem title="authentication.service.ts">
 
 ```ts
 token: string | null = null
@@ -383,9 +383,9 @@ get loggedIn(): boolean {
   return this.token != null
 }
 ```
-</code-block>
+</CodeGroupItem>
 
-<code-block title="login-form.component.ts">
+<CodeGroupItem title="login-form.component.ts">
 
 ```ts{4}
 login(): void {
@@ -397,8 +397,8 @@ login(): void {
     })
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 9. Ajoutez un bouton d'enregistrement à côté du bouton de connexion dans le `LoginFormComponent`, donnez-lui l'attribut `type="button"` afin qu'Angular sache que ce n'est pas ce bouton qui déclenche l'événement `ngSubmit` sur le formulaire et faites-lui appeler le méthode d'enregistrement. Vous devriez maintenant pouvoir enregistrer un utilisateur et vous connecter.
 

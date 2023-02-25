@@ -189,8 +189,8 @@ Corrigons la fuite de mémoire de l'exemple précédent. Pour illustrer les deux
 
 Invoquer la méthode subscribe sur un `Observable` et enregistrer la valeur dans une propriété du composant n'est pas le seul moyen d'afficher les valeurs de l'`Observable`. Angular fournit un pipe auquel l'`Observable` peut être transmis directement.
 
-<code-group>
-<code-block title="Component class">
+<CodeGroup>
+<CodeGroupItem title="Component class">
 
 ```ts
 export class AppComponent {
@@ -201,20 +201,20 @@ export class AppComponent {
   }
 }
 ```
-</code-block>
+</CodeGroupItem>
 
-<code-block title="Component template">
+<CodeGroupItem title="Component template">
 
 ```html
 <p>{{counter | async}}</p>
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 Pour les objets, une syntaxe alternative existe pour éviter d'utiliser de manière répétitive le pipe async pour accéder à chaque champ :
 
-<code-group>
-<code-block title="Component template">
+<CodeGroup>
+<CodeGroupItem title="Component template">
 
 ```html
 <p>{{(user | async)?.firstName}}</p>
@@ -229,8 +229,8 @@ Pour les objets, une syntaxe alternative existe pour éviter d'utiliser de mani�
   <p>{{user.age}}</p>
 </ng-container>
 ```
-</code-block>
-<code-block title="Component class">
+</CodeGroupItem>
+<CodeGroupItem title="Component class">
 
 ```ts
 export class AppComponent {
@@ -247,8 +247,8 @@ interface User {
   age: number
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 Aucun subscribe n'étant effectué, il n'est pas nécessaire d'unsubscribe. Le pipe async s'en charge pour nous.
 

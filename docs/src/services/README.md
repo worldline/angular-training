@@ -63,8 +63,8 @@ Dependencies can be provided at three levels:
 3. Inject the service in the `LoginFormComponent` and use it.
 4. Implement a logout method in the authentication service and add a logout button in the `AppComponent` that calls it and navigates back to the `LoginFormComponent`. Here is the html and css:
 
-<code-group>
-<code-block title="app.component.html">
+<CodeGroup>
+<CodeGroupItem title="app.component.html">
 
 ```html
 <div class="logout-container">
@@ -72,8 +72,8 @@ Dependencies can be provided at three levels:
 </div>
 <router-outlet></router-outlet>
 ```
-</code-block>
-<code-block title="app.component.scss">
+</CodeGroupItem>
+<CodeGroupItem title="app.component.scss">
 
 ```scss
 .logout-container {
@@ -86,8 +86,8 @@ Dependencies can be provided at three levels:
   }
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 5. Conditionally show the Logout button depending on the `loggedIn` status of the user
 6. Use a navigation guard to redirect the user who wants to access the film search page to `/login` if they is not authenticated (make the CanActivate return true if the route can be accessed else return a `UrlTree` via the `createUrlTree` method of the `Router` service). To future-proof the guard, add a returnUrl as a queryParam to the returned `UrlTree` so that the `LoginFormComponent` knows where to navigate back to after authentication and modify the `LoginFormComponent` accordingly. To generate the navigation guard use the following CLI command:
@@ -111,8 +111,8 @@ Angular provides a module, the `HttpClientModule`, to make HTTP calls. The modul
 
 Here are a few examples:
 
-<code-group>
-<code-block title="Service">
+<CodeGroup>
+<CodeGroupItem title="Service">
 
 ```ts
 import { Injectable } from '@angular/core'
@@ -143,8 +143,8 @@ export class UserService {
   }
 }
 ```
-</code-block>
-<code-block title="Component">
+</CodeGroupItem>
+<CodeGroupItem title="Component">
 
 ```ts
 import { Component } from '@angular/core'
@@ -167,8 +167,8 @@ export class UserComponent {
   }
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 The methods from the `HttpClient` service return Observables. They will be covered in the next chapter about the RxJS library. An Observable is only executed once subscribed to via the `subscribe` method. The subscribe method is expecting at least one callback. It is most often provided as an arrow function.
 
@@ -191,8 +191,8 @@ The backend interface contract is available here: [api-docs](http://localhost:30
 
 1. Add to the `src` folder either the `proxy.conf.json` file if you are not behind a corporate proxy or the `proxy.conf.js` file.
 
-<code-group>
-<code-block title="proxy.conf.json">
+<CodeGroup>
+<CodeGroupItem title="proxy.conf.json">
 
 ```json
 {
@@ -206,8 +206,8 @@ The backend interface contract is available here: [api-docs](http://localhost:30
 }
 
 ```
-</code-block>
-<code-block title="proxy.conf.js">
+</CodeGroupItem>
+<CodeGroupItem title="proxy.conf.js">
 
 ```js
 var HttpsProxyAgent = require('https-proxy-agent')
@@ -235,8 +235,8 @@ function setupForCorporateProxy(proxyConfig) {
 module.exports = setupForCorporateProxy(proxyConfig)
 
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 The proxy will divert all calls for http://localhost:4200/api to the server running at http://localhost:3030. It also makes sure we don't encounter any CORS issues. This configuration is only for the webpack dev server the CLI provides to run the application on your machine in a dev environment. It will not be the configuration used in production.
 
@@ -267,8 +267,8 @@ import { HttpClientModule } from '@angular/common/http'
 
 5. Create the interfaces/classes for the models used by the backend, add one file per model in the `models/authentication` folder:
 
-<code-group>
-<code-block title="registration-request.ts">
+<CodeGroup>
+<CodeGroupItem title="registration-request.ts">
 
 ```ts
 export class RegistrationRequest {
@@ -280,8 +280,8 @@ export class RegistrationRequest {
   ) {}
 }
 ```
-</code-block>
-<code-block title="login-request.ts">
+</CodeGroupItem>
+<CodeGroupItem title="login-request.ts">
 
 ```ts
 export class LoginRequest {
@@ -291,8 +291,8 @@ export class LoginRequest {
   ) {}
 }
 ```
-</code-block>
-<code-block title="user-response.ts">
+</CodeGroupItem>
+<CodeGroupItem title="user-response.ts">
 
 ```ts
 export class UserResponse {
@@ -313,15 +313,15 @@ export class User {
   ) {}
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 Note the token in the `UserResponse`, it will serve to authenticate the user via the Authorization header: `Authorization: Bearer <token>`. Learn more about JWT [here](https://jwt.io/introduction).
 
 6. Implement the `register` and `login` methods in the `AuthenticationService` as follows:
 
-<code-group>
-<code-block title="authentication.service.ts">
+<CodeGroup>
+<CodeGroupItem title="authentication.service.ts">
 
 ```ts
 private baseUrl = 'api/user'
@@ -342,13 +342,13 @@ register(loginRequest: LoginRequest): Observable<UserResponse> {
   return this.httpClient.post<UserResponse>(this.baseUrl + '/register', registrationRequest)
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 7. The change in the call signature of the `login` method will require a bit of refactoring in the `LoginFormComponent`:
 
-<code-group>
-<code-block title="login-form.component.ts">
+<CodeGroup>
+<CodeGroupItem title="login-form.component.ts">
 
 ```ts
 login(): void {
@@ -368,13 +368,13 @@ get loginRequest(): LoginRequest {
   return new LoginRequest(this.email, this.password)
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 8. Refactoring is also needed to keep the `AuthenticationGuard` working. Make the `loggedIn` boolean in the `AuthenticationService` depend on a `token` field and make the `LoginFormComponent` save the token that it gets from the login call in that field.
 
-<code-group>
-<code-block title="authentication.service.ts">
+<CodeGroup>
+<CodeGroupItem title="authentication.service.ts">
 
 ```ts
 token: string | null = null
@@ -383,9 +383,9 @@ get loggedIn(): boolean {
   return this.token != null
 }
 ```
-</code-block>
+</CodeGroupItem>
 
-<code-block title="login-form.component.ts">
+<CodeGroupItem title="login-form.component.ts">
 
 ```ts{4}
 login(): void {
@@ -397,8 +397,8 @@ login(): void {
     })
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 9. Add a register button next to the login button in the `LoginFormComponent`, give it the attribute `type="button"` so that Angular knows it is not this button that triggers the `ngSubmit` event on the form and make it call the register method. You should now be able to register a user and login.
 

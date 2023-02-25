@@ -26,29 +26,29 @@ Situations may arise where styling the host element of the component from the co
 
 Let's imagine we require a border on the AppComponent. This is how to add it:
 
-<code-group>
-<code-block title="app.component.scss">
+<CodeGroup>
+<CodeGroupItem title="app.component.scss">
 
 ```css
 :host {
   border: 1px solid black;
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 The next example targets the host element again, but only when it also has the active CSS class.
 
-<code-group>
-<code-block title="app.component.scss">
+<CodeGroup>
+<CodeGroupItem title="app.component.scss">
 
 ```css
 :host(.active) {
   border-width: 3px;
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 ## Lifecycle
 A component instance has a lifecycle that starts when Angular instantiates the component class and renders the component view along with its child views. The lifecycle continues with change detection, as Angular checks to see when data-bound properties change, and updates both the view and the component instance as needed. The lifecycle ends when Angular destroys the component instance and removes its rendered template from the DOM.
@@ -84,8 +84,8 @@ Adding the `@Input()` decorator on a child component's property means that it ca
 
 Here is how the `AppComponent` would communicate to its child component `BlogPostComponent` the title and content of its article.
 
-<code-group>
-<code-block title="Parent component">
+<CodeGroup>
+<CodeGroupItem title="Parent component">
 
 ```ts
 // app.component.ts
@@ -104,9 +104,9 @@ export class AppComponent {
 // app.component.html
 <app-blog-post [title]="article.title" [content]="article.content"><app-blog-post>
 ```
-</code-block>
+</CodeGroupItem>
 
-<code-block title="Child component">
+<CodeGroupItem title="Child component">
 
 ```ts
 // blog-post.component.ts
@@ -126,8 +126,8 @@ export class BlogPostComponent {
   <p>{{ content }}</p>
 </article>
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 To watch for changes on an `@Input()` property, you can use the `ngOnChanges` lifecycle hook.
 
@@ -142,8 +142,8 @@ Adding the `@Output()` decorator on a child component's `EventEmitter` property 
 
 Here is how the `AddTaskComponent` would communicate back to its parent that a new task has been added:
 
-<code-group>
-<code-block title="Parent component">
+<CodeGroup>
+<CodeGroupItem title="Parent component">
 
 ```ts
 // app.component.ts
@@ -167,9 +167,9 @@ export class AppComponent {
 </ul>
 <app-add-task (newTask)="addItem($event)"></app-add-task>
 ```
-</code-block>
+</CodeGroupItem>
 
-<code-block title="Child component">
+<CodeGroupItem title="Child component">
 
 ```ts
 // add-task.component.ts
@@ -190,8 +190,8 @@ export class AddTaskComponent {
 <label>New task: <input #newTask/></label>
 <button (click)="addNewTask(newTask.value)">Add</button>
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 You can play with this example [here](https://stackblitz.com/edit/angular-output-training-example?file=src/app/app.component.ts).
 
@@ -202,17 +202,17 @@ You can play with this example [here](https://stackblitz.com/edit/angular-output
 
 A parent component cannot use data binding (`@Output` or `@Input`) to access a child's properties or methods. A local variable in the template can be used to achieve both.
 
-<code-group>
-<code-block title="Parent component">
+<CodeGroup>
+<CodeGroupItem title="Parent component">
 
 ```ts
 // app.component.html
 <app-greet #child></app-greet>
 <button (click)="child.greetMe()">Greet Me</button>
 ```
-</code-block>
+</CodeGroupItem>
 
-<code-block title="Child component">
+<CodeGroupItem title="Child component">
 
 ```ts
 // greet.component.html
@@ -232,8 +232,8 @@ export class GreetComponent {
   }
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 ### @ViewChild
 
@@ -241,8 +241,8 @@ The `ViewChild` decorator can achieve the same purpose as a template variable bu
 
 In this example, the `MenuComponent` gets access to the `MenuItemComponent`:
 
-<code-group>
-<code-block title="Parent component">
+<CodeGroup>
+<CodeGroupItem title="Parent component">
 
 ```ts
 // menu.component.html
@@ -258,8 +258,8 @@ export class MenuComponent{
   @ViewChild(MenuItemComponent) menu: MenuItemComponent
 }
 ```
-</code-block>
-<code-block title="Child component">
+</CodeGroupItem>
+<CodeGroupItem title="Child component">
 
 ```ts
 // menu-item.component.html
@@ -275,13 +275,13 @@ export class MenuItemComponent {
   @Input() menuText: string;
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 In case the parent component contains several instances of the same child component, they can each be queried via template reference variable:
 
-<code-group>
-<code-block title="Parent component">
+<CodeGroup>
+<CodeGroupItem title="Parent component">
 
 ```ts
 // menu.component.html
@@ -299,8 +299,8 @@ export class MenuComponent{
   @ViewChild('contactUs') contactItem: MenuItemComponent
 }
 ```
-</code-block>
-<code-block title="Child component">
+</CodeGroupItem>
+<CodeGroupItem title="Child component">
 
 ```ts
 // menu-item.component.html
@@ -316,8 +316,8 @@ export class MenuItemComponent {
   @Input() menuText: string;
 }
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 Components injected via `@ViewChild` become available in the `ngAfterViewInit` lifecycle hook. To query all children of a certain type, use the decorator `@ViewChildren`.
 
@@ -327,15 +327,15 @@ With `@Input`, we were able to pass data to a child component, but what about pa
 
 Since Angular components are declared as tags, we can place other elements or content inside their tags. In the following example, the string `My profile` acts as the content of the `NavigationLink` component:
 
-<code-group>
-<code-block title="Parent component">
+<CodeGroup>
+<CodeGroupItem title="Parent component">
 
 ```html
 <!-- in a parent component's template-->
 <app-navigation-link [url]="/profile">My profile<app-navigation-link>
 ```
-</code-block>
-<code-block title="Child component">
+</CodeGroupItem>
+<CodeGroupItem title="Child component">
 
 ```html
 <!-- navigation-link.component.html -->
@@ -343,15 +343,15 @@ Since Angular components are declared as tags, we can place other elements or co
   <a [routerLink]="url"><ng-content></ng-content></a>
 </div>
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 Whatever is written between the child component's tags in the parent component gets injected in the child's template and replaces the `<ng-content>` tags.
 
 Any HTML content, including other angular components can be projected. This feature is particularly useful in components that serve as a *container* rather than for *content*, such as dialog windows or layout elements:
 
-<code-group>
-<code-block title="Child component">
+<CodeGroup>
+<CodeGroupItem title="Child component">
 
 ```html
 <!-- my-popin.component.html -->
@@ -369,8 +369,8 @@ Any HTML content, including other angular components can be projected. This feat
   </div>
 </div>
 ```
-</code-block>
-<code-block title="Parent component">
+</CodeGroupItem>
+<CodeGroupItem title="Parent component">
 
 ```html
 <!-- in a parent component template -->
@@ -380,8 +380,8 @@ Any HTML content, including other angular components can be projected. This feat
   <button slot="actions">OK</button>
 </my-popin>
 ```
-</code-block>
-</code-group>
+</CodeGroupItem>
+</CodeGroup>
 
 In addition to the default `<ng-content>`, you can **name** other `<ng-content>` tags to distribute content to multiple locations in the child. You achieve this by using the `select` attribute on the `<ng-content>` tag and adding the chosen value as an attribute on the element to project.
 
