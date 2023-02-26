@@ -23,7 +23,7 @@ La valeur de l'input peut être récupérée dans la classe du composant grâce 
 Voici un exemple qui utilise `[(ngModel)]` pour récupérer les valeurs d'un champ `input` et d'un champ `select`.
 Il montre également comment obtenir une référence au champ de formulaire (`#nameRef="ngModel"`). Cela permet d'obtenir certaines propriétés sur le champ du formulaire comme son statut de validité (`nameRef.valid`).
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/yos-template-form-simple?ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-template-driven-form/tree/master?startScript=start&title=Template-Driven Form&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
 :::warning
 N'oubliez pas d'importer `FormsModule` lors de l'utilisation des template-driven forms
@@ -40,7 +40,7 @@ Préférez écouter `(ngSubmit)` sur la balise `<form>` plutôt que le `(click)`
 
 Le projet suivant illustre l'utilisation de `ngForm` et `(ngSubmit)`
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/yos-template-form-group?ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-template-driven-form/tree/submit-exemple?startScript=start&title=Template-Driven Form&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
 **Exercice : ajoutez un champ de saisie qui doit avoir une longueur minimale de 5 caractères. Affichez le contenu de ce champ lors de la soumission du formulaire**
 
@@ -62,7 +62,7 @@ Comme vous pouvez le constater dans le template, la valeur et le statut valide d
 Notez que l'utilisation de FormControls en dehors d'un FormGroup est très inhabituelle.
 :::
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ivy-qtsmx2?ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-template-driven-form/tree/reactive-form-transformation?startScript=start&title=FormControl&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
 :::warning
 N'oubliez pas d'importer le `ReactiveFormsModule` lors de l'utilisation des reactive forms
@@ -75,12 +75,7 @@ Veuillez noter que les contrôles et les groupes enfants utilisent respectivemen
 
 Le composant suivant définit un `FormGroup` qui contient des form controls et un autre form group. Il illustre de nombreux cas d'utilisation liés aux formulaires : obtenir la valeur du formulaire, son statut, définir des validateurs sur le form control ou dans le template, et accéder aux form group enfants à l'aide de la méthode [get](https://angular.io/api/forms/AbstractControl#get).
 
-<iframe src="https://codesandbox.io/embed/reactive-form-group-e89g6?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fapp%2Fapp.component.ts&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="reactive-form-group"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-reactive-form/tree/master?startScript=start&title=FormGroup&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
 ### Form builder
 Le `ReactiveFormsModule` d'Angular fournit une API plus simple pour créer des FormGroups et des FormControls via le service `FormBuilder`.
@@ -88,36 +83,31 @@ L'extrait de code suivant montre comment convertir la déclaration du FormGroup 
 
 ```typescript
 // before
-readonly mainForm = new FormGroup({
-    name: new FormControl("", Validators.required),
-    flavor: new FormControl(""),
-    extras: new FormGroup({
-      firstExtra: new FormControl("cheese"),
-      secondExtra: new FormControl("ketchup")
-    })
-});
+readonly iceCreamForm = new FormGroup({
+  customerName: new FormControl('Charlotte Smith'),
+  flavor: new FormControl('', Validators.required),
+  toppings: new FormGroup({
+    first: new FormControl('Whipped cream'),
+    second: new FormControl('Chocolate sauce')
+  })
+})
 
 //after
-readonly mainForm = this.fb.group({
-    name: ["", Validators.required],
-    flavor: "",
-    extras: this.fb.group({
-      firstExtra: "cheese",
-      secondExtra: "ketchup"
-    })
-});
+readonly iceCreamForm = this.fb.group({
+  customerName: 'Charlotte Smith',
+  flavor: ['', Validators.required],
+  toppings: this.fb.group({
+    first: 'Whipped cream',
+    second: 'Chocolate sauce'
+  })
+})
 
-constructor(private fb: FormBuilder) {} //do not forget to inject the service
+constructor(private fb: NonNullableFormBuilder) {} //do not forget to inject the service
 ```
 
 Veuillez trouver ci-dessous un exemple complet utilisant l'API `FormBuilder`.
 
-<iframe src="https://codesandbox.io/embed/reactive-form-builder-0uzfv?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fapp%2Fapp.component.ts&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="reactive-form-builder"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-reactive-form/tree/form-builder?startScript=start&title=FormBuilder&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
 ### Validation de reactive form
 Le `ReactiveFormsModule` permet de définir des validateurs dans le code du composant ou en utilisant des attributs de validation HTML5 tels que `required` et `minlength`. Angular fournit des validateurs intégrés tels que `Validators.required`, `Validators.min`, `Validators.pattern`, vous pouvez trouver une liste complète [ici] (https://angular.io/api/forms/Validators). Vous pouvez également définir des validateurs personnalisés ([tutoriel](https://angular.io/guide/form-validation#defining-custom-validators)).
@@ -128,12 +118,7 @@ Lorsque vous utilisez des validateurs HTML5, Angular recommande de les combiner 
 
 Le composant suivant illustre l'utilisation de plusieurs validateurs sur un form control ainsi que l'utilisation d'un validateur personnalisé.
 
-<iframe src="https://codesandbox.io/embed/reactive-form-validation-1orvs?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fapp%2Fapp.component.ts&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="reactive-form-validation"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-reactive-form/tree/validation?startScript=start&title=Form Validation&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
 ## Classes CSS gérées par Angular
 
@@ -147,23 +132,16 @@ Le composant suivant montre comment tirer parti :
 - des classes `.ng-invalid` et `.ng-dirty`
 - de la `:not` pseudo-classe pour cibler uniquement le form control.
 
-<iframe src="https://codesandbox.io/embed/reactive-form-classes-y1ewk?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fapp%2Fapp.component.css&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="reactive-form-classes"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-reactive-form/tree/css-classes?startScript=start&title=Angular-managed CSS classes&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
 Vous pouvez trouver une liste à jour des classes [ici](https://angular.io/guide/form-validation#control-status-css-classes).
 
 ## TP : Connexion et inscription avec des reactive forms
 1. Implémentez le formulaire de connexion / inscription à l'aide de reactive forms et du form builder : remplacez le `[(ngModel)]` dans le template et supprimez les propriétés `email` et `mot de passe` de la classe du `LoginFormComponent`.
 
-2. Ajoutez le validateur required (`Validators.required`) aux deux champs et affichez le texte `"Ce champ est requis"` à côté de chaque champ si le formulaire a un statut dirty et que ce champ a l'erreur `required` :
+2. Ajoutez le validateur required (`Validators.required`) aux deux champs et affichez le texte `"Ce champ est requis"` sous chaque champ si le formulaire a un statut dirty et que ce champ a l'erreur `required` :
 ```html
-<small>
-  This field is required
-</small>
+<small>This field is required</small>
 ```
 
 ::: tip Hint
@@ -171,7 +149,15 @@ Vous pouvez trouver une liste à jour des classes [ici](https://angular.io/guide
 - Il est possible de vérifier la présence d'une erreur spécifique en appelant la méthode `hasError('error name')` d'un *form control*.
 :::
 
-3. Stylisez le label et le texte d'erreur de chaque champ avec la classe `.error` lorsque le formulaire est invalide et que ce champ n'est pas valide (rappelez-vous l'attribut `[class]`)
+3. Stylisez le label et le texte d'erreur de chaque champ avec la classe `.ng-invalid` lorsque le formulaire est invalide et que ce champ n'est pas valide (rappelez-vous l'attribut `[class]`). Faites attention à ne bien styler que ces deux éléments pour chaque champ (vous pouvez utiliser le sélecteur CSS `+` à cet effet).
+
+::: details Hint
+```scss
+label.ng-invalid, input.ng-invalid.ng-dirty + small {
+  color: red;
+}
+```
+:::
 
 4. Désactivez les boutons Connexion et Inscription à l'aide de l'attribut `[disabled]` si le formulaire n'est pas valide.
 
@@ -189,6 +175,10 @@ export function password(): ValidatorFn {
     const uppercasePattern = /^.*[A-Z]+.*$/
     const lowercasePattern = /^.*[a-z]+.*$/
     const specialCharPattern = /^.*\W+.*$/
+
+    if (control.value === '') {
+      return null
+    }
 
     if (
       uppercasePattern.test(control.value) &&

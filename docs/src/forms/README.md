@@ -22,7 +22,7 @@ User input can be retrieved in the component class thanks to the `NgModel` direc
 Here is an example that uses `[(ngModel)]` to bind an `input` and `select` fields.
 It also shows how to get a reference to the form field (`#nameRef="ngModel"`). This allows to obtain some properties on the form field such as its validity status (`nameRef.valid`).
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/yos-template-form-simple?ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-template-driven-form/tree/master?startScript=start&title=Template-Driven Form&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
 :::warning
 Do not forget to import `FormsModule` when using template-driven forms
@@ -39,7 +39,7 @@ Prefer listening to `(ngSubmit)` on the `<form>` tag rather than the `(click)` o
 
 The following project illustrates the usage of `ngForm` and `(ngSubmit)`
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/yos-template-form-group?ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-template-driven-form/tree/submit-exemple?startScript=start&title=Template-Driven Form&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
 **Exercise: add an input field that must have a minimum length of 5 characters. Show the content of this field when the form is submitted**
 
@@ -61,7 +61,7 @@ As you may note in the template, the value and the valid status of form inputs a
 Note that using FormControls outside of a FormGroup is very unusual.
 :::
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ivy-qtsmx2?ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-template-driven-form/tree/reactive-form-transformation?startScript=start&title=FormControl&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
 :::warning
 Do not forget to import the `ReactiveFormsModule` when using reactive forms
@@ -74,12 +74,7 @@ Please note that child controls and groups use the attributes `formControlName` 
 
 The following component defines a `FormGroup` that contains some form controls and another form group. It illustrates many uses cases related to forms: getting the form value, its status, defining validators on the form control or in the template, and accessing child controls and groups using the [get](https://angular.io/api/forms/AbstractControl#get) method.
 
-<iframe src="https://codesandbox.io/embed/reactive-form-group-e89g6?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fapp%2Fapp.component.ts&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="reactive-form-group"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-reactive-form/tree/master?startScript=start&title=FormGroup&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
 ### Form builder
 Angular `ReactiveFormsModule` provides a simpler API for creating FormGroups and FormControls via the `FormBuilder` service.
@@ -87,36 +82,31 @@ The following code snippet shows how to convert the previous FormGroup declarati
 
 ```typescript
 // before
-readonly mainForm = new FormGroup({
-    name: new FormControl("", Validators.required),
-    flavor: new FormControl(""),
-    extras: new FormGroup({
-      firstExtra: new FormControl("cheese"),
-      secondExtra: new FormControl("ketchup")
-    })
-});
+readonly iceCreamForm = new FormGroup({
+  customerName: new FormControl('Charlotte Smith'),
+  flavor: new FormControl('', Validators.required),
+  toppings: new FormGroup({
+    first: new FormControl('Whipped cream'),
+    second: new FormControl('Chocolate sauce')
+  })
+})
 
 //after
-readonly mainForm = this.fb.group({
-    name: ["", Validators.required],
-    flavor: "",
-    extras: this.fb.group({
-      firstExtra: "cheese",
-      secondExtra: "ketchup"
-    })
-});
+readonly iceCreamForm = this.fb.group({
+  customerName: 'Charlotte Smith',
+  flavor: ['', Validators.required],
+  toppings: this.fb.group({
+    first: 'Whipped cream',
+    second: 'Chocolate sauce'
+  })
+})
 
-constructor(private fb: FormBuilder) {} //do not forget to inject the service
+constructor(private fb: NonNullableFormBuilder) {} //do not forget to inject the service
 ```
 
 Please find below a complete example that uses the `FormBuilder` API.
 
-<iframe src="https://codesandbox.io/embed/reactive-form-builder-0uzfv?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fapp%2Fapp.component.ts&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="reactive-form-builder"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-reactive-form/tree/form-builder?startScript=start&title=FormBuilder&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
 ### Reactive Form validation
 The `ReactiveFormsModule` allows to define validators in the component code or using HTML5 validation attributes such as `required` and `minlength`. Angular provides built-in validators such as `Validators.required`, `Validators.min`, `Validators.pattern`, you can find a complete list [here](https://angular.io/api/forms/Validators). You can also define custom validators ([tutorial](https://angular.io/guide/form-validation#defining-custom-validators)).
@@ -125,14 +115,9 @@ The `ReactiveFormsModule` allows to define validators in the component code or u
 When using HTML5 validators, Angular recommends to combine them with built-in `@angular/forms` validators.
 :::
 
-The following component illustrates the usage of multiple validators on a form control as well as the usage of a custom validator.
+The following component illustrates the usage of multiple validators on a form control as well as the use of a custom validator.
 
-<iframe src="https://codesandbox.io/embed/reactive-form-validation-1orvs?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fapp%2Fapp.component.ts&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="reactive-form-validation"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-reactive-form/tree/validation?startScript=start&title=Form Validation&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
 ## Angular-managed CSS classes
 
@@ -146,24 +131,17 @@ The following component shows an example of how to take advantage of:
 - `.ng-invalid` and `.ng-dirty` classes
 - `:not` pseudo-class to target only the control.
 
-<iframe src="https://codesandbox.io/embed/reactive-form-classes-y1ewk?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fapp%2Fapp.component.css&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="reactive-form-classes"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-reactive-form/tree/css-classes?startScript=start&title=Angular-managed CSS classes&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
 You can find an updated list of classes [here](https://angular.io/guide/form-validation#control-status-css-classes).
 
 ## Practical work: Login and registration with reactive forms
 1. Implement the login / registration form using reactive forms and the form builder: replace the `[(ngModel)]` in the template and delete the `email` and `password` from the class of the `LoginFormComponent`.
 
-2. Add the required validator (`Validators.required`) to both email and password fields. Show the text `"This field is required"` next to each field if the form is dirty and that field has the error `required`:
+2. Add the required validator (`Validators.required`) to both email and password fields. Show the text `"This field is required"` under each field if the form is dirty and that field has the error `required`:
 
 ```html
-<small>
-  This field is required
-</small>
+<small>This field is required</small>
 ```
 
 ::: tip Hint
@@ -171,7 +149,15 @@ You can find an updated list of classes [here](https://angular.io/guide/form-val
 - You can check if a form control has a specific error by using the `hasError('error name')` method of form controls.
 :::
 
-3. Style the label and error text of each field with the `.error` class when the form is dirty and that field is invalid (remember the `[class]` attribute)
+3. Style the label and error text of each field with the `.ng-invalid` class when the form is dirty and that field is invalid (remember the `[class]` attribute). Be careful to target only those two elements (you can use the `+` CSS selector to that purpose).
+
+::: details Hint
+```scss
+label.ng-invalid, input.ng-invalid.ng-dirty + small {
+  color: red;
+}
+```
+:::
 
 4. Disable the Login and Register buttons using the `[disabled]` attribute if the form is invalid.
 
@@ -189,6 +175,10 @@ export function password(): ValidatorFn {
     const uppercasePattern = /^.*[A-Z]+.*$/
     const lowercasePattern = /^.*[a-z]+.*$/
     const specialCharPattern = /^.*\W+.*$/
+
+    if (control.value === '') {
+      return null
+    }
 
     if (
       uppercasePattern.test(control.value) &&

@@ -1,0 +1,20 @@
+<form [formGroup]="loginForm" (ngSubmit)="login()" id="login-form">
+  <h1>{{title}}</h1>
+  <p>Fill out this form to login.</p>
+
+  <label for="email" [class.ng-invalid]="loginForm.dirty && loginForm.get('email')?.invalid">Email</label>
+  <input formControlName="email" type="text" placeholder="Enter your email" id="email" required/>
+  <small *ngIf="loginForm.dirty && loginForm.get('email')?.hasError('required')">This field is required</small>
+
+  <label for="psw" [class.ng-invalid]="loginForm.dirty && loginForm.get('password')?.invalid">Password</label>
+  <input formControlName="password" type="password" placeholder="Enter your password" id="psw" required/>
+  <small *ngIf="loginForm.dirty && loginForm.get('password')?.hasError('required')">This field is required</small>
+  <small *ngIf="loginForm.dirty && loginForm.get('password')?.hasError('password.pattern')">The password is not compliant</small>
+
+  <p *ngIf="errorMessage" class="error">{{errorMessage}}</p>
+
+  <div class="button-container">
+    <button type="button" (click)="register()" [disabled]="loginForm.invalid">Register</button>
+    <button type="submit" [disabled]="loginForm.invalid">Login</button>
+  </div>
+</form>

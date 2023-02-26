@@ -142,6 +142,11 @@ button {
   font-weight: 500;
   transition: color 100ms;
   display: block;
+
+  &:disabled{
+    background-color: rgb(151, 151, 151);
+    cursor: auto;
+  }
 }
 
 dl {
