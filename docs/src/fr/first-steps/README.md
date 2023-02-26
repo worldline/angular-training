@@ -235,10 +235,10 @@ VsCode utilisera automatiquement ces chemins pour les imports au lieu de ceux re
   <p>Fill out this form to login.</p>
 
   <label for="email">Email</label>
-  <input type="text" placeholder="Enter your email" id="email" required/>
+  <input type="text" placeholder="Enter your email" id="email" name="email" required/>
 
   <label for="psw">Password</label>
-  <input type="password" placeholder="Enter your password" id="psw" required/>
+  <input type="password" placeholder="Enter your password" id="psw" name="password" required/>
 
   <button type="submit">Login</button>
 </form>
