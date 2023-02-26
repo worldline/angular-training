@@ -1,6 +1,6 @@
 # RxJS
 
-[RxJS](https://v6.rxjs.dev/guide/overview) is a library for reactive programming using Observables. It makes it easier to compose asynchronous or callback-based code. 
+[RxJS](https://rxjs.dev/guide/overview) is a library for reactive programming using Observables. It makes it easier to compose asynchronous or callback-based code. 
 It is part of the [ReactiveX](http://reactivex.io/) collection of open-source libraries (RxJava, RxSwift, Rx.NET, RxScala...). 
 They all share a very similar API, which means transferring Rx skills from one language to another is very easy.
 
@@ -17,7 +17,7 @@ The library provides the `Observable` type as well as utility functions to:
 This chapter will not go in depth about the concepts of Rx, you can refer to the official documentation to that purpose. However it will illustrate common situations encountered in Angular applications.
 
 :::warning
-This chapter is based on [RxJS v6](https://v6.rxjs.dev/) as it was the default version used by Angular 12.
+This chapter is based on [RxJS v7](https://rxjs.dev/), the default version used by Angular 15.
 :::
 
 ## The Observable
@@ -25,7 +25,7 @@ This chapter is based on [RxJS v6](https://v6.rxjs.dev/) as it was the default v
 The previous chapter showed you the basic usage of Observables. Here is what we saw in it:
 - Observables are returned by the `HttpClient` service methods.
 - Observables are only executed once subscribed to
-- The subscribe method takes three callbacks as parameters: next, error and complete
+- The subscribe method takes one object with three callbacks (next, error and complete) as a parameter.
 
 First, let's illustrate the second and third points:
 
@@ -37,35 +37,35 @@ The `Observable` fires 3 next notifications followed by a complete notification.
 
 In an Angular app, you will rarely have to create observables yourself. Most of the time you will handle streams that the framework created for you such as handling http call results, listening to router events or listening to form events when using the `ReactiveFormsModule` (the name of the module gives away its reactive nature). However, you may encounter situations where it may fall on you to create a stream. Here are a the main ways it could happen.
 
-- interval ([marble](https://rxmarbles.com/#interval) / [documentation](https://v6.rxjs.dev/api/index/function/interval))
+- interval ([marble](https://rxmarbles.com/#interval) / [documentation](https://rxjs.dev/api/index/function/interval))
 
 ```ts
 interval(1000)
-  .subscribe(n => {
+  .subscribe({ next: n => {
     console.log(`It's been ${n + 1} seconds since subscribing!`)
-  });
+  } })
 ```
 
-- promise transformation ([marble](https://rxmarbles.com/#from) / [documentation](https://v6.rxjs.dev/api/index/function/from))
+- promise transformation ([marble](https://rxmarbles.com/#from) / [documentation](https://rxjs.dev/api/index/function/from))
 
 ```ts
 const promise1 = new Promise((resolve, reject) => {
   setTimeout(() => {
-    resolve("foo")
+    resolve('foo')
   }, 2000)
 })
 
-from(promise1).subscribe(
-  message => console.log(`The delayed message is "${message}"`),
-  error => console.log(this.promiseMessage = "There's been an error"),
-  () => console.log("Completed")
-)
+from(promise1).subscribe({
+  next: message => console.log(`The delayed message is '${message}'`),
+  error: error => console.log(this.promiseMessage = 'There\'s been an error'),
+  complete: () => console.log('Completed')
+})
 ```
 
-- browser event transformation ([documentation](https://v6.rxjs.dev/api/index/function/fromEvent))
+- browser event transformation ([documentation](https://rxjs.dev/api/index/function/fromEvent))
 
 ```ts
-fromEvent(document, 'click').subscribe(_ => console.log("Clicked!"));
+fromEvent(document, 'click').subscribe({ next: _ => console.log('Clicked!') })
 ```
 
 The following Stackblitz let's you play around with those examples:
@@ -74,22 +74,22 @@ The following Stackblitz let's you play around with those examples:
 
 ## Filtering and mapping
 
-Similar to the well known `Array.prototype.map` function, the `map` operator ([marble](https://rxmarbles.com/#map) / [documentation](https://v6.rxjs.dev/api/operators/map)) applies a projection to each value and emits that projection in the output `Observable`.
+Similar to the well known `Array.prototype.map` function, the `map` operator ([marble](https://rxmarbles.com/#map) / [documentation](https://rxjs.dev/api/operators/map)) applies a projection to each value and emits that projection in the output `Observable`.
 
 Let's transform the previous example about the click event on the document so that it prints the coordinates of the click:
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-observable-mapping?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
 
 ::: tip Pipe
-`pipe()` is a function used to compose operators such as `map()`, `filter()`, `pluck()`... Operators are applied to the stream in the order they are passed to the pipe function
+`pipe()` is a function used to compose operators such as `map()`, `filter()`, `take()`... Operators are applied to the stream in the order they are passed to the pipe function
 :::
 
-Similar to the `Array.prototype.filter` function, the `filter` operator ([marble](https://rxmarbles.com/#filter) / [documentation](https://v6.rxjs.dev/api/operators/filter)) filters items emitted by the source Observable by only emitting those that satisfy a specified predicate.
+Similar to the `Array.prototype.filter` function, the `filter` operator ([marble](https://rxmarbles.com/#filter) / [documentation](https://rxjs.dev/api/operators/filter)) filters items emitted by the source Observable by only emitting those that satisfy a specified predicate.
 
 ```ts
 from([1, 2, 3, 4, 5, 6, 7, 8])
   .pipe(filter(data => data % 2 === 0))
-  .subscribe(data => console.log(data));
+  .subscribe({ next: data => console.log(data) })
 ```
 
 This snippet will print:
@@ -104,18 +104,18 @@ This snippet will print:
 
 ## Error handling
 
-Like seen previously, the `subscribe` method takes an `error` callback. When the `Observable` errors out, it is executed instead of the `next` callback and the `Observable` stops emitting.
+Like seen previously, the `subscribe` method takes an object that has an `error` callback. When the `Observable` errors out, it is executed instead of the `next` callback and the `Observable` stops emitting.
 
 ```ts
 this.userService.getUsers()
-  .subscribe(
-    users => console.log("The following users exist in the system: " + users),
-    error => console.log("An error occurred: " + error),
-    () => console.log("Completed")
-  )
+  .subscribe({
+    next: users => console.log(`The following users exist in the system: ${users}`),
+    error: error => console.log(`An error occurred: ${error}`),
+    complete: () => console.log('Completed')
+  })
 ```
 
-This behaviour is not always the desired one. RxJS provides a `catchError` operator ([documentation](https://v6.rxjs.dev/api/operators/catchError)) to deal with the error in a "silent" way, meaning that it is the `next` callback and not the `error` one that is called.
+This behaviour is not always the desired one. RxJS provides a `catchError` operator ([documentation](https://rxjs.dev/api/operators/catchError)) to deal with the error in a "silent" way, meaning that it is the `next` callback and not the `error` one that is called.
 
 Let's imagine you expect an array of users from the backend but it sends you back a 404 HTTP error, you can use `catchError` to return an empty array instead, and keep throwing an error for other HTTP errors.
 
@@ -130,11 +130,11 @@ this.userService.getUsers()
       return throwError(error)
     })
   )
-  .subscribe(
-    users => console.log("The following users exist in the system: " + users),
-    error => console.log("An error occurred: " + error),
-    () => console.log("Completed")
-  )
+  .subscribe({
+    next: users => console.log(`The following users exist in the system: ${users}`),
+    error: error => console.log(`An error occurred: ${error}`),
+    complete: () => console.log('Completed')
+  })
 ```
 
 **Question: What will be printed to the console in case of a 404 error returned by the backend? In case of a 500?**
@@ -152,7 +152,7 @@ Let's adapt the above example to the context of chained backend calls:
 
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-chaining-observables?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
 
-Another useful operator to combine calls is `exhaustMap` ([documentation](https://v6.rxjs.dev/api/operators/exhaustMap)). While `switchMap` cancels the subscription to the previous projected Observable, exhaustMap ignores new events as long as the previous projected Observable hasn't completed.
+Another useful operator to combine calls is `exhaustMap` ([documentation](https://rxjs.dev/api/operators/exhaustMap)). While `switchMap` cancels the subscription to the previous projected Observable, exhaustMap ignores new events as long as the previous projected Observable hasn't completed.
 
 :::danger Don't nest subscribes
 A very common pitfall with RxJS is to nest subscribes. RxJS provides plenty of operators so that you won't ever have to mix synchronous and asynchronous code.
@@ -180,7 +180,7 @@ When should you unsubscribe? If you have no certainty the `Observable` will comp
 
 How to unsubscribe? There are two ways:
 - The `subscribe` method returns a `Subscription` object that can be disposed of by calling the unsubscribe method on it when desired, usually when the component it lives in is destroyed.
-- Using the `takeUntil` operator ([marble](https://rxmarbles.com/#takeUntil) / [documentation](https://v6.rxjs.dev/api/operators/takeUntil)) and a [`Subject`](https://v6.rxjs.dev/guide/subject) which is a special kind of `Obversable` on which it is possible to call the next(), error() and complete() methods.
+- Using the `takeUntil` operator ([marble](https://rxmarbles.com/#takeUntil) / [documentation](https://rxjs.dev/api/operators/takeUntil)) and a [`Subject`](https://rxjs.dev/guide/subject) which is a special kind of `Obversable` on which it is possible to call the next(), error() and complete() methods.
 
 The second way is easier to maintain when your code base grows so it is the one you should favour using.
 
@@ -274,7 +274,7 @@ Here is a table of the most commonly used operators.
 
 There also exists two `Observable` constants: `NEVER` (emits neither values nor errors nor the completion notification) and `EMPTY` (emits no items and immediately emits a complete notification). `EMPTY` is quite useful as a return value of the `catchError` operator.
 
-To help you decide which operator fits your use case, the RxJS documentation provides an [operator decision tree](https://v6.rxjs.dev/operator-decision-tree). It also helps with just discovering the many operators RxJS provides.
+To help you decide which operator fits your use case, the RxJS documentation provides an [operator decision tree](https://rxjs.dev/operator-decision-tree). It also helps with just discovering the many operators RxJS provides.
 
 ## Practical work
 

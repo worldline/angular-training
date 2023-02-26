@@ -3,11 +3,11 @@
 ## Train with us
 You can follow the training here: https://worldline.github.io/angular-training/
 
-Most chapters include some practical work to do on your own machine, the corrections are available here: [Corrections folder](https://github.com/worldline/angular-training/tree/main/corrections)
+Most chapters include some practical work to do on your own machine, the corrections are available here: [Corrections folder](https://github.com/worldline/angular-training/tree/main/angular15-corrections)
 
 ## Contribute
 
-In most cases, you do not need any special knowledge of [Vuepress](https://vuepress.vuejs.org/) (the static-site generator used to transform the markdown into the final training website) or Vue to contribute.
+In most cases, you do not need any special knowledge of [Vuepress](https://v2.vuepress.vuejs.org/) (the static-site generator used to transform the markdown into the final training website) or Vue to contribute.
 
 ### Start locally
 
