@@ -150,6 +150,7 @@ This is the purpose of the `RouterOutlet`. The `NavbarComponent` should remain d
 
 <CodeGroup>
 <CodeGroupItem title="app.component.html">
+
 ```html
 <app-navbar></app-navbar>
 <router-outlet></router-outlet>
@@ -167,6 +168,7 @@ First, let's take care of the links in the `NavbarComponent`. Open the `navbar.c
 
 <CodeGroup>
 <CodeGroupItem title="navbar.component.html">
+
 ```html
 <nav>
   <ul>

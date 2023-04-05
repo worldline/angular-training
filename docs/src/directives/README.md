@@ -113,9 +113,9 @@ You can provide an else statement as follows:
 ```
 `<ng-template>` creates a template fragment, it is not rendered by default. `#elseBlock` is a template variable that enables to gain a reference to the `<ng-template>`.
 
-**Exercise: use an *ngIf to toggle the loader**
+**Exercise: use an `*ngIf` to toggle the loader**
 
-**Bonus: use an *ngIf else to conditionnally show either the data or the no data message**
+**Bonus: use an `*ngIf else` to conditionnally show either the data or the no data message**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngif-training?ctl=1&embed=1&file=src/app/app.component.ts&hideNavigation=1"></iframe>
 
 ## NgSwitch directive
@@ -130,7 +130,7 @@ You can provide an else statement as follows:
 </div>
 ```
 
-**Exercise: use *ngSwitch to alternate plant growth stage according to the season's temperature**
+**Exercise: use `*ngSwitch` to alternate plant growth stage according to the season's temperature**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngswitch-training?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
 
 ## NgFor directive
@@ -162,9 +162,9 @@ The following exported values are also available to be aliased to local variable
   <div *ngFor="let item of items">{{item.name}}</div>
 </ng-container>
 ```
-**Exercise: use two *ngFor loops to display all the contents of the basket (one loop for each type of item, and within that loop another loop to print as many emoji of that item as its quantity)**
+**Exercise: use two `*ngFor` loops to display all the contents of the basket (one loop for each type of item, and within that loop another loop to print as many emoji of that item as its quantity)**
 
-**Bonus: An intruder is in the fruit basket, hide the corn with an *ngIf**
+**Bonus: An intruder is in the fruit basket, hide the corn with an `*ngIf`**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngfor-training?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
 
 ## Event binding

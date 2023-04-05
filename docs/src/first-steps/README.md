@@ -85,9 +85,7 @@ The double curly braces are Angular's *interpolation binding syntax*. This inter
 
 The browser refreshes and displays the new application title.
 
-::: v-pre
 The simplest way to insert data dynamically into your components is through text interpolation, using the `{{myVariable}}` syntax. Inside double curly braces, you can specify any valid JavaScript expression that don't have or promote side-effects.
-:::
 
 JavaScript expressions that have or promote side effects include:
 - assignements (`=`, `+=`, ...)

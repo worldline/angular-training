@@ -150,6 +150,7 @@ C'est le but du `RouterOutlet`. Le `NavbarComponent` doit rester affiché à tou
 
 <CodeGroup>
 <CodeGroupItem title="app.component.html">
+
 ```html
 <app-navbar></app-navbar>
 <router-outlet></router-outlet>
@@ -167,6 +168,7 @@ Tout d'abord, occupons-nous des liens dans le `NavbarComponent`. Ouvrez le fichi
 
 <CodeGroup>
 <CodeGroupItem title="navbar.component.html">
+
 ```html
 <nav>
   <ul>

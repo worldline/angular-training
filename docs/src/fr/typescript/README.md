@@ -58,17 +58,17 @@ Il n'y a pas de différence dans la façon dont les classes et les objets se con
 
 ```typescript
 class VirtualPoint {
-  x: number;
-  y: number;
+  x: number
+  y: number
 
   constructor(x: number, y: number) {
-    this.x = x;
-    this.y = y;
+    this.x = x
+    this.y = y
   }
 }
 
-const newVPoint = new VirtualPoint(13, 56);
-logPoint(newVPoint); // logs "13, 56"
+const newVPoint = new VirtualPoint(13, 56)
+logPoint(newVPoint) // logs "13, 56"
 ```
 
 Si l'objet ou la classe possède toutes les propriétés requises, TypeScript dira qu'elles correspondent, quels que soient les détails d'implémentation.
@@ -157,7 +157,7 @@ enum Direction {
   East = "EAST",
   West = "WEST",
   South = "SOUTH",
-  North = "NORTH",
+  North = "NORTH"
 }
 const direction = Direction.East
 console.log(direction) // logs "EAST"
@@ -180,16 +180,16 @@ Typescript permet de définir deux types de variables :
 - Les variables ou constantes immuables sont déclarées avec `const`. Veuillez noter que les champs de constantes peuvent toujours être modifiés, les constantes ne peuvent tout simplement pas être réaffectées.
 
 ```typescript
-let x = 10;
-var y = 200.0; // ! do not use var, use let instead
+let x = 10
+var y = 200.0 // ! do not use var, use let instead
 
-const t = [1, 2, 3];
-t = ['a', 'b']; // ! error because it's a const
-t.push(4); // ok
+const t = [1, 2, 3]
+t = ['a', 'b'] // ! error because it's a const
+t.push(4) // ok
 
 const meal = { name: "sandwich" }
-const meal = { name: "soup" } // ! error
-meal.name = "soup"; // ok
+meal = { name: "soup" } // ! error
+meal.name = "soup" // ok
 ```
 
 :::tip
@@ -441,7 +441,7 @@ Les modules sont exécutés dans leur propre scope, pas dans le scope global. Ce
 Un fichier peut déclarer des exports :
 ```typescript
 // @filename: maths.ts
-export var pi = 3.14
+export let pi = 3.14
 export let squareTwo = 1.41
 export const phi = 1.61
 

@@ -58,17 +58,17 @@ There is no difference between how classes and objects conform to shapes:
 
 ```typescript
 class VirtualPoint {
-  x: number;
-  y: number;
+  x: number
+  y: number
 
   constructor(x: number, y: number) {
-    this.x = x;
-    this.y = y;
+    this.x = x
+    this.y = y
   }
 }
 
-const newVPoint = new VirtualPoint(13, 56);
-logPoint(newVPoint); // logs "13, 56"
+const newVPoint = new VirtualPoint(13, 56)
+logPoint(newVPoint) // logs "13, 56"
 ```
 
 If the object or class has all the required properties, TypeScript will say they match, regardless of the implementation details.
@@ -157,7 +157,7 @@ enum Direction {
   East = "EAST",
   West = "WEST",
   South = "SOUTH",
-  North = "NORTH",
+  North = "NORTH"
 }
 const direction = Direction.East
 console.log(direction) // logs "EAST"
@@ -180,16 +180,16 @@ Typescript allows to define two types of variables:
 - Immutable variables or constants are declared with `const`. Please note that fields of constants can still be modified, constants just can't be reassigned.
 
 ```typescript
-let x = 10;
-var y = 200.0; // ! do not use var, use let instead
+let x = 10
+var y = 200.0 // ! do not use var, use let instead
 
-const t = [1, 2, 3];
-t = ['a', 'b']; // ! error because it's a const
-t.push(4); // ok
+const t = [1, 2, 3]
+t = ['a', 'b'] // ! error because it's a const
+t.push(4) // ok
 
 const meal = { name: "sandwich" }
-const meal = { name: "soup" } // ! error
-meal.name = "soup"; // ok
+meal = { name: "soup" } // ! error
+meal.name = "soup" // ok
 ```
 
 :::tip
@@ -441,7 +441,7 @@ Modules are executed within their own scope, not in the global scope. This means
 A file can declare exports:
 ```typescript
 // @filename: maths.ts
-export var pi = 3.14
+export let pi = 3.14
 export let squareTwo = 1.41
 export const phi = 1.61
 

@@ -113,9 +113,9 @@ Vous pouvez fournir une instruction else comme suit :
 ```
 `<ng-template>` crée un fragment de template, il n'est pas rendu par défaut. `#elseBlock` est une variable de template qui permet d'obtenir une référence au `<ng-template>`.
 
-**Exercice: utilisez un *ngIf pour montrer/cacher le loader**
+**Exercice: utilisez un `*ngIf` pour montrer/cacher le loader**
 
-**Bonus: utilisez un *ngIf else pour conditionnellement montrer soit les données soit le message comme quoi les données ne sont pas disponibles**
+**Bonus: utilisez un `*ngIf else` pour conditionnellement montrer soit les données soit le message comme quoi les données ne sont pas disponibles**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngif-training?ctl=1&embed=1&file=src/app/app.component.ts&hideNavigation=1"></iframe>
 
 ## Directive NgSwitch
@@ -130,7 +130,7 @@ Vous pouvez fournir une instruction else comme suit :
 </div>
 ```
 
-**Exercice : utilisez *ngSwitch pour alterner le stade de croissance des plantes en fonction de la température de la saison**
+**Exercice : utilisez `*ngSwitch` pour alterner le stade de croissance des plantes en fonction de la température de la saison**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngswitch-training?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
 
 ## Directive NgFor
@@ -162,9 +162,9 @@ Les valeurs exportées suivantes sont également disponibles pour être associé
   <div *ngFor="let item of items">{{item.name}}</div>
 </ng-container>
 ```
-**Exercice : utilisez deux boucles *ngFor pour afficher tout le contenu du panier (une boucle pour chaque type d'article, et dans cette boucle une autre boucle pour imprimer autant d'emoji de cet article que sa quantité)**
+**Exercice : utilisez deux boucles `*ngFor` pour afficher tout le contenu du panier (une boucle pour chaque type d'article, et dans cette boucle une autre boucle pour imprimer autant d'emoji de cet article que sa quantité)**
 
-**Bonus : Un intrus est dans la corbeille de fruits, cachez le maïs avec un *ngIf**
+**Bonus : Un intrus est dans la corbeille de fruits, cachez le maïs avec un `*ngIf`**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngfor-training?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
 
 ## Event binding

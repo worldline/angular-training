@@ -237,10 +237,10 @@ For objects, an alternative syntax exists to avoid repetitively using the async 
 
 ```ts
 export class AppComponent {
-  counter: Observable<User>
+  user: Observable<User>
 
   ngOnInit(): void {
-    this.counter = interval(1000)
+    this.user = interval(1000).map(_ => new User('John', 'Snow', 28))
   }
 }
 

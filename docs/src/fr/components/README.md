@@ -30,7 +30,7 @@ Imaginons que nous ayons besoin d'une bordure sur AppComponent. Voici comment l'
 
 ```css
 :host {
-  border: 1px solid black;
+  border: 1px solid black
 }
 ```
 </CodeGroupItem>
@@ -43,7 +43,7 @@ L'exemple suivant cible à nouveau l'élément hôte, mais uniquement lorsqu'il 
 
 ```css
 :host(.active) {
-  border-width: 3px;
+  border-width: 3px
 }
 ```
 </CodeGroupItem>
@@ -88,7 +88,7 @@ Voici comment l'`AppComponent` communiquerait à son composant enfant `BlogPostC
 
 ```ts
 // app.component.ts
-import { Component } from "@angular/core";
+import { Component } from "@angular/core"
 @Component({
   selector: "my-app",
   templateUrl: "./app.component.html"
@@ -109,14 +109,14 @@ export class AppComponent {
 
 ```ts
 // blog-post.component.ts
-import { Component, Input } from "@angular/core";
+import { Component, Input } from "@angular/core"
 @Component({
   selector: "app-blog-post",
   templateUrl: "./blog-post.component.html"
 })
 export class BlogPostComponent {
-  @Input() title: string;
-  @Input() content: string;
+  @Input() title: string
+  @Input() content: string
 }
 
 // blog-post.component.html
@@ -146,16 +146,16 @@ Voici comment le `AddTaskComponent` communiquerait à son parent qu'une nouvelle
 
 ```ts
 // app.component.ts
-import { Component } from "@angular/core";
+import { Component } from "@angular/core"
 @Component({
   selector: "my-app",
   templateUrl: "./app.component.html"
 })
 export class AppComponent {
-  items = ['Do the laundry', 'Wash the dishes', 'Read 20 pages'];
+  items = ['Do the laundry', 'Wash the dishes', 'Read 20 pages']
 
   addItem(item: string): void {
-    this.items.push(item);
+    this.items.push(item)
   }
 }
 
@@ -172,16 +172,16 @@ export class AppComponent {
 
 ```ts
 // add-task.component.ts
-import { Component, EventEmitter, Output } from "@angular/core";
+import { Component, EventEmitter, Output } from "@angular/core"
 @Component({
   selector: "app-add-task",
   templateUrl: "./add-task.component.html"
 })
 export class AddTaskComponent {
-  @Output() newTask = new EventEmitter<string>();
+  @Output() newTask = new EventEmitter<string>()
 
   addNewTask(task: string): void {
-    this.newTask.emit(task);
+    this.newTask.emit(task)
   }
 }
 
@@ -312,7 +312,7 @@ export class MenuComponent{
 })
 
 export class MenuItemComponent {
-  @Input() menuText: string;
+  @Input() menuText: string
 }
 ```
 </CodeGroupItem>
@@ -356,7 +356,7 @@ Tout contenu HTML, y compris d'autres composants Angular, peut être projeté. C
 <!-- my-popin.component.html -->
 <div class="popin">
   <div class="popin-header">
-    <ng-content select="[slot=header]">></ng-content>
+    <ng-content select="[slot=header]"></ng-content>
   </div>
 
   <main class="popin-content">

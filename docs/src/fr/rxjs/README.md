@@ -236,10 +236,10 @@ Pour les objets, une syntaxe alternative existe pour √©viter d'utiliser de mani√
 
 ```ts
 export class AppComponent {
-  counter: Observable<User>
+  user: Observable<User>
 
   ngOnInit(): void {
-    this.counter = interval(1000)
+    this.user = interval(1000).map(_ => new User('John', 'Snow', 28))
   }
 }
 

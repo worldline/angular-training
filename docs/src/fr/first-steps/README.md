@@ -85,9 +85,7 @@ Les doubles accolades sont la *syntaxe d'interpolation binding* d'Angular. Cet i
 
 Le navigateur s'actualise et affiche le nouveau titre de l'application.
 
-::: v-pre
 Le moyen le plus simple d'insérer des données de manière dynamique dans vos composants consiste à interpoler du texte, en utilisant la syntaxe `{{myVariable}}`. À l'intérieur des accolades doubles, vous pouvez spécifier n'importe quelle expression JavaScript valide qui n'a pas ou ne favorise pas d'effets secondaires.
-:::
 
 Les expressions JavaScript qui ont ou favorisent des effets secondaires incluent :
 - les affectations (`=`, `+=`, ...)

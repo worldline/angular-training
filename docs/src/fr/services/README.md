@@ -368,7 +368,7 @@ constructor(
 login(): void {
   this.authenticationService.login(this.loginRequest)
     .subscribe({ next: () => {
-      const returnUrl = this.route.snapshot.paramMap.get('returnUrl')
+      const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl')
       this.router.navigateByUrl(returnUrl ? `/${returnUrl}` : '')
     } })
 }
