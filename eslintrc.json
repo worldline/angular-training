@@ -1,0 +1,237 @@
+{
+  "root": true,
+  "ignorePatterns": [
+    "projects/**/*"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
+      "plugins": [
+        "eslint-plugin-unicorn",
+        "eslint-plugin-import"
+      ],
+      "parserOptions": {
+        "project": [
+          "./tsconfig.json"
+        ],
+        "createDefaultProgram": true,
+        "sourceType": "module",
+        "ecmaVersion": 2022,
+        "ecmaFeatures": {
+          "modules": true
+        }
+      },
+      "rules": {
+        "@typescript-eslint/array-type": [
+          "error",
+          {
+            "default": "array"
+          }
+        ],
+        "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
+        "@typescript-eslint/member-delimiter-style": [
+          "error",
+          {
+            "multiline": {
+              "delimiter": "none",
+              "requireLast": false
+            },
+            "singleline": {
+              "delimiter": "comma",
+              "requireLast": false
+            }
+          }
+        ],
+        "@typescript-eslint/member-ordering": ["error", {"classes": ["field", "constructor", "method"]}],
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": "default",
+            "format": ["camelCase"]
+          },
+          {
+            "selector": "variable",
+            "types": ["boolean"],
+            "format": ["PascalCase"],
+            "prefix": ["is", "should", "has", "can", "did", "will"]
+          },
+          {
+            "selector": "variable",
+            "format": ["camelCase", "PascalCase"]
+          },
+          {
+            "selector": "variable",
+            "modifiers": ["const"],
+            "format": ["camelCase", "PascalCase", "UPPER_CASE"]
+          },
+          {
+            "selector": [
+              "classProperty",
+              "objectLiteralProperty",
+              "typeProperty",
+              "classMethod",
+              "objectLiteralMethod",
+              "typeMethod",
+              "accessor",
+              "enumMember"
+            ],
+            "format": null,
+            "modifiers": ["requiresQuotes"]
+          },
+          {
+            "selector": "typeLike",
+            "format": ["PascalCase"]
+          },
+          {
+            "selector": "memberLike",
+            "modifiers": ["private"],
+            "format": ["camelCase"],
+            "leadingUnderscore": "allow",
+            "trailingUnderscore": "forbid"
+          },
+          {
+            "selector": "parameter",
+            "modifiers": ["unused"],
+            "format": ["camelCase"],
+            "leadingUnderscore": "allow"
+          },
+          {
+            "selector": "classProperty",
+            "modifiers": ["public"],
+            "format": ["camelCase", "PascalCase"]
+          }
+        ],
+        "@typescript-eslint/no-extraneous-class": ["error", {"allowEmpty": true}],
+        "@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
+        "@typescript-eslint/no-var-requires": "error",
+        "@typescript-eslint/restrict-plus-operands": "error",
+        "@typescript-eslint/semi": [
+          "error",
+          "never"
+        ],
+        "@typescript-eslint/unbound-method": [
+          "error",
+          {
+              "ignoreStatic": true
+          }
+        ],
+        "array-bracket-spacing": ["error", "never"],
+        "arrow-parens": [
+          "error",
+          "as-needed"
+        ],
+        "block-spacing": ["error", "always"],
+        "brace-style": [
+          "error",
+          "1tbs",
+          { "allowSingleLine": false }
+        ],
+        "comma-dangle": "error",
+        "comma-spacing": ["error", { "before": false, "after": true }],
+        "complexity": [
+          "error",
+          {
+            "max": 10
+          }
+        ],
+        "curly": ["error", "all"],
+        "dot-location": ["error", "property"],
+        "function-call-argument-newline": ["error", "consistent"],
+        "func-call-spacing": ["error", "never"],
+        "import/no-extraneous-dependencies": "error",
+        "import/order": "off",
+        "linebreak-style": [
+          "error",
+          "unix"
+        ],
+        "max-classes-per-file": [
+          "error",
+          1
+        ],
+        "max-len": [
+          "error",
+          {
+            "code": 250
+          }
+        ],
+        "no-duplicate-imports": "error",
+        "no-extra-bind": "error",
+        "no-invalid-this": "error",
+        "no-multiple-empty-lines": "error",
+        "no-multi-spaces": "error",
+        "no-new-func": "error",
+        "no-plusplus": [
+          "error",
+          {
+            "allowForLoopAfterthoughts": true
+          }
+        ],
+        "no-sequences": "error",
+        "no-template-curly-in-string": "error",
+        "no-trailing-spaces": "error",
+        "no-underscore-dangle": ["error",
+          {
+            "allowAfterThis": true
+          }
+        ],
+        "no-useless-constructor": "off",
+        "object-curly-spacing": ["error", "always", { "arraysInObjects": false, "objectsInObjects": false }],
+        "padding-line-between-statements": [
+          "error",
+          {
+            "blankLine": "always",
+            "prev": "*",
+            "next": "return"
+          }
+        ],
+        "prefer-template": "error",
+        "quotes": ["error", "single"],
+        "semi": ["error", "never"],
+        "space-before-blocks": ["error", "always"],
+        "space-before-function-paren": ["error", "never"],
+        "space-in-parens": ["error", "never"],
+        "template-curly-spacing": ["error", "never"]
+      }
+    },
+    {
+      "files": [
+        "src/app/**/*.ts"
+      ],
+      "rules": {
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
+          }
+        ],
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "app",
+            "style": "kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
+      "rules": {}
+    }
+  ]
+}
