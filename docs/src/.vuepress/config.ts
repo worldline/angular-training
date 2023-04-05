@@ -28,6 +28,7 @@ export default defineUserConfig({
     logo: '/logo.svg',
     logoDark: '/logo.svg',
     navbar: [],
+    sidebarDepth: 1,
     locales: {
       "/": {
         selectLanguageText: "Language",
