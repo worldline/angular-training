@@ -136,7 +136,7 @@ The type names `String`, `Number`, and `Boolean` (starting with capital letters)
 
 - `any` an untyped value
 - `object` a non-primitive value
-- `undefinded` an uninitialized value
+- `undefined` an uninitialized value
 - `null` an explicitely empty value
 - `void` represents the return value of functions which don’t return a value. It’s the inferred type any time a function doesn’t have any return statements, or doesn’t return any explicit value from those return statements
 - `never` represents values which are *never* observed. In a return type, this means that the function throws an exception or terminates the execution of the program.

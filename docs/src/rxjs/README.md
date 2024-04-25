@@ -180,7 +180,7 @@ When should you unsubscribe? If you have no certainty the `Observable` will comp
 
 How to unsubscribe? There are two ways:
 - The `subscribe` method returns a `Subscription` object that can be disposed of by calling the unsubscribe method on it when desired, usually when the component it lives in is destroyed.
-- Using the `takeUntil` operator ([marble](https://rxmarbles.com/#takeUntil) / [documentation](https://rxjs.dev/api/operators/takeUntil)) and a [`Subject`](https://rxjs.dev/guide/subject) which is a special kind of `Obversable` on which it is possible to call the next(), error() and complete() methods.
+- Using the `takeUntil` operator ([marble](https://rxmarbles.com/#takeUntil) / [documentation](https://rxjs.dev/api/operators/takeUntil)) and a [`Subject`](https://rxjs.dev/guide/subject) which is a special kind of `Observable` on which it is possible to call the next(), error() and complete() methods.
 
 The second way is easier to maintain when your code base grows so it is the one you should favour using.
 

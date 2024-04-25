@@ -85,7 +85,7 @@ Dependencies can be provided at three levels:
 </CodeGroup>
 
 5. Conditionally show the Logout button depending on the `loggedIn` status of the user
-6. Use a navigation guard to redirect the user who wants to access the film search page to `/login` if they is not authenticated (make the CanActivate return true if the route can be accessed else return a `UrlTree` via the `createUrlTree` method of the `Router` service). To future-proof the guard, add a returnUrl as a queryParam to the returned `UrlTree` so that the `LoginFormComponent` knows where to navigate back to after authentication and modify the `LoginFormComponent` accordingly. To generate the navigation guard use the following CLI command:
+6. Use a navigation guard to redirect the user who wants to access the film search page to `/login` if they are not authenticated (make the CanActivate return true if the route can be accessed else return a `UrlTree` via the `createUrlTree` method of the `Router` service). To future-proof the guard, add a returnUrl as a queryParam to the returned `UrlTree` so that the `LoginFormComponent` knows where to navigate back to after authentication and modify the `LoginFormComponent` accordingly. To generate the navigation guard use the following CLI command:
 
 ```sh
 ng generate guard guards/authentication
@@ -441,7 +441,7 @@ login(): void {
 
 ```ts
 private errorHandler(errorResponse: HttpErrorResponse): void {
-  this.errorMessage = errorResponse.error.error ?? `${error.status} - ${error.statusText}`
+  this.errorMessage = errorResponse.error.error ?? `${errorResponse.error.status} - ${errorResponse.error.statusText}`
 }
 
 // subscribe syntax

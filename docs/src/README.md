@@ -18,7 +18,7 @@ footer: Worldline, 2023
 ---
 
 ::: tip
-This training is also available in [French](/fr/) / Cette formation est aussi disponible en [Français](/fr/)
+This training is also available in [French](fr/) / Cette formation est aussi disponible en [Français](fr/)
 :::
 
 ## Prerequisites

@@ -179,7 +179,7 @@ Quand unsubscribe ? Si vous n'avez aucune certitude que l'`Observable` s'achève
 
 Comment unsubscribe ? Il y a deux manières :
 - La méthode `subscribe` renvoie un objet `Subscription` qui dont la mémoire peut être désallouée en appelant la méthode unsubscribe sur celui-ci lorsque vous le souhaitez, généralement lorsque le composant dans lequel il réside est détruit.
-- En utilisant l'opérateur `takeUntil` ([marble](https://rxmarbles.com/#takeUntil) / [documentation](https://rxjs.dev/api/operators/takeUntil)) et un [`Subject` ](https://rxjs.dev/guide/subject) qui est un type spécial d'`Obversable` sur lequel il est possible d'appeler les méthodes next(), error() et complete().
+- En utilisant l'opérateur `takeUntil` ([marble](https://rxmarbles.com/#takeUntil) / [documentation](https://rxjs.dev/api/operators/takeUntil)) et un [`Subject` ](https://rxjs.dev/guide/subject) qui est un type spécial d'`Observable` sur lequel il est possible d'appeler les méthodes next(), error() et complete().
 
 La deuxième méthode est plus facile à maintenir lorsque votre base de code grandit, c'est donc celle que vous devriez privilégier.
 

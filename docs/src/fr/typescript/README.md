@@ -136,7 +136,7 @@ Les noms de type `String`, `Number` et `Boolean` (commençant par des lettres ma
 
 - `any` une valeur non typée
 - `object` une valeur non primitive
-- `undefinded` une valeur non initialisée
+- `undefined` une valeur non initialisée
 - `null` une valeur explicitement vide
 - `void` représente la valeur de retour des fonctions qui ne renvoient pas de valeur. C'est le type inféré chaque fois qu'une fonction n'a pas d'instructions de retour ou ne renvoie aucune valeur explicite à partir de ces instructions de retour
 - `never` représente des valeurs qui ne sont *jamais* observées. Dans un type de retour, cela signifie que la fonction lève une exception ou termine l'exécution du programme
