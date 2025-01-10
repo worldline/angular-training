@@ -19,14 +19,14 @@ export default defineUserConfig({
   },
 
   head: [
-    ['link', { rel: 'icon', href: 'logo.svg' }],
-    ['meta', { name: 'theme-color', content: '#C3002F' }],
+    ['link', { rel: 'icon', href: 'logo.png' }],
+    ['meta', { name: 'theme-color', content: '#8514F5' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }]
   ],
   theme: defaultTheme({
-    logo: '/logo.svg',
-    logoDark: '/logo.svg',
+    logo: '/logo.png',
+    logoDark: '/logo.png',
     navbar: [],
     sidebarDepth: 1,
     locales: {
@@ -38,7 +38,7 @@ export default defineUserConfig({
           "/typescript/",
           "/tooling/",
           "/first-steps/",
-          "/directives/",
+          "/html/",
           "/pipes/",
           "/components/",
           "/routing/",
@@ -58,7 +58,7 @@ export default defineUserConfig({
           "/fr/typescript/",
           "/fr/tooling/",
           "/fr/first-steps/",
-          "/fr/directives/",
+          "/fr/html/",
           "/fr/pipes/",
           "/fr/components/",
           "/fr/routing/",

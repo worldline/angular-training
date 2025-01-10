@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: /logo.svg
+heroImage: /logo.png
 heroAlt: Logo Angular
 tagline: Un guide pour bien débuter sur la plate-forme Angular
 actions: 
@@ -14,7 +14,7 @@ features:
     details: Plongez dans Angular Router, Forms et HttpClient
   - title: Angular CLI
     details: Développez des applications Angular directement en ligne de commande
-footer: Worldline, 2023
+footer: Worldline, 2025
 ---
 
 ::: tip
@@ -29,6 +29,6 @@ This training is also available in [English](/) / Cette formation est aussi disp
 
 ## Liens utiles
 
-- [Documentation officielle Angular](https://angular.io/docs)
+- [Documentation officielle Angular](https://angular.dev/overview)
 - [Dépôt Github de la formation](https://github.com/worldline/angular-training)
 
