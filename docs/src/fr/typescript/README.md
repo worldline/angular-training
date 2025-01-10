@@ -477,6 +477,7 @@ import { Hero } from '@models/hero.ts'
 export class HeroListComponent implements OnInit { //[1]
   heroes: Hero[]
   selectedHero: Hero
+
   constructor(private service: HeroService) { }
 
   ngOnInit() {
@@ -509,12 +510,12 @@ Le `HeroListComponent` implémente la méthode `ngOnInit()` du hook de cycle de 
 Les décorateurs permettent d'ajouter à la fois des annotations et une syntaxe de méta-programmation pour les déclarations et les membres de classe. Un décorateur est un type spécial de déclaration qui peut être attaché à une déclaration de classe, une méthode, un accesseur, une propriété ou un paramètre. Les décorateurs utilisent la forme `@expression`, où `expression` doit être évalué en une fonction qui sera appelée au moment de l'exécution avec des informations sur la déclaration décorée. Angular utilise largement les décorateurs : `@Component`, `@Directive`, `@Injectable`, `@Pipe`, `@Input`, `@Output`...
 
 ### [3] Modules ES6
-Les modules ES6 sont présents dans presque tous, sinon tous, les fichiers ts d'un projet Angular. Angular ajoute sa propre couche de module en plus de ceux-ci : les NgModules. Les NgModules consolident les composants, les directives et les pipes en blocs de fonctionnalités cohérents, chacun axé sur un groupe de fonctionnalités, un domaine business, un flux de travail ou une collection commune d'utilitaires. Nous en verrons plus à leur sujet plus tard dans la formation.
+Les modules ES6 sont présents dans presque tous, sinon tous, les fichiers ts d'un projet Angular. Angular ajoute sa propre couche de module en plus de ceux-ci : les NgModules. Les NgModules consolident les composants, les directives et les pipes en blocs de fonctionnalités cohérents, chacun axé sur un groupe de fonctionnalités, un domaine business, un flux de travail ou une collection commune d'utilitaires. Avec l'apparition des composants standalones, leur usage tend à disparaître.
 
 ## Sources
 
 - [Manuel de TypeScript](https://www.typescriptlang.org/docs/handbook/intro.html)
-- [Documentation Angular](https://angular.io/docs)
+- [Documentation Angular](https://angular.dev/overview)
 
 Pour aller plus loin, ces articles peuvent vous intéresser :
 - [TypeScript 4.0 Cheat Sheet](https://www.sitepen.com/blog/typescript-cheat-sheet)

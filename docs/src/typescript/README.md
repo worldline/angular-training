@@ -509,12 +509,12 @@ The `HeroListComponent` implements the `ngOnInit()` method of the `OnInit` lifec
 Decorators provide a way to add both annotations and a meta-programming syntax for class declarations and members. A Decorator is a special kind of declaration that can be attached to a class declaration, method, accessor, property, or parameter. Decorators use the form `@expression`, where `expression` must evaluate to a function that will be called at runtime with information about the decorated declaration. Angular makes extensive use of decorators: `@Component`, `@Directive`, `@Injectable`, `@Pipe`, `@Input`, `@Output`...
 
 ### [3] ES6 modules
-ES6 modules are present in almost all, if not all, ts files of an Angular project. Angular adds its own module layer on top of those: NgModules. NgModules consolidate components, directives, and pipes into cohesive blocks of functionality, each focused on a feature area, application business domain, workflow, or common collection of utilities. We will see more about them later in the training.
+ES6 modules are present in almost all, if not all, ts files of an Angular project. Angular adds its own module layer on top of those: NgModules. NgModules consolidate components, directives, and pipes into cohesive blocks of functionality, each focused on a feature area, application business domain, workflow, or common collection of utilities. With the advent of standalone components, their use is on the decline.
 
 ## Sources
 
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
-- [Angular documentation](https://angular.io/docs)
+- [Angular documentation](https://angular.dev/overview)
 
 To go further you may be interested in these articles:
 - [TypeScript 4.0 Cheat Sheet](https://www.sitepen.com/blog/typescript-cheat-sheet)
