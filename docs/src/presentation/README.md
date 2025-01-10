@@ -7,6 +7,12 @@ Angular is more than just a frontend framework with which to build Single Page A
 - A collection of well-integrated libraries that cover a wide variety of features including routing, form management, client-server communication, progressive web apps and more.
 - A suite of developer tools to help you develop, build, test, and update your code via the Angular CLI.
 
+Angular is developped and maintained by Google, its initial release date was in September 2016. It is a full rewriting of AngularJS and as such is a different framework.
+
+## A bit of history
+
+AngularJS, developed by Google and released in 2010, was a pioneering framework for building dynamic web applications using HTML and JavaScript. Its key features, such as two-way data binding and dependency injection, revolutionized front-end development by allowing developers to build complex applications more efficiently. In 2016, Google released Angular 2, a complete rewrite of AngularJS, introducing a component-based architecture and significant performance improvements. This marked the transition to the modern "Angular" framework (without the "JS"). Subsequent versions, starting from Angular 4, continued to enhance performance, introduce new features like Angular Universal for server-side rendering, and improve tooling with the Angular CLI.
+
 ## Server generated pages vs SPA + API
 
 There are two common models for developing websites:
@@ -45,3 +51,27 @@ Angular presents numerous advantages:
 - Its rich official library ecosystem enables great consistency across projects which means that when transferring teams or projects you will only need to learn about the new business domain and not an entirely new way of doing things because another library set choice was made.
 - It is very well documented and the consistency in the way the framework is used means you are more than likely to find any question you may encounter along your learning journey already answered.
 - The Angular team takes a lot of pride in how easy they make updating Angular projects, providing easy steps to follow and some fully automated migration.
+
+## Framework comparison
+
+### React
+**Strengths**: Flexibility, large ecosystem, strong community support.  
+**Key Features**: Component-based architecture, promoting reusable UI components.  
+**Use Cases**: Ideal for large-scale applications due to its efficient rendering capabilities.
+
+### Angular
+**Strengths**: Comprehensive framework with built-in features.  
+**Key Features**: Dependency injection, powerful routing capabilities, predefined tools.  
+**Use Cases**: Best suited for enterprise-level applications that require a robust structure.
+
+### Vue.js
+**Strengths**: Simplicity and ease of integration, gentle learning curve.  
+**Key Features**: Reactive data binding and a flexible architecture allow for scalability.  
+**Use Cases**: Commonly used in projects ranging from small applications to large-scale deployments, especially when a quick setup is needed.
+
+### Svelte
+**Strengths**: Innovative compilation approach, performance.  
+**Key Features**: Compiles components at build time, resulting in optimized output with minimal runtime overhead.  
+**Use Cases**: Suitable for projects where performance is critical and where developers seek to minimize client-side processing.
+
+The choice of framework depends on project requirements, team expertise, and preferred development paradigms. Each framework has its unique strengths and is suited for different types of development needs.
