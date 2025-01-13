@@ -27,7 +27,7 @@ Les pipes peuvent être enchaînés :
 
 ## Pipes intégrés
 
-Angular fournit plus d'une [douzaine de pipes intégrés](https://angular.io/api?type=pipe) pour couvrir les cas d'utilisation courants. Voici leur liste complète :
+Angular fournit plus d'une [douzaine de pipes intégrés](https://angular.dev/api?type=pipe) pour couvrir les cas d'utilisation courants. Voici leur liste complète :
 - `AsyncPipe` déballe une valeur d'une primitive asynchrone
 - `CurrencyPipe` transforme un nombre en une chaîne de caractère formatée avec la devise selon les règles de locale
 - `DatePipe` formate une valeur de date selon les règles de locale
@@ -42,8 +42,12 @@ Angular fournit plus d'une [douzaine de pipes intégrés](https://angular.io/api
 - `TitleCasePipe` transforme le texte en casse de titre
 - `UpperCasePipe` transforme le texte en majuscules
 
+::: warning Import
+Les pipes ne font pas partie des imports par défaut du composant depuis le passage aux standalone components. Vous devez faire l'import vous-même en ajoutant la classe du pipe que vous souhaitez utiliser dans le template au tableau d'imports du décorateur `@Component` du composant.
+:::
+
 **Exercice : Formatez le prix (en EUR) et la date ('EEEE dd MMMM y'), tous deux en français**
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-currency-pipe-training-example?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/fork/github/ocunidee/atpw-builtin-pipe/tree/master?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1&title=Built-in%20pipes"></iframe>
 
 ## Custom pipe
 
@@ -54,7 +58,7 @@ Pour créer un Pipe personnalisé, vous devez :
 - décorez-la avec le décorateur `@Pipe()`
 - l'ajouter aux `declarations` (et `exports` si besoin) de son module associé
 
-Le CLI s'occupera de ces trois points pour nous via la [commande suivante](https://angular.io/cli/generate#pipe):
+Le CLI s'occupera de ces trois points pour nous via la [commande suivante](https://angular.dev/cli/generate/pipe):
 
 ```sh
 ng generate pipe <name>
@@ -83,11 +87,11 @@ Comme toute autre classe, les pipes peuvent utiliser leur constructeur pour bén
 
 Dans l'exemple suivant, le prix remisé est calculé en fonction d'un taux de remise. Aucune donnée du catalogue dans le composant n'est mutée pour afficher le nouveau prix.
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-pipe-exemple?embed=1&file=src/app/discounted.pipe.ts&ctl=1&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/fork/github/ocunidee/atpw-custom-pipe/tree/master?ctl=1&embed=1&file=src/app/discounted.pipe.ts&hideNavigation=1&title=Custom%20pipe"></iframe>
 
 ## Utiliser un pipe en dehors d'un template
 
-Il est également possible d'utiliser des pipes dans une classe de composant en l'injectant dans son constructeur et en appelant sa méthode transform. Le pipe doit être importé dans le module auquel appartient le composant et ajouté aux providers du composant ou du module (à privilégier).
+Il est également possible d'utiliser des pipes dans une classe de composant en l'injectant dans son constructeur et en appelant sa méthode transform. Le pipe doit alors être ajouté aux providers du composant ou de l'*ApplicationConfig*. Lorsqu'un pipe n'est pas utilisé dans le template, il n'a pas besoin d'être présent dans le tableau des imports du composant.
 
 ```ts
 import { Component } from '@angular/core'
@@ -108,7 +112,7 @@ export class AppComponent {
 ```
 ## TP : Format du score
 1. Créez un pipe `starRating` à l'aide du CLI dans le dossier `app/pipes`.
-2. Implémentez l'intérieur de la méthode transform de sorte que le métascore d'un film s'affiche avec une note de ★ à cinq ★★★★★.
+2. Implémentez l'intérieur de la méthode transform de sorte que le métascore d'un film s'affiche avec une note de ★ à cinq ★★★★★. Modifier la signature de la méthode transform pour qu'elle soit plus spécifique à votre cas.
 3. Utilisez ce pipe dans le template du `LoginFormComponent`.
 4. Commitez
 

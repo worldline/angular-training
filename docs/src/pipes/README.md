@@ -27,7 +27,7 @@ Pipes can be chained:
 
 ## Built-in pipes
 
-Angular provides over a [dozen built-in pipes](https://angular.io/api?type=pipe) to cover common use cases. Here is a complete list of them:
+Angular provides over a [dozen built-in pipes](https://angular.dev/api?type=pipe) to cover common use cases. Here is a complete list of them:
 - `AsyncPipe` unwraps a value from an asynchronous primitive
 - `CurrencyPipe` transforms a number to a currency string according to locale rules
 - `DatePipe` formats a date value according to locale rules
@@ -42,8 +42,12 @@ Angular provides over a [dozen built-in pipes](https://angular.io/api?type=pipe)
 - `TitleCasePipe` transforms text to title case
 - `UpperCasePipe` transforms text to all upper case
 
+::: warning Import
+Pipes are not part of the default imports of a standalone component. You have to make the import yourself: add the class of the pipe to the imports array of your component's `@Component` decorator to make it available in the template.
+:::
+
 **Exercise: Format the price (in EUR) and the date ('EEEE dd MMMM y'), both in French**
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-currency-pipe-training-example?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/fork/github/ocunidee/atpw-builtin-pipe/tree/master?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1&title=Built-in%20pipes"></iframe>
 
 ## Custom pipe
 
@@ -54,7 +58,7 @@ Creating a custom Pipe requires you to:
 - decorate it with the `@Pipe()` decorator
 - add it to the `declarations` (and `exports` if need be) of its associated module
 
-The CLI will take care of these three points for us via the following [command](https://angular.io/cli/generate#pipe):
+The CLI will take care of these three points for us via the following [command](https://angular.dev/cli/generate/pipe):
 
 ```sh
 ng generate pipe <name>
@@ -83,11 +87,11 @@ Just like any other class, pipes can make use of their constructor to benefit fr
 
 In the following example, the discounted price is calculated given a discount rate. No catalogue data in the component is mutated to display the new price.
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-pipe-exemple?embed=1&file=src/app/discounted.pipe.ts&ctl=1&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/fork/github/ocunidee/atpw-custom-pipe/tree/master?ctl=1&embed=1&file=src/app/discounted.pipe.ts&hideNavigation=1&title=Custom%20pipe"></iframe>
 
 ## Using a pipe outside the template
 
-It is also possible to use pipes in a component class by injecting it in its constructor and calling its transform method. The pipe needs to be imported in the module to which the component belongs and added to the providers of the component or of the module.
+It is also possible to use pipes in a component class by injecting it in its constructor and calling its transform method. The pipe needs to be added to the providers array of the component decorator or *ApplicationConfig*. When not used in the template, the pipe doesn't need to be present in the imports array of the component decorator.
 
 ```ts
 import { Component } from '@angular/core'
@@ -108,7 +112,7 @@ export class AppComponent {
 ```
 ## Practical work: format rating
 1. Create a `starRating` pipe using the CLI in the folder `app/pipes`.
-2. Implement the inside of the transform method so that a film's metascore is displayed with ★ to five ★★★★★ rating.
+2. Implement the inside of the transform method so that a film's metascore is displayed with ★ to five ★★★★★ rating. Change the transform signature to make it more specific to your case.
 3. Use this pipe in the template of the `LoginFormComponent`.
 4. Commit
 
