@@ -4,7 +4,7 @@ We've previously seen that:
 - a component is a class decorated with the `@Component` decorator
 - it is generated via the CLI by the `ng g c component-name` command
 - by default, a component is generated with an associated html file and stylesheet file
-- the `@Component` decorator has [options](https://angular.io/api/core/Component#description) like `templateUrl`, `styleUrl` or `selector`.
+- the `@Component` decorator has [options](https://angular.dev/api/core/Component#description) like `templateUrl`, `styleUrl` or `selector`.
 
 ## View encapsulation and styling
 
@@ -24,10 +24,10 @@ Under the default option, styles specified in the component's style file are not
 ### `:host` selector
 Situations may arise where styling the host element of the component from the component's stylesheet is needed. To do so, Angular provides a pseudo-class selector: `:host`.
 
-Let's imagine we require a border on the AppComponent. This is how to add it:
+Let's imagine we require a border on the LoginFormComponent. This is how to add it without having to add a `<div>` around the `<form>` and the `<ul>`:
 
 <CodeGroup>
-<CodeGroupItem title="app.component.scss">
+<CodeGroupItem title="login-form.component.scss">
 
 ```css
 :host {
@@ -40,7 +40,7 @@ Let's imagine we require a border on the AppComponent. This is how to add it:
 The next example targets the host element again, but only when it also has the active CSS class.
 
 <CodeGroup>
-<CodeGroupItem title="app.component.scss">
+<CodeGroupItem title="login-form.component.scss">
 
 ```css
 :host(.active) {
@@ -91,7 +91,7 @@ Here is how the `AppComponent` would communicate to its child component `BlogPos
 // app.component.ts
 import { Component } from "@angular/core"
 @Component({
-  selector: "my-app",
+  selector: "app-root",
   templateUrl: "./app.component.html"
 })
 export class AppComponent {
@@ -131,6 +131,57 @@ export class BlogPostComponent {
 
 To watch for changes on an `@Input()` property, you can use the `ngOnChanges` lifecycle hook.
 
+::: details input() function to work with Signals (Angular 17+)
+The *zone.js* library serves as a critical foundation for change detection in Angular, enabling the framework to automatically track asynchronous operations like HTTP calls, timers or user interactions. By creating execution contexts, *zone.js* allows Angular to know when to update the user interface without manual intervention from developers. As you become proficient in Angular, understanding how Zone.js manages change detection is of great help to optimise the code and tackle complex use cases. Since Angular 17 and particularly the introduction of reactive programming features in Angular, the reliance on *zone.js* is being reconsidered as it is considered an overhead that is not always optimised. As of Angular 19, it is possible to experimentally opt-out of using *zone.js* to manage change detection. Developers are encouraged to explore new reactive paradigms, such as signals and the refined change detection strategies as alternatives to enhance performance and streamline state management. As you advance your Angular skills, staying abreast of these changes will empower you to build more optimised and maintainable applications.
+
+As of Angular 17, it is possible to shift from using the traditional `@Input()` decorator to the more functional `input()` method to communicate data from a parent to a child component. This change is part of Angular's effort to improve performance and simplify change detection while moving away from the overhead of *zone.js*. While `@Input()` automatically triggers change detection through *zone.js*, the `input()` function allows developers to create reactive inputs that are closely integrated with Angular’s new signal-based architecture.
+
+For example:
+
+```ts
+import { Component, signal, input } from '@angular/core'
+
+@Component({
+  selector: 'app-parent',
+  template: `<app-child [childValue]="parentValue()"></app-child>`
+})
+export class ParentComponent {
+  parentValue = signal('Hello from Parent!')
+}
+
+@Component({
+  selector: 'app-child',
+  template: `<p>Received Value: {{ childValue }}</p>`
+})
+export class ChildComponent {
+  childValue = input('Default Value')
+}
+```
+
+In this example, the ParentComponent uses a signal to pass a reactive value to the ChildComponent, which defines `childValue` using the `input()` function.
+
+When creating reactive inputs using the `input()` function in Angular, you have the flexibility to define whether an input can have a default value or if it is required. When you specify a default value for an input using the `input()` function, it means that the component can operate with that initial value if no external data is passed in from a parent component. This can be particularly useful for creating components that have sensible defaults. If the parent does not provide a value, the component will still render without issues. On the other hand, required inputs indicate that the parent component **must** provide a value for that input.
+
+```ts
+import {Component, input} from '@angular/core'
+
+@Component({/*...*/})
+export class CustomSlider {
+  // Declare a required input named 'value'. 
+  value = input.required<number>()
+  // Create a computed expression that reads the value input
+  label = computed(() => `The slider's value is ${this.value()}`)
+}
+```
+And here is how you must pass data to the required `value` input:
+
+```html
+<custom-slider [value]="50"></custom-slider>
+```
+
+As you can see, as long as the application is using *zone.js*, the parent doesn't have to pass a Signal, it can pass regular values or primitives.
+:::
+
 **Exercise: Pass down each book's info to the BookComponent**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-input-training?ctl=1&embed=1&file=src/app/book/book.component.ts&hideNavigation=1"></iframe>
 
@@ -163,7 +214,9 @@ export class AppComponent {
 // app.component.html
 <h1>My To-do list</h1>
 <ul>
-  <li *ngFor="let item of items">{{item}}</li>
+  @for(item of items; track item) {
+    <li>{{item}}</li>
+  }
 </ul>
 <app-add-task (newTask)="addItem($event)"></app-add-task>
 ```
@@ -194,6 +247,64 @@ export class AddTaskComponent {
 </CodeGroup>
 
 You can play with this example [here](https://stackblitz.com/edit/angular-output-training-example?file=src/app/app.component.ts).
+
+::: details output() function (Angular 17+)
+The same way `input()` is replacing `@Input()`, `output()` is replacing `@Output()`. Here is the above exemple using the new `output()` function.
+
+<CodeGroup>
+<CodeGroupItem title="Parent component">
+
+```ts
+// app.component.ts
+import { Component } from "@angular/core"
+@Component({
+  selector: "my-app",
+  templateUrl: "./app.component.html"
+})
+export class AppComponent {
+  items = ['Do the laundry', 'Wash the dishes', 'Read 20 pages']
+
+  addItem(item: string): void {
+    this.items.push(item)
+  }
+}
+
+// app.component.html
+<h1>My To-do list</h1>
+<ul>
+  @for(item of items; track item) {
+    <li>{{item}}</li>
+  }
+</ul>
+<app-add-task (newTask)="addItem($event)"></app-add-task>
+```
+</CodeGroupItem>
+
+<CodeGroupItem title="Child component">
+
+```ts
+// add-task.component.ts
+import { Component, output } from "@angular/core"
+@Component({
+  selector: "app-add-task",
+  templateUrl: "./add-task.component.html"
+})
+export class AddTaskComponent {
+  newTask = output<string>()
+
+  addNewTask(task: string): void {
+    this.newTask.emit(task)
+  }
+}
+
+// add-task.component.html
+<label>New task: <input #newTask/></label>
+<button (click)="addNewTask(newTask.value)">Add</button>
+```
+</CodeGroupItem>
+</CodeGroup>
+
+:::
 
 **Exercise: Books are now borrowable, communicate when books are borrowed to their parent component**
 <iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-output-training?ctl=1&embed=1&file=src/app/book/book.component.html&hideNavigation=1"></iframe>
@@ -420,6 +531,6 @@ Do not replace the comment with the list of `FilmComponent` yet. This will be do
 :::
 
 ## To go further
-Learn about context aware content projection using [ngTemplateOutlet](https://indepth.dev/posts/1405/ngtemplateoutlet)
+Learn about context aware content projection using [ngTemplateOutlet](https://angular.love/ngtemplateoutlet-the-secret-to-customisation)
 
 Angular 14 has introduced *standalone components* and there were taken out of beta in Angular 15. You can learn more about them [here](https://blog.ninja-squad.com/2022/05/12/a-guide-to-standalone-components-in-angular/)
