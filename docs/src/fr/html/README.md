@@ -226,7 +226,7 @@ La directive `ngModel` ne fait pas partie des imports par défaut du composant. 
 :::
 
 **Exercice : utilisez [(ngModel)] sur les balises input, select, radio et checkbox**
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-ngmodel-training?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/fork/github/ocunidee/atpw-ngmodel/tree/master?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1&title=NgModel%20directive"></iframe>
 
 
 ## Bloc @if
