@@ -23,7 +23,6 @@ Les applications générées vont dans le dossier `projects/` au lieu d'un dossi
 ## Structure des fichiers
 
 Notre projet précédemment créé contient les dossiers et fichiers suivants :
-- `.eslintrc.json`: la configuration ESLint par défaut du workspace
 - `tsconfig.json`: la configuration TypeScript de base pour les projets dans le workspace
 - `tsconfig.app.json`: le fichier de configuration TypeScript de l'application racine qui hérite de celui de base
 - `tsconfig.spec.json`: le fichier de configuration TypeScript des tests e2e qui hérite de celui de base
@@ -35,6 +34,8 @@ Notre projet précédemment créé contient les dossiers et fichiers suivants :
 - `.editorconfig`: Configuration pour les éditeurs de code
 - `src`: Fichiers sources pour l'application racine
 - `node_modules`: Fournit des packages npm à l'ensemble du workspace
+- `public`: Contient la favicon et est le dossier où mettre les images et autres fichiers d'assets à copier tel quel lors du build de l'application
+- `.angluar`: Fichiers de cache
 
 :::tip
 Pour s'assurer que tous les développeurs travaillant sur un projet utilisent les mêmes versions de librairies, il est possible de [bloquer les numéros de version](https://docs.npmjs.com/cli/v7/configuring-npm/package-json#dependencies) via le fichier `package.json`.
@@ -44,13 +45,11 @@ Le dossier `src` contient :
 - `styles.scss`: Liste les fichiers CSS qui fournissent des styles pour un projet. L'extension reflète le préprocesseur de style que vous avez configuré pour le projet.
 - `main.ts`: Le point d'entrée principal de votre application
 - `index.html`: La page HTML principale qui est diffusée lorsqu'un internaute visite votre site. Le CLI ajoute automatiquement tous les fichiers JavaScript et CSS lors de la création de votre application, vous n'avez donc généralement pas besoin d'ajouter manuellement de balises `<script>` ou `<link>` ici.
-- `favicon.ico`: Une icône à utiliser pour cette application dans la barre de favoris
-- `assets`: Contient des images et d'autres fichiers d'assets à copier tels quels lors du build de votre application
 - `app`: Contient les fichiers de composants dans lesquels la logique et les données de votre application sont définies
 
 Le dossier `app` contient :
-- `app.module.ts`: Définit le module racine, nommé AppModule, qui indique à Angular comment assembler l'application. Déclare initialement uniquement l'`AppComponent`. Au fur et à mesure que vous ajoutez d'autres composants à l'application, ils doivent être déclarés ici.
-- `app-routing.module.ts`: Définit un module de routage pour l'`AppModule`
+- `app.config.ts`: Définit la configuration de l'application qui dit à Angular comment assembler l'application
+- `app.routes.ts`: Définit la configuration de routage pour l'application
 - `app.component.html`: Définit le template HTML associé au composant racine `AppComponent`
 - `app.component.scss`: Définit la feuille de style de base pour le composant racine `AppComponent`
 - `app.component.ts`: Définit la logique du composant racine de l'application, nommé `AppComponent`. La vue associée à ce composant racine est la racine de la hiérarchie des vues.
@@ -120,7 +119,7 @@ L'`AppComponent` n'est que le composant racine d'une application Angular. Une ap
 
 ![Component tree](../../assets/tree.png)
 
-Créons un second composant. Il est conseillé de générer les composants en utilisant le [CLI Angular](https://angular.io/cli/generate#component).
+Créons un second composant. Il est conseillé de générer les composants en utilisant le [CLI Angular](https://angular.dev/cli/generate#component).
 
 ```bash
 ng g c child #shorthand for ng generate component child
@@ -134,6 +133,7 @@ import { Component } from '@angular/core'
 
 @Component({
   selector: 'app-child',
+  imports: [],
   templateUrl: './child.component.html',
   styleUrls: ['./child.component.scss']
 })
@@ -142,20 +142,44 @@ export class ChildComponent {
 }
 ```
 
-Pour lier les composants entre eux, les composants enfants sont déclarés dans le template de leur composant parent, en utilisant leur sélecteur comme balise. Un composant peut être réutilisé autant de fois que souhaité. Le sélecteur de `ChildComponent` est `app-child`. L'inclusion de ce composant en tant qu'enfant de l'`AppComponent` se fait comme suit :
+Pour lier les composants entre eux, les composants enfants sont déclarés dans le template de leur composant parent, en utilisant leur sélecteur comme balise. Le composant enfant doit aussi être ajouté au tableau des `imports` présent dans le décorateur du parent. Un composant peut être réutilisé autant de fois que souhaité. Le sélecteur de `ChildComponent` est `app-child`. L'inclusion de ce composant en tant qu'enfant de l'`AppComponent` se fait comme suit :
+
+
+<CodeGroup>
+<CodeGroupItem title="app.component.html">
 
 ```html
-<!-- app.component.html -->
 <h1>{{title}}</h1>
 <app-child></app-child>
 ```
+</CodeGroupItem>
+<CodeGroupItem title="app.component.ts">
+
+```ts{2,6}
+import { Component } from '@angular/core'
+import { ChildComponent } from './child/child.component'
+
+@Component({
+  selector: 'app-root',
+  imports: [ChildComponent],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss'
+})
+export class AppComponent {
+  title = 'Search Films'
+}
+```
+</CodeGroupItem>
+</CodeGroup>
 
 :::tip
 Angular préfixe automatiquement les sélecteurs afin que les composants importés de librairies externes soient plus faciles à repérer. Par exemple, les composants de la librairie Material Angular sont tous préfixés par `mat-`. Vous pouvez modifier le préfixe de l'application dans le fichier de configuration « angular.json » afin qu'il reflète le nom de votre application.
 :::
 
-## NgModules
-En coulisse, la commande `ng g c` a également déclaré le composant `Child` dans l'`AppModule`.
+::: details NgModules (avant Angular 17 et l'architecture en composant autonome)
+De nos jours, les composants sont déclarés comme autonomes par défaut. C'est pourquoi la propriété `standalone` n'est plus présente dans le décorateur `@Component` par défaut. Avant la mise en œuvre des composants autonomes, l'architecture d'une application Angular dépendait des NgModules. Chaque composant devait être déclaré dans un NgModule pour être utilisable dans l'application. Chaque NgModule pouvait déclarer autant de composants que le développeur le souhaitait. Le module s'occupait de s'assurer que chaque composant avait accès aux dépendances dont il avait besoin, en effectuant tous les imports requis. Avec les composants autonomes, cette responsabilité est maintenant dévolue à chaque composant. C'est pourquoi il y a désormais un tableau `imports` dans la définition de `@Component`. Vous pouvez encore rencontrer des architectures utilisant des NgModules et étant dans la dernière version d'Angular car refactoriser une application complète pour utiliser des composants autonomes peut être une tâche longue et risquée.
+
+En coulisse, la commande `ng g c` déclairait également le composant `Child` dans l'`AppModule` qui était le module racine de l'application.
 
 ```typescript {12}
 // app.module.ts
@@ -189,25 +213,27 @@ Un NgModule est défini par une classe décorée avec `@NgModule()`. Le décorat
 - `providers`: Créateurs de services que ce NgModule contribue à la collection globale de services ; ils deviennent accessibles dans toutes les parties de l'application. (Vous pouvez également spécifier des providers au niveau du composant.)
 - `bootstrap`: La vue principale de l'application, appelée composant racine, qui héberge toutes les autres vues de l'application. Seul le NgModule racine doit définir la propriété bootstrap.
 
-Bien qu'une petite application puisse n'avoir qu'un seul NgModule, au fur et à mesure que l'application grandit, il est recommandé de refactoriser le module racine en modules de fonctionnalités qui représentent des collections de fonctionnalités connexes. Vous pouvez ensuite soit importer ces modules dans le module racine (eagerly loaded) ou les charger de manière asynchrone via le routeur (lazily loaded).
+Bien qu'une petite application puisse n'avoir qu'un seul NgModule, au fur et à mesure que l'application grandit, il était recommandé de refactoriser le module racine en modules de fonctionnalités qui représentent des ensembles de fonctionnalités connexes. Vous pouviez ensuite soit importer ces modules dans le module racine (eagerly loaded) ou les charger de manière asynchrone via le routeur (lazily loaded).
+:::
 
 ## Organiser vos fichiers
 Voici la structure de dossiers que nous nous efforcerons d'atteindre dans l'application Search Films :
 
-![Mono module folder structure](../../assets/folder-structure.png)
+![Simple folder structure](../../assets/folder-structure.png)
 
 Cette structure de dossiers est la mieux adaptée aux projets simples qui n'ont qu'un seul module, l'`AppModule`. Au fur et à mesure qu'un projet grandit, des modules de fonctionnalités seront introduits et la structure peut évoluer vers ceci :
 
-![Multi module folder structure](../../assets/folder-structure-multi-module.png)
+![Multi feature folder structure](../../assets/folder-structure-multi-module.png)
 
 :::tip
-Par défaut, le CLI toujours générera toujours dans le dossier `app`. Vous pouvez lui dire de générer dans un autre dossier en passant le chemin avant le nom de l'élément que vous souhaitez qu'il génère. Par exemple, `ng generate component components/test` générera les quatre fichiers du composant `TestComponent` dans `app/components/test`. Le dossier `components` est créé par le CLI s'il n'existait pas déjà, ainsi que le dossier `test`.
+Par défaut, le CLI toujours générera toujours dans le dossier `app`. Vous pouvez lui dire de générer dans un autre dossier en passant le chemin avant le nom de l'élément que vous souhaitez qu'il génère. Par exemple, `ng generate component components/dashboard` générera les quatre fichiers du composant `DashboardComponent` dans `app/components/dashboard`. Le dossier `components` est créé par le CLI s'il n'existait pas déjà, ainsi que le dossier `dashboard`.
 :::
 
 Au fur et à mesure que la complexité de la structure des dossiers de l'application augmente, il est recommandé d'ajouter des alias dans le fichier `tsconfig.json`. Faisons-le maintenant pour s'éviter un refactoring pénible plus tard :
 ```json
-"compilerOptions": { 
-  ...
+"compilerOptions": {
+  //...
+  "baseUrl": "./src",
   "paths": {
     "@models/*": ["src/app/models/*"],
     "@services/*": ["src/app/services/*"],
@@ -217,14 +243,14 @@ Au fur et à mesure que la complexité de la structure des dossiers de l'applica
   }
 }
 ```
-VsCode utilisera automatiquement ces chemins pour les imports au lieu de ceux relatifs qui peuvent être difficiles à lire ou à débuguer.
+VsCode utilisera automatiquement ces chemins pour les imports au lieu de ceux relatifs qui peuvent être difficiles à lire ou à maintenir.
 
 
 ## TP: Premier composant
 
-1. Supprimez tous les changements faits à votre projet depuis le commit ajoutant ESLint. Ils ne sont pas nécessaires au TP.
+1. Si vous avez créé le composant `child`, supprimez-le car il n'est pas nécessaire dans la suite du TP et enlever son import dans l'`AppComponent`. Une erreur risque d'apparaître dans la console d'où le projet a été lancé suite à la suppression. Dans ce cas-là, redémarrez le projet.
 
-2. La plupart des applications s'efforcent d'avoir une apparence cohérente sur l'ensemble de l'application. Le CLI a généré un `styles.scss` vide à cet effet. Copiez coller dedans le contenu de la feuille de style SCSS qui servira de base à tous les travaux pratiques, téléchargeable ici : [styles.scss](https://worldline.github.io/angular-training/styles.scss).
+2. La plupart des applications s'efforcent d'avoir une apparence cohérente sur l'ensemble de l'application. Le CLI a généré un fichier `styles.scss` vide à cet effet. Copiez coller dedans le contenu de la feuille de style SCSS qui servira de base à tous les travaux pratiques, téléchargeable ici : [styles.scss](https://worldline.github.io/angular-training/styles.scss).
 
 3. Créer un nouveau composant login-form contenant le formulaire d'authentification suivant (n'oubliez pas de le générer dans le dossier *components*):
 ```html
@@ -243,7 +269,7 @@ VsCode utilisera automatiquement ces chemins pour les imports au lieu de ceux re
 
 ```
 
-4. Supprimez le contenu existant dans le template du composant `AppComponent` (fichier html du composant) et affichez le `LoginFormComponent` à la place avec `<app-login-form></app-login-form>`. Vérifiez que le CLI a ajouté le `LoginFormComponent` à la liste de `déclarations` dans l'`AppModule`.
+4. Supprimez le contenu existant dans le template du composant `AppComponent` (fichier html du composant) si pas déjà fait ainsi que les variables déclarées dans la classe de l'`AppComponent`. Affichez le `LoginFormComponent` à la place avec `<app-login-form></app-login-form>`. Vérifiez que le CLI a ajouté le `LoginFormComponent` à la liste de `déclarations` dans l'`AppModule`.
 
 5. Complétez le fichier `login-form.component.ts` : ajoutez un champ `title = 'Authentication'`. Ensuite, utilisez l'*interpolation binding* dans le template pour passer le titre défini dans le fichier ts du composant à la balise h1 du template.
 

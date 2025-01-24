@@ -23,7 +23,6 @@ Generated applications go into the `projects/` folder instead of a top-level `sr
 ## File structure
 
 Our previously created project has the following folders and files:
-- `.eslintrc.json`: the default ESLint configuration of the workspace
 - `tsconfig.json`: the base TypeScript configuration for projects in the workspace
 - `tsconfig.app.json`: the root application TypeScript configuration file which inherits from the base one
 - `tsconfig.spec.json`: the e2e tests TypeScript configuration file which inherits from the base one
@@ -35,6 +34,8 @@ Our previously created project has the following folders and files:
 - `.editorconfig`: Configuration for code editors
 - `src`: Source files for the root-level application project
 - `node_modules`: Provides npm packages to the entire workspace
+- `public`: Contains the favicon initially and is the place for images and other asset files to be copied as-is when you build your application
+- `.angular`: Cache files
 
 :::tip
 To ensure that all developers working on a project use the same library versions, it is possible to [block the version numbers](https://docs.npmjs.com/cli/v7/configuring-npm/package-json#dependencies) via the `package.json` file.
@@ -44,13 +45,11 @@ The `src` folder contains:
 - `styles.scss`: Lists CSS files that supply styles for a project. The extension reflects the style preprocessor you have configured for the project.
 - `main.ts`: The main entry point for your application
 - `index.html`: The main HTML page that is served when someone visits your site. The CLI automatically adds all JavaScript and CSS files when building your app, so you typically don't need to add any `<script>` or `<link>` tags here manually.
-- `favicon.ico`: An icon to use for this application in the bookmark bar
-- `assets`: Contains image and other asset files to be copied as-is when you build your application
 - `app`: Contains the component files in which your application logic and data are defined
 
 The `app` folder contains:
-- `app.module.ts`: Defines the root module, named AppModule, that tells Angular how to assemble the application. Initially declares only the `AppComponent`. As you add more components to the app, they must be declared here.
-- `app-routing.module.ts`: Defines a routing module for the `AppModule`
+- `app.config.ts`: Defines the application configuration that tells Angular how to assemble the application.
+- `app.routes.ts`: Defines the application's routing configuration
 - `app.component.html`: Defines the HTML template associated with the root `AppComponent`
 - `app.component.scss`: Defines the base stylesheet for the root `AppComponent`
 - `app.component.ts`: Defines the logic for the app's root component, named `AppComponent`. The view associated with this root component is the root of the view hierarchy.
@@ -120,7 +119,7 @@ The `AppComponent` is only the root component of an Angular application. A web a
 
 ![Component tree](../assets/tree.png)
 
-Let's create a second component. It is advised to generate components using the [Angular CLI](https://angular.io/cli/generate#component).
+Let's create a second component. It is advised to generate components using the [Angular CLI](https://angular.dev/cli/generate#component).
 
 ```bash
 ng g c child #shorthand for ng generate component child
@@ -134,6 +133,7 @@ import { Component } from '@angular/core'
 
 @Component({
   selector: 'app-child',
+  imports: [],
   templateUrl: './child.component.html',
   styleUrls: ['./child.component.scss']
 })
@@ -142,20 +142,43 @@ export class ChildComponent {
 }
 ```
 
-To link the components together, the child components are declared in their parent's component template, using their selector as a tag. A component can be reused as many times as desired. The `ChildComponent`'s selector is `app-child`. Including this component as a child to the `AppComponent` is done as follows:
+To link the components together, the child components are declared in their parent's component template, using their selector as a tag. The child component also needs to be added to the `imports` array of the parent component decorator. A component can be reused as many times as desired. The `ChildComponent`'s selector is `app-child`. Including this component as a child to the `AppComponent` is done as follows:
+
+<CodeGroup>
+<CodeGroupItem title="app.component.html">
 
 ```html
-<!-- app.component.html -->
 <h1>{{title}}</h1>
 <app-child></app-child>
 ```
+</CodeGroupItem>
+<CodeGroupItem title="app.component.ts">
+
+```ts{2,6}
+import { Component } from '@angular/core'
+import { ChildComponent } from './child/child.component'
+
+@Component({
+  selector: 'app-root',
+  imports: [ChildComponent],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss'
+})
+export class AppComponent {
+  title = 'Search Films'
+}
+```
+</CodeGroupItem>
+</CodeGroup>
 
 :::tip
 Angular automatically prefixes selectors so that components imported from external libraries are easier to spot. For instance, components from the Material Angular library are all prefixed with `mat-`. You can change the app prefix in the `angular.json` configuration file so that it reflects your application name.
 :::
 
-## NgModules
-Behind the scene, the `ng g c` command also declared the `Child` component in the `AppModule`.
+::: details NgModules (before Angular 17 and the standalone component architecture)
+Nowadays, components are declared as standalone by default. That is why the `standalone` property is not present in the `@Component` decorator by default anymore. Before the implementation of standalone, the architecture of an Angular app depended on NgModules. Each component had to be declared in an NgModule to be usable in the application. Each NgModule could declare as many components as the developer saw fit. The module was taking care of making sure that each component had access to its necessary dependencies, making all the necessary imports. With standalone components, this responsibility is now deported to each component. That is why there is now an `imports` array in the definition of `@Component`. You may still encounter architectures on the lastest version of Angular making use of NgModules as refactoring a whole application to use standalone components can be a big and risky endeavor.
+
+Behind the scene, the `ng g c` command used to declare the `Child` component in the `AppModule` which was the root module of the application.
 
 ```typescript {12}
 // app.module.ts
@@ -189,25 +212,28 @@ An NgModule is defined by a class decorated with `@NgModule()`. The `@NgModule()
 - `providers`: Creators of services that this NgModule contributes to the global collection of services; they become accessible in all parts of the app. (You can also specify providers at the component level.)
 - `bootstrap`: The main application view, called the root component, which hosts all other app views. Only the root NgModule should set the bootstrap property.
 
-While a small application might have only one NgModule, as the app grows, it is a good practice to refactor the root module into feature modules that represent collections of related functionality. You then either import these modules into the root module (eagerly loaded) or lazy load them asynchronously via the router.
+While a small application might have had only one NgModule, as the app grows, it was a good practice to refactor the root module into feature modules that represented collections of related functionality. You then either imported these modules into the root module (eagerly loaded) or lazy loaded them asynchronously via the router.
+:::
 
 ## Organising your files
 Here is the folder structure we will strive to achieve in the Search Films application:
 
-![Mono module folder structure](../assets/folder-structure.png)
+<!-- TODO replace image-->
+![Simple folder structure](../assets/folder-structure.png)
 
-This folder structure is best suited to simple projects that have only one module, the `AppModule`. As a project grows, feature modules will be introduced and the structure can evolve to this:
+This folder structure is best suited to simple projects with only one main feature that has its routes defined in one place, the `app-route.ts` file. As a project grows, feature folders and routes will be introduced and the structure can evolve to this:
 
-![Multi module folder structure](../assets/folder-structure-multi-module.png)
+![Multi feature folder structure](../assets/folder-structure-multi-module.png)
 
 :::tip
-By default, the CLI will always generate in the `app` folder. You can tell it to generate in another folder by passing the path before the name of the element you want it to generate. For instance `ng generate component components/test` will generate the `TestComponent` 4 files in `app/components/test`. The `components` folder is created by the CLI if doesn't already exist, as well as the `test` folder.
+By default, the CLI will always generate in the `app` folder. You can tell it to generate in another folder by passing the path before the name of the element you want it to generate. For instance `ng generate component components/dashobard` will generate the `DashboardComponent` 4 files in `app/components/dashboard`. The `components` folder is created by the CLI if it doesn't already exist, as well as the `dashboard` folder.
 :::
 
 As the complexity of the folder structure of the application increases, it is a good practice to add aliases in the `tsconfig.json` file. Let's do it now to avoid a tedious refactoring later:
 ```json
-"compilerOptions": { 
-  ...
+"compilerOptions": {
+  //...
+  "baseUrl": "./src",
   "paths": {
     "@models/*": ["src/app/models/*"],
     "@services/*": ["src/app/services/*"],
@@ -217,14 +243,14 @@ As the complexity of the folder structure of the application increases, it is a 
   }
 }
 ```
-VsCode will automatically use those paths for the imports instead of relative ones that can be tough to read or debug.
+VsCode will automatically use those paths for the imports instead of relative ones that can be tough to read or maintain.
 
 
 ## Practical work: Your first component
 
-1. Remove all the changes made since the commit introducing ESLint as we won't need them moving forward.
+1. If you created the `child` component, delete it as we won't need it moving forward and remove any reference to it in the `AppComponent`. You may get an error in the console where you launched the project once you delete the child component, in that case restart the project.
 
-2. Most apps strive for a consistent look across the application. The CLI generated an empty `styles.scss` for this purpose. Copy paste the content of the SCSS stylesheet that will serve as basis for all the practical work, downloadable here: [styles.scss](https://worldline.github.io/angular-training/styles.scss) in it.
+2. Most apps strive for a consistent look across the application. The CLI generated an empty `styles.scss` file for this purpose. Copy paste the content of the SCSS stylesheet that will serve as basis for all the practical work, downloadable here: [styles.scss](https://worldline.github.io/angular-training/styles.scss) in it.
 
 3. Create a new component login-form containing the following authentication form (don't forget to generate it in the *components* folder):
 ```html
@@ -243,7 +269,7 @@ VsCode will automatically use those paths for the imports instead of relative on
 
 ```
 
-4. Delete the existing content of the `AppComponent` template (html file of the component), and display the `LoginFormComponent` instead with `<app-login-form></app-login-form>`. Check that the CLI has added the `LoginFormComponent` to the list of `declarations` in the `AppModule`.
+4. Delete the existing content of the `AppComponent` template (html file of the component) if it is not already done and the variables declared in the `AppComponent` class. Display the `LoginFormComponent` in the `AppComponent` by addding `<app-login-form></app-login-form>` in its template. Don't forget to add the `LoginFormComponent` class to the `imports` array of the @Component definition of the `AppComponent`.
 
 5. Complete the `login-form.component.ts` file: add a field `title = 'Authentication'`. Then, use text interpolation in the template to pass the title from the component ts file to the h1 tag.
 
