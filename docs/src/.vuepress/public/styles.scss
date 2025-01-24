@@ -1,6 +1,6 @@
 /*!
  * Forked from Writ v1.0.4
- * Copyright © 2015, Curtis McEnroe <curtis@cmcenroe.me>
+ * Copyright Â© 2015, Curtis McEnroe <curtis@cmcenroe.me>
  * https://cmcenroe.me/writ/LICENSE (ISC)
  */
 
@@ -114,12 +114,19 @@ mark {
   padding: 1px;
 }
 
+.films {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+}
+
 form, .card {
   background: white;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
   border-radius: 16px;
   padding: 2rem;
-  margin: 1em 0;
+  margin: 1em;
   display: flex;
   flex-direction: column;
 }
@@ -208,13 +215,29 @@ app-root {
 
 .film {
   &.card {
-    width: 960px;
+    max-width: min(960px, 95vw);
     display: flex;
     flex-direction: row;
+    justify-content: start;
+    align-items: start;
+
+    @media only screen and (max-width: 600px) {
+      flex-direction: column;
+      align-items: center;
+    }
   }
 
   .poster {
     margin: 0 1em 0 0;
+    object-fit: contain;
+    max-width: auto;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+
+    @media only screen and (max-width: 600px) {
+      margin: 0 0 2em 0;
+    }
   }
 
   .title {
@@ -233,7 +256,7 @@ app-root {
 }
 
 app-film-search {
-  width: 960px;
+  max-width: min(960px, 95vw);
 
   label {
     margin-top: 0;
@@ -241,7 +264,6 @@ app-film-search {
   }
 
   form {
-
     padding: 1rem;
     display: flex;
     flex-direction: row;
@@ -251,10 +273,10 @@ app-film-search {
 
 app-film {
   display: flex;
-  width: 960px;
+  max-width: min(960px, 95vw);
 }
 
-login-form {
+app-login-form {
   display: flex;
   flex-direction: column;
 }
