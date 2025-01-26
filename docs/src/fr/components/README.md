@@ -181,8 +181,8 @@ Et voici comment vous devez passer des données à l'input `value` requis :
 Comme on peut le voir ici, le composant parent n'a pas besoin de passer un Signal à `value` tant que l'application utilise *zone.js*.
 :::
 
-**Exercice : Transmettez les informations de chaque livre au BookComponent**
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-input-training?ctl=1&embed=1&file=src/app/book/book.component.ts&hideNavigation=1"></iframe>
+**Exercice : Transmettez les informations de chaque livre au BookComponent**
+<iframe height='500' width='100%' src="https://stackblitz.com/fork/github/ocunidee/atpw-input/tree/master?ctl=1&embed=1&file=src/app/book/book.component.ts&hideNavigation=1&title=input"></iframe>
 
 ### @Output()
 
@@ -245,7 +245,7 @@ export class AddTaskComponent {
 </CodeGroupItem>
 </CodeGroup>
 
-Vous pouvez expérimenter avec cet exemple [ici](https://stackblitz.com/edit/angular-output-training-example?file=src/app/app.component.ts).
+Vous pouvez expérimenter avec cet exemple [ici](https://stackblitz.com/fork/github/ocunidee/atpw-output-exemple/tree/master?file=src/app/app.component.ts&title=output%20exemple).
 
 ::: details Fonction output() (Angular 17+)
 De la même manière que `input()` remplace `@Input()`, `output()` remplace `@Output()`. Voici l'exemple d'au-dessus en faisant usage de la fonction `output()`.
@@ -306,7 +306,7 @@ export class AddTaskComponent {
 :::
 
 **Exercice : les livres sont désormais empruntables, communiquez lorsque les livres sont empruntés à leur composant parent**
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-output-training?ctl=1&embed=1&file=src/app/book/book.component.html&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/fork/github/ocunidee/atpw-output-exercise/tree/master?ctl=1&embed=1&file=src/app/book/book.component.html&hideNavigation=1&title=output%20exercise"></iframe>
 
 ### Variable locale dans le template
 
@@ -530,6 +530,8 @@ Ne remplacez pas déjà le commentaire par la liste des `FilmComponent`. C'est l
 :::
 
 ## Pour aller plus loin
-En savoir plus sur la projection de contenu contextuelle en utilisant [ngTemplateOutlet](https://angular.love/ngtemplateoutlet-the-secret-to-customisation)
+- En savoir plus sur la projection de contenu contextuelle en utilisant [ngTemplateOutlet](https://angular.love/ngtemplateoutlet-the-secret-to-customisation)
 
-Angular 14 a introduit les *standalone components* en version beta dans le framework et Angular 15 a rendu leur API stable. Vous pouvez en apprendre plus sur ce type de composants [ici](https://blog.ninja-squad.com/2022/05/12/a-guide-to-standalone-components-in-angular/)
+- Angular 14 a introduit les *standalone components* en version beta dans le framework et Angular 15 a rendu leur API stable. Vous pouvez en apprendre plus sur ce type de composants [ici](https://blog.ninja-squad.com/2022/05/12/a-guide-to-standalone-components-in-angular/)
+
+- Pour un apprendre plus sur la nouvelle fonction `input()`, allez consulter cette [page](https://angular.dev/guide/components/inputs) et [celle-ci](https://angular.dev/guide/components/outputs) sur la nouvelle fonction `output()`

@@ -183,7 +183,7 @@ As you can see, as long as the application is using *zone.js*, the parent doesn'
 :::
 
 **Exercise: Pass down each book's info to the BookComponent**
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-input-training?ctl=1&embed=1&file=src/app/book/book.component.ts&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/fork/github/ocunidee/atpw-input/tree/master?ctl=1&embed=1&file=src/app/book/book.component.ts&hideNavigation=1&title=input"></iframe>
 
 ### @Output()
 
@@ -246,7 +246,7 @@ export class AddTaskComponent {
 </CodeGroupItem>
 </CodeGroup>
 
-You can play with this example [here](https://stackblitz.com/edit/angular-output-training-example?file=src/app/app.component.ts).
+You can play with this example [here](https://stackblitz.com/fork/github/ocunidee/atpw-output-exemple/tree/master?file=src/app/app.component.ts&title=output%20exemple).
 
 ::: details output() function (Angular 17+)
 The same way `input()` is replacing `@Input()`, `output()` is replacing `@Output()`. Here is the above exemple using the new `output()` function.
@@ -307,7 +307,7 @@ export class AddTaskComponent {
 :::
 
 **Exercise: Books are now borrowable, communicate when books are borrowed to their parent component**
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-output-training?ctl=1&embed=1&file=src/app/book/book.component.html&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/fork/github/ocunidee/atpw-output-exercise/tree/master?ctl=1&embed=1&file=src/app/book/book.component.html&hideNavigation=1&title=output%20exercise"></iframe>
 
 ### Local variable in the template
 
@@ -531,6 +531,8 @@ Do not replace the comment with the list of `FilmComponent` yet. This will be do
 :::
 
 ## To go further
-Learn about context aware content projection using [ngTemplateOutlet](https://angular.love/ngtemplateoutlet-the-secret-to-customisation)
+- Learn about context aware content projection using [ngTemplateOutlet](https://angular.love/ngtemplateoutlet-the-secret-to-customisation)
 
-Angular 14 has introduced *standalone components* and there were taken out of beta in Angular 15. You can learn more about them [here](https://blog.ninja-squad.com/2022/05/12/a-guide-to-standalone-components-in-angular/)
+- Angular 14 has introduced *standalone components* and there were taken out of beta in Angular 15. You can learn more about them [here](https://blog.ninja-squad.com/2022/05/12/a-guide-to-standalone-components-in-angular/)
+
+- Check this [page](https://angular.dev/guide/components/inputs) out to go more in depth about the new `input()` function and this [page](https://angular.dev/guide/components/outputs) to learn more about the new `output()` function
