@@ -497,6 +497,11 @@ En plus du `<ng-content>` par défaut, vous pouvez **nommer** d'autres balises `
 
 ## TP : Décomposer l'application
 1. Refactorisez le `LoginFormComponent` pour extraire le code et le template liés aux détails d'un film. Pour cela, créez avec le CLI un `FilmComponent` (`ng g c components/film`). Il y aura autant d'instances de `FilmComponent` qu'il y a de films (déplacez la balise `<li></li>` et son contenu vers le nouveau composant). Utilisez `@Input()` pour transmettre les données du `LoginFormComponent` à chaque `FilmComponent`.
+
+:::tip
+N'oublbiez pas d'ajouter le `FilmComponent` au tableau des imports du decorateur du `LoginFormComponent` afin de pouvoir utiliser `<app-film></app-film>` dans le template.
+:::
+
 2. Créez un autre composant avec le CLI : `FilmSearchComponent`. Il contiendra un formulaire de recherche et la liste de `FilmComponent` ci-dessous :
 
 ```html
@@ -510,6 +515,10 @@ En plus du `<ng-content>` par défaut, vous pouvez **nommer** d'autres balises `
 </ul>
 ```
 Ne remplacez pas déjà le commentaire par la liste des `FilmComponent`. C'est le but du point 3.
+
+:::tip
+N'oubliez pas d'ajouter le `FormsModule` au tableau des imports du `FilmSearchComponent` comme son template utilise l'événement `ngSubmit`.
+:::
 
 3. Insérez ce `FilmSearchComponent` en dessous du `LoginFormComponent` dans le template de l'`AppComponent` et déplacez le code nécessaire (html et ts) du `LoginFormComponent` vers ce nouveau composant, supprimez le code qui n'est plus utilisé.
 

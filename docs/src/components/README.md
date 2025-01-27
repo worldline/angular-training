@@ -497,7 +497,12 @@ Any HTML content, including other angular components can be projected. This feat
 In addition to the default `<ng-content>`, you can **name** other `<ng-content>` tags to distribute content to multiple locations in the child. You achieve this by using the `select` attribute on the `<ng-content>` tag and adding the chosen value as an attribute on the element to project.
 
 ## Practical work: Decompose the app
-1. Refactor the `LoginFormComponent` to extract the code and template related to a film details. To that purpose, create with the CLI a `FilmComponent` (`ng g c components/film`). There will be as many instances of `FilmComponent` as there are films (move the `<li></li>` tag and its content to the new component). Use `@Input()` to pass data from the `LoginFormComponent` to each `FilmComponent`.
+1. Refactor the `LoginFormComponent` to extract the code and template related to a film details. To that purpose, create with the CLI a `FilmComponent` (`ng g c components/film`). There will be as many instances of `FilmComponent` as there are films (move the `<li></li>` tag and its content to the new component). Use `@Input()` to pass data from the `LoginFormComponent` to each `FilmComponent`. 
+
+:::tip
+Don't forget to add the `FilmComponent` to the array of imports of the `LoginFormComponent` decorator in order to be able to use  `<app-film></app-film>` in the template.
+:::
+
 2. Create another component with the CLI: `FilmSearchComponent`. It will contain a search form and the `FilmComponent` list below:
 
 ```html
@@ -511,6 +516,10 @@ In addition to the default `<ng-content>`, you can **name** other `<ng-content>`
 </ul>
 ```
 Do not replace the comment with the list of `FilmComponent` yet. This will be done in the next step.
+
+:::tip
+Don't forget to add the `FormsModule` to the imports array of the `FilmSearchComponent` since its template makes use of the `ngSubmit` event.
+:::
 
 3. Insert this `FilmSearchComponent` under the `LoginFormComponent` in the `AppComponent` and move the necessary code (html and ts) from the `LoginFormComponent` to this new component, delete the unused code.
 
