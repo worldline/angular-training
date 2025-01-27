@@ -15,10 +15,11 @@ The targeted routing of the example app is as follows:
 
 ![Targeted routing](../assets/routing.png)
 
-This [Stackblitz](https://stackblitz.com/edit/angular-routing-training-0?file=src/app/app-routing.module.ts) will serve as the base for the example.
+This [Stackblitz](https://stackblitz.com/fork/github/ocunidee/atpw-routing/tree/master?file=src/app/app.routes.ts&title=Routing) will serve as the base for the example. Open it as we will implement the navigation together during this chapter.
 
 ## Routing Module
 
+:::details Before standalone component architecture
 In Angular, the best practice is to load and configure the router in a separate, top-level module that is dedicated to routing and imported by the root `AppModule`. By convention, the module class name is `AppRoutingModule` and it belongs in the `app-routing.module.ts` in the `src/app` folder.
 
 In the exercise and in the practical work, it has already been generated for you, in case it hadn't been, here is how to generate it with the CLI:
@@ -29,9 +30,7 @@ ng generate module app-routing --flat --module=app
 
 `--flat` signals the CLI not to create a folder for the routing module so that it is placed at the same level as the `app.module.ts` file and `--module=app` means that the routing module is to be added to the imports of the `AppModule`.
 
-::: tip
 Once your app grows and you start refactoring it in several modules, it is a good practice to define one routing module per feature module.
-:::
 
 The generated `AppRoutingModule` looks like this:
 
@@ -47,13 +46,24 @@ const routes: Routes = []
 })
 export class AppRoutingModule { }
 ```
+:::
+
+Angular generates projects with an `app.routes.ts` file. This is where the application's routes are defined. As the app grows, it is recommanded to split the route definition across several files for clarity.
+
+Here is what the generated `app.routes.ts` file looks like:
+
+```ts
+import { Routes } from '@angular/router'
+
+export const routes: Routes = []
+```
 
 The `routes` array is where we tell the `Router` which component should be displayed when the user clicks on a link or enters a URL in the address bar.
-A [Route](https://angular.io/api/router/Route) is mainly defined by a path and a component. It can also define a redirect, children routes, a path match strategy, guards, resolvers, lazy-loaded child routes, etc...
+A [Route](https://angular.dev/api/router/Route) is mainly defined by a path and a component. It can also define a redirect, children routes, a path match strategy, guards, resolvers, lazy-loaded child routes, etc...
 
 Here is an example of an app with a dashboard secured with authentication:
 ```ts
-const routes: Routes = [
+export const routes: Routes = [
   { path: 'registration', component: RegistrationComponent },
   { path: 'forgotten-password', component: ForgottenPasswordComponent },
   { path: 'login', component: LoginComponent },
@@ -62,7 +72,7 @@ const routes: Routes = [
   { path: '**', redirectTo: '/dashboard' }
 ]
 ```
-- `canActivate` allows you to define route guards. A route guard blocks the activation of the route if the condition it defines is not verified.
+- `canActivate` allows you to define route guards. A route guard blocks the activation of the route and can redirect if the condition it defines is not verified.
 - `pathMatch: 'full'` forces the path to be matched against the entire URL. It is important to do this when redirecting empty-path routes. Otherwise, because an empty path is a prefix of any URL, the router would apply the redirect even when navigating to the redirect destination, creating an endless loop.
 - `'**'`: is a wildcard which means it matches any URL
 
@@ -80,15 +90,14 @@ const routes: Routes = [
 
 ::: details Correction
 ```ts
-import { NgModule } from '@angular/core'
-import { RouterModule, Routes } from '@angular/router'
+import { Routes } from '@angular/router'
 import { AuthorDetailsComponent } from './author-details/author-details.component'
 import { AuthorListComponent } from './author-list/author-list.component'
 import { BookDetailsComponent } from './book-details/book-details.component'
 import { BookListComponent } from './book-list/book-list.component'
 import { HomeComponent } from './home/home.component'
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'authors', component: AuthorListComponent },
   { path: 'authors/:id', component: AuthorDetailsComponent },
@@ -97,12 +106,6 @@ const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' }
   { path: '**', redirectTo: '/home' }
 ]
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule {}
 ```
 :::
 
@@ -110,7 +113,7 @@ Using child routes makes the nesting between routes clearer and paves the way fo
 
 ::: details Correction with child routes
 ```ts
-const routes: Routes = [
+export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   {
     path: 'authors',
@@ -143,10 +146,10 @@ location / {
 
 ## Router directives
 
-In the Stackblitz, try navigating to components by replacing the URL in the address bar. As you can see, besides the `NavbarComponent`, no other component is displayed even though we have just defined routes in the `AppRoutingModule`. That is because we have not yet told Angular where those components should be inserted in the DOM.
+In Stackblitz, try navigating to components by replacing the URL in the address bar. As you can see, besides the `NavbarComponent`, no other component is displayed even though we have just defined routes in the `app.routes.ts`. That is because we have not yet told Angular where those components should be inserted in the DOM.
 
 ### router-outlet
-This is the purpose of the `RouterOutlet`. The `NavbarComponent` should remain displayed at all times which means that components should be inserted under it. Let's add the `router-outlet` in the `AppComponent`.
+This is the purpose of the `RouterOutlet` directive. The `NavbarComponent` should remain displayed at all times which means that components should be inserted under it. Let's add the `router-outlet` in the `AppComponent`. Don't forget the import in the ts file.
 
 <CodeGroup>
 <CodeGroupItem title="app.component.html">
@@ -156,9 +159,26 @@ This is the purpose of the `RouterOutlet`. The `NavbarComponent` should remain d
 <router-outlet></router-outlet>
 ```
 </CodeGroupItem>
-</CodeGroup>
 
-The `RouterOutlet` is one of the router directives that became available to the `AppComponent` because `AppModule` imports `AppRoutingModule` which exported `RouterModule`.
+<CodeGroupItem title="app.component.ts">
+
+```ts{2,7}
+import { Component } from '@angular/core'
+import { RouterOutlet } from '@angular/router'
+import { NavbarComponent } from './navbar/navbar.component'
+
+@Component({
+  selector: 'app-root',
+  imports: [RouterOutlet, NavbarComponent],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss'
+})
+export class AppComponent {
+
+}
+```
+</CodeGroupItem>
+</CodeGroup>
 
 Try again to display the various components by changing the URL in the address bar, it should now work. The next step consists in enabling navigation via links directly within the application.
 
@@ -179,15 +199,50 @@ First, let's take care of the links in the `NavbarComponent`. Open the `navbar.c
 </nav>
 ```
 </CodeGroupItem>
+<CodeGroupItem title="navbar.component.ts">
+
+```ts{6}
+import { Component } from '@angular/core'
+import { RouterLink } from '@angular/router'
+
+@Component({
+  selector: 'app-navbar',
+  imports: [RouterLink],
+  templateUrl: './navbar.component.html',
+  styleUrl: './navbar.component.scss'
+})
+export class NavbarComponent {
+
+}
+```
+</CodeGroupItem>
 </CodeGroup>
 
-You can now navigate via the navbar links. `routerLink` is the selector for the [RouterLink directive](https://angular.io/api/router/RouterLink) that turns user clicks into router navigations. It's another of the public directives in the `RouterModule`.
+You can now navigate via the navbar links. `routerLink` is the selector for the [RouterLink directive](https://angular.dev/api/router/RouterLink) that turns user clicks into router navigations. It's another public directive in the `RouterModule`.
+
+The `routerLink` directive can be used just like the attribute binding:
+- without `[]`, the right handside is considered a static string literal
+```html
+<a routerLink='/home'>Home</a>
+```
+- with the `[]`, the right handside is considered a dynamic expression
+```html
+<a [routerLink]="homeAdress">Home</a>
+```
+- the dynamic expression can either be a string or an array of path fragments
+```html
+<a [routerLink]="['../', 'customer', id]">Customer Detail</a>
+```
 
 ::: danger
 Usually a link destination is specified via the `href` attribute. However, this is not the way to go for navigation within an SPA and should only be used for navigation to external URLs. Indeed, navigating via href in an SPA makes the entire app reload which is highly inefficient and offers very poor user experience.
 :::
 
 **Exercise:** Add navigation to book details and author details in their respective list components.
+
+:::tip
+Don't forget the `RouterLink` import
+:::
 
 ::: details Correction
 You have two options, either use an absolute path starting with `/` which means the entire path needs to be supplied (like in `book-list.component.html`) or use a relative path to the current location (like in `author-list.component.html`).
@@ -196,13 +251,17 @@ You have two options, either use an absolute path starting with `/` which means 
 <!-- author-list.component.html -->
 <h1>Authors ✍️</h1>
 <ul>
-  <li *ngFor="let author of authors">{{author.name}} <a [routerLink]="[author.id]">🔍</a></li>
+  @for(author of authors; track author.id) {
+    <li>{{author.name}} <a [routerLink]="[author.id]">🔍</a></li>
+  }
 </ul>
 
 <!-- book-list.component.html -->
 <h1>Books 📚</h1>
 <ul>
-  <li *ngFor="let book of books">{{book.title}} - {{book.author}} <a [routerLink]="[book.id]">🔍</a></li>
+  @for(book of books; track book.id) {
+    <li>{{book.title}} - {{book.author}} <a [routerLink]="[book.id]">🔍</a></li>
+  }
 </ul>
 ```
 
@@ -217,13 +276,15 @@ For the moment, only the data of the book with id 1 and the data of the author w
 <!-- author-details.component.html -->
 <h2>Books</h2>
 <ul>
-  <li *ngFor="let book of details.books">{{book.title}} <a [routerLink]="['/books', book.id]">🔍</a></li>
+  @for (book of books; track book.id) {
+    <li>{{book.title}} <a [routerLink]="['/books', book.id]">🔍</a></li>
+  }
 </ul>
 
 <!-- book-details.component.html -->
 <div class="info">
-  <div><a [routerLink]="['/authors', details.author.id]">✍️</a></div>
-  <p> {{details?.author.name}}</p>
+  <div><a [routerLink]="['/authors', details?.author?.id]">✍️</a></div>
+  <p> {{details?.author?.name}}</p>
 </div>
 ```
 :::
@@ -266,6 +327,23 @@ li a:hover:not(.active) {
 
 .active:hover {
   background-color: #256264;
+}
+```
+</CodeGroupItem>
+<CodeGroupItem title="navbar.component.ts">
+
+```ts{6}
+import { Component } from '@angular/core'
+import { RouterLink, RouterLinkActive } from '@angular/router'
+
+@Component({
+  selector: 'app-navbar',
+  imports: [RouterLink, RouterLinkActive],
+  templateUrl: './navbar.component.html',
+  styleUrl: './navbar.component.scss'
+})
+export class NavbarComponent {
+
 }
 ```
 </CodeGroupItem>
@@ -361,17 +439,15 @@ export class ExampleComponent {
 }
 ```
 
-A full correction of the *Personal Library* app is available in this [stackblitz](https://stackblitz.com/edit/angular-routing-training-correction?file=src/app/book-list/book-list.component.ts).
+A full correction of the *Personal Library* app is available in this [stackblitz](https://stackblitz.com/github/ocunidee/atpw-routing/tree/correction?file=src/app/app.routes.ts&title=Routing%20correction).
 
 ## Practical Work: Router-based navigation
 
 Let's implement the Search Film application routing.
 
-1. During the project initial setup, the CLI asked if it should add Angular routing and we answered yes. The CLI installed the `@angular/router` library, you can check that in the dependencies declared in the `package.json`. It also created the `app-routing.module.ts` file.
+1. Add a `login` route linked to the `LoginFormComponent` and a `search` route linked to `FilmSearchComponent` in the `app.routes.ts` file.
 
-2. Add a `login` route linked to the `LoginFormComponent` and a `search` route linked to `FilmSearchComponent` in the `app-routing.module.ts` file.
-
-3. Add a `<router-outlet></router-outlet>` at the top of the `AppComponent` template. You should now see the LoginComponent twice when navigating to `http://localhost:4200/login`.
+2. Add a `<router-outlet></router-outlet>` at the top of the `AppComponent` template. You should now see the LoginComponent twice when navigating to `http://localhost:4200/login`. Don't forget the import.
 
 ::: details Expected result
 ![Visual result of the routing practical work step 3](../assets/visual-1.png)
@@ -379,7 +455,7 @@ Let's implement the Search Film application routing.
 ![Visual result of the routing practical work step 3](../assets/visual-5a.png)
 :::
 
-4. Replace the switch between the `LoginFormComponent` and `FilmSearchComponent` currently based on an `*ngIf` by a navigation from one route to another. You will have to inject the Router service in the LoginFormComponent.
+3. Replace the switch between the `LoginFormComponent` and `FilmSearchComponent` currently based on an `@if` by a navigation from one route to another. You will have to inject the Router service in the LoginFormComponent.
 
 ::: details Tip
 Only one line should remain in your `app.component.html` file: `<router-outler></router-outlet>`
@@ -395,11 +471,11 @@ Only one line should remain in your `app.component.html` file: `<router-outler><
 
  **Question:** Can you spot an issue with the way our current implementation works regarding security concerns?
 
-5. Add a redirect on the empty route `''` to the `FilmSearchComponent`
+4. Add a redirect on the empty route `''` to the `FilmSearchComponent`
 
 **Question:** What do you think is the purpose of such a redirect?
 
-6. **Bonus:** Create a `NotFoundComponent` (404) with the CLI and add a wildcard route `'**'` that redirects to it. The code bellow is a proposition of the content of the 404 component. Add a `routerLink` on the `<a>` tag to go back to the search component.
+5. **Bonus:** Create a `NotFoundComponent` (404) with the CLI and add a wildcard route `'**'` that redirects to it. The code bellow is a proposition of the content of the 404 component. Add a `routerLink` on the `<a>` tag to go back to the search component.
 
 <CodeGroup>
 <CodeGroupItem title="HTML">
@@ -420,4 +496,4 @@ Only one line should remain in your `app.component.html` file: `<router-outler><
 </CodeGroupItem>
 </CodeGroup>
 
-7. **Bonus:** Learn about [navigation guards](https://angular.io/api/router/CanActivate) to secure routes. We will implement one in the next chapter.
+7. **Bonus:** Learn about [navigation guards](https://angular.dev/api/router/CanActivateFn?tab=description) to secure routes. We will implement one in the next chapter.
