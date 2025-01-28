@@ -57,7 +57,7 @@ When Angular discovers that a component depends on a service, it first checks if
 
 Dependencies can be provided at three levels:
 - **root level:** this is the default behaviour when creating a service with the CLI. That is what `providedIn: 'root'` means. The *same instance* of the dependency is injected everywhere it is needed as if it were a singleton.
-- **module level:** the dependency is added to the providers array of the `NgModule`. The module gets its own instance of the dependency
+- **route level:** the dependency is added to the providers array of the `Route`. The route gets its own instance of the dependency
 - **component level:** the dependency is added to the providers array of the component. Each instance of that component  gets its own instance of the dependency.
 
 ## Practical Work: State management
@@ -84,7 +84,7 @@ Dependencies can be provided at three levels:
 </CodeGroupItem>
 </CodeGroup>
 
-5. Conditionally show the Logout button depending on the `loggedIn` status of the user
+5. Conditionally show the Logout button depending on the `loggedIn` status of the user. Use a getter in the `app.component.ts` file to pass data from the service to the template (it is good practive to always declare a service as private in the component class).
 6. Use a navigation guard to redirect the user who wants to access the film search page to `/login` if they are not authenticated (make the CanActivate return true if the route can be accessed else return a `UrlTree` via the `createUrlTree` method of the `Router` service). To future-proof the guard, add a returnUrl as a queryParam to the returned `UrlTree` so that the `LoginFormComponent` knows where to navigate back to after authentication and modify the `LoginFormComponent` accordingly. To generate the navigation guard use the following CLI command:
 
 ```sh
@@ -92,9 +92,18 @@ ng generate guard guards/authentication
 # ? Which interfaces would you like to implement? CanActivate
 ```
 
+::: details Help for injecting services into the guard function
+```ts
+export const authenticationGuard: CanActivateFn = (route, state) => {
+  const authenticationService = inject(AuthenticationService)
+  // ...
+}
+```
+:::
+
 ::: details Help for the UrlTree
 ```ts
-this.router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url }})
+inject(Router).createUrlTree(['/login'], { queryParams: { returnUrl: state.url }})
 ```
 :::
 

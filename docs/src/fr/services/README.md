@@ -57,7 +57,7 @@ Lorsque Angular découvre qu'un composant dépend d'un service, il vérifie d'ab
 
 Les dépendances peuvent être fournies à trois niveaux :
 - **au niveau root:** c'est le comportement par défaut lors de la création d'un service avec le CLI. C'est ce que signifie `providedIn: 'root'`. La *même instance* de la dépendance est injectée partout où elle est nécessaire comme s'il s'agissait d'un singleton.
-- **au niveau du module:** la dépendance est ajoutée au tableau de providers du `NgModule`. Le module obtient sa propre instance de la dépendance
+- **au niveau de la route:** la dépendance est ajoutée au tableau de providers de la `Route`. La route obtient sa propre instance de la dépendance
 - **au niveau du composant:** la dépendance est ajoutée au tableau des providers du composant. Chaque instance de ce composant obtient sa propre instance de la dépendance.
 
 ## TP : Gestion de l'État
@@ -84,7 +84,7 @@ Les dépendances peuvent être fournies à trois niveaux :
 </CodeGroupItem>
 </CodeGroup>
 
-5. Afficher conditionnellement le bouton Logout en fonction du statut `loggedIn` de l'utilisateur
+5. Afficher conditionnellement le bouton Logout en fonction du statut `loggedIn` de l'utilisateur. Utilisez un getter dans le fichier `app.component.ts` pour passer l'information du service au template (c'est une bonne pratique que de toujours déclaré un service comme private dans la classe d'un composant).
 6. Utilisez un navigation guard pour rediriger l'utilisateur qui souhaite accéder à la page de recherche de films vers `/login` s'il n'est pas authentifié (rendez le CanActivate vrai si la route est accessible sinon retournez un `UrlTree` via la méthode `createUrlTree` du service `Router`). Pour prendre en considération des cas d'usage futur, ajoutez un returnUrl en tant que queryParam au `UrlTree` renvoyé afin que le `LoginFormComponent` sache où revenir après l'authentification et modifiez le `LoginFormComponent` en conséquence. Pour générer le navigation guard, utilisez la commande du CLI suivante :
 
 ```sh
@@ -92,9 +92,18 @@ ng generate guard guards/authentication
 # ? Which interfaces would you like to implement? CanActivate
 ```
 
+::: details Aide pour injecter un service dans la fonction guard
+```ts
+export const authenticationGuard: CanActivateFn = (route, state) => {
+  const authenticationService = inject(AuthenticationService)
+  // ...
+}
+```
+:::
+
 ::: details Aide pour l'UrlTree
 ```ts
-this.router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url }})
+inject(Router).createUrlTree(['/login'], { queryParams: { returnUrl: state.url }})
 ```
 :::
 
