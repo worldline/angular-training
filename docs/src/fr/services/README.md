@@ -166,7 +166,7 @@ import { UserService } from '@services/user.service'
   templateUrl: './user.component.html'
 })
 export class UserComponent {
-  user: User | null = null
+  user: User | undefined = undefined
   reference = ''
 
   constructor(private userService: UserService) {}
@@ -199,14 +199,14 @@ La commande `npm start` vous demandera une clé d'API. Attendez que votre instru
 Le contrat d'interface backend est disponible ici : [api-docs](http://localhost:3030/api-docs)
 :::
 
-1. Ajoutez au dossier `src` soit le fichier `proxy.conf.json` si vous n'êtes pas derrière un proxy d'entreprise, soit le fichier `proxy.conf.js`.
+1. Ajoutez au dossier `src` le fichier `proxy.conf.json`.
 
 <CodeGroup>
 <CodeGroupItem title="proxy.conf.json">
 
 ```json
 {
-  "/api/*": {
+  "/api/**": {
     "target": "http://localhost:3030",
     "changeOrigin": true,
     "pathRewrite": {
@@ -216,45 +216,12 @@ Le contrat d'interface backend est disponible ici : [api-docs](http://localhost
 }
 ```
 </CodeGroupItem>
-<CodeGroupItem title="proxy.conf.js">
-
-```js
-var HttpsProxyAgent = require('https-proxy-agent')
-var proxyConfig = [{
-  context: '/api',
-  target: 'http://localhost:3030',
-  changeOrigin: true,
-  pathRewrite: {
-    "^/api": ""
-  }
-}]
-
-function setupForCorporateProxy(proxyConfig) {
-  var proxyServer = process.env.http_proxy || process.env.HTTP_PROXY
-  if (proxyServer) {
-    var agent = new HttpsProxyAgent(proxyServer);
-    console.log('Using corporate proxy server: ' + proxyServer)
-    proxyConfig.forEach(function(entry) {
-      entry.agent = agent
-    })
-  }
-  return proxyConfig
-}
-
-module.exports = setupForCorporateProxy(proxyConfig)
-
-```
-</CodeGroupItem>
 </CodeGroup>
 
-Le proxy détournera tous les appels à l'URL commençant par http://localhost:4200/api vers le serveur disponible à l'adresse http://localhost:3030. Cela garantit également que nous ne rencontrerons aucun problème lié aux CORS (dans le cas où le backend ne serait hébergé en local). Cette configuration concerne uniquement le serveur de développement webpack fourni par le CLI pour exécuter l'application sur votre machine dans un environnement de développement. Ce ne sera pas la configuration utilisée en production.
+Le proxy détournera tous les appels à l'URL commençant par http://localhost:4200/api vers le serveur disponible à l'adresse http://localhost:3030. Cela garantit également que nous ne rencontrerons aucun problème lié aux CORS (dans le cas où le backend ne serait hébergé en local). Cette configuration concerne uniquement le serveur de développement webpack ou vite fourni par le CLI pour exécuter l'application sur votre machine dans un environnement de développement. Ce ne sera pas la configuration utilisée en production.
 
-2. Installez la dépendance suivante uniquement si vous êtes derrière un proxy d'entreprise
-```sh
-npm install --save-dev https-proxy-agent
-```
 
-3. Dans le fichier de configuration CLI - `angular.json` - ajoutez l'option `proxyConfig` à la target serve :
+2. Dans le fichier de configuration CLI - `angular.json` - ajoutez l'option `proxyConfig` à la target serve :
 
 ```json{5,6,7}
 ...
@@ -262,19 +229,18 @@ npm install --save-dev https-proxy-agent
   "builder": "@angular-devkit/build-angular:dev-server",
   ...
   "options": {
-    "proxyConfig": "src/proxy.conf.json" // or "src/proxy.conf.js"
+    "proxyConfig": "src/proxy.conf.json"
   },
   "defaultConfiguration": "development"
 },
 ...
 ```
 
-4. Ajoutez le `HttpClientModule` au tableau `imports` de `AppModule`. Si VSCode ne parvient pas à trouver l'importation, ajoutez la ligne suivante manuellement en haut du fichier `app.module.ts` :
-```ts
-import { HttpClientModule } from '@angular/common/http'
-```
+Redémarrez le projet comme la configuration du CLI a changé (`angular.json`).
 
-5. Créez les interfaces/classes pour les modèles utilisés par le backend, ajoutez un fichier par modèle dans le dossier `models/authentication` :
+3. Ajoutez `provideHttpClient()` au tableau de `providers` de l'object `appConfig` dans le fichier `app.config.ts`.
+
+4. Créez les interfaces/classes pour les modèles utilisés par le backend, ajoutez un fichier par modèle dans le dossier `models/authentication` :
 
 <CodeGroup>
 <CodeGroupItem title="registration-request.ts">
@@ -334,7 +300,7 @@ export class User {
 
 Prenez note du token dans la `UserResponse`, il servira à authentifier l'utilisateur via l'entête Authorization : `Authorization: Bearer <token>`. Apprenez-en plus sur les JWT [ici](https://jwt.io/introduction).
 
-6. Implémentez les méthodes `register` et `login` dans `AuthenticationService` comme suit :
+5. Implémentez les méthodes `register` et `login` dans `AuthenticationService` comme suit :
 
 <CodeGroup>
 <CodeGroupItem title="authentication.service.ts">
@@ -362,7 +328,7 @@ register(loginRequest: LoginRequest): Observable<UserResponse> {
 </CodeGroupItem>
 </CodeGroup>
 
-7. La modification de la signature d'appel de la méthode `login` va nécessiter un peu de refactorisation dans le `LoginFormComponent` :
+6. La modification de la signature d'appel de la méthode `login` va nécessiter un peu de refactorisation dans le `LoginFormComponent` :
 
 <CodeGroup>
 <CodeGroupItem title="login-form.component.ts">
@@ -370,15 +336,15 @@ register(loginRequest: LoginRequest): Observable<UserResponse> {
 ```ts
 constructor(
   private router: Router,
-  private route: ActivatedRoute,
+  private activatedRoute: ActivatedRoute,
   private authenticationService: AuthenticationService
 ) {}
 
 login(): void {
   this.authenticationService.login(this.loginRequest)
     .subscribe({ next: () => {
-      const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl')
-      this.router.navigateByUrl(returnUrl ? `/${returnUrl}` : '')
+      const postLoginRoute = this.activatedRoute.snapshot.queryParamMap.get('returnUrl')
+      this.router.navigateByUrl(postLoginRoute ? `/${postLoginRoute}` : '')
     } })
 }
 
@@ -394,7 +360,8 @@ get loginRequest(): LoginRequest {
 </CodeGroupItem>
 </CodeGroup>
 
-8. Une refactorisation est également nécessaire pour que `AuthenticationGuard` continue de fonctionner. Faites en sorte que le booléen `loggedIn` dans `AuthenticationService` dépende d'un champ `token` et faites en sorte que le `LoginFormComponent` sauvegarde le token qu'il obtient de l'appel de connexion dans ce champ.
+7. Une refactorisation est également nécessaire pour que l'`authenticationGuard` continue de fonctionner. Faites en sorte que le booléen `loggedIn` dans `AuthenticationService` dépende d'un champ `token` et faites en sorte que le `LoginFormComponent` sauvegarde le token qu'il obtient de l'appel de connexion dans ce champ.
+Refactorez aussi la méthode `logout()` pour qu'elle remette le `token` à null.
 
 <CodeGroup>
 <CodeGroupItem title="authentication.service.ts">
@@ -410,20 +377,22 @@ get loggedIn(): boolean {
 
 <CodeGroupItem title="login-form.component.ts">
 
-```ts{4}
+```ts{3, 4}
 login(): void {
   this.authenticationService.login(this.loginRequest)
-    .subscribe(response => {
+    .subscribe({ next: response => {
       this.authenticationService.token = response.token
-      const returnUrl = this.route.snapshot.paramMap.get('returnUrl')
-      this.router.navigateByUrl(returnUrl ? `/${returnUrl}` : '')
-    })
+      const postLoginUrl = this.activatedRoute.snapshot.queryParamMap.get('returnUrl')
+      this.router.navigateByUrl(postLoginUrl ? `/${postLoginUrl}` : '')
+    } })
 }
 ```
 </CodeGroupItem>
 </CodeGroup>
 
-9. Ajoutez un bouton d'enregistrement à côté du bouton de connexion dans le `LoginFormComponent`, donnez-lui l'attribut `type="button"` afin qu'Angular sache que ce n'est pas ce bouton qui déclenche l'événement `ngSubmit` sur le formulaire et faites-lui appeler le méthode d'enregistrement. Vous devriez maintenant pouvoir enregistrer un utilisateur et vous connecter.
+8. Ajoutez un bouton d'enregistrement à côté du bouton de connexion dans le `LoginFormComponent`, donnez-lui l'attribut `type="button"` afin qu'Angular sache que ce n'est pas ce bouton qui déclenche l'événement `ngSubmit` sur le formulaire et faites-lui appeler le méthode d'enrôlement.
+Vous devriez maintenant pouvoir enregistrer un utilisateur et vous connecter.
+Si l'enrôlement semble ne pas fonctionner, vérifiez l'onglet network des outils de développement de votre navigateur (onglet preview de l'appel réseau en erreur), votre mail ou mot de passe ne respectent peut-être pas les règles de validation du back.
 
 <CodeGroup>
 <CodeGroupItem title="HTML">
@@ -446,9 +415,14 @@ login(): void {
 </CodeGroupItem>
 </CodeGroup>
 
-10. Il est temps de gérer les erreurs. La méthode subscribe peut prendre un objet qui propose trois callbacks: une *next*, une *error* et une *complete* (nous verrons cela plus en détail dans le chapitre suivant). Déclarer un champ `errorMessage` sur le `LoginFormComponent` et le mettre à jour en vous servant de l'argument renvoyé par la callback `error`. Afficher le message d'erreur sur le formulaire. Vérifier que le message d'erreur s'affiche bien lorsqu'on saisit des identifiants incorrects.
+9. Il est temps de gérer les erreurs. La méthode subscribe peut prendre un objet qui propose trois callbacks: une *next*, une *error* et une *complete* (nous verrons cela plus en détail dans le chapitre suivant). Déclarer un champ `errorMessage` sur le `LoginFormComponent` et le mettre à jour en vous servant de l'argument renvoyé par la callback `error`. Afficher le message d'erreur sur le formulaire. Vérifier que le message d'erreur s'affiche bien lorsqu'on saisit des identifiants incorrects.
+
+<CodeGroup>
+<CodeGroupItem title="login-form.component.ts">
 
 ```ts
+errorMessage = ''
+
 private errorHandler(errorResponse: HttpErrorResponse): void {
   this.errorMessage = errorResponse.error.error ?? `${errorResponse.error.status} - ${errorResponse.error.statusText}`
 }
@@ -456,58 +430,51 @@ private errorHandler(errorResponse: HttpErrorResponse): void {
 // subscribe syntax
 this.authenticationService.login(this.loginRequest)
   .subscribe({
-    next: (userResponse) => { /*  */},
-    error: (errorResponse) => { /*  */ }
+    next: response => { /*  */},
+    error: errorResponse => { /*  */ }
   })
 ```
+</CodeGroupItem>
+</CodeGroup>
 
 ::: tip hint
 Pour une meilleure UX (User eXperience), penser à vider le champ `errorMessage` soit avant de lancer une nouvelle requête d'authentification ou d'enregistrement, soit dès que celles-ci se terminent en succès.
 :::
 
-11. Appelons maintenant le backend pour obtenir la liste des films. La route est sécurisée, ce qui signifie que le passage du token dans l'en-tête est nécessaire. Angular fournit un mécanisme - les intercepteurs http - pour intercepter systématiquement les requêtes http, permettant de définir les en-têtes en un seul endroit.
+10. Appelons maintenant le backend pour obtenir la liste des films. La route est sécurisée, ce qui signifie que le passage du token dans l'en-tête est nécessaire. Angular fournit un mécanisme - les intercepteurs http - pour intercepter systématiquement les requêtes http, permettant de définir les en-têtes en un seul endroit.
 
 a. Utilisez le CLI pour en générer un : `ng generate interceptor interceptors/authentication`.
 
 b. Voici son implémentation :
 
 ```ts
-import { Injectable } from '@angular/core'
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http'
-import { Observable } from 'rxjs'
+import { HttpInterceptorFn } from '@angular/common/http'
 import { AuthenticationService } from '@services/authentication.service'
+import { inject } from '@angular/core'
 
-@Injectable()
-export class AuthenticationInterceptor implements HttpInterceptor {
+export const authenticationInterceptor: HttpInterceptorFn = (req, next) => {
+  const token = inject(AuthenticationService).token
+  if (token) {
+    const cloned = req.clone({
+      headers: req.headers.set('Authorization', `Bearer ${token}`)
+    })
 
-  constructor(private authenticationService: AuthenticationService) {}
-
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    const token = this.authenticationService.token
-    if (token) {
-      const cloned = request.clone({
-        headers: request.headers.set('Authorization', `Bearer ${this.authenticationService.token}`)
-      })
-
-      return next.handle(cloned)
-    }
-
-    return next.handle(request)
+    return next(cloned)
   }
+
+  return next(req)
 }
 ```
 
 S'il y a un token dans l'`AuthenticationService`, l'intercepteur l'ajoutera aux en-têtes de la requête http.
 
-c. Ajouter l'intercepteur aux providers de l'`AppModule`
+c. Ajouter l'intercepteur au provider de l'`HttpClient` de l'objet `appConfig`:
 
 ```ts
-providers: [
-  { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true }
-],
+provideHttpClient(withInterceptors([authenticationInterceptor]))
 ```
 
-12. Créez un `FilmService` à l'aide du CLI et implémentez l'appel au endpoint `api/movies/search`. Notez que le queryParam `title` n'est pas facultatif. Pour ajouter des query params à une requête, utilisez le paramètre `options` de la méthode get.
+11. Créez un `FilmService` à l'aide du CLI et implémentez l'appel au endpoint `api/movies/search`. Notez que le queryParam `title` n'est pas facultatif. Pour ajouter des query params à une requête, utilisez le paramètre `options` de la méthode get.
 
 ```ts
 const options = {
@@ -515,11 +482,9 @@ const options = {
 }
 ```
 
-13. Apportez des modifications au `FilmSearchComponent` pour appeler ce nouveau service avec le titre renseigné par l'utilisateur, enregistrez la réponse dans le champ `films` du `FilmSearchComponent`.
+12. Apportez des modifications au `FilmSearchComponent` pour appeler ce nouveau service avec le titre renseigné par l'utilisateur, enregistrez la réponse dans le champ `films` du `FilmSearchComponent`.
 
-14. Vérifiez que le token est envoyé sous forme d'en-tête HTTP via les outils de développement de votre navigateur.
-
-15. **Bonus :** Modifiez la méthode de déconnexion `AuthenticationService` pour qu'elle passe le token à `null`.
+13. Vérifiez que le token est envoyé sous forme d'en-tête HTTP via les outils de développement de votre navigateur.
 
 ::: details Résultat attendu
 ![Résultat visuel du TP http](../../assets/visual-7a.png)
