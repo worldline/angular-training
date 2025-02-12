@@ -278,5 +278,5 @@ To help you decide which operator fits your use case, the RxJS documentation pro
 
 ## Practical work
 
-- In the `film-search.component.ts` file, stop subscribing to the search response and use an async pipe instead in the template.
-- Even though it is not strictly necessary in those cases, unsubscribe from the login and register calls in the `LoginFormComponent` using the `Subject` technique.
+1. In the `film-search.component.ts` file, stop subscribing to the search response and use an async pipe instead in the template. Don't forget to add the `AsyncPipe` to the `imports` array.
+2. Even though it is not strictly necessary in those cases, unsubscribe from the login and register calls in the `LoginFormComponent` using the `takeUntilDestroyed` technique.

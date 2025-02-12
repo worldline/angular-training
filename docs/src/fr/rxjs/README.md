@@ -277,5 +277,5 @@ Pour vous aider à décider quel opérateur correspond à votre cas d'utilisatio
 
 ## TP
 
-- Dans le fichier `film-search.component.ts`, arrêtez de subscribe à la réponse de recherche et utilisez plutôt un pipe async dans le template.
-- Même si cela n'est pas strictement nécessaire dans ces cas, vous pouvez vous unsubscribe des appels à login et register dans le `LoginFormComponent` en utilisant la technique `Subject`.
+1. Dans le fichier `film-search.component.ts`, arrêtez de subscribe à la réponse de recherche et utilisez plutôt un pipe async dans le template. N'oubliez pas d'ajouter l'`AsyncPipe` au tableau `imports`.
+2. Même si cela n'est pas strictement nécessaire dans ces cas, vous pouvez vous unsubscribe des appels à login et register dans le `LoginFormComponent` en utilisant la technique `takeUntilDestroyed`.
