@@ -136,7 +136,7 @@ The following component shows an example of how to take advantage of:
 You can find an updated list of classes [here](https://angular.io/guide/form-validation#control-status-css-classes).
 
 ## Practical work: Login and registration with reactive forms
-1. Implement the login / registration form using reactive forms and the form builder: replace the `[(ngModel)]` in the template and delete the `email` and `password` from the class of the `LoginFormComponent`.
+1. Implement the login / registration form using reactive forms and the form builder: replace the `[(ngModel)]` in the template and delete the `email` and `password` from the class of the `LoginFormComponent`, declare a `FormGroup` named `loginForm`.
 
 2. Add the required validator (`Validators.required`) to both email and password fields. Show the text `"This field is required"` under each field if the form is dirty and that field has the error `required`:
 
@@ -145,21 +145,32 @@ You can find an updated list of classes [here](https://angular.io/guide/form-val
 ```
 
 ::: tip Hint
-- You can get a specific form control using the `get('form control name')` method of a form group.
-- You can check if a form control has a specific error by using the `hasError('error name')` method of form controls.
+- You can get access to a specific `FormControl` instance using the `controls` property of the `FormGroup` containing it. For exemple for a `FormGroup` named *myFormGroup* and a `FormControl` named *myControl*:
+```ts
+myFormGroup.controls.myControl.touched
+```
+- You can check if a `FormControl` (more generally an `AbstractControl`) has a specific error by using the `hasError('error name')` method of the `FormControl` class. For exemple for a `FormGroup` named *myFormGroup*, a `FormControl` named *myControl* and an error *required*:
+```ts
+myFormGroup.controls.myControl.hasError('required')
+```
 :::
 
-3. Style the label and error text of each field with the `.ng-invalid` class when the form is dirty and that field is invalid (remember the `[class]` attribute). Be careful to target only those two elements (you can use the `+` CSS selector to that purpose).
+3. Style the label and error text of each input that has the `.ng-invalid` class applied by angular but only when the form has the `ng-dirty` class. Be careful to target only those two elements (you can use the `+` CSS combinator and the `:has()` pseudo-class to that purpose).
 
 ::: details Hint
-```scss
-label.ng-invalid, input.ng-invalid.ng-dirty + small {
+- [has() pseudo class](https://developer.mozilla.org/en-US/docs/Web/CSS/:has)
+- [+ next-sibling combinator](https://developer.mozilla.org/en-US/docs/Web/CSS/Next-sibling_combinator)
+:::
+
+::: details Correction
+```css
+form.ng-dirty label:has(+ input.ng-invalid), form.ng-dirty input.ng-invalid + small {
   color: red;
 }
 ```
 :::
 
-4. Disable the Login and Register buttons using the `[disabled]` attribute if the form is invalid.
+4. Disable the Login and Register buttons using the `[disabled]` attribute if the form is *invalid* and *dirty*.
 
 5. Define a custom validator for the password field that refuses weak passwords. We will consider that a password is strong if it satisfies all of these requirements:
 - Contains at least one uppercase character (regex `/^.*[A-Z]+.*$/`)
@@ -167,7 +178,12 @@ label.ng-invalid, input.ng-invalid.ng-dirty + small {
 - Has at least one non-alphanumeric character (regex `/^.*\W+.*$/`)
 - Minimum length of 8 characters
 
-Put that validator in `app/utils` and name it `password.validator.ts`. Here is its basic implementation:
+You can use the `test` method on each pattern and pass it the value of the control to check if the pattern exists in it.
+
+Put that validator in `app/utils` and name it `password.validator.ts`.
+
+::: details Help
+Here is its basic implementation:
 
 ```ts
 export function password(): ValidatorFn {
@@ -193,8 +209,9 @@ export function password(): ValidatorFn {
   }
 }
 ```
+:::
 
-You can use the `test` method on each pattern and pass it the value of the control to check if the pattern exists in it. Add an error text via the `<small>` tag on the password field that shows if the form is dirty and the field has the `password.pattern` error.
+ Add an error text (`The password doesn't comply with the policy`) under the password field (use a `<small>` tag) that shows if the form is dirty and the field has the `password.pattern` error.
 
 ## Sources
-- [Angular official forms documentation](https://angular.io/guide/forms-overview)
+- [Angular official forms documentation](https://angular.dev/guide/forms-overview)

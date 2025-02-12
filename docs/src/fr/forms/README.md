@@ -137,29 +137,41 @@ Le composant suivant montre comment tirer parti :
 Vous pouvez trouver une liste à jour des classes [ici](https://angular.io/guide/form-validation#control-status-css-classes).
 
 ## TP : Connexion et inscription avec des reactive forms
-1. Implémentez le formulaire de connexion / inscription à l'aide de reactive forms et du form builder : remplacez le `[(ngModel)]` dans le template et supprimez les propriétés `email` et `mot de passe` de la classe du `LoginFormComponent`.
+1. Implémentez le formulaire de connexion / inscription à l'aide de reactive forms et du form builder : remplacez le `[(ngModel)]` dans le template et supprimez les propriétés `email` et `mot de passe` de la classe du `LoginFormComponent` et déclarez un `FormGroup` et nommez le `loginForm`.
 
 2. Ajoutez le validateur required (`Validators.required`) aux deux champs et affichez le texte `"Ce champ est requis"` sous chaque champ si le formulaire a un statut dirty et que ce champ a l'erreur `required` :
+
 ```html
 <small>This field is required</small>
 ```
 
 ::: tip Hint
-- Il est possible de récupérer une référence vers un *form control* en appelant la méthode `get('form control name')` du *form group*.
-- Il est possible de vérifier la présence d'une erreur spécifique en appelant la méthode `hasError('error name')` d'un *form control*.
+- Il est possible de récupérer la référence à une instance d'un `FormControl` en utilisant la propriété `controls` du `FormGroup` le contenant. Par exemple pour un `FormGroup` nommé *myFormGroup* et un `FormControl` nommé *myControl*:
+```ts
+myFormGroup.controls.myControl.touched
+```
+- Il est possible de vérifier si un `FormControl` (ou plus généralement un `AbstractControl`) a une erreur spécifique en appelant la méthode `hasError('error name')` de la classe `FormControl`.Par exemple pour un `FormGroup` nommé *myFormGroup*, un `FormControl` nommé *myControl* et une erreur *required* :
+```ts
+myFormGroup.controls.myControl.hasError('required')
+```
 :::
 
-3. Stylisez le label et le texte d'erreur de chaque champ avec la classe `.ng-invalid` lorsque le formulaire est invalide et que ce champ n'est pas valide (rappelez-vous l'attribut `[class]`). Faites attention à ne bien styler que ces deux éléments pour chaque champ (vous pouvez utiliser le sélecteur CSS `+` à cet effet).
+3. Stylisez le label et le texte d'erreur de chaque input s'étant fait attribuer la classe `.ng-invalid` par angular mais uniquement lorsque le formulaire a la classe `ng-dirty`. Faites attention à ne bien styliser que ces deux éléments pour chaque input (vous pouvez utiliser le combinateur CSS `+` et la pseudo-classe `has()` à cet effet).
 
-::: details Hint
-```scss
-label.ng-invalid, input.ng-invalid.ng-dirty + small {
+::: details Aide
+- [has() pseudo classe](https://developer.mozilla.org/en-US/docs/Web/CSS/:has)
+- [+ combinateur](https://developer.mozilla.org/en-US/docs/Web/CSS/Next-sibling_combinator)
+:::
+
+::: details Correction
+```css
+form.ng-dirty label:has(+ input.ng-invalid), form.ng-dirty input.ng-invalid + small {
   color: red;
 }
 ```
 :::
 
-4. Désactivez les boutons Connexion et Inscription à l'aide de l'attribut `[disabled]` si le formulaire n'est pas valide.
+4. Désactivez les boutons Connexion et Inscription à l'aide de l'attribut `[disabled]` si le formulaire est *invalid* et *dirty*.
 
 5. Définissez un validateur personnalisé pour le champ de mot de passe qui refuse les mots de passe faibles. Nous considérerons qu'un mot de passe est fort s'il satisfait à toutes ces exigences :
 - Contient au moins un caractère majuscule (regex `/^.*[A-Z]+.*$/`)
@@ -167,7 +179,12 @@ label.ng-invalid, input.ng-invalid.ng-dirty + small {
 - Possède au moins un caractère non alphanumérique (regex `/^.*\W+.*$/`)
 - Longueur minimale de 8 caractères
 
-Mettez ce validateur dans `app/utils` et nommez-le `password.validator.ts`. Voici son implémentation de base :
+Vous pouvez utiliser la méthode `test` sur chaque pattern/regex et leur passer la valeur du form control pour vérifier si le pattern y est présent. 
+
+Mettez ce validateur dans `app/utils` et nommez-le `password.validator.ts`.
+
+::: details Aide
+Voici son implémentation de base :
 
 ```ts
 export function password(): ValidatorFn {
@@ -193,8 +210,9 @@ export function password(): ValidatorFn {
   }
 }
 ```
+:::
 
-Vous pouvez utiliser la méthode `test` sur chaque pattern/regex et leur passer la valeur du form control pour vérifier si le pattern y est présent. Ajoutez un texte d'erreur via la balise `<small>` dans le champ du mot de passe qui indique si le formulaire est invalide et si le champ contient l'erreur `password.pattern`.
+Ajoutez un texte d'erreur (`Mot de passe invalide`) via la balise `<small>` en dessous de l'input du mot de passe qui s'affiche si le formulaire est invalide et que l'input a l'erreur `password.pattern`.
 
 ## Sources
-- [Documentation officielle des formulaires Angular](https://angular.io/guide/forms-overview)
+- [Documentation officielle des formulaires Angular](https://angular.dev/guide/forms-overview)
