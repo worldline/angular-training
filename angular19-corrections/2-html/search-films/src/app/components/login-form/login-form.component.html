@@ -1,0 +1,44 @@
+@if (loggedIn === false) {
+  <form (ngSubmit)="login()" id="login-form">
+    <h1>{{title}}</h1>
+    <p>Fill out this form to login.</p>
+
+    <label for="email">Email</label>
+    <input [(ngModel)]="email" type="text" placeholder="Enter your email" id="email" name="email" required/>
+
+    <label for="psw">Password</label>
+    <input [(ngModel)]="password" type="password" placeholder="Enter your password" id="psw" name="password" required/>
+
+    <button type="submit">Login</button>
+  </form>
+}
+@else {
+  <ul class="films">
+    @for (film of films; track film.title) {
+      @if (+film.metascore > 70) {
+        <li class="film card">
+          <img
+            class="poster"
+            alt="film poster"
+            [src]="film.poster"
+          />
+          <div>
+            <p class="title">
+              {{film.title}}
+              <span class="rating">{{starRating(+film.metascore)}}</span>
+            </p>
+            <dl>
+              <dt>Release date</dt>
+              <dd>{{film.released}}</dd>
+              <dt>Director</dt>
+              <dd>{{film.director}}</dd>
+              <dt>Actors</dt>
+              <dd>{{film.actors}}</dd>
+            </dl>
+            <p class="plot">{{film.plot}}</p>
+          </div>
+        </li>
+      }
+    }
+  </ul>
+}

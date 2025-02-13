@@ -1,0 +1,10 @@
+<form (ngSubmit)="searchFilms(searchInput.value)">
+  <label for="search">Search :</label>
+  <input id="search" type="text" name="title" #searchInput/>
+</form>
+
+<ul class="films">
+  @for (film of films | async; track film.title) {
+    <app-film [film]="film"></app-film>
+  }
+</ul>

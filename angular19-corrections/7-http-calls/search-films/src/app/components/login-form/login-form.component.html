@@ -1,0 +1,17 @@
+<form (ngSubmit)="login()" id="login-form">
+  <h1>{{title}}</h1>
+  <p>Fill out this form to login.</p>
+
+  <label for="email">Email</label>
+  <input [(ngModel)]="email" type="text" placeholder="Enter your email" id="email" name="email" required/>
+
+  <label for="psw">Password</label>
+  <input [(ngModel)]="password" type="password" placeholder="Enter your password" id="psw" name="password" required/>
+
+  <small>{{errorMessage}}</small>
+
+  <div class="button-container">
+    <button type="button" (click)="register()">Register</button>
+    <button type="submit">Login</button>
+  </div>
+</form>

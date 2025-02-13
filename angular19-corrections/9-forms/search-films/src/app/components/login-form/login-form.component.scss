@@ -1,0 +1,8 @@
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+form.ng-dirty label:has(+ input.ng-invalid), form.ng-dirty input.ng-invalid + small {
+  color: red;
+}

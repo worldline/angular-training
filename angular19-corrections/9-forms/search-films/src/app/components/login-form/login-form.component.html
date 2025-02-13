@@ -1,0 +1,29 @@
+<form [formGroup]="loginForm" (ngSubmit)="login()" id="login-form">
+  <h1>{{title}}</h1>
+  <p>Fill out this form to login.</p>
+
+  <small>{{errorMessage}}</small>
+
+  <label for="email">Email</label>
+  <input formControlName="email" type="text" placeholder="Enter your email" id="email" name="email" required/>
+  @if (loginForm.controls.email.hasError('required') && loginForm.dirty) {
+    <small>This field is required</small>
+  }
+
+  <label for="psw">Password</label>
+  <input formControlName="password" type="password" placeholder="Enter your password" id="psw" name="password" required/>
+  @if (loginForm.dirty) {
+    <small>
+      @if (loginForm.controls.password.hasError('required')) {
+        This field is required
+      } @else if (loginForm.controls.password.hasError('password.pattern')) {
+        The password doesn't comply with the policy
+      }
+    </small>
+  }
+
+  <div class="button-container">
+    <button type="button" (click)="register()" [disabled]="loginForm.invalid && loginForm.dirty">Register</button>
+    <button type="submit" [disabled]="loginForm.invalid && loginForm.dirty">Login</button>
+  </div>
+</form>

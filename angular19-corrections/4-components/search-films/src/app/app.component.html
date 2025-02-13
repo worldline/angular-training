@@ -1,0 +1,5 @@
+@if (!loggedIn) {
+  <app-login-form (loggedIn)="onLogin()"></app-login-form>
+} @else {
+  <app-film-search></app-film-search>
+}
