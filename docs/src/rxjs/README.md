@@ -29,7 +29,7 @@ The previous chapter showed you the basic usage of Observables. Here is what we 
 
 First, let's illustrate the second and third points:
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-observable-training?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/ocunidee/atpw-observable/tree/master?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1&title=Observable"></iframe>
 
 The `Observable` fires 3 next notifications followed by a complete notification. Observables either stop emitting values because they error out or because they complete. The two events are mutually exclusive.
 
@@ -70,7 +70,7 @@ fromEvent(document, 'click').subscribe({ next: _ => console.log('Clicked!') })
 
 The following Stackblitz let's you play around with those examples:
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-observable-creation-training?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/ocunidee/atpw-observable-creation/tree/master?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&title=Observable%20creation"></iframe>
 
 ## Filtering and mapping
 
@@ -78,7 +78,7 @@ Similar to the well known `Array.prototype.map` function, the `map` operator ([m
 
 Let's transform the previous example about the click event on the document so that it prints the coordinates of the click:
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-observable-mapping?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/ocunidee/atpw-rx-operators/tree/master?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1&title=Mapping%20and%20Filtering"></iframe>
 
 ::: tip Pipe
 `pipe()` is a function used to compose operators such as `map()`, `filter()`, `take()`... Operators are applied to the stream in the order they are passed to the pipe function
@@ -144,13 +144,13 @@ Streams can be composed for many purposes. To study this notion in a simpler env
 
 Having to chain backend calls is quite common. For example, the user has just edited a resource and you want your page to display its updated details. Some backend do send back the details of the updated resource in the body of the edit call response. However, some just send back a 200 or 204 HTTP response without a body. This means that the edit call and detail call need be chained to update the UI. RxJS provides several operators to chain events in a declarative manner. We will use the `switchMap` operator ([documentation](https://rxjs.dev/api/operators/switchMap) / [marble](https://rxmarbles.com/#switchMap)) in this case. You can try it in the Stackblitz below (click anywhere on the preview and see what happens in the console, click again and see how things change in the console).
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/switchmap-training?ctl=1&devtoolsheight=33&embed=1&file=index.ts&hideExplorer=1&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/edit/switchmap-training?ctl=1&devtoolsheight=33&embed=1&file=index.ts&hideExplorer=1&hideNavigation=1&title=SwitchMap%20exemple"></iframe>
 
 **Question: From this example, what do you learn on the way switchMap works? (Having a look at the marble diagram can help)**
 
 Let's adapt the above example to the context of chained backend calls:
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-chaining-observables?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/ocunidee/atpw-switchMap/tree/master?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1&title=SwitchMap%20exercise"></iframe>
 
 Another useful operator to combine calls is `exhaustMap` ([documentation](https://rxjs.dev/api/operators/exhaustMap)). While `switchMap` cancels the subscription to the previous projected Observable, exhaustMap ignores new events as long as the previous projected Observable hasn't completed.
 
@@ -164,7 +164,7 @@ Why shouldn't you mix them ?
 Most often it is done without realising. For instance, inside the next callback of a subscribe you call a method that has a subscribe. That is nesting subscribes.
 
 Example of what you should NOT do:
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-subscribe-do-not-do-this?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/ocunidee/atpw-switchMap/tree/nested-subscribe?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1&title=Don't nest subscribes"></iframe>
 :::
 
 ## Unsubscribing
@@ -174,34 +174,26 @@ For the moment we've seen how to subscribe to Observables. To avoid memory leaks
 Let's reuse our previous routing example to illustrate how memory leaks can happen. An interval Observable is created in the ngOnInit method of the book details component.
 **Navigate to the details of a book and watch the console. Then leave the page and come back. What happens in the console? What does it mean?**
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-why-unubscribe?ctl=1&embed=1&file=src/app/book-details/book-details.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/ocunidee/atpw-routing/tree/memory-leak?ctl=1&embed=1&file=src/app/book-details/book-details.component.ts&hideExplorer=1&hideNavigation=1&title=Memory leak"></iframe>
 
 When should you unsubscribe? If you have no certainty the `Observable` will complete or error out, you should manually unsubscribe from it. The `HttpClient` always completes the Observable it returns after having received a response. So, theoretically, if you only encounter Observables from the `HttpClient`, you do not have to take care of unsubscribing. In other cases, **be safe and unsubscribe**.
 
-How to unsubscribe? There are two ways:
-- The `subscribe` method returns a `Subscription` object that can be disposed of by calling the unsubscribe method on it when desired, usually when the component it lives in is destroyed.
-- Using the `takeUntil` operator ([marble](https://rxmarbles.com/#takeUntil) / [documentation](https://rxjs.dev/api/operators/takeUntil)) and a [`Subject`](https://rxjs.dev/guide/subject) which is a special kind of `Observable` on which it is possible to call the next(), error() and complete() methods.
+How to unsubscribe? Using the `takeUntilDestroyed` operator and passing it a `destroyRef`.
 
-The second way is easier to maintain when your code base grows so it is the one you should favour using.
+Let's fix the memory leak of the previous example.
 
-Let's fix the memory leak of the previous example. To demonstrate both techniques, the interval Observable has been added to the author details component as well:
-
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-unubscribe-example?ctl=1&embed=1&file=src/app/book-details/book-details.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/ocunidee/atpw-routing/tree/memory-leak-fix?ctl=1&embed=1&file=src/app/book-details/book-details.component.ts&hideExplorer=1&hideNavigation=1&title=takeUntilDestroyed"></iframe>
 
 ## The async pipe
 
-Subscribing to an `Observable` and saving the value in a property of the component is not the only way to display the values from the `Observable`. Angular provides a pipe to which the `Observable` can be passed directly.
+Subscribing to an `Observable` and storing the value in a class property is not the only way to display the values of the `Observable`. Angular provides a pipe to apply directly on the `Observable`.
 
 <CodeGroup>
 <CodeGroupItem title="Component class">
 
 ```ts
 export class AppComponent {
-  counter: Observable<number>
-
-  ngOnInit(): void {
-    this.counter = interval(1000)
-  }
+  counter: Observable<number> = interval(1000)
 }
 ```
 </CodeGroupItem>
@@ -214,40 +206,50 @@ export class AppComponent {
 </CodeGroupItem>
 </CodeGroup>
 
-For objects, an alternative syntax exists to avoid repetitively using the async pipe to access each field:
+For objects, an alternative syntax exists to avoid repetitively using the async pipe to access each field, since it creates a new subscription each time and retriggers the observable:
 
 <CodeGroup>
 <CodeGroupItem title="Component template">
 
 ```html
+<!-- TO BE AVOIDED -->
 <p>{{(user | async)?.firstName}}</p>
 <p>{{(user | async)?.lastName}}</p>
 <p>{{(user | async)?.age}}</p>
 
-<!-- OR -->
-
-<ng-container *ngIf="user | async as user">
+<!-- PREFERED WAY -->
+@if (user | async as user) {
   <p>{{user.firstName}}</p>
   <p>{{user.lastName}}</p>
   <p>{{user.age}}</p>
-</ng-container>
+}
+
+<!-- USING THE @let SYNTAX -->
+@let unwrappedUser = user | async;
+<p>{{unwrappedUser?.firstName}}</p>
+<p>{{unwrappedUser?.lastName}}</p>
+<p>{{unwrappedUser?.age}}</p>
 ```
 </CodeGroupItem>
 <CodeGroupItem title="Component class">
 
-```ts
+```ts{2}
+@Component({
+  selector: 'app-root',
+  imports: [AsyncPipe],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss'
+})
 export class AppComponent {
-  user: Observable<User>
-
-  ngOnInit(): void {
-    this.user = interval(1000).map(_ => new User('John', 'Snow', 28))
-  }
+  user: Observable<User> = interval(1000).pipe(map(_ => new User('John', 'Snow', 28)))
 }
 
-interface User {
-  firstName: string
-  lastName: string
-  age: number
+class User {
+  constructor(
+    public firstName: string,
+    public lastName: string,
+    public age: number
+  ) {}
 }
 ```
 </CodeGroupItem>

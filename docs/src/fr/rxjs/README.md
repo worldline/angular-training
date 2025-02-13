@@ -29,7 +29,7 @@ Le chapitre précédent vous a montré l'utilisation de base des Observables. Vo
 
 Tout d'abord, illustrons les deuxième et troisième points :
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-observable-training?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/ocunidee/atpw-observable/tree/master?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1&title=Observable"></iframe>
 
 L'`Observable` déclenche 3 notifications next suivies d'une notification complete. Un Observable arrête d'émettre des valeurs parce qu'elles sont erronées (callback error) ou parce qu'elles se terminent (callback complete). Les deux événements s'excluent mutuellement.
 
@@ -70,7 +70,7 @@ fromEvent(document, 'click').subscribe({ next: _ => console.log('Clicked!') })
 
 Le Stackblitz suivant vous permet de jouer avec ces exemples :
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-observable-creation-training?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/ocunidee/atpw-observable-creation/tree/master?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&title=Observable%20creation"></iframe>
 
 ## Filtrage et mapping
 
@@ -78,7 +78,7 @@ Semblable à la fonction bien connue `Array.prototype.map`, l'opérateur `map` (
 
 Transformons l'exemple précédent concernant l'événement click sur le document pour qu'il imprime les coordonnées du clic :
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-observable-mapping?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/ocunidee/atpw-rx-operators/tree/master?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1&title=Mapping%20and%20Filtering"></iframe>
 
 ::: tip Pipe
 `pipe()` est une fonction utilisée pour composer des opérateurs tels que `map()`, `filter()`, `take()`... Les opérateurs sont appliqués au flux dans l'ordre où ils sont passés à la fonction pipe
@@ -144,12 +144,12 @@ Les flux peuvent être composés à de nombreuses fins. Pour étudier cette noti
 
 Il est assez courant de devoir enchaîner les appels backend. Par exemple, l'utilisateur vient de modifier une ressource et vous souhaitez que votre page affiche ses détails mis à jour. Certains backends renvoient les détails de la ressource mise à jour dans le corps de la réponse à l'appel d'édition. Cependant, certains renvoient simplement une réponse HTTP 200 ou 204 sans corps. Cela signifie que l'appel de modification et l'appel de détail doivent être chaînés pour mettre à jour l'interface utilisateur. RxJS fournit plusieurs opérateurs pour enchaîner les événements de manière déclarative. Nous utiliserons l'opérateur `switchMap` ([documentation](https://rxjs.dev/api/operators/switchMap) / [marble](https://rxmarbles.com/#switchMap)) dans ce cas. Vous pouvez l'essayer dans le Stackblitz ci-dessous (cliquez n'importe où sur l'aperçu et voyez ce qu'il se passe dans la console, cliquez à nouveau et voyez comment les choses changent dans la console).
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/switchmap-training?ctl=1&devtoolsheight=33&embed=1&file=index.ts&hideExplorer=1&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/edit/switchmap-training?ctl=1&devtoolsheight=33&embed=1&file=index.ts&hideExplorer=1&hideNavigation=1&title=SwitchMap%20exemple"></iframe>
 
 **Question : A partir de cet exemple, qu'apprenez-vous sur le fonctionnement de switchMap ? (Regarder le diagramme marble peut aider)**
 Adaptons l'exemple ci-dessus au contexte des appels backend chaînés :
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-chaining-observables?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/ocunidee/atpw-switchMap/tree/master?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1&title=SwitchMap%20exercise"></iframe>
 
 Un autre opérateur utile pour combiner les appels est `exhaustMap` ([documentation](https://rxjs.dev/api/operators/exhaustMap)). Alors que `switchMap` annule l'abonnement à l'Observable projeté précédent, exhaustMap ignore les nouveaux événements tant que l'Observable projeté précédent n'est pas terminé.
 
@@ -163,7 +163,7 @@ Pourquoi ne pas les mélanger ?
 Le plus souvent, on le fait sans s'en rendre compte. Par exemple, dans la callback next d'un subscribe, vous appelez une méthode qui a un subscribe. C'est de l'imbrication de subscribes.
 
 Exemple de ce que vous ne devriez PAS faire :
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-subscribe-do-not-do-this?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/ocunidee/atpw-switchMap/tree/nested-subscribe?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1&title=Don't nest subscribes"></iframe>
 :::
 
 ## Unsubscribing
@@ -173,34 +173,26 @@ Pour le moment nous avons vu comment subscribe à un Observable. Pour éviter le
 Réutilisons notre exemple de routage précédent pour illustrer comment les fuites mémoire peuvent se produire. Un Observable interval est créé dans la méthode ngOnInit du composant de détails du livre.
 **Accédez aux détails d'un livre et regardez la console. Puis quittez la page et revenez. Que se passe-t-il dans la console ? Qu'est-ce que ça veut dire ?**
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-why-unubscribe?ctl=1&embed=1&file=src/app/book-details/book-details.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/ocunidee/atpw-routing/tree/memory-leak?ctl=1&embed=1&file=src/app/book-details/book-details.component.ts&hideExplorer=1&hideNavigation=1&title=Memory leak"></iframe>
 
 Quand unsubscribe ? Si vous n'avez aucune certitude que l'`Observable` s'achèvera ou qu'il produira une erreur, vous devez unsubscribe manuellement. Le `HttpClient` complète toujours l'Observable qu'il renvoie après avoir reçu une réponse. Donc, théoriquement, si vous ne rencontrez que des Observables du `HttpClient`, vous n'avez pas à unsubscribe. Dans les autres cas, **soyez prudent et unsubscribe**.
 
-Comment unsubscribe ? Il y a deux manières :
-- La méthode `subscribe` renvoie un objet `Subscription` qui dont la mémoire peut être désallouée en appelant la méthode unsubscribe sur celui-ci lorsque vous le souhaitez, généralement lorsque le composant dans lequel il réside est détruit.
-- En utilisant l'opérateur `takeUntil` ([marble](https://rxmarbles.com/#takeUntil) / [documentation](https://rxjs.dev/api/operators/takeUntil)) et un [`Subject` ](https://rxjs.dev/guide/subject) qui est un type spécial d'`Observable` sur lequel il est possible d'appeler les méthodes next(), error() et complete().
+Comment unsubscribe ? En utilisant l'opérateur `takeUntilDestroyed` et en lui passant un `destroyRef`.
 
-La deuxième méthode est plus facile à maintenir lorsque votre base de code grandit, c'est donc celle que vous devriez privilégier.
+Corrigons la fuite de mémoire de l'exemple précédent.
 
-Corrigons la fuite de mémoire de l'exemple précédent. Pour illustrer les deux techniques, l'Observable interval a également été ajouté au composant des détails de l'auteur :
-
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-unubscribe-example?ctl=1&embed=1&file=src/app/book-details/book-details.component.ts&hideExplorer=1&hideNavigation=1"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/ocunidee/atpw-routing/tree/memory-leak-fix?ctl=1&embed=1&file=src/app/book-details/book-details.component.ts&hideExplorer=1&hideNavigation=1&title=takeUntilDestroyed"></iframe>
 
 ## Pipe async 
 
-Invoquer la méthode subscribe sur un `Observable` et enregistrer la valeur dans une propriété du composant n'est pas le seul moyen d'afficher les valeurs de l'`Observable`. Angular fournit un pipe auquel l'`Observable` peut être transmis directement.
+Invoquer la méthode subscribe sur un `Observable` et enregistrer la valeur dans une propriété du composant n'est pas le seul moyen d'afficher les valeurs de l'`Observable`. Angular fournit un pipe à appliquer directement sur un `Observable`.
 
 <CodeGroup>
 <CodeGroupItem title="Component class">
 
 ```ts
 export class AppComponent {
-  counter: Observable<number>
-
-  ngOnInit(): void {
-    this.counter = interval(1000)
-  }
+  counter: Observable<number> = interval(1000)
 }
 ```
 </CodeGroupItem>
@@ -213,40 +205,50 @@ export class AppComponent {
 </CodeGroupItem>
 </CodeGroup>
 
-Pour les objets, une syntaxe alternative existe pour éviter d'utiliser de manière répétitive le pipe async pour accéder à chaque champ :
+Pour les objets, une syntaxe alternative existe pour éviter d'utiliser de manière répétitive le pipe async pour accéder à chaque champ. Sachant que chaque pipe `async` crée une souscription et trigger de nouveau l'exécution de l'`Observable`, c'est à éviter :
 
 <CodeGroup>
 <CodeGroupItem title="Component template">
 
 ```html
+<!-- A EVITER -->
 <p>{{(user | async)?.firstName}}</p>
 <p>{{(user | async)?.lastName}}</p>
 <p>{{(user | async)?.age}}</p>
 
-<!-- OR -->
-
-<ng-container *ngIf="user | async as user">
+<!-- METHODE À PREFEREE -->
+@if (user | async as user) {
   <p>{{user.firstName}}</p>
   <p>{{user.lastName}}</p>
   <p>{{user.age}}</p>
-</ng-container>
+}
+
+<!-- EN UTILISANT LA SYNTAXE @let -->
+@let unwrappedUser = user | async;
+<p>{{unwrappedUser?.firstName}}</p>
+<p>{{unwrappedUser?.lastName}}</p>
+<p>{{unwrappedUser?.age}}</p>
 ```
 </CodeGroupItem>
 <CodeGroupItem title="Component class">
 
-```ts
+```ts{2}
+@Component({
+  selector: 'app-root',
+  imports: [AsyncPipe],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss'
+})
 export class AppComponent {
-  user: Observable<User>
-
-  ngOnInit(): void {
-    this.user = interval(1000).map(_ => new User('John', 'Snow', 28))
-  }
+  user: Observable<User> = interval(1000).pipe(map(_ => new User('John', 'Snow', 28)))
 }
 
-interface User {
-  firstName: string
-  lastName: string
-  age: number
+class User {
+  constructor(
+    public firstName: string,
+    public lastName: string,
+    public age: number
+  ) {}
 }
 ```
 </CodeGroupItem>
