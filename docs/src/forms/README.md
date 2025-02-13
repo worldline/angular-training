@@ -11,7 +11,7 @@ In a Single Page Application, forms do not redirect to a server page when the us
 Angular simplifies the common tasks related to creating and processing forms, such as data-binding, validation and sending the data to the server.
 This is possible using either one of those two types of forms:
 
-- Template-driven forms: simple to use but far less scalable than reactive forms and are a good fit for simple forms of one or two inputs with little to no validation rules.
+- Template-driven forms: simple to use but far less scalable than reactive forms and are a good fit for simple forms of a few inputs with little to no validation rules.
 - Reactive forms: has a steep learning curve but offer more advantages in terms of management of complex use cases, scalability, reusability and testability. Their implementation is based on RxJS.
 
 ## Template-driven forms
@@ -72,7 +72,7 @@ Do not forget to import the `ReactiveFormsModule` when using reactive forms
 A `FormGroup` is a collection of form controls that are grouped together. It consists of a `FormGroup` instance that is bound in the template to a `<form>` tag via the `[formGroup]` attribute.
 Please note that child controls and groups use the attributes `formControlName` and `formGroupName` respectively in the template.
 
-The following component defines a `FormGroup` that contains some form controls and another form group. It illustrates many uses cases related to forms: getting the form value, its status, defining validators on the form control or in the template, and accessing child controls and groups using the [get](https://angular.io/api/forms/AbstractControl#get) method.
+The following component defines a `FormGroup` that contains some form controls and another form group. It illustrates many uses cases related to forms: getting the form value, its status, defining validators on the form control or in the template, and accessing child controls and groups using the `controls` property.
 
 <iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-reactive-form/tree/master?startScript=start&title=FormGroup&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
@@ -92,6 +92,8 @@ readonly iceCreamForm = new FormGroup({
 })
 
 //after
+private fb = inject(NonNullableFormBuilder) //do not forget to inject the service
+
 readonly iceCreamForm = this.fb.group({
   customerName: 'Charlotte Smith',
   flavor: ['', Validators.required],
@@ -100,8 +102,6 @@ readonly iceCreamForm = this.fb.group({
     second: 'Chocolate sauce'
   })
 })
-
-constructor(private fb: NonNullableFormBuilder) {} //do not forget to inject the service
 ```
 
 Please find below a complete example that uses the `FormBuilder` API.
@@ -109,7 +109,7 @@ Please find below a complete example that uses the `FormBuilder` API.
 <iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-reactive-form/tree/form-builder?startScript=start&title=FormBuilder&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
 ### Reactive Form validation
-The `ReactiveFormsModule` allows to define validators in the component code or using HTML5 validation attributes such as `required` and `minlength`. Angular provides built-in validators such as `Validators.required`, `Validators.min`, `Validators.pattern`, you can find a complete list [here](https://angular.io/api/forms/Validators). You can also define custom validators ([tutorial](https://angular.io/guide/form-validation#defining-custom-validators)).
+The `ReactiveFormsModule` allows to define validators in the component code or using HTML5 validation attributes such as `required` and `minlength`. Angular provides built-in validators such as `Validators.required`, `Validators.min`, `Validators.pattern`, you can find a complete list [here](https://angular.dev/api/forms/Validators). You can also define custom validators ([tutorial](https://angular.dev/guide/form-validation#defining-custom-validators)).
 
 :::warning
 When using HTML5 validators, Angular recommends to combine them with built-in `@angular/forms` validators.
@@ -133,7 +133,7 @@ The following component shows an example of how to take advantage of:
 
 <iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-reactive-form/tree/css-classes?startScript=start&title=Angular-managed CSS classes&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
-You can find an updated list of classes [here](https://angular.io/guide/form-validation#control-status-css-classes).
+You can find an updated list of classes [here](https://angular.dev/guide/form-validation#control-status-css-classes).
 
 ## Practical work: Login and registration with reactive forms
 1. Implement the login / registration form using reactive forms and the form builder: replace the `[(ngModel)]` in the template and delete the `email` and `password` from the class of the `LoginFormComponent`, declare a `FormGroup` named `loginForm`.
