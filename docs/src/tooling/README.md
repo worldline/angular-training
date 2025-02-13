@@ -183,7 +183,7 @@ The Developer Tools can be invoked by pressing F12 on your keyboard and offer a 
 
 The *Sources* tab of the Developer Tools enable you to open any source file by name (Ctrl + P) as long as you are not in a production build where files are minified. This is where you can place breakpoints.
 
-Alternatively, Angular provides a browser extension for Chrome called [Angular DevTools](https://angular.dev/guide/devtools). It adds Angular specific debugging and profiling capabilities. The following screenshot illustrates the component tree feature of Angular DevTools. When the developer clicks on the "<>" button surrounded in red, he gets access to the source code of the component where he can place breakpoints.
+Alternatively, Angular provides a browser extension for Chrome called [Angular DevTools](https://angular.dev/tools/devtools#). It adds Angular specific debugging and profiling capabilities. The following screenshot illustrates the component tree feature of Angular DevTools. When the developer clicks on the "<>" button surrounded in red, he gets access to the source code of the component where he can place breakpoints.
 
 ![Angular DevTools component tree](../assets/devtools-component-tree.png)
 

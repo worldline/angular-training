@@ -110,7 +110,7 @@ Veuillez trouver ci-dessous un exemple complet utilisant l'API `FormBuilder`.
 <iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-reactive-form/tree/form-builder?startScript=start&title=FormBuilder&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
 ### Validation de reactive form
-Le `ReactiveFormsModule` permet de définir des validateurs dans le code du composant ou en utilisant des attributs de validation HTML5 tels que `required` et `minlength`. Angular fournit des validateurs intégrés tels que `Validators.required`, `Validators.min`, `Validators.pattern`, vous pouvez trouver une liste complète [ici] (https://angular.dev/api/forms/Validators). Vous pouvez également définir des validateurs personnalisés ([tutoriel](https://angular.dev/guide/form-validation#defining-custom-validators)).
+Le `ReactiveFormsModule` permet de définir des validateurs dans le code du composant ou en utilisant des attributs de validation HTML5 tels que `required` et `minlength`. Angular fournit des validateurs intégrés tels que `Validators.required`, `Validators.min`, `Validators.pattern`, vous pouvez trouver une liste complète [ici] (https://angular.dev/api/forms/Validators). Vous pouvez également définir des validateurs personnalisés ([tutoriel](https://angular.dev/guide/forms/form-validation#defining-custom-validators)).
 
 :::warning
 Lorsque vous utilisez des validateurs HTML5, Angular recommande de les combiner avec les validateurs fournis par `@angular/forms`.
@@ -134,7 +134,7 @@ Le composant suivant montre comment tirer parti :
 
 <iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-reactive-form/tree/css-classes?startScript=start&title=Angular-managed CSS classes&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
-Vous pouvez trouver une liste à jour des classes [ici](https://angular.dev/guide/form-validation#control-status-css-classes).
+Vous pouvez trouver une liste à jour des classes [ici](https://angular.dev/guide/forms/form-validation#control-status-css-classes).
 
 ## TP : Connexion et inscription avec des reactive forms
 1. Implémentez le formulaire de connexion / inscription à l'aide de reactive forms et du form builder : remplacez le `[(ngModel)]` dans le template et supprimez les propriétés `email` et `mot de passe` de la classe du `LoginFormComponent` et déclarez un `FormGroup` et nommez le `loginForm`.
@@ -215,4 +215,4 @@ export function password(): ValidatorFn {
 Ajoutez un texte d'erreur (`Mot de passe invalide`) via la balise `<small>` en dessous de l'input du mot de passe qui s'affiche si le formulaire est invalide et que l'input a l'erreur `password.pattern`.
 
 ## Sources
-- [Documentation officielle des formulaires Angular](https://angular.dev/guide/forms-overview)
+- [Documentation officielle des formulaires Angular](https://angular.dev/guide/forms)

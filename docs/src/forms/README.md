@@ -109,7 +109,7 @@ Please find below a complete example that uses the `FormBuilder` API.
 <iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-reactive-form/tree/form-builder?startScript=start&title=FormBuilder&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
 ### Reactive Form validation
-The `ReactiveFormsModule` allows to define validators in the component code or using HTML5 validation attributes such as `required` and `minlength`. Angular provides built-in validators such as `Validators.required`, `Validators.min`, `Validators.pattern`, you can find a complete list [here](https://angular.dev/api/forms/Validators). You can also define custom validators ([tutorial](https://angular.dev/guide/form-validation#defining-custom-validators)).
+The `ReactiveFormsModule` allows to define validators in the component code or using HTML5 validation attributes such as `required` and `minlength`. Angular provides built-in validators such as `Validators.required`, `Validators.min`, `Validators.pattern`, you can find a complete list [here](https://angular.dev/api/forms/Validators). You can also define custom validators ([tutorial](https://angular.dev/guide/forms/form-validation#defining-custom-validators)).
 
 :::warning
 When using HTML5 validators, Angular recommends to combine them with built-in `@angular/forms` validators.
@@ -133,7 +133,7 @@ The following component shows an example of how to take advantage of:
 
 <iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-reactive-form/tree/css-classes?startScript=start&title=Angular-managed CSS classes&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
-You can find an updated list of classes [here](https://angular.dev/guide/form-validation#control-status-css-classes).
+You can find an updated list of classes [here](https://angular.dev/guide/forms/form-validation#control-status-css-classes).
 
 ## Practical work: Login and registration with reactive forms
 1. Implement the login / registration form using reactive forms and the form builder: replace the `[(ngModel)]` in the template and delete the `email` and `password` from the class of the `LoginFormComponent`, declare a `FormGroup` named `loginForm`.
@@ -214,4 +214,4 @@ export function password(): ValidatorFn {
  Add an error text (`The password doesn't comply with the policy`) under the password field (use a `<small>` tag) that shows if the form is dirty and the field has the `password.pattern` error.
 
 ## Sources
-- [Angular official forms documentation](https://angular.dev/guide/forms-overview)
+- [Angular official forms documentation](https://angular.dev/guide/forms)

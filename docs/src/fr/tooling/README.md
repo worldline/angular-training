@@ -173,7 +173,7 @@ Les Developer Tools du navigateur peuvent être affichés via la touche F12. Ils
 
 L'onglet *Sources* des Developer Tools permet d'ouvrir les fichiers sources de votre application et y placer des breakpoints. Vous pouvez les chercher par nom en utilisant `Ctrl + P`. Cela marche tant que vous n'êtes pas dans le cas d'un build de production pour lequel les fichiers source sont minimifiés. 
 
-Alternativement, Angular fournit une extention pour Chrome [Angular DevTools](https://angular.dev/guide/devtools) qui permet d'accéder à des fonctionnalités de débogage et de profiling spécifiques à Angular. L'imprimécran suivant illustre la fonctionnalité de visualisation de l'arbre des composants. En cliquant sur le bouton *<>*, vous pouvez accéder au code source du composant concerné et y placer des breakpoints.
+Alternativement, Angular fournit une extention pour Chrome [Angular DevTools](https://angular.dev/tools/devtools#) qui permet d'accéder à des fonctionnalités de débogage et de profiling spécifiques à Angular. L'imprimécran suivant illustre la fonctionnalité de visualisation de l'arbre des composants. En cliquant sur le bouton *<>*, vous pouvez accéder au code source du composant concerné et y placer des breakpoints.
 
 ![Angular DevTools component tree](../../assets/devtools-component-tree.png)
 

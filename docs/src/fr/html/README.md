@@ -4,7 +4,7 @@ Angular apporte une syntaxe puissante aux templates. Dans le chapitre précéden
 
 ## Property binding
 
-Pour lier un élément HTML à la propriété d'un composant, placez-le entre crochets `[]`. Les crochets, `[]`, obligent Angular à évaluer le côté droit de l'affectation en tant qu'expression dynamique. Sans les crochets, Angular traite le côté droit comme un littéral  et donne pour valeur à la propriété cette valeur statique. `[]` est la syntaxe pour le one-way data binding avec les données circulant du composant vers le template.
+Pour lier un élément HTML à la propriété d'un composant, placez-le entre crochets `[]`. Les crochets, `[]`, obligent Angular à évaluer le côté droit de l'affectation en tant qu'expression dynamique. Sans les crochets, Angular traite le côté droit comme un littéral et donne pour valeur à la propriété cette valeur statique. `[]` est la syntaxe pour le one-way data binding avec les données circulant du composant vers le template.
 
 Voici un exemple où les propriétés du DOM *href* et *disabled* sont définies à partir de variable de la classe du composant.
 
