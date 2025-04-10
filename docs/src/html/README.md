@@ -185,7 +185,7 @@ export class AppComponent {
 
 ## NgModel directive
 
-The ngModel directive allows you to bind the value of a form field to a component class variable. It is a two-way binding: the variable is updated when the content of the field changes (typically by the user) and vice versa. The syntax for two-way data binding is `[()]` (banana the box).
+The ngModel directive allows you to bind the value of a form field to a component class variable. It is a two-way binding: the variable is updated when the content of the field changes (typically by the user) and vice versa. The syntax for two-way data binding is `[()]` (banana in the box).
 
 <CodeGroup>
 <CodeGroupItem title="app.component.html">
@@ -203,10 +203,11 @@ The ngModel directive allows you to bind the value of a form field to a componen
 
 ```ts
 import { Component } from '@angular/core'
+import { FormsModule } from '@angular/forms'
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -377,17 +378,17 @@ An optional `@empty` block can be included right after the `@for` block. The con
 Inside the `@for` block, several implicit contextual variables are always available: `$count`, `$index`, `$first`, `$last`, `$odd` and `$even`. They can be aliased via a `let` segment which can be useful in case of using nested `@for` loops where contextual variable names could collide.
 
 ```html
-@for (item of items) {
-  <div>{{$item}}/{{$count}}: {{item.name}}</div>
+@for (item of items; track item.id) {
+  <div>{{$index}}/{{$count}}: {{item.name}}</div>
 }
 
 <!-- With an alias for $index -->
-@for (item of items; let i = $index) {
+@for (item of items; track item.id; let i = $index) {
   <div>{{i}}: {{item.name}}</div>
 }
 
 <!-- With an alias for $even -->
-@for (item of items; let isEven = $even) {
+@for (item of items; track item.id; let isEven = $even) {
   <div>{{item.name}} is {{isEven ? 'even': 'odd'}}</div>
 }
 ```

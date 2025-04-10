@@ -204,10 +204,11 @@ La directive `ngModel` vous permet de lier la valeur d'un champ de formulaire à
 
 ```ts
 import { Component } from '@angular/core'
+import { FormsModule } from '@angular/forms'
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -379,17 +380,17 @@ Un bloc optionnel `@empty` peut être inclus juste après le bloc `@for`. Le con
 À l'intérieur du bloc `@for`, plusieurs variables contextuelles implicites sont toujours disponibles : `$count`, `$index`, `$first`, `$last`, `$odd` et `$even`. Elles peuvent être renommées via un segment `let`, ce qui peut être utile en cas d'utilisation de boucles `@for` imbriquées où les noms des variables contextuelles pourraient entrer en collision.
 
 ```html
-@for (item of items) {
-  <div>{{$item}}/{{$count}}: {{item.name}}</div>
+@for (item of items; track item.id) {
+  <div>{{$index}}/{{$count}}: {{item.name}}</div>
 }
 
-<!-- Avec un alian pour $index -->
-@for (item of items; let i = $index) {
+<!-- Avec un alias pour $index -->
+@for (item of items; track item.id; let i = $index) {
   <div>{{i}}: {{item.name}}</div>
 }
 
 <!-- Avec un alias pour $even -->
-@for (item of items; let isEven = $even) {
+@for (item of items; track item.id; let isEven = $even) {
   <div>{{item.name}} is {{isEven ? 'even': 'odd'}}</div>
 }
 ```

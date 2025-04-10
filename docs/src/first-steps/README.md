@@ -226,7 +226,7 @@ This folder structure is best suited to simple projects with only one main featu
 ![Multi feature folder structure](../assets/folder-structure-multi-module.png)
 
 :::tip
-By default, the CLI will always generate in the `app` folder. You can tell it to generate in another folder by passing the path before the name of the element you want it to generate. For instance `ng generate component components/dashobard` will generate the `DashboardComponent` 4 files in `app/components/dashboard`. The `components` folder is created by the CLI if it doesn't already exist, as well as the `dashboard` folder.
+By default, the CLI will always generate in the `app` folder. You can tell it to generate in another folder by passing the path before the name of the element you want it to generate. For instance `ng generate component components/dashboard` will generate the `DashboardComponent` 4 files in `app/components/dashboard`. The `components` folder is created by the CLI if it doesn't already exist, as well as the `dashboard` folder.
 :::
 
 As the complexity of the folder structure of the application increases, it is a good practice to add aliases in the `tsconfig.json` file. Let's do it now to avoid a tedious refactoring later:
