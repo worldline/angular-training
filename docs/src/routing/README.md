@@ -360,11 +360,11 @@ The `ActivatedRoute` service describes the current state of the *router*. Throug
 `paramMap` and `queryParamMap` are Observables, a notion we will see more in detail in a later chapter. Observable allows to observe how information change over time. The `ActivatedRoute` service also provides a `snapshot` property to only get the state of the router at a given point in time. This property is enough to cover most cases.
 
 To extract a parameter from a route, two steps are required:
-1. Inject the `ActivatedRoute` service in the constructor of the component needing it
+1. Inject the `ActivatedRoute` service in the component needing it
 2. Retrieve the paramMap from the snapshot in the `OnInit` lifecycle hook
 
-```ts{10,13}
-import { Component, OnInit } from '@angular/core'
+```ts{9,12}
+import { Component, OnInit, inject } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 
 @Component({
@@ -372,8 +372,7 @@ import { ActivatedRoute } from '@angular/router'
   templateUrl: './exemple.component.html'
 })
 export class ExampleComponent implements OnInit {
-
-  constructor(private route: ActivatedRoute) {}
+  private route = inject(ActivatedRoute)
 
   ngOnInit(): void {
     const id: string = this.route.snapshot.paramMap.get('id')
@@ -387,9 +386,9 @@ Let's go back to the *Personal Library* app. With the help of the `ActivatedRout
 ```ts
 // book-details.component.ts
 export class BookDetailsComponent implements OnInit {
-  details: BookDetail | null
+  private route = inject(ActivatedRoute)
 
-  constructor(private route: ActivatedRoute) {}
+  details: BookDetail | null
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')
@@ -399,9 +398,9 @@ export class BookDetailsComponent implements OnInit {
 
 // author-details.component.ts
 export class AuthorDetailsComponent implements OnInit {
-  details: AuthorDetail | null
+  private route = inject(ActivatedRoute)
 
-  constructor(private route: ActivatedRoute) {}
+  details: AuthorDetail | null
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')
@@ -421,7 +420,7 @@ What does it mean ? If you only allow the navigation to the same route via the a
 ### Router service
 
 Sometimes, it is necessary to trigger some actions before routing. This is what happens when we click on a login button. First, an http call is made and depending on the response, routing takes place. The `Router` service allows to trigger navigation from the component class.
-1. Inject the `Router` service via the constructor
+1. Inject the `Router` service via the inject method
 
 2. Use the `navigateByUrl` method to trigger the navigation. `navigateByUrl` always takes an absolute path. In case you would like to user a relative path, use the `navigate` method instead.
 
@@ -431,7 +430,7 @@ Sometimes, it is necessary to trigger some actions before routing. This is what 
   templateUrl: './example.component.html'
 })
 export class ExampleComponent {
-  constructor(private router: Router) {}
+  private router = inject(Router)
 
   navigatePostLogin(): void {
     this.router.navigateByUrl('/dashboard')

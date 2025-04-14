@@ -59,7 +59,7 @@ Angular provides lifecycle hook methods to tap into key events in the lifecycle 
 
 - `ngOnChanges`: called after the constructor and every time input values change. The method receives a SimpleChanges object of current and previous property values.
 
-- `ngOnInit`: called only once. This is where the **component's initialisation** should take place, such as **fetching intial data**. Indeed components should be cheap to construct, so costly operations should be kept out of the constructor. The constructor should do no more than set the initial local variables to simple values.
+- `ngOnInit`: called only once. This is where the **component's initialisation** should take place, such as **fetching initial data**. Indeed components should be cheap to construct, so costly operations should be kept out of the constructor. The constructor should do no more than set the initial local variables to simple values.
 
 - `ngDoCheck`: called immediately after `ngOnChanges` on every change detection run, and immediately after `ngOnInit` on the first run. Gives an opportunity to implement a custom change detection algorithm.
 

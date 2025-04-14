@@ -23,9 +23,9 @@ export class ExampleService {
 }
 ```
 
-When a component requires a service, the service should be added to its constructor in the following manner:
+When a component requires a service, the service should be injected in its class in the following manner:
 
-```ts{11}
+```ts{1,9}
 import { Component } from '@angular/core'
 import { ExampleService } from '@services/example.service'
 
@@ -34,10 +34,7 @@ import { ExampleService } from '@services/example.service'
   templateUrl: './example.component.html'
 })
 export class ExampleComponent {
-
-  constructor(
-    private exampleService: ExampleService
-  ) {}
+  private exampleService = inject(ExampleService)
 }
 ```
 
@@ -53,7 +50,7 @@ At bootstrap, Angular creates an application-wide injector. If other injectors a
 
 You may not have realised, but we have already used providers. In the pipe chapter, to use the `UpperCasePipe` in the component class instead of in the template, we added it to the providers array of the component.
 
-When Angular discovers that a component depends on a service, it first checks if the injector has any existing instances of that service. If a requested service instance doesn't yet exist, the injector makes one using the registered provider, and adds it to the injector before returning the service to Angular. When all requested services have been resolved and returned, Angular can call the component's constructor with those services as arguments.
+When Angular discovers that a component depends on a service, it first checks if the injector has any existing instances of that service. If a requested service instance doesn't yet exist, the injector makes one using the registered provider, and adds it to the injector before returning the service to Angular. When all requested services have been resolved and returned, Angular can call the component's constructor.
 
 Dependencies can be provided at three levels:
 - **root level:** this is the default behaviour when creating a service with the CLI. That is what `providedIn: 'root'` means. The *same instance* of the dependency is injected everywhere it is needed as if it were a singleton.
@@ -117,7 +114,7 @@ inject(Router).createUrlTree(['/login'], { queryParams: { returnUrl: state.url }
 
 In a Single Page Application (SPA), communication with the server is done via asynchronous HTTP requests (AJAX) or more specialized protocols such as WebSocket. We will see how to make these network requests from an Angular application.
 
-Angular provides a module, the `HttpClientModule`, to make HTTP calls. The module provides an injectable service, the `HttpClient`, to make GET, POST, PATCH, DELETE and PUT requests. To inject the `HttpClient` in a service, first add the `HttpClientModule` to the `AppModule`'s `imports` array.
+Angular provides a module, the `HttpClientModule`, to make HTTP calls. The module provides an injectable service, the `HttpClient`, to make GET, POST, PATCH, DELETE and PUT requests. To inject the `HttpClient` in a service, first add the `HttpClientModule` to the providers array of the app in the `app.config.ts` file by passing it the `provideHttpClient()` function.
 
 Here are a few examples:
 
@@ -125,7 +122,7 @@ Here are a few examples:
 <CodeGroupItem title="Service">
 
 ```ts
-import { Injectable } from '@angular/core'
+import { Injectable, inject } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { User } from '@models/user/user'
@@ -136,19 +133,19 @@ import { UserEdition } from '@models/user/user-edition'
   providedIn: 'root'
 })
 export class UserService {
+  private httpClient = inject(HttpClient)
+
   private baseUrl = 'api/backoffice/users'
 
-  constructor(private httpClient: HttpClient) {}
-
-  public create(user: UserCreation): Observable<User> {
+  create(user: UserCreation): Observable<User> {
     return this.httpClient.post<User>(this.baseUrl, user)
   }
 
-  public update(ref: string, user: UserEdition): Observable<User> {
+  update(ref: string, user: UserEdition): Observable<User> {
     return this.httpClient.put<User>(`${this.baseUrl}/${ref}`, user)
   }
 
-  public getByUserReference(ref: string): Observable<User> {
+  getByUserReference(ref: string): Observable<User> {
     return this.httpClient.get<User>(`${this.baseUrl}/${ref}`)
   }
 }
@@ -157,7 +154,7 @@ export class UserService {
 <CodeGroupItem title="Component">
 
 ```ts
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { User } from '@models/user/user'
 import { UserService } from '@services/user.service'
 
@@ -166,10 +163,10 @@ import { UserService } from '@services/user.service'
   templateUrl: './user.component.html'
 })
 export class UserComponent {
+  private userService = inject(UserService)
+
   user: User | undefined = undefined
   reference = ''
-
-  constructor(private userService: UserService) {}
 
   getUser(): void {
     this.userService.getByUserReference(this.reference))
@@ -305,9 +302,8 @@ Note the token in the `UserResponse`, it will serve to authenticate the user via
 <CodeGroupItem title="authentication.service.ts">
 
 ```ts
+private httpClient = inject(HttpClient)
 private baseUrl = 'api/user'
-
-constructor(private httpClient: HttpClient) {}
 
 login(loginRequest: LoginRequest): Observable<UserResponse> {
   return this.httpClient.post<UserResponse>(`${this.baseUrl}/login`, loginRequest)
@@ -333,11 +329,9 @@ register(loginRequest: LoginRequest): Observable<UserResponse> {
 <CodeGroupItem title="login-form.component.ts">
 
 ```ts
-constructor(
-  private router: Router,
-  private activatedRoute: ActivatedRoute,
-  private authenticationService: AuthenticationService
-) {}
+private router = inject(Router)
+private activatedRoute = inject(ActivatedRoute)
+private authenticationService = inject(AuthenticationService)
 
 login(): void {
   this.authenticationService.login(this.loginRequest)

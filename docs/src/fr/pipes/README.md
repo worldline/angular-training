@@ -83,7 +83,7 @@ Le premier argument de la méthode `transform` est la valeur sur laquelle le pip
 
 Le nom du pipe doit être en lowerCamelCase. C'est une bonne pratique de le faire commencer par les initiales de votre application, tout comme pour le sélecteur de vos composants.
 
-Comme toute autre classe, les pipes peuvent utiliser leur constructeur pour bénéficier de l'injection de dépendances. Il est possible d'injecter un autre pipe par exemple. Ceci est particulièrement utile lorsqu'un pipe intégré doit être utilisé dans toute l'application avec les mêmes paramètres. Un pipe personnalisé peut servir de wrapper afin de simplifier l'utilisation d'un pipe intégré.
+Comme toute autre classe, les pipes peuvent bénéficier de l'injection de dépendances. Il est possible d'injecter un autre pipe par exemple. Ceci est particulièrement utile lorsqu'un pipe intégré doit être utilisé dans toute l'application avec les mêmes paramètres. Un pipe personnalisé peut servir de wrapper afin de simplifier l'utilisation d'un pipe intégré.
 
 Dans l'exemple suivant, le prix remisé est calculé en fonction d'un taux de remise. Aucune donnée du catalogue dans le composant n'est mutée pour afficher le nouveau prix.
 
@@ -91,10 +91,10 @@ Dans l'exemple suivant, le prix remisé est calculé en fonction d'un taux de re
 
 ## Utiliser un pipe en dehors d'un template
 
-Il est également possible d'utiliser des pipes dans une classe de composant en l'injectant dans son constructeur et en appelant sa méthode transform. Le pipe doit alors être ajouté aux providers du composant ou de l'*ApplicationConfig*. Lorsqu'un pipe n'est pas utilisé dans le template, il n'a pas besoin d'être présent dans le tableau des imports du composant.
+Il est également possible d'utiliser des pipes dans une classe de composant en l'injectant et en appelant sa méthode transform. Le pipe doit alors être ajouté aux providers du composant ou de l'*ApplicationConfig*. Lorsqu'un pipe n'est pas utilisé dans le template, il n'a pas besoin d'être présent dans le tableau des imports du composant.
 
 ```ts
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { UpperCasePipe } from '@angular/common'
 
 @Component({
@@ -104,8 +104,7 @@ import { UpperCasePipe } from '@angular/common'
   providers: [ UpperCasePipe ]
 })
 export class AppComponent {
-
-  constructor(private upperCasePipe: UpperCasePipe) {}
+  private upperCasePipe = inject(UpperCasePipe)
 
   title = this.upperCasePipe.transform('title')
 }

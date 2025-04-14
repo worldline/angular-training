@@ -360,11 +360,11 @@ Le service `ActivatedRoute` décrit l'état actuel du *router*. Grâce à lui, l
 `paramMap` et `queryParamMap` sont des Observables, une notion que nous verrons plus en détail dans un chapitre ultérieur. Un Observable permet d'observer comment les informations évoluent dans le temps. Le service `ActivatedRoute` fournit également une propriété `snapshot` pour obtenir uniquement l'état du routeur à un moment donné. Cette propriété est suffisante pour couvrir la plupart des cas.
 
 Pour extraire un paramètre d'une route, deux étapes sont nécessaires :
-1. Injectez le service `ActivatedRoute` dans le constructeur du composant qui en a besoin
+1. Injectez le service `ActivatedRoute` dans le composant qui en a besoin
 2. Récupérez le paramMap depuis le snapshot dans le hook de cycle de vie `OnInit`
 
-```ts{10,13}
-import { Component, OnInit } from '@angular/core'
+```ts{9,12}
+import { Component, OnInit, inject } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 
 @Component({
@@ -372,8 +372,7 @@ import { ActivatedRoute } from '@angular/router'
   templateUrl: './exemple.component.html'
 })
 export class ExampleComponent implements OnInit {
-
-  constructor(private route: ActivatedRoute) {}
+  private route = inject(ActivatedRoute)
 
   ngOnInit(): void {
     const id: string = this.route.snapshot.paramMap.get('id')
@@ -387,9 +386,9 @@ Revenons à l'application *Personal Library*. Avec l'aide de `ActivatedRoute`, m
 ```ts
 // book-details.component.ts
 export class BookDetailsComponent implements OnInit {
-  details: BookDetail | null
+  private route = inject(ActivatedRoute)
 
-  constructor(private route: ActivatedRoute) {}
+  details: BookDetail | null
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')
@@ -399,9 +398,9 @@ export class BookDetailsComponent implements OnInit {
 
 // author-details.component.ts
 export class AuthorDetailsComponent implements OnInit {
-  details: AuthorDetail | null
+  private route = inject(ActivatedRoute)
 
-  constructor(private route: ActivatedRoute) {}
+  details: AuthorDetail | null
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')
@@ -421,7 +420,7 @@ Qu'est-ce que ça veut dire ? Si vous ne permettez la navigation vers la même r
 ### Service Router
 
 Parfois, il est nécessaire de déclencher certaines actions avant le routage. C'est ce qui se passe lorsque nous cliquons sur un bouton de connexion. Tout d'abord, un appel http est effectué et en fonction de la réponse, le routage a lieu. Le service `Router` permet de déclencher la navigation depuis la classe du composant.
-1. Injecter le service 'Router' via le constructeur
+1. Injecter le service 'Router' via la mtéthode *inject*
 2. Utilisez la méthode `navigateByUrl` pour déclencher la navigation. `navigateByUrl` prend toujours un chemin absolu. Si vous souhaitez utiliser un chemin relatif, utilisez plutôt la méthode `navigate`.
 
 ```ts{6,9}
@@ -430,7 +429,7 @@ Parfois, il est nécessaire de déclencher certaines actions avant le routage. C
   templateUrl: './example.component.html'
 })
 export class ExampleComponent {
-  constructor(private router: Router) {}
+  private router =inject(Router)
 
   navigatePostLogin(): void {
     this.router.navigateByUrl('/dashboard')

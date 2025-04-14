@@ -91,10 +91,10 @@ In the following example, the discounted price is calculated given a discount ra
 
 ## Using a pipe outside the template
 
-It is also possible to use pipes in a component class by injecting it in its constructor and calling its transform method. The pipe needs to be added to the providers array of the component decorator or *ApplicationConfig*. When not used in the template, the pipe doesn't need to be present in the imports array of the component decorator.
+It is also possible to use pipes in a component class by injecting via the *inject* method and calling its transform method. The pipe needs to be added to the providers array of the component decorator or *ApplicationConfig*. When not used in the template, the pipe doesn't need to be present in the imports array of the component decorator.
 
 ```ts
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { UpperCasePipe } from '@angular/common'
 
 @Component({
@@ -104,8 +104,7 @@ import { UpperCasePipe } from '@angular/common'
   providers: [ UpperCasePipe ]
 })
 export class AppComponent {
-
-  constructor(private upperCasePipe: UpperCasePipe) {}
+  private upperCasePipe = inject(UpperCasePipe)
 
   title = this.upperCasePipe.transform('title')
 }
