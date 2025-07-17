@@ -56,9 +56,8 @@ Si les pipes intégrés ne couvrent pas un cas d'utilisation que vous rencontrez
 Pour créer un Pipe personnalisé, vous devez :
 - créer une classe qui implémente l'interface `PipeTransform`
 - décorez-la avec le décorateur `@Pipe()`
-- l'ajouter aux `declarations` (et `exports` si besoin) de son module associé
 
-Le CLI s'occupera de ces trois points pour nous via la [commande suivante](https://angular.dev/cli/generate/pipe):
+Le CLI s'occupera de ces points pour nous via la [commande suivante](https://angular.dev/cli/generate/pipe):
 
 ```sh
 ng generate pipe <name>

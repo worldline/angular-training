@@ -495,4 +495,4 @@ Only one line should remain in your `app.component.html` file: `<router-outler><
 </CodeGroupItem>
 </CodeGroup>
 
-7. **Bonus:** Learn about [navigation guards](https://angular.dev/api/router/CanActivateFn?tab=description) to secure routes. We will implement one in the next chapter.
+6. **Bonus:** Learn about [navigation guards](https://angular.dev/api/router/CanActivateFn?tab=description) to secure routes. We will implement one in the next chapter.

@@ -27,7 +27,7 @@ When a component requires a service, the service should be injected in its class
 
 ```ts{1,9}
 import { Component } from '@angular/core'
-import { ExampleService } from '@services/example.service'
+import { ExampleService } from 'app/services/example.service'
 
 @Component({
   selector: 'app-example',
@@ -125,9 +125,9 @@ Here are a few examples:
 import { Injectable, inject } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
-import { User } from '@models/user/user'
-import { UserCreation } from '@models/user/user-creation'
-import { UserEdition } from '@models/user/user-edition'
+import { User } from 'app/models/user/user'
+import { UserCreation } from 'app/models/user/user-creation'
+import { UserEdition } from 'app/models/user/user-edition'
 
 @Injectable({
   providedIn: 'root'
@@ -155,8 +155,8 @@ export class UserService {
 
 ```ts
 import { Component, inject } from '@angular/core'
-import { User } from '@models/user/user'
-import { UserService } from '@services/user.service'
+import { User } from 'app/models/user/user'
+import { UserService } from 'app/services/user.service'
 
 @Component({
   selector: 'app-user',
@@ -442,7 +442,7 @@ b. Here is its implementation:
 
 ```ts
 import { HttpInterceptorFn } from '@angular/common/http'
-import { AuthenticationService } from '@services/authentication.service'
+import { AuthenticationService } from 'app/services/authentication.service'
 import { inject } from '@angular/core'
 
 export const authenticationInterceptor: HttpInterceptorFn = (req, next) => {

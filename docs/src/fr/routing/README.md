@@ -494,4 +494,4 @@ Le fichier `app.component.html` ne devrait contenir plus qu'une seule ligne: `<r
 </CodeGroupItem>
 </CodeGroup>
 
-7. **Bonus:** Apprenez-en plus sur les [navigation guards](https://angular.dev/api/router/CanActivateFn?tab=description) pour sécuriser les routes. Nous allons en implémenter un dans le chapitre suivant.
+6. **Bonus:** Apprenez-en plus sur les [navigation guards](https://angular.dev/api/router/CanActivateFn?tab=description) pour sécuriser les routes. Nous allons en implémenter un dans le chapitre suivant.

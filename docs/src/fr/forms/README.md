@@ -165,7 +165,7 @@ myFormGroup.controls.myControl.hasError('required')
 
 ::: details Correction
 ```css
-form.ng-dirty label:has(+ input.ng-invalid), form.ng-dirty input.ng-invalid + small {
+form label:has(+ input.ng-invalid.ng-dirty), form.ng-dirty input.ng-invalid.ng-dirty + small {
   color: red;
 }
 ```

@@ -466,18 +466,16 @@ Any HTML content, including other angular components can be projected. This feat
 
 ```html
 <!-- my-popin.component.html -->
-<div class="popin">
-  <div class="popin-header">
-    <ng-content select="[slot=header]"></ng-content>
-  </div>
+<div class="popin-header">
+  <ng-content select="[slot=header]"></ng-content>
+</div>
 
-  <main class="popin-content">
-    <ng-content></ng-content>
-  </main>
+<main class="popin-content">
+  <ng-content></ng-content>
+</main>
 
-  <div class="popin-actions">
-    <ng-content select="[slot=actions]"></ng-content>
-  </div>
+<div class="popin-actions">
+  <ng-content select="[slot=actions]"></ng-content>
 </div>
 ```
 </CodeGroupItem>
@@ -489,6 +487,7 @@ Any HTML content, including other angular components can be projected. This feat
   <h1 slot="header">Popin title</h1>
   <p>Popin content</p>
   <button slot="actions">OK</button>
+  <button slot="actions">Cancel</button>
 </my-popin>
 ```
 </CodeGroupItem>
