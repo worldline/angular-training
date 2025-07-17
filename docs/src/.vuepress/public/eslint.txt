@@ -14,10 +14,10 @@ module.exports = tseslint.config(
     ],
     processor: angular.processInlineTemplates,
     languageOptions: {
-      ecmaVersion: 2020,
+      ecmaVersion: 2022,
       sourceType: "module",
       parserOptions: {
-        project: ["tsconfig.json", "e2e/tsconfig.json"],
+        project: ["tsconfig.app.json", "tsconfig.spec.json"],
         createDefaultProgram: true,
         ecmaFeatures: {
           modules: true,

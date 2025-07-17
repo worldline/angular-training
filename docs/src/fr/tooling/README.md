@@ -28,7 +28,7 @@ Vous utiliserez le CLI Angular pour créer des projets, générer du code dans v
 
 Pour installer le CLI Angular, ouvrez une fenêtre de terminal et exécutez la commande suivante :
 ```sh
-npm install -g @angular/cli@19.0.6
+npm install -g @angular/cli@20.1.0
 ```
 
 ::: tip Powershell
@@ -78,7 +78,7 @@ Vous avez alors deux choix :
 
 OU
 
-- Pour une installation plus légère, installez uniquement l'[Angular language service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template). Cette extension fournira, entre autres, l'autocomplétion. Installer ensuite le linter [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
+- Pour une installation plus légère, installez uniquement l'[Angular language service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template). Cette extension fournira, entre autres, l'autocomplétion. Installer ensuite le linter [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint), puis enfin [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig).
 
 ::: tip WSL
 Dans le cas où vous souhaiteriez développer dans WSL, Node et le CLI Angular doivent être installés dans le sous-système linux et Visual Studio Code dans Windows avec l'extension [Remote - WSL extension](https://code.visualstudio.com/docs/remote/wsl).
@@ -101,13 +101,16 @@ Si vous utilisez WSL, le repo git doit être stocké du côté WSL pour éviter 
 Choisissez la configuration suivante :
 
 ```sh
-? Which stylesheet format would you like to use? Sass (SCSS)   [ https://sass-lang.com/documentation/syntax#scss ]
-? Do you want to enable Server-Side Rendering (SSR) and Static Site Generation (SSG/Prerendering)? N
+✔ Do you want to create a 'zoneless' application without zone.js (Developer Preview)? No
+✔ Which stylesheet format would you like to use? Sass (SCSS) [https://sass-lang.com/documentation/syntax#scss]
+✔ Do you want to enable Server-Side Rendering (SSR) and Static Site Generation (SSG/Prerendering)? No
 ```
 
-La première question vous fait choisir le format des feuilles de style. Ce format sera utilisé à deux endroits : pour le fichier global `styles` et pour chaque composant généré. Le format SCSS vous permet d'écrire du CSS standard et vous donne la possibilité de tirer parti de la puissance de Sass si vous choisissez de le faire.
+La première question permet d'expérimenter avec le futur d'Angular: une application qui tourne sans la librairie zone.js. Sachant qu'elle permet la détection du changement, en son absence, il faut utiliser les signaux pour que l'interface soit mis à jour lors des interactions utilisateurs et de la réception de nouvelles données.
 
-La seconde question permet de configurer le projet pour des cas d'usages plus compliqués que ce que la formation requiert.
+La seconde question vous fait choisir le format des feuilles de style. Ce format sera utilisé à deux endroits : pour le fichier global `styles` et pour chaque composant généré. Le format SCSS vous permet d'écrire du CSS standard et vous donne la possibilité de tirer parti de la puissance de Sass si vous choisissez de le faire.
+
+La troisième question permet de configurer le projet pour des cas d'usages plus compliqués que ce que la formation requiert.
 
 Depuis la version 12 d'Angular, le CLI génère les nouveaux projets en mode strict. Notamment, il définit le flag `strict` à true dans le fichier `tsconfig.json`, ce qui active un large éventail de fonctionnalités de vérification de type qui se traduisent par de meilleures garanties d'exactitude du programme. L'activer équivaut à activer toutes les options de la famille en mode strict : `strictBindCallApply`, `strictFunctionTypes`, `strictNullChecks` et `strictPropertyInitialization`. Il définit également sur true les trois `angularCompilerOptions` suivantes : `strictInjectionParameters`, `strictInputAccessModifiers` et `strictTemplates`. Ces options configurent le compilateur de template AOT (*Ahead-of-Time*).
 
