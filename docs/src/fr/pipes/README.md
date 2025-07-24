@@ -9,20 +9,20 @@ Les pipes sont des **fonctions de transformation de données** utilisables direc
 La syntaxe des pipes Angular est inspirée de celle du shell Unix
 
 ```html
-<div>{{ user.lastName | uppercase  }}</div>
+<div>{{ user().lastName | uppercase  }}</div>
 ```
 
 Des paramètres peuvent être passés aux pipes. Ils sont placés après le nom du pipe et séparés par des deux-points :
 
 ```html
-<div>{{ user.registrationDate | date:'dd/MM/yyyy' }}</div>
-<div>{{ user.registrationDate | date:'dd/MM/yyyy hh:mm':'UTC' }}</div>
-<div>{{ user.registrationDate | date:'dd/MM/yyyy hh:mm':'+0200':'fr' }}</div>
+<div>{{ user().registrationDate | date:'dd/MM/yyyy' }}</div>
+<div>{{ user().registrationDate | date:'dd/MM/yyyy hh:mm':'UTC' }}</div>
+<div>{{ user().registrationDate | date:'dd/MM/yyyy hh:mm':'+0200':'fr' }}</div>
 ```
 
 Les pipes peuvent être enchaînés :
 ```html
-<div>{{ user.birthDate | date | uppercase }}</div>
+<div>{{ user().birthDate | date | uppercase }}</div>
 ```
 
 ## Pipes intégrés
@@ -93,7 +93,7 @@ Dans l'exemple suivant, le prix remisé est calculé en fonction d'un taux de re
 Il est également possible d'utiliser des pipes dans une classe de composant en l'injectant et en appelant sa méthode transform. Le pipe doit alors être ajouté aux providers du composant ou de l'*ApplicationConfig*. Lorsqu'un pipe n'est pas utilisé dans le template, il n'a pas besoin d'être présent dans le tableau des imports du composant.
 
 ```ts
-import { Component, inject } from '@angular/core'
+import { Component, inject, signal } from '@angular/core'
 import { UpperCasePipe } from '@angular/common'
 
 @Component({
@@ -105,7 +105,7 @@ import { UpperCasePipe } from '@angular/common'
 export class AppComponent {
   private upperCasePipe = inject(UpperCasePipe)
 
-  title = this.upperCasePipe.transform('title')
+  protected readonly title = signal(this.upperCasePipe.transform('title'))
 }
 ```
 ## TP : Format du score

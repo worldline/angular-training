@@ -9,27 +9,27 @@ To bind a DOM property to a component's property, enclose the DOM property in sq
 Here is an exemple where the *href* and *disabled* DOM property values are defined via variables in the component class.
 
 <CodeGroup>
-<CodeGroupItem title="app.component.html">
+<CodeGroupItem title="app.html">
 
 ```html
-<a [href]="url">Search on google</a>
-<button [disabled]="isUnchanged">Edit</button>
+<a [href]="url()">Search on google</a>
+<button [disabled]="isUnchanged()">Edit</button>
 ```
 </CodeGroupItem>
-<CodeGroupItem title="app.component.ts">
+<CodeGroupItem title="app.ts">
 
 ```ts
-import { Component } from '@angular/core'
+import { Component, signal } from '@angular/core'
 
 @Component({
   selector: 'app-root',
   imports: [],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  templateUrl: './app.html',
+  styleUrl: './app.scss'
 })
 export class AppComponent {
-  url = 'google.com'
-  isUnchanged = false
+  protected readonly url = signal('google.com')
+  protected readonly isUnchanged = signal(false)
 }
 ```
 </CodeGroupItem>
@@ -40,16 +40,16 @@ export class AppComponent {
 
 ## Class and style binding
 ### Class binding
-You can use *class binding* to add and remove CSS class names from an element's `class` attribute. To create a single *class binding*, use the prefix `class` followed by a dot and the name of the CSS class, for example, `[class.emphasis]="onSale"`. Angular adds the CSS class `emphasis` when the bound expression, `onSale`, is truthy and it removes the `emphasis` class when the expression is falsy.
+You can use *class binding* to add and remove CSS class names from an element's `class` attribute. To create a single *class binding*, use the prefix `class` followed by a dot and the name of the CSS class, for example, `[class.emphasis]="onSale()"`. Angular adds the CSS class `emphasis` when the bound expression, `onSale()`, is truthy and it removes the `emphasis` class when the expression is falsy.
 
 <CodeGroup>
-<CodeGroupItem title="app.component.html">
+<CodeGroupItem title="app.html">
 
 ```html
-<p [class.my-class-1]="isWarning">This is a warning text</p> <!--Text color is red-->
+<p [class.my-class-1]="isWarning()">This is a warning text</p> <!--Le texte est en rouge-->
 ```
 </CodeGroupItem>
-<CodeGroupItem title="app.component.css">
+<CodeGroupItem title="app.css">
 
 ```css
 .my-class-1 {
@@ -57,19 +57,19 @@ You can use *class binding* to add and remove CSS class names from an element's 
 }
 ```
 </CodeGroupItem>
-<CodeGroupItem title="app.component.ts">
+<CodeGroupItem title="app.ts">
 
 ```ts
-import { Component } from '@angular/core'
+import { Component, signal } from '@angular/core'
 
 @Component({
   selector: 'app-root',
   imports: [],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  templateUrl: './app.html',
+  styleUrl: './app.scss'
 })
-export class AppComponent {
-  isWarning = true
+export class App {
+  protected readonly isWarning = signal(true)
 }
 ```
 </CodeGroupItem>
@@ -78,13 +78,13 @@ export class AppComponent {
 Multiple classes can also be bound at the same time with the `[class]` syntax:
 
 <CodeGroup>
-<CodeGroupItem title="app.component.html">
+<CodeGroupItem title="app.html">
 
 ```html
-<p [class]="classExpression"></p>
+<p [class]="classExpression()"></p>
 ```
 </CodeGroupItem>
-<CodeGroupItem title="app.component.css">
+<CodeGroupItem title="app.css">
 
 ```css
 .warning {
@@ -100,52 +100,52 @@ Multiple classes can also be bound at the same time with the `[class]` syntax:
 }
 ```
 </CodeGroupItem>
-<CodeGroupItem title="app.component.ts">
+<CodeGroupItem title="app.ts">
 
 ```ts
-import { Component } from '@angular/core'
+import { Component, signal } from '@angular/core'
 
 @Component({
   selector: 'app-root',
   imports: [],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  templateUrl: './app.html',
+  styleUrl: './app.scss'
 })
-export class AppComponent {
-  classExpression = { warning: true, center: false, big: true } // object syntax
-  // Alternatively, these other syntaxes are also legal
-  // classExpression = "warning center big" // string syntax
-  // classExpression = ['warning', 'center', 'big'] // array syntax
+export class App {
+  protected readonly classExpression = signal({ warning: true, center: false, big: true }) // syntaxe objet
+  // Ces autres syntaxes sont aussi légales:
+  // classExpression = signal('warning center big') // syntaxe chaine de caractère
+  // classExpression = signal(['warning', 'center', 'big']) // syntaxe tableau
 }
 ```
 </CodeGroupItem>
 </CodeGroup>
 
 ### Style binding
-You can use *style binding* to set styles dynamically just like classes. To create a single style binding, use the prefix `style` followed by a dot and the name of the CSS style property, for example, `[style.width]="slimWidth"` in the template with `slimWidth = "100px"` (`slimWidth` is a string) in the component class. Optionally, you can add a unit extension like `em` or `%`: `[style.width.px]="slimWidth"` with `slimWidth = 100` (slimWidth is a number here).
+You can use *style binding* to set styles dynamically just like classes. To create a single style binding, use the prefix `style` followed by a dot and the name of the CSS style property, for example, `[style.width]="slimWidth()"` in the template with `slimWidth = signal('100px')` (`slimWidth` is the signal of a string) in the component class. Optionally, you can add a unit extension like `em` or `%`: `[style.width.px]="slimWidth()"` with `slimWidth = signal(100)` (slimWidth is the signal of a number here).
 
 <CodeGroup>
-<CodeGroupItem title="app.component.html">
+<CodeGroupItem title="app.html">
 
 ```html
 <!-- Style properties can be written in dash-case or camelCase -->
-<nav [style.background-color]="value"></nav>
-<nav [style.backgroundColor]="value"></nav>
+<nav [style.background-color]="value()"></nav>
+<nav [style.backgroundColor]="value()"></nav>
 ```
 </CodeGroupItem>
-<CodeGroupItem title="app.component.ts">
+<CodeGroupItem title="app.ts">
 
 ```ts
-import { Component } from '@angular/core'
+import { Component, signal } from '@angular/core'
 
 @Component({
   selector: 'app-root',
   imports: [],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  templateUrl: './app.html',
+  styleUrl: './app.scss'
 })
 export class AppComponent {
-  value = 'white'
+  value = signal('white')
 }
 ```
 </CodeGroupItem>
@@ -154,27 +154,27 @@ export class AppComponent {
 To toggle multiple styles, bind to the `[style]` attribute:
 
 <CodeGroup>
-<CodeGroupItem title="app.component.html">
+<CodeGroupItem title="app.html">
 
 ```html
-<p [style]="styleExpression"></p>
+<p [style]="styleExpression()"></p>
 ```
 </CodeGroupItem>
-<CodeGroupItem title="app.component.ts">
+<CodeGroupItem title="app.ts">
 
 ```ts
-import { Component } from '@angular/core'
+import { Component, signal } from '@angular/core'
 
 @Component({
   selector: 'app-root',
   imports: [],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  templateUrl: './app.html',
+  styleUrl: './app.scss'
 })
 export class AppComponent {
-  styleExpression = {width: '100px', height: '100px', backgroundColor: 'red'} // object syntax
+  styleExpression = signal({width: '100px', height: '100px', backgroundColor: 'red'}) // object syntax
   // Alternatively, a string syntax is also legal
-  // styleExpression = "width: 100px; height: 100px; background-color: red;"
+  // styleExpression = signal('width: 100px; height: 100px; background-color: red;')
 }
 ```
 </CodeGroupItem>
@@ -185,10 +185,10 @@ export class AppComponent {
 
 ## NgModel directive
 
-The ngModel directive allows you to bind the value of a form field to a component class variable. It is a two-way binding: the variable is updated when the content of the field changes (typically by the user) and vice versa. The syntax for two-way data binding is `[()]` (banana in the box).
+The ngModel directive allows you to bind the value of a form field to a component class variable. It is a two-way binding: the variable is updated when the content of the field changes (typically by the user) and vice versa. The syntax for two-way data binding is `[()]` (banana in the box). We introduce here a new type of WritableSignal: a model()
 
 <CodeGroup>
-<CodeGroupItem title="app.component.html">
+<CodeGroupItem title="app.html">
 
 ```html {3}
 <label>
@@ -196,23 +196,23 @@ The ngModel directive allows you to bind the value of a form field to a componen
   <input [(ngModel)]="name">
 </label>
 
-<p>Hello {{ name }} !</p>
+<p>Hello {{ name() }} !</p>
 ```
 </CodeGroupItem>
-<CodeGroupItem title="app.component.ts">
+<CodeGroupItem title="app.ts">
 
 ```ts
-import { Component } from '@angular/core'
+import { Component, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 
 @Component({
   selector: 'app-root',
   imports: [FormsModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  templateUrl: './app.html',
+  styleUrl: './app.scss'
 })
 export class AppComponent {
-  name = ''
+  name = signal('')
 }
 ```
 </CodeGroupItem>
@@ -233,29 +233,29 @@ The `ngModel` directive is not part of the default imports of a component. You h
 You can add or remove an element from the DOM by enclosing it in an `@if` block. When the condition of the `@if` block is false, Angular removes the element and its descendants from the DOM. Angular then disposes of their class instances if there are any, which frees up memory and resources. If you only want to hide the element without removing it from the DOM, you can use `[hidden]` which only adds/removes the `display:none` CSS property on the element. `@if` is helpful in providing a way to guard against null or undefined values.
 
 <CodeGroup>
-<CodeGroupItem title="app.component.html">
+<CodeGroupItem title="app.html">
 
 ```html
 <!--Will only show Hello, ... if selectedCustomer is not null or undefined-->
-@if (selectedCustomer) {
-  <div>Hello, {{selectedCustomer.name}}</div>
+@if (selectedCustomer(); as customer) {
+  <div>Hello, {{customer.name}}</div>
 }
 ```
 </CodeGroupItem>
 
-<CodeGroupItem title="app.component.ts">
+<CodeGroupItem title="app.ts">
 
 ```ts
-import { Component } from '@angular/core'
+import { Component, signal } from '@angular/core'
 
 @Component({
   selector: 'app-root',
   imports: [],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  templateUrl: './app.html',
+  styleUrl: './app.scss'
 })
 export class AppComponent {
-  selectedCustomer = { name: 'Smith', age: 45 }
+  selectedCustomer = signal({ name: 'Smith', age: 45 })
 }
 ```
 </CodeGroupItem>
@@ -304,7 +304,7 @@ With the old syntax, you can provide an *else* statement but not an *else if*:
 The `@switch` block conditionally swaps the content by selecting one of the embedded templates based on the current value of the `condition` expression.
 
 ```html
-@switch (condition) {
+@switch (condition()) {
   @case (caseA) {
     Case A.
   }
@@ -333,10 +333,10 @@ The value of the conditional expression is compared to the case expression using
 You can use the @for block to present a list of items. The content of the `@for` block is repeated for each item in the collection.
 
 <CodeGroup>
-<CodeGroupItem title="app.component.html">
+<CodeGroupItem title="app.html">
 
 ```html
-@for (item of items; track item.id) {
+@for (item of items(); track item.id) {
   <div>{{item.name}}</div>
 }
 @empty {
@@ -346,23 +346,23 @@ You can use the @for block to present a list of items. The content of the `@for`
 
 </CodeGroupItem>
 
-<CodeGroupItem title="app.component.ts">
+<CodeGroupItem title="app.ts">
 
 ```ts
-import { Component } from '@angular/core'
+import { Component, signal } from '@angular/core'
 
 @Component({
   selector: 'app-root',
   imports: [],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  templateUrl: './app.html',
+  styleUrl: './app.scss'
 })
 export class AppComponent {
-  items = [
+  items = signal([
     { id: 1, name: 'hammer' },
     { id: 2, name: 'nail' },
     { id: 3, name: 'lightbulb' },
-  ]
+  ])
 }
 ```
 
@@ -378,17 +378,17 @@ An optional `@empty` block can be included right after the `@for` block. The con
 Inside the `@for` block, several implicit contextual variables are always available: `$count`, `$index`, `$first`, `$last`, `$odd` and `$even`. They can be aliased via a `let` segment which can be useful in case of using nested `@for` loops where contextual variable names could collide.
 
 ```html
-@for (item of items; track item.id) {
+@for (item of items(); track item.id) {
   <div>{{$index}}/{{$count}}: {{item.name}}</div>
 }
 
 <!-- With an alias for $index -->
-@for (item of items; track item.id; let i = $index) {
+@for (item of items(); track item.id; let i = $index) {
   <div>{{i}}: {{item.name}}</div>
 }
 
 <!-- With an alias for $even -->
-@for (item of items; track item.id; let isEven = $even) {
+@for (item of items(); track item.id; let isEven = $even) {
   <div>{{item.name}} is {{isEven ? 'even': 'odd'}}</div>
 }
 ```
@@ -469,8 +469,8 @@ You can find more about building your own directives [here](https://angular.dev/
 **Quizz: Which type of directive is ngModel?**
 
 ## Practical work: Film list
-1. In the LoginFormComponent, add two class variables *email* (`email = ''`) and *password* (`password = ''`) and use the `[(ngModel)]` directive on the email and password inputs in the html to bind them. Remember the warning in the ngModel section of the chapter: don't forget to import the `FormsModule` in the imports array of the component to use the ngModel directive.
-2. Add another `loggedIn` class variable initially set to `false`, then use event binding with `(ngSubmit)` on the `<form>` tag to set it to `true` when the form is submitted (create a method `login()` in the component's class for that).
+1. In the LoginFormComponent, add two class variables *email* (`protected readonly email = signal('')`) and *password* (`protected readonly password = signal('')`) and use the `[(ngModel)]` directive on the email and password inputs in the html to bind them. Remember the warning in the ngModel section of the chapter: don't forget to import the `FormsModule` in the imports array of the component to use the ngModel directive.
+2. Add another `loggedIn` class variable initially set to `signal(false)`, then use event binding with `(ngSubmit)` on the `<form>` tag to set it to `true` when the form is submitted (create a method `login()` in the component's class for that and use the set method of the Signal: `loggedIn.set(true)`).
 3. In `login-form.component.html`, add the following HTML under the authentication form :
 
 ```html
@@ -511,7 +511,7 @@ You can find more about building your own directives [here](https://angular.dev/
 </ul>
 ```
 
-4. Use an `@if` block to display the authentication form and hide the films list when `loggedIn === false`, and vice versa.
+4. Use an `@if` block to display the authentication form and hide the films list when `loggedIn() === false`, and vice versa.
 5. Add the following model in the *src/app/models* folder, name the file *film.ts*:
 
 ```ts
@@ -526,10 +526,10 @@ export interface Film {
 }
 ```
 
-6. Add the following field in the class of the LoginFormComponent (you should get an error and be offered a fix suggestion to import the Film model in the component, you will see the @models alias in action):
+6. Add the following field in the class of the LoginFormComponent (you should get an error and be offered a fix suggestion to import the Film model in the component):
 
 ```ts
-films: Film[] = [
+protected films: WritableSignal<Film[]> = signal([
   {
     title: 'Titanic',
     released: '19 Dec 1997',
@@ -560,7 +560,7 @@ films: Film[] = [
     plot: 'A family heads to an isolated hotel for the winter where an evil spiritual presence influences the father into violence, while his psychic son sees horrific forebodings from both past and future.',
     metascore: '63'
   }
-]
+])
 ```
 
 7. Using an `@for` block, repeat the `.film.card` element to display as many films as there is in the `films` array. At this stage you are seeing Titanic three times, let's take care of this in the next step.
