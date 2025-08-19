@@ -77,7 +77,7 @@ Si l'objet ou la classe possède toutes les propriétés requises, TypeScript di
 
 TypeScript entretient une relation inhabituelle avec JavaScript. TypeScript offre toutes les fonctionnalités de JavaScript additionnées d'un surcouche : le système de types de TypeScript. Cela signifie que votre code fonctionnel JavaScript existant est également du code TypeScript.
 
-![ts vs js](../../assets/ts-vs-js.png)
+![ts vs js](../assets/ts-vs-js.png)
 
 ### Syntaxe
 

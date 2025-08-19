@@ -115,9 +115,9 @@ export class AppComponent {
 4. Commitez
 
 ::: details Résultat attendu
-![Résultat visuel du TP sur les pipes 1](../../assets/visual-1.png)
+![Résultat visuel du TP sur les pipes 1](../assets/visual-1.png)
 
-![Résultat visuel du TP sur les pipes 2](../../assets/visual-3.png)
+![Résultat visuel du TP sur les pipes 2](../assets/visual-3.png)
 :::
 
 

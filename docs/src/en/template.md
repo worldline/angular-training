@@ -185,7 +185,7 @@ export class AppComponent {
 
 ## NgModel directive
 
-The ngModel directive allows you to bind the value of a form field to a component class variable. It is a two-way binding: the variable is updated when the content of the field changes (typically by the user) and vice versa. The syntax for two-way data binding is `[()]` (banana in the box). We introduce here a new type of WritableSignal: a model()
+The ngModel directive allows you to bind the value of a form field to a component class variable. It is a two-way binding: the variable is updated when the content of the field changes (typically by the user) and vice versa. The syntax for two-way data binding is `[()]` (banana in the box).
 
 <CodeGroup>
 <CodeGroupItem title="app.html">
@@ -260,6 +260,8 @@ export class AppComponent {
 ```
 </CodeGroupItem>
 </CodeGroup>
+
+You do not need to provide an `as` statement, however the `as` statement serves as an alias for the condition and avoids the re-evaluation of the signal in the encapsulated template if you need to use if there.
 
 ::: warning
 Be careful when using `@if` to test nullability on numeric values as `0` is a falsy value.
@@ -438,7 +440,7 @@ Event binding allows you to listen for and respond to user actions such as keyst
 <iframe height='500' width='100%' src="https://stackblitz.com/fork/github/ocunidee/atpw-event-binding?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1&title=Event%20binding"></iframe>
 
 ## @let block
-The `@let` block serves to define a local variable that can be reused across the template. It will be re-evaluated everytime change detection is executed. The variables declared with `@let`, can be used after they have been declared and within the bound of the same scope and nested scopes.
+The `@let` block serves to define a local variable that can be reused across the template. It will be re-evaluated everytime change detection is executed. The variables declared with `@let`, can be used after they have been declared and within the bound of the same scope and nested scopes. It is particularly useful for evaluating data only once and reusing it throughout the template.
 
 ```html
 <!-- Use with a template variable referencing an element -->

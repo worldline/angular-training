@@ -54,30 +54,34 @@ Une instance de composant a un cycle de vie qui commence lorsqu'Angular instanci
 
 Angular fournit des méthodes de hook pour exploiter les événements clés du cycle de vie d'un composant.
 
-![Lifecycle hooks](../../assets/lifecycle.png)
+![Lifecycle hooks](../assets/lifecycle.png)
 
-- `ngOnChanges`: appelée après le constructeur et chaque fois que les valeurs input changent. La méthode reçoit un objet SimpleChanges qui contient les valeurs actuelles et précédentes des propriétés annotées d'@Input().
+- `ngOnChanges`: appelée après le constructeur et chaque fois que les valeurs input changent (la valeur des variables de la classe décorées avec `@Input()`). La méthode reçoit un objet SimpleChanges qui contient les valeurs actuelles et précédentes des propriétés annotées d'@Input().
 
 - `ngOnInit`: appelée une seule fois. C'est là que l'**initialisation du composant** doit avoir lieu, tel que **la récupération des données initiales**. En effet, les composants doivent être peu coûteux à construire, les opérations coûteuses doivent donc être tenues à l'écart du constructeur. Le constructeur ne doit pas faire plus que donner des valeurs initiales simples aux variables de la classe.
 
 - `ngDoCheck`: appelée immédiatement après `ngOnChanges` à chaque exécution du cycle de détection du changement, et immédiatement après `ngOnInit` lors de la première exécution. Donne la possibilité de mettre en œuvre un algorithme de détection du changement personnalisé.
 
-- `ngAfterContentInit`: appelée une seule fois. Invoquée après qu'Angular ait effectué une projection de contenu dans la vue du composant.
+- `ngAfterContentInit`: appelée une seule fois. Invoquée après qu'Angular ait effectué une projection de contenu dans la vue du composant. La projection de contenu correspond à l'html qui est placé entre les balises html de notre composant.
 
 - `ngAfterContentChecked`: appelée après `ngAfterContentInit` et chaque `ngDoCheck` suivant.
 
-- `ngAfterViewInit`: appelée une seule fois. Appelée lorsque la vue du composant a été complètement initialisée.
+- `ngAfterViewInit`: appelée une seule fois. Appelée lorsque la vue du composant a été complètement initialisée, c'est-à-dire quand la vue de ses propres composants enfant a fini d'être initialisée.
 
 - `ngAfterViewChecked`: appelée après `ngAfterViewInit` et chaque `ngDoCheck` suivant.
 
 Pour chaque hook du cycle de vie il existe une interface correspondante. Leurs noms sont dérivés du nom du hook de cycle de vie correspondant moins le `ng`. Par exemple, pour utiliser `ngOnInit()`, implémentez l'interface `OnInit`.
 
+Avec l'introduction des Signaux dans Angular 17+, l'usage des hooks de cycle de vie va sûrement décroitre. Uniquement `ngOnInit` et `ngAfterViewInint` étaient couramment utilisés avec de temps en temps l'usage de `ngOnChanges`.
+
 ## Communication entre les composants enfant et parent
-Une pratique courante dans Angular est le partage de données entre un composant parent et un ou plusieurs composants enfants. Pour ce faire, vous pouvez utiliser les directives `@Input()` et `@Output()`. `@Input()` permet à un composant parent de mettre à jour les données dans le composant enfant. Inversement, `@Output()` permet à l'enfant d'envoyer des données à un composant parent.
+Une pratique courante dans Angular est le partage de données entre un composant parent et un ou plusieurs composants enfants. Pour ce faire, vous pouvez utiliser les signaux `input()` et `output()`. `input()` permet à un composant parent de mettre à jour les données dans le composant enfant. Inversement, `output()` permet à l'enfant d'envoyer des données à un composant parent.
 
-![Data sharing](../../assets/child-parent.png)
+![Data sharing](../assets/child-parent.png)
 
-### @Input()
+<!-- TODO -->
+
+### input()
 
 L'ajout du décorateur `@Input()` sur une propriété d'un composant enfant signifie qu'il peut recevoir sa valeur de son composant parent. Le composant parent transmet cette valeur via property binding dans son template. Une telle propriété **ne devrait pas être mutée par l'enfant** directement. Les mutations doivent se produire dans le parent, elles se propageront automatiquement via le property binding.
 
@@ -495,7 +499,7 @@ Tout contenu HTML, y compris d'autres composants Angular, peut être projeté. C
 En plus du `<ng-content>` par défaut, vous pouvez **nommer** d'autres balises `<ng-content>` pour distribuer le contenu à plusieurs emplacements dans l'enfant. Vous y parvenez en utilisant l'attribut `select` sur la balise `<ng-content>` et en ajoutant la valeur choisie comme attribut sur l'élément à projeter.
 
 ## TP : Décomposer l'application
-1. Refactorisez le `LoginFormComponent` pour extraire le code et le template liés aux détails d'un film. Pour cela, créez avec le CLI un `FilmComponent` (`ng g c components/film`). Il y aura autant d'instances de `FilmComponent` qu'il y a de films (déplacez la balise `<li></li>` et son contenu vers le nouveau composant). Utilisez `@Input()` pour transmettre les données du `LoginFormComponent` à chaque `FilmComponent`.
+1. Refactorisez le `LoginFormComponent` pour extraire le code et le template liés aux détails d'un film. Pour cela, créez avec le CLI un `FilmComponent` (`ng g c components/film`). Il y aura autant d'instances de `FilmComponent` qu'il y a de films (déplacez la balise `<li></li>` et son contenu vers le nouveau composant). Utilisez `input.required<Film>()` pour transmettre les données du `LoginFormComponent` à chaque `FilmComponent`.
 
 :::tip
 N'oublbiez pas d'ajouter le `FilmComponent` au tableau des imports du decorateur du `LoginFormComponent` afin de pouvoir utiliser `<app-film></app-film>` dans le template.
@@ -522,22 +526,22 @@ N'oubliez pas d'ajouter le `FormsModule` au tableau des imports du `FilmSearchCo
 3. Insérez ce `FilmSearchComponent` en dessous du `LoginFormComponent` dans le template de l'`AppComponent` et déplacez le code nécessaire (html et ts) du `LoginFormComponent` vers ce nouveau composant, supprimez le code qui n'est plus utilisé.
 
 ::: details Résultat attendu de l'étape 3
-![Visual result of the component practical work step 3](../../assets/visual-4a.png)
+![Visual result of the component practical work step 3](../assets/visual-4a.png)
 :::
 
-4. Affichez le composant `FilmSearchComponent` uniquement si l'utilisateur est connecté. Vous devrez communiquer la variable `loggedIn` du `LoginFormComponent` à l'`AppComponent` via un `@Output()` (transformez le champ *loggedIn*). Vous aurez besoin d'une méthode `onLogin()` dans l'`AppComponent`.
-5. Dans le `FilmSearchComponent`, affectez initialement la variable `films` à un tableau `[]` vide. Lors de la soumission du formulaire de recherche, exécutez une méthode `searchFilms()` qui mettra les 3 exemples de films dans cette liste.
+4. Affichez le composant `FilmSearchComponent` uniquement si l'utilisateur est connecté. Vous devrez communiquer la variable `loggedIn` du `LoginFormComponent` à l'`AppComponent` via un `output()` (transformez le champ *loggedIn*). Vous aurez besoin d'une méthode `login()` dans l'`AppComponent`.
+5. Dans le `FilmSearchComponent`, affectez initialement le signal de la variable `films` à un tableau `[]` vide. Lors de la soumission du formulaire de recherche, exécutez une méthode `searchFilms()` qui mettra les 3 exemples de films dans cette liste.
 6. Commitez
 
 ::: details Résultat attendu
-![Résultat visuel du TP sur les pipes 1](../../assets/visual-1.png)
+![Résultat visuel du TP sur les pipes 1](../assets/visual-1.png)
 
-![Résultat visuel du TP sur les pipes 2](../../assets/visual-4b.png)
+![Résultat visuel du TP sur les pipes 2](../assets/visual-4b.png)
 
-![Résultat visuel du TP sur les pipes 3](../../assets/visual-4c.png)
+![Résultat visuel du TP sur les pipes 3](../assets/visual-4c.png)
 :::
 
-## Pour aller plus loin
+## Pour aller plus loin et en apprendre plus sur le passé d'Angular
 - En savoir plus sur la projection de contenu contextuelle en utilisant [ngTemplateOutlet](https://angular.love/ngtemplateoutlet-the-secret-to-customisation)
 
 - Angular 14 a introduit les *standalone components* en version beta dans le framework et Angular 15 a rendu leur API stable. Vous pouvez en apprendre plus sur ce type de composants [ici](https://blog.ninja-squad.com/2022/05/12/a-guide-to-standalone-components-in-angular/)

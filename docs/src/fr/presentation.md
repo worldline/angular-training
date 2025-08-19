@@ -24,7 +24,7 @@ Il existe deux modèles courants de développement de sites Web :
   - Également appelées applications multipages (puisque chaque vue est représentée par une page distincte)
   - Quelques exemples de frameworks : PHP, Symphony, JSP, Tapestry, ASP Razor pages
 
-![server page](../../assets/MPA.svg)
+![server page](../assets/MPA.svg)
 
 - Application à page unique (SPA) + API :
   - L'interface utilisateur se compose d'un seul fichier HTML statique. Le fichier est dit statique car le serveur ne modifie pas la page avant de la livrer
@@ -36,7 +36,7 @@ Il existe deux modèles courants de développement de sites Web :
   - Le client utilise Javascript pour récupérer des données dynamiques et manipuler le DOM
   - Ce modèle est similaire à celui utilisé dans les applications mobiles (la SPA est analogue à l'application mobile)
 
-![server page](../../assets/SPA.svg)
+![server page](../assets/SPA.svg)
 
 Une application Angular est une *SPA* qui est complété par une API si besoin.
 Il existe d'autres frameworks SPA tels que Vue.js, React et Ember.js (le dernier est le moins populaire).

@@ -122,7 +122,7 @@ Dans cet exemple, nous avons formaté le prix manuellement. Nous verrons plus ta
 
 L'`App` n'est que le composant racine d'une application Angular. Une application Web est constituée de petits composants réutilisables, intégrés dans des composants de niveau supérieur pour former la mise en page, la disposition de vos éléments sur la page. Cette structure peut être décrite comme une arborescence de composants. Angular crée, met à jour et détruit les composants au fur et à mesure que l'utilisateur se déplace dans l'application. L'application peut agir à chaque instant de ce cycle de vie via des hooks de cycle de vie facultatifs, comme `ngOnInit()`.
 
-![Component tree](../../assets/tree.png)
+![Component tree](../assets/tree.png)
 
 Avant de générer un second composant, configurons la convention de nommage des composants et autres blocs de construction d'une application Angular. Depuis Angular 20, le type de bloc de construction (composant, service, directive) généré n'est pas automatiquement suffixé au nom du fichier et de la classe. Ceci donne plus de flexibilité aux équipes en terme de nommage, cependant ceci peut aussi facilement mener à des conflits de nommage entre le composant, le service et le DTO qui partagent tous le même nom de classe par exemple. C'est pour cela que nous allons ajouter la configuration suivante dans le fichier `angular.json` afin de restorer le fait que le CLI suffixe automatiquement les noms de fichier et les noms de classe.
 
@@ -262,12 +262,12 @@ Bien qu'une petite application puisse n'avoir qu'un seul NgModule, au fur et à 
 Voici la structure de dossiers que nous nous efforcerons d'atteindre dans l'application Search Films :
 
 <!-- TODO replace image-->
-![Simple folder structure](../../assets/folder-structure.png)
+![Simple folder structure](../assets/folder-structure.png)
 
 Cette structure de dossiers est la mieux adaptée aux projets simples qui n'ont qu'une seule fonctionnalité dont les routes sont définies dans un seul fichier: `app.routes.ts`. Au fur et à mesure qu'un projet grandit, des dossiers de fonctionnalités seront introduits et la structure peut évoluer vers ceci :
 
 <!-- TODO replace image-->
-![Multi feature folder structure](../../assets/folder-structure-multi-module.png)
+![Multi feature folder structure](../assets/folder-structure-multi-module.png)
 
 L'équipe Angular fournit un [guide de style](https://angular.dev/style-guide) où ils conseillent de suivre une telle structure plutôt que la structure simple. Si vous avez des doutes de nommage ou style, hésitez pas à vous y référer.
 
@@ -322,5 +322,5 @@ VsCode utilisera automatiquement ces chemins pour les imports au lieu de ceux re
 6. Pensez à commiter
 
 ::: details Résultat attendu
-![Résultat visuel du TP Premier composant](../../assets/visual-1.png)
+![Résultat visuel du TP Premier composant](../assets/visual-1.png)
 :::

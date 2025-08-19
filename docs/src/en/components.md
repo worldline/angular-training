@@ -18,7 +18,7 @@ Among the `@Component` decorator options, there is one dealing with ViewEncapsul
 - `ViewEncapsulation.ShadowDom`: Angular creates Shadow DOM for the component, styles are scoped to the component
 
 :::warning
-Under the default option, styles specified in the component's style file are not inherited by any components nested within the template nor by any content projected into the component.
+Under the default option, styles specified in the component's style file are not inherited by any components nested within the template nor by any content projected into the component. Using the same selector, the styles defined in the component stylesheet have the priority over those defined in the global stylesheet of the project (styles.scss).
 :::
 
 ### `:host` selector
@@ -37,7 +37,7 @@ Let's imagine we require a border on the LoginFormComponent. This is how to add 
 </CodeGroupItem>
 </CodeGroup>
 
-The next example targets the host element again, but only when it also has the active CSS class.
+The next example targets the host element again, but only when it also has the active CSS class applied by in its parent's template.
 
 <CodeGroup>
 <CodeGroupItem title="login-form.component.scss">
@@ -57,29 +57,135 @@ Angular provides lifecycle hook methods to tap into key events in the lifecycle 
 
 ![Lifecycle hooks](../assets/lifecycle.png)
 
-- `ngOnChanges`: called after the constructor and every time input values change. The method receives a SimpleChanges object of current and previous property values.
+- `ngOnChanges`: called after the constructor and every time input values change (from the class variables defined as `input()` or previously decorated with `@Input()`). The method receives a SimpleChanges object of current and previous property values.
 
 - `ngOnInit`: called only once. This is where the **component's initialisation** should take place, such as **fetching initial data**. Indeed components should be cheap to construct, so costly operations should be kept out of the constructor. The constructor should do no more than set the initial local variables to simple values.
 
-- `ngDoCheck`: called immediately after `ngOnChanges` on every change detection run, and immediately after `ngOnInit` on the first run. Gives an opportunity to implement a custom change detection algorithm.
+- `ngDoCheck`: called immediately after `ngOnChanges` on every change detection run of the parent component, and immediately after `ngOnInit` on the first run. Gives an opportunity to implement a custom change detection algorithm.
 
-- `ngAfterContentInit`: called only once. Invoked after Angular performs any content projection into the component’s view.
+- `ngAfterContentInit`: called only once. Invoked after Angular performs any content projection into the component’s view. Content projection is the html we place in between the html tags of the component.
 
 - `ngAfterContentChecked`: called after `ngAfterContentInit` and every subsequent `ngDoCheck`.
 
-- `ngAfterViewInit`: called only once. Invoked when the component’s view has been fully initialised.
+- `ngAfterViewInit`: called only once. Invoked when the component’s view has been fully initialised, meaning it's own child components have been fully rendered.
 
 - `ngAfterViewChecked`: called after `ngAfterViewInit` and every subsequent `ngDoCheck`.
 
 For each lifecycle hook there exists a corresponding interface. Their name is derived from the lifecycle hook's they define minus the `ng`. For instance, to use `ngOnInit()` implement the interface `OnInit`.
 
+With the introduction of Signals in Angular 17+, the use of the lifecyle hooks is most likely going to decline. Only `ngOnInit` and `ngAfterViewInit` were already commonplace with sometimes the use of `ngOnChanges` which won't be used anymore thanks to the reactivity of the signal defined through the `input()` function.
+
+## Change detection
+
+### Zone.js
+The *Zone.js* library has been the invisible orchestrator behind Angular's "magical" change detection system since the framework's inception, functioning as a sophisticated **monkey-patching library** that performs runtime modification of existing JavaScript objects and functions. Specifically, *zone.js* intercepts and wraps **all asynchronous** browser APIs—including setTimeout, setInterval, Promises, DOM events, XMLHttpRequests, and more by dynamically replacing their native implementations with enhanced wrapper versions that maintain the same external interface but add zone-aware tracking capabilities.
+
+When you call setTimeout in your Angular application, you're actually calling *zone.js*'s patched version, which records the operation within an execution context called a "zone", executes the original browser setTimeout, and then triggers Angular's change detection when the timer completes. This instrumentation allows Angular to automatically detect when asynchronous operations finish and potentially modify application state, **triggering change detection cycles** without requiring you to manually notify the framework of data changes, creating the seamless, "just works" experience that Angular is known for.
+
+However, this broad-spectrum approach comes with **performance overhead** and complexity that can become a bottleneck for performance-critical applications, as *zone.js* must monitor every async operation regardless of whether it actually affects the UI, and can be considered somewhat invasive since it modifies global browser APIs. 
+
+### Going zoneless
+
+This performance overhead is why Angular has decided to give the possibility to developers to shift away from zone.js. To do that, the community was extensively consulted through RFCs (Request for Comments) and a **new class** was introduced in Angular 17, the **Signal** class. A signal is a wrapper around a value that **notifies interested consumers when that value changes**. Signals can contain any value, from primitives to complex data structures. With signals, zone.js is not necessary anymore for the UI rendering to be reactive to data changes or user interactions. 
+
+In **zoneless change detection** (experimental in Angular 19 and in developer preview in Angular 20), the paradigm is fundamentally shifting towards a more precise reactive model where components explicitly declare their dependencies through signals, and change detection runs only when these reactive primitives actually change their values. This transition eliminates the need for zone.js's global async monitoring, reduces bundle size, improves performance through **fine-grained reactivity**, and gives developers explicit control over when and how change detection occurs—though it requires a more deliberate approach to state management and may necessitate manual change detection triggering in scenarios where a project is integrating with non-signal-based code or third-party libraries that don't leverage Angular's new reactive primitives.
+
+From a developer experience perspective, working in a zoneless environment does introduce a learning curve compared to Angular's traditional automatic change detection. Developers need to understand:
+- when to use signals versus traditional state management,
+- how to structure component dependencies,
+- and how to handle edge cases where the framework won't automatically detect changes.
+
+The approach also aligns Angular with established reactive programming patterns found in other modern frameworks, making knowledge more transferable and helping teams adopt industry-standard practices for building maintainable, scalable applications.
+
+You can discover more about change detection cycles and when they run in a zoneless environment with the following exemple application: 
+<iframe height='900' width='100%' src="https://stackblitz.com/github.com/Ocunidee/atpw-zoneless/tree/master?ctl=1&embed=1&file=src/app/signal-counter/signal-counter.component.ts&hideNavigation=1&view=preview&title=Zoneless change detection"></iframe>
+
+You will find an article explaining in depth how change detection works in Angular at the bottom of this chapter. 
+
+### An introduction to Signals
+
+
+
 ## Communication between child and parent components
-A common pattern in Angular is sharing data between a parent component and one or more child components. You can implement this pattern by using the `@Input()` and `@Output()` directives. `@Input()` allows a parent component to update data in the child component. Conversely, `@Output()` allows the child to send data to a parent component.
+A common pattern in Angular is sharing data between a parent component and one or more child components. You can implement this pattern by using the `input()` and `output()` signals. `input()` allows a parent component to update data in the child component. Conversely, `output()` allows the child to send data to a parent component.
 
 ![Data sharing](../assets/child-parent.png)
 
-### @Input()
+::: details Before Signals and Angular 17
+`input()` and `output()` signals were introduced in Angular 17. Their ancestors are the decorators `Input()` and `Output()`. Both syntax can be used in lieu and place of each other as long as Angular uses the zone.js library. In each subsequent paragraphs, both the signal and decorator syntax will be presented to accomodate older generation projects.
 
+Use signals if you are starting out on a new project. Migrate slowly to them in new components if your project is in Angular 17+ but still hasn't made the full transition. This will greatly help when Angular drops zone.js support in future versions as less refactoring will be needed.
+:::
+
+### input()
+
+In Angular's signal-based world, passing data from parent to child components is accomplished using the `input()` function, creating reactive input properties that automatically propagate changes throughout the component tree. The syntax involves declaring an input signal using `input<Type>()` in the child component, which creates a read-only signal that receives values from the parent template. You can omit the generic notation if the type can be infered from the default value of the input. You can provide default values using `input<Type>(defaultValue)` - for example, `name = input('Anonymous')` creates a string input that defaults to 'Anonymous' if no value is provided from the parent.
+
+For critical data that must always be provided, you can use `input.required<Type>()` instead, such as `userId = input.required<number>()`, which enforces at compile-time that the **parent template** must supply this value. In the parent template, you bind to these inputs using **standard property binding syntax** like `<child-component [name]="parentName" [userId]="currentUserId"></child-component>`.
+
+The beauty of signal-based inputs is that they **automatically trigger change detection in the child component** whenever the parent's bound values change, creating seamless reactive data flow without any manual intervention. The required inputs provide an additional safety net - if you forget to bind a required input in the template, TypeScript will catch this error at compile time, preventing runtime bugs where critical data might not have been passed (you can pass undefined but the template requires the property binding to be present).
+
+Here is how the `AppComponent` would communicate to its children `BlogPostComponent` the title and content of the articles.
+
+<CodeGroup>
+<CodeGroupItem title="Parent component (app-root)">
+
+```ts
+// app.component.ts
+import { Component, signal } from "@angular/core"
+@Component({
+  selector: "app-root",
+  templateUrl: "./app.component.html"
+})
+export class AppComponent {
+  article = signal({
+    title: "My first awesome article",
+    content: "This content is super interesting"
+  })
+  draftArticle = signal({
+    title: "My second article"
+  })
+}
+```
+
+```html
+<!-- app.component.html -->
+<h1>Welcome to my blog</h1>
+<app-blog-post [title]="article().title" [content]="article().content"></app-blog-post>
+<app-blog-post [title]="draftArticle().title"></app-blog-post>
+```
+
+</CodeGroupItem>
+
+<CodeGroupItem title="Child component (app-blog-post)">
+
+```ts
+// blog-post.component.ts
+import { Component, input } from "@angular/core"
+@Component({
+  selector: "app-blog-post",
+  templateUrl: "./blog-post.component.html"
+})
+export class BlogPostComponent {
+  title = input.required<string>()
+  content = input('No content available')
+}
+```
+
+```html
+<!-- blog-post.component.html -->
+<article>
+  <h2>{{ title() }}</h2>
+  <p>{{ content() }}</p>
+</article>
+```
+
+</CodeGroupItem>
+</CodeGroup>
+
+
+
+::: details @Input() decorator (before Angular 17)
 Adding the `@Input()` decorator on a child component's property means that it can receive its value from its parent component. The parent component passes that value through property binding in its template. Such a property **should not be mutated by the child** directly. Mutations should happen in the parent, they will automatically propagate via the property binding.
 
 Here is how the `AppComponent` would communicate to its child component `BlogPostComponent` the title and content of its article.
@@ -98,10 +204,11 @@ export class AppComponent {
   article = {
     title: "My first awesome article",
     content: "This content is super interesting"
-  };
+  }
 }
 
 // app.component.html
+<h1>Welcome to my blog</h1>
 <app-blog-post [title]="article.title" [content]="article.content"><app-blog-post>
 ```
 </CodeGroupItem>
@@ -130,57 +237,8 @@ export class BlogPostComponent {
 </CodeGroup>
 
 To watch for changes on an `@Input()` property, you can use the `ngOnChanges` lifecycle hook.
-
-::: details input() function to work with Signals (Angular 17+)
-The *zone.js* library serves as a critical foundation for change detection in Angular, enabling the framework to automatically track asynchronous operations like HTTP calls, timers or user interactions. By creating execution contexts, *zone.js* allows Angular to know when to update the user interface without manual intervention from developers. As you become proficient in Angular, understanding how Zone.js manages change detection is of great help to optimise the code and tackle complex use cases. Since Angular 17 and particularly the introduction of reactive programming features in Angular, the reliance on *zone.js* is being reconsidered as it is considered an overhead that is not always optimised. As of Angular 19, it is possible to experimentally opt-out of using *zone.js* to manage change detection. Developers are encouraged to explore new reactive paradigms, such as signals and the refined change detection strategies as alternatives to enhance performance and streamline state management. As you advance your Angular skills, staying abreast of these changes will empower you to build more optimised and maintainable applications.
-
-As of Angular 17, it is possible to shift from using the traditional `@Input()` decorator to the more functional `input()` method to communicate data from a parent to a child component. This change is part of Angular's effort to improve performance and simplify change detection while moving away from the overhead of *zone.js*. While `@Input()` automatically triggers change detection through *zone.js*, the `input()` function allows developers to create reactive inputs that are closely integrated with Angular’s new signal-based architecture.
-
-For example:
-
-```ts
-import { Component, signal, input } from '@angular/core'
-
-@Component({
-  selector: 'app-parent',
-  template: `<app-child [childValue]="parentValue()"></app-child>`
-})
-export class ParentComponent {
-  parentValue = signal('Hello from Parent!')
-}
-
-@Component({
-  selector: 'app-child',
-  template: `<p>Received Value: {{ childValue }}</p>`
-})
-export class ChildComponent {
-  childValue = input('Default Value')
-}
-```
-
-In this example, the ParentComponent uses a signal to pass a reactive value to the ChildComponent, which defines `childValue` using the `input()` function.
-
-When creating reactive inputs using the `input()` function in Angular, you have the flexibility to define whether an input can have a default value or if it is required. When you specify a default value for an input using the `input()` function, it means that the component can operate with that initial value if no external data is passed in from a parent component. This can be particularly useful for creating components that have sensible defaults. If the parent does not provide a value, the component will still render without issues. On the other hand, required inputs indicate that the parent component **must** provide a value for that input.
-
-```ts
-import {Component, input} from '@angular/core'
-
-@Component({/*...*/})
-export class CustomSlider {
-  // Declare a required input named 'value'. 
-  value = input.required<number>()
-  // Create a computed expression that reads the value input
-  label = computed(() => `The slider's value is ${this.value()}`)
-}
-```
-And here is how you must pass data to the required `value` input:
-
-```html
-<custom-slider [value]="50"></custom-slider>
-```
-
-As you can see, as long as the application is using *zone.js*, the parent doesn't have to pass a Signal, it can pass regular values or primitives.
 :::
+
 
 **Exercise: Pass down each book's info to the BookComponent**
 <iframe height='500' width='100%' src="https://stackblitz.com/fork/github/ocunidee/atpw-input/tree/master?ctl=1&embed=1&file=src/app/book/book.component.ts&hideNavigation=1&title=input"></iframe>
@@ -496,7 +554,7 @@ Any HTML content, including other angular components can be projected. This feat
 In addition to the default `<ng-content>`, you can **name** other `<ng-content>` tags to distribute content to multiple locations in the child. You achieve this by using the `select` attribute on the `<ng-content>` tag and adding the chosen value as an attribute on the element to project.
 
 ## Practical work: Decompose the app
-1. Refactor the `LoginFormComponent` to extract the code and template related to a film details. To that purpose, create with the CLI a `FilmComponent` (`ng g c components/film`). There will be as many instances of `FilmComponent` as there are films (move the `<li></li>` tag and its content to the new component). Use `@Input()` to pass data from the `LoginFormComponent` to each `FilmComponent`. 
+1. Refactor the `LoginFormComponent` to extract the code and template related to a film details. To that purpose, create with the CLI a `FilmComponent` (`ng g c components/film`). There will be as many instances of `FilmComponent` as there are films (move the `<li></li>` tag and its content to the new component). Use `input.required<Film>()` to pass data from the `LoginFormComponent` to each `FilmComponent`. 
 
 :::tip
 Don't forget to add the `FilmComponent` to the array of imports of the `LoginFormComponent` decorator in order to be able to use  `<app-film></app-film>` in the template.
@@ -526,8 +584,8 @@ Don't forget to add the `FormsModule` to the imports array of the `FilmSearchCom
 ![Visual result of the component practical work step 3](../assets/visual-4a.png)
 :::
 
-4. Display the `FilmSearchComponent` component only if the user is logged in. You will have to communicate the `loggedIn` variable from the `LoginFormComponent` to the `AppComponent` via an `@Output()` (transform the field *loggedIn*). You will need an `onLogin()` method in the `AppComponent`.
-5. In the `FilmSearchComponent`, assign the `films` variable to an empty `[]` array initially. When submitting the search form, run a `searchFilms()` method that will put the 3 sample films in this list.
+4. Display the `FilmSearchComponent` component only if the user is logged in. You will have to communicate the `loggedIn` variable from the `LoginFormComponent` to the `AppComponent` via an `output()` (transform the field *loggedIn*). You will need a `login()` method in the `AppComponent`.
+5. In the `FilmSearchComponent`, assign the `films` variable to the signal of an empty `[]` array initially. When submitting the search form, run a `searchFilms()` method that will put the 3 sample films in this list.
 6. Commit
 
 ::: details Expected result
@@ -538,7 +596,9 @@ Don't forget to add the `FormsModule` to the imports array of the `FilmSearchCom
 ![Visual result of the component practical work 3](../assets/visual-4c.png)
 :::
 
-## To go further
+## To go further and learn about the past of Angular
+- Everything you need to know about change detection and how it works behind the scenes is [here](https://angular.love/the-latest-in-angular-change-detection-zoneless-signals)
+
 - Learn about context aware content projection using [ngTemplateOutlet](https://angular.love/ngtemplateoutlet-the-secret-to-customisation)
 
 - Angular 14 has introduced *standalone components* and there were taken out of beta in Angular 15. You can learn more about them [here](https://blog.ninja-squad.com/2022/05/12/a-guide-to-standalone-components-in-angular/)

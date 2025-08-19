@@ -13,7 +13,7 @@ Pour ce chapitre, nous utiliserons l'application *Bibliothèque personnelle* com
 
 Le routage cible de l'application-exemple est le suivant :
 
-![Targeted routing](../../assets/routing.png)
+![Targeted routing](../assets/routing.png)
 
 Ce [Stackblitz](https://stackblitz.com/fork/github/ocunidee/atpw-routing/tree/master?file=src/app/app.routes.ts&title=Routing) servira de base pour l'exemple. Ouvrez ce stackblitz, on va mettre en place la navigation ensemble au fur et à mesure du chapitre.
 
@@ -448,9 +448,9 @@ Implémentons le routage de l'application Search Film.
 2. Ajoutez un `<router-outlet></router-outlet>` en haut du template `AppComponent`. Vous devriez maintenant voir le composant LoginComponent deux fois lorsque vous naviguez vers `http://localhost:4200/login`. N'oubliez pas l'import.
 
 ::: details Résultat attendu
-![Résultat visuel du TP Routage étape 3](../../assets/visual-1.png)
+![Résultat visuel du TP Routage étape 3](../assets/visual-1.png)
 
-![Résultat visuel du TP Routage étape 3](../../assets/visual-5a.png)
+![Résultat visuel du TP Routage étape 3](../assets/visual-5a.png)
 :::
 
 3. Remplacez l'affichage conditionnel des `LoginFormComponent` et `FilmSearchComponent` actuellement basé sur un `@if` par une navigation d'une route à une autre. Vous devrez injecter le service Router dans le LoginFormComponent.
@@ -460,11 +460,11 @@ Le fichier `app.component.html` ne devrait contenir plus qu'une seule ligne: `<r
 :::
 
 ::: details Résultat attendu
-![Résultat visuel du TP Routage étape 4](../../assets/visual-5b.png)
+![Résultat visuel du TP Routage étape 4](../assets/visual-5b.png)
 
-![Résultat visuel du TP Routage étape 4](../../assets/visual-5c.png)
+![Résultat visuel du TP Routage étape 4](../assets/visual-5c.png)
 
-![Résultat visuel du TP Routage étape 4](../../assets/visual-5d.png)
+![Résultat visuel du TP Routage étape 4](../assets/visual-5d.png)
 :::
 
 **Question:** Pouvez-vous repérer un problème dans le fonctionnement de notre implémentation actuelle en ce qui concerne la sécurité ?

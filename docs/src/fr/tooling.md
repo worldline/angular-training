@@ -178,9 +178,9 @@ L'onglet *Sources* des Developer Tools permet d'ouvrir les fichiers sources de v
 
 Alternativement, Angular fournit une extention pour Chrome [Angular DevTools](https://angular.dev/tools/devtools#) qui permet d'accéder à des fonctionnalités de débogage et de profiling spécifiques à Angular. L'imprimécran suivant illustre la fonctionnalité de visualisation de l'arbre des composants. En cliquant sur le bouton *<>*, vous pouvez accéder au code source du composant concerné et y placer des breakpoints.
 
-![Angular DevTools component tree](../../assets/devtools-component-tree.png)
+![Angular DevTools component tree](../assets/devtools-component-tree.png)
 
-![Component source in Chrome DevTools](../../assets/devtools-component-source.png)
+![Component source in Chrome DevTools](../assets/devtools-component-source.png)
 
 #### Via VSCode (uniquement en local)
 VSCode permet de débugguer les applications sur Chrome ou Edge sans avoir recours au Developer Tools du navigateur. Pour cela, il faut tout d'abord créer un configuration de lancement du débogage. VSCode est capable de créer le fichier de configuration lui-même en suivant. Pour cela, appuyer sur *F5*. Après un scan rapide du projet, VSCode va créer un nouveau fichier *.vscode/launch.json*. Si besoin, ouvrir ce fichier et changer le port par défaut (4200 est la valeur commune pour les applications Angular). 
@@ -211,7 +211,7 @@ Voici un exemple de fichier *.vscode/launch.json*:
 ```
 Le F5 va aussi démarrer l'application. Si une instance tourne déjà sur le port 4200, VSCode proposera de démarrer une nouvelle instance sur un autre port. Cette instance démarrée via l'usage de  F5 active les fonctionnalités de débogage directement dans VSCode. Pour vérifier cela, il est possible de mettre un breakpoint dans l'AppComponent et de lancer une session de débogage. Le debugger devrait s'arrêter dessus.
 
-![debug vscode](../../assets/vscode-breakpoint.png)
+![debug vscode](../assets/vscode-breakpoint.png)
 
 ## Aller plus loin
 - [Intro à la référence TSConfig: tsconfig.json](https://www.typescriptlang.org/tsconfig/)

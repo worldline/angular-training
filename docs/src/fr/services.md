@@ -105,9 +105,9 @@ inject(Router).createUrlTree(['/login'], { queryParams: { returnUrl: state.url }
 :::
 
 ::: details Résultat attendu
-![Résultat visuel du TP services](../../assets/visual-6a.png)
+![Résultat visuel du TP services](../assets/visual-6a.png)
 
-![Résultat visuel du TP services](../../assets/visual-6.png)
+![Résultat visuel du TP services](../assets/visual-6.png)
 :::
 
 ## Le HttpClient
@@ -481,7 +481,7 @@ const options = {
 13. Vérifiez que le token est envoyé sous forme d'en-tête HTTP via les outils de développement de votre navigateur.
 
 ::: details Résultat attendu
-![Résultat visuel du TP http](../../assets/visual-7a.png)
+![Résultat visuel du TP http](../assets/visual-7a.png)
 
-![Résultat visuel du TP http](../../assets/visual-7b.png)
+![Résultat visuel du TP http](../assets/visual-7b.png)
 :::

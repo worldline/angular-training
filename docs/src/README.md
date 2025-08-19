@@ -5,7 +5,7 @@ heroAlt: Angular logo
 tagline: A beginner's guide to the Angular platform
 actions: 
   - text: Get started →
-    link: /presentation/
+    link: /en/presentation/
     type: primary
 features:
   - title: Components

@@ -262,6 +262,8 @@ export class AppComponent {
 </CodeGroupItem>
 </CodeGroup>
 
+Fournir une expression `as` n'est pas obligatoire, cependant cette expression permet de donner un alias à la condition fournie au @if et évite une ré-évaluation du signal si celui-ci est utilisé dans le template encapsulé.
+
 ::: warning
 Soyez prudent lorsque vous utilisez `@if` pour tester la nullité sur des valeurs numériques car `0` est une valeur fausse.
 :::
@@ -439,7 +441,7 @@ L'*event binding* permet d'écouter et de répondre aux actions de l'utilisateur
 <iframe height='500' width='100%' src="https://stackblitz.com/fork/github/ocunidee/atpw-event-binding?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1&title=Event%20binding"></iframe>
 
 ## Bloc @let
-Le bloc `@let` sert à définir une variable locale qui peut être réutilisée dans l'ensemble du template. Elle sera réévaluée chaque fois que le cycle de détection du changement est exécuté. Les variables déclarées avec `@let` peuvent être utilisées après leur déclaration et dans le scope dans lequel elles ont été déclarées ainsi que dans ses scopes imbriqués.
+Le bloc `@let` sert à définir une variable locale qui peut être réutilisée dans l'ensemble du template. Elle sera réévaluée chaque fois que le cycle de détection du changement est exécuté. Les variables déclarées avec `@let` peuvent être utilisées après leur déclaration et dans le scope dans lequel elles ont été déclarées ainsi que dans ses scopes imbriqués. C'est un bloc particulièrement intéressant pour évaluer de la donnée une seule fois et se resservir du résultat plusieurs fois dans le template.
 
 ```html
 <!-- Usage avec une variable de templace référençant un élément du DOM -->
@@ -573,7 +575,7 @@ protected films: WritableSignal<Film[]> = signal([
 11. N'oubliez pas de commiter.
 
 ::: details Résultat attendu
-![Résultat visuel du TP sur les directives 1](../../assets/visual-1.png)
+![Résultat visuel du TP sur les directives 1](../assets/visual-1.png)
 
-![Résultat visuel du TP sur les directives 2](../../assets/visual-2b.png)
+![Résultat visuel du TP sur les directives 2](../assets/visual-2b.png)
 :::
