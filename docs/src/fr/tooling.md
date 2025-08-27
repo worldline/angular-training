@@ -28,7 +28,7 @@ Vous utiliserez le CLI Angular pour créer des projets, générer du code dans v
 
 Pour installer le CLI Angular, ouvrez une fenêtre de terminal et exécutez la commande suivante :
 ```sh
-npm install -g @angular/cli@20.1.0
+npm install -g @angular/cli@20.2.0
 ```
 
 ::: tip Powershell
@@ -90,7 +90,7 @@ Dans le cas où vous souhaiteriez développer dans WSL, Node et le CLI Angular d
 Placez-vous dans le dossier où vous stockez vos repos git, ouvrez-y un terminal et tapez la commande suivante :
 
 ```sh
-ng new search-films
+ng new search-films --ai-config copilot
 ```
 
 ::: warning WSL
@@ -101,9 +101,9 @@ Si vous utilisez WSL, le repo git doit être stocké du côté WSL pour éviter 
 Choisissez la configuration suivante :
 
 ```sh
-✔ Do you want to create a 'zoneless' application without zone.js (Developer Preview)? No
 ✔ Which stylesheet format would you like to use? Sass (SCSS) [https://sass-lang.com/documentation/syntax#scss]
 ✔ Do you want to enable Server-Side Rendering (SSR) and Static Site Generation (SSG/Prerendering)? No
+✔ Do you want to create a 'zoneless' application without zone.js (Developer Preview)? Yes
 ```
 
 La première question permet d'expérimenter avec le futur d'Angular: une application qui tourne sans la librairie zone.js. Sachant qu'elle permet la détection du changement, en son absence, il faut utiliser les signaux pour que l'interface soit mis à jour lors des interactions utilisateurs et de la réception de nouvelles données.

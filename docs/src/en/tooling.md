@@ -34,7 +34,7 @@ You use the Angular CLI to create projects, generate application and library cod
 
 To install the Angular CLI, open a terminal window and run the following command:
 ```sh
-npm install -g @angular/cli@20.1.0
+npm install -g @angular/cli@20.2.0
 ```
 
 ::: tip Powershell
@@ -97,7 +97,7 @@ In case you intend to develop in WSL, Node and the Angular CLI need to be instal
 Go into the folder where you store your git repositories, open a terminal there and type the following command:
 
 ```sh
-ng new search-films
+ng new search-films --ai-config copilot
 ```
 
 ::: warning WSL
@@ -108,9 +108,9 @@ If you are using WSL, the repo needs to be stored on the WSL side to avoid big p
 Choose the following configuration:
 
 ```sh
-✔ Do you want to create a 'zoneless' application without zone.js (Developer Preview)? No
 ✔ Which stylesheet format would you like to use? Sass (SCSS) [ https://sass-lang.com/documentation/syntax#scss]
 ✔ Do you want to enable Server-Side Rendering (SSR) and Static Site Generation (SSG/Prerendering)? No
+✔ Do you want to create a 'zoneless' application without zone.js (Developer Preview)? Yes
 ```
 
 The first question let's you play around with the future of Angular: a zone.js-free application which means that the use of signals is required to make sure the interface is updated as data changes.
