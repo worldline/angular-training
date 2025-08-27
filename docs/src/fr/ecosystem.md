@@ -24,11 +24,14 @@ Angular bénéficie d'un écosystème fantastique. Je vais fournir ici quelques 
 ## Blogs
 
 Voici une liste de blogs intéressants :
-- [Anglar University](https://blog.angular-university.io/)
+- [Angular University](https://blog.angular-university.io/)
 - [Netanel Basal's blog](https://medium.com/netanelbasal)
 - [Angular Love](https://angular.love/)
 - [Thoughtram](https://blog.thoughtram.io/categories/angular)
 
 ## Conférences
 
-- [NgConf](https://2023.ng-conf.org/): se produit chaque année vers avril-mai à Salt Lake City. Vous pouvez regarder certaines des sessions précédentes sur leur site Web.
+- [NgConf](https://ng-conf.org/): se produit chaque année aux USA. Vous pouvez regarder certaines des sessions précédentes sur leur site Web.
+- [NG Poland](https://ng-poland.pl/): la plus grande conf dédiée à Angular en Europe
+- [AngularConnect](https://angularconnect.com/): conférence basée à Londres
+- [NG Rome](https://ngrome.io/): conférence basée à Rome

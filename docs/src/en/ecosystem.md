@@ -24,11 +24,14 @@ Angular benefits from a fantastic ecosystem. I will provide here some great sour
 ## Blogs
 
 Here is a list of interesting blogs:
-- [Anglar University](https://blog.angular-university.io/)
+- [Angular University](https://blog.angular-university.io/)
 - [Netanel Basal's blog](https://medium.com/netanelbasal)
 - [Angular Love](https://angular.love/)
 - [Thoughtram](https://blog.thoughtram.io/categories/angular)
 
 ## Conferences
 
-- [NgConf](https://2023.ng-conf.org/): happens every year around April-May in Salt Lake City. You can watch some of the previous sessions on their website.
+- [NgConf](https://ng-conf.org/): happens every year in the USA. You can watch some of the previous sessions on their website.
+- [NG Poland](https://ng-poland.pl/): Europe's largest Angular conference
+- [AngularConnect](https://angularconnect.com/): conference based in London
+- [NG Rome](https://ngrome.io/): conference based in London
