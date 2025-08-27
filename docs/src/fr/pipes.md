@@ -43,7 +43,7 @@ Angular fournit plus d'une [douzaine de pipes intégrés](https://angular.dev/ap
 - `UpperCasePipe` transforme le texte en majuscules
 
 ::: warning Import
-Les pipes ne font pas partie des imports par défaut du composant depuis le passage aux standalone components. Vous devez faire l'import vous-même en ajoutant la classe du pipe que vous souhaitez utiliser dans le template au tableau d'imports du décorateur `@Component` du composant.
+Les pipes ne font pas partie des imports par défaut du composant depuis le passage aux standalone components. Vous devez faire l'import vous-même en ajoutant la classe du pipe que vous souhaitez utiliser dans le template au **tableau d'imports** du décorateur `@Component` du composant.
 :::
 
 **Exercice : Formatez le prix (en EUR) et la date ('EEEE dd MMMM y'), tous deux en français**
@@ -103,7 +103,7 @@ import { UpperCasePipe } from '@angular/common'
   providers: [ UpperCasePipe ]
 })
 export class AppComponent {
-  private upperCasePipe = inject(UpperCasePipe)
+  private readonly upperCasePipe = inject(UpperCasePipe)
 
   protected readonly title = signal(this.upperCasePipe.transform('title'))
 }

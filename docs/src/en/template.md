@@ -122,7 +122,7 @@ export class App {
 </CodeGroup>
 
 ### Style binding
-You can use *style binding* to set styles dynamically just like classes. To create a single style binding, use the prefix `style` followed by a dot and the name of the CSS style property, for example, `[style.width]="slimWidth()"` in the template with `slimWidth = signal('100px')` (`slimWidth` is the signal of a string) in the component class. Optionally, you can add a unit extension like `em` or `%`: `[style.width.px]="slimWidth()"` with `slimWidth = signal(100)` (slimWidth is the signal of a number here).
+You can use *style binding* to set styles dynamically just like classes. To create a single style binding, use the prefix `style` followed by a dot and the name of the CSS style property, for example, `[style.width]="slimWidth()"` in the template with `protected readonly slimWidth = signal('100px')` (`slimWidth` is the signal of a string) in the component class. Optionally, you can add a unit extension like `em` or `%`: `[style.width.px]="slimWidth()"` with `protected readonly slimWidth = signal(100)` (slimWidth is the signal of a number here).
 
 <CodeGroup>
 <CodeGroupItem title="app.html">
@@ -145,7 +145,7 @@ import { Component, signal } from '@angular/core'
   styleUrl: './app.scss'
 })
 export class AppComponent {
-  value = signal('white')
+  protected readonly value = signal('white')
 }
 ```
 </CodeGroupItem>
@@ -172,7 +172,7 @@ import { Component, signal } from '@angular/core'
   styleUrl: './app.scss'
 })
 export class AppComponent {
-  styleExpression = signal({width: '100px', height: '100px', backgroundColor: 'red'}) // object syntax
+  protected readonly styleExpression = signal({width: '100px', height: '100px', backgroundColor: 'red'}) // object syntax
   // Alternatively, a string syntax is also legal
   // styleExpression = signal('width: 100px; height: 100px; background-color: red;')
 }
@@ -212,7 +212,7 @@ import { FormsModule } from '@angular/forms'
   styleUrl: './app.scss'
 })
 export class AppComponent {
-  name = signal('')
+  protected readonly name = signal('')
 }
 ```
 </CodeGroupItem>
@@ -255,7 +255,7 @@ import { Component, signal } from '@angular/core'
   styleUrl: './app.scss'
 })
 export class AppComponent {
-  selectedCustomer = signal({ name: 'Smith', age: 45 })
+  protected readonly selectedCustomer = signal({ name: 'Smith', age: 45 })
 }
 ```
 </CodeGroupItem>
@@ -360,7 +360,7 @@ import { Component, signal } from '@angular/core'
   styleUrl: './app.scss'
 })
 export class AppComponent {
-  items = signal([
+  protected readonly items = signal([
     { id: 1, name: 'hammer' },
     { id: 2, name: 'nail' },
     { id: 3, name: 'lightbulb' },
@@ -472,7 +472,7 @@ You can find more about building your own directives [here](https://angular.dev/
 
 ## Practical work: Film list
 1. In the LoginFormComponent, add two class variables *email* (`protected readonly email = signal('')`) and *password* (`protected readonly password = signal('')`) and use the `[(ngModel)]` directive on the email and password inputs in the html to bind them. Remember the warning in the ngModel section of the chapter: don't forget to import the `FormsModule` in the imports array of the component to use the ngModel directive.
-2. Add another `loggedIn` class variable initially set to `signal(false)`, then use event binding with `(ngSubmit)` on the `<form>` tag to set it to `true` when the form is submitted (create a method `login()` in the component's class for that and use the set method of the Signal: `loggedIn.set(true)`).
+2. Add another `loggedIn` class variable initially set to `protected readonly signal(false)`, then use event binding with `(ngSubmit)` on the `<form>` tag to set it to `true` when the form is submitted (create a method `login()` in the component's class for that and use the set method of the Signal: `loggedIn.set(true)`).
 3. In `login-form.component.html`, add the following HTML under the authentication form :
 
 ```html
@@ -531,7 +531,7 @@ export interface Film {
 6. Add the following field in the class of the LoginFormComponent (you should get an error and be offered a fix suggestion to import the Film model in the component):
 
 ```ts
-protected films: WritableSignal<Film[]> = signal([
+protected readonly films: WritableSignal<Film[]> = signal([
   {
     title: 'Titanic',
     released: '19 Dec 1997',

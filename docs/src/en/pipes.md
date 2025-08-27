@@ -43,7 +43,7 @@ Angular provides over a [dozen built-in pipes](https://angular.dev/api?type=pipe
 - `UpperCasePipe` transforms text to all upper case
 
 ::: warning Import
-Pipes are not part of the default imports of a standalone component. You have to make the import yourself: add the class of the pipe to the imports array of your component's `@Component` decorator to make it available in the template.
+Pipes are not part of the default imports of a standalone component. You have to make the import yourself: add the class of the pipe to the **imports array** of your component's `@Component` decorator to make it available in the template.
 :::
 
 **Exercise: Format the price (in EUR) and the date ('EEEE dd MMMM y'), both in French**
@@ -103,7 +103,7 @@ import { UpperCasePipe } from '@angular/common'
   providers: [ UpperCasePipe ]
 })
 export class AppComponent {
-  private upperCasePipe = inject(UpperCasePipe)
+  private readonly upperCasePipe = inject(UpperCasePipe)
 
   protected readonly title = signal(this.upperCasePipe.transform('title'))
 }

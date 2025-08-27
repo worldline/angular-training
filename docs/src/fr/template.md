@@ -123,7 +123,7 @@ export class App {
 
 
 ### Style binding
-Vous pouvez utiliser le *style binding* pour définir des styles de manière dynamique. Pour créer un *style binding* pour une seule propriété de style CSS, utilisez le préfixe `style` suivi d'un point et du nom de la propriété de style CSS, par exemple, `[style.width]="slimWidth()"` avec `slimWidth = signal('100px')` (`slimWidth` est un signal de chaîne de caractères). Falcutativement, vous pouvez ajouter une unité comme `em` ou `%` lorsque pertinent: `[style.width.px]="slimWidth()"` avec `slimWidth = signal(100)` (slimWidth est alors le signal d'un nombre).
+Vous pouvez utiliser le *style binding* pour définir des styles de manière dynamique. Pour créer un *style binding* pour une seule propriété de style CSS, utilisez le préfixe `style` suivi d'un point et du nom de la propriété de style CSS, par exemple, `[style.width]="slimWidth()"` avec `protected readonly  slimWidth = signal('100px')` (`slimWidth` est un signal de chaîne de caractères). Falcutativement, vous pouvez ajouter une unité comme `em` ou `%` lorsque pertinent: `[style.width.px]="slimWidth()"` avec `protected readonly slimWidth = signal(100)` (slimWidth est alors le signal d'un nombre).
 
 <CodeGroup>
 <CodeGroupItem title="app.html">
@@ -146,7 +146,7 @@ import { Component, signal } from '@angular/core'
   styleUrl: './app.scss'
 })
 export class AppComponent {
-  value = signal('white')
+  protected readonly value = signal('white')
 }
 ```
 </CodeGroupItem>
@@ -173,9 +173,9 @@ import { Component, signal } from '@angular/core'
   styleUrl: './app.scss'
 })
 export class AppComponent {
-  styleExpression = signal({width: '100px', height: '100px', backgroundColor: 'red'}) // Syntaxe objet
+  protected readonly styleExpression = signal({width: '100px', height: '100px', backgroundColor: 'red'}) // Syntaxe objet
   // La syntaxe chaine de caractères est également légale:
-  // styleExpression = signal('width: 100px; height: 100px; background-color: red;')
+  // protected readonly styleExpression = signal('width: 100px; height: 100px; background-color: red;')
 }
 ```
 </CodeGroupItem>
@@ -213,7 +213,7 @@ import { FormsModule } from '@angular/forms'
   styleUrl: './app.scss'
 })
 export class AppComponent {
-  name = signal('')
+  protected readonly name = signal('')
 }
 ```
 </CodeGroupItem>
@@ -256,7 +256,7 @@ import { Component, signal } from '@angular/core'
   styleUrl: './app.scss'
 })
 export class AppComponent {
-  selectedCustomer = signal({ name: 'Smith', age: 45 })
+  protected readonly selectedCustomer = signal({ name: 'Smith', age: 45 })
 }
 ```
 </CodeGroupItem>
@@ -362,7 +362,7 @@ import { Component, signal } from '@angular/core'
   styleUrl: './app.scss'
 })
 export class AppComponent {
-  items = signal([
+  protected readonly items = signal([
     { id: 1, name: 'hammer' },
     { id: 2, name: 'nail' },
     { id: 3, name: 'lightbulb' },
@@ -475,7 +475,7 @@ Vous pouvez en savoir plus sur la création de vos propres directives [ici](http
 
 ## TP : Liste des films
 1. Dans le composant LoginFormComponent, ajoutez deux variables de classe *email* (`protected readonly email = signal('')`) et *password* (`protected readonly password = signal()'')`) et utilisez la directive `[(ngModel)]` sur les inputs email et mot de passe dans l'html pour les lier. Rappelez-vous de l'avertissement dans le paragraphe sur le ngModel : n'oubliez pas d'importer le `FormsModule` dans le tableau d'imports du decorateur `@Component` pour utiliser la directive ngModel dans le template.
-2. Ajoutez une variable `loggedIn` à la classe initialement définie à `signal(false)`, puis utilisez l'event binding sur l'événement `(ngSubmit)` de la balise `<form>` pour la passer à `true` lorsque le formulaire est soumis (créez une méthode `login()` dans la classe du composant pour ça) et la méthode `set` du Signal (`loggedIn.set(true)`).
+2. Ajoutez une variable `loggedIn` à la classe initialement définie à `protected readonly signal(false)`, puis utilisez l'event binding sur l'événement `(ngSubmit)` de la balise `<form>` pour la passer à `true` lorsque le formulaire est soumis (créez une méthode `login()` dans la classe du composant pour ça) et la méthode `set` du Signal (`loggedIn.set(true)`).
 3. Dans `login-form.component.html`, ajoutez le code HTML suivant sous le formulaire d'authentification :
 
 ```html
@@ -534,7 +534,7 @@ export interface Film {
 6. Ajoutez le champ suivant dans la classe du composant LoginFormComponent (VSCode devrait vous affichez un erreur et vous proposez d'importer le modèle Film dans le composant) :
 
 ```ts
-protected films: WritableSignal<Film[]> = signal([
+protected readonly films: WritableSignal<Film[]> = signal([
   {
     title: 'Titanic',
     released: '19 Dec 1997',
