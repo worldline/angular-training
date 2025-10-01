@@ -4,7 +4,7 @@ Angular applications are mostly Single Page Applications (SPA). The server alway
 
 The routing of an SPA is therefore managed on the client side, and the Angular team provides a library for this purpose: `@angular/router`. This router allows you to associate routes (URLs) with Angular components.
 
-For this chapter, we will use the *Personal Library* app as a running example. Besides the `AppComponent` which contains a `NavbarComponent`, the app has 5 "pages":
+For this chapter, we will use the *Personal Library* app as a running example. Besides the `App` component which contains a `NavbarComponent`, the app has 5 "pages":
 - Home
 - Book list
 - Book detail
@@ -149,10 +149,10 @@ location / {
 In Stackblitz, try navigating to components by replacing the URL in the address bar. As you can see, besides the `NavbarComponent`, no other component is displayed even though we have just defined routes in the `app.routes.ts`. That is because we have not yet told Angular where those components should be inserted in the DOM.
 
 ### router-outlet
-This is the purpose of the `RouterOutlet` directive. The `NavbarComponent` should remain displayed at all times which means that components should be inserted under it. Let's add the `router-outlet` in the `AppComponent`. Don't forget the import in the ts file.
+This is the purpose of the `RouterOutlet` directive. The `NavbarComponent` should remain displayed at all times which means that components should be inserted under it. Let's add the `router-outlet` in the `App` component. Don't forget the import in the ts file.
 
 <CodeGroup>
-<CodeGroupItem title="app.component.html">
+<CodeGroupItem title="app.html">
 
 ```html
 <app-navbar></app-navbar>
@@ -160,7 +160,7 @@ This is the purpose of the `RouterOutlet` directive. The `NavbarComponent` shoul
 ```
 </CodeGroupItem>
 
-<CodeGroupItem title="app.component.ts">
+<CodeGroupItem title="app.ts">
 
 ```ts{2,7}
 import { Component } from '@angular/core'
@@ -170,10 +170,10 @@ import { NavbarComponent } from './navbar/navbar.component'
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, NavbarComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  templateUrl: './app.html',
+  styleUrl: './app.scss'
 })
-export class AppComponent {
+export class App {
 
 }
 ```
@@ -274,22 +274,26 @@ For the moment, only the data of the book with id 1 and the data of the author w
 
 ```html
 <!-- author-details.component.html -->
-<h2>Books</h2>
-<ul>
-  @for (book of books; track book.id) {
-    <li>{{book.title}} <a [routerLink]="['/books', book.id]">🔍</a></li>
-  }
-</ul>
+@let books = details()?.books;
+
+@if(books) {
+  <h2>Books</h2>
+  <ul>
+    @for (book of books; track book.id) {
+      <li>{{book.title}} <a [routerLink]="['/books', book.id]">🔍</a></li>
+    }
+  </ul>
+}
 
 <!-- book-details.component.html -->
 <div class="info">
-  <div><a [routerLink]="['/authors', details?.author?.id]">✍️</a></div>
-  <p> {{details?.author?.name}}</p>
+  <div><a [routerLink]="['/authors', details()?.author?.id]">✍️</a></div>
+  <p> {{details()?.author?.name}}</p>
 </div>
 ```
 :::
 
-The `RouterLink` directive has a `queryParams` `Input`. This `Input` allows to pass optionnal parameters via query strings in the URL:
+The `RouterLink` directive has a `queryParams` input. This input allows to pass optionnal parameters via query strings in the URL:
 ```html
 <a routerLink="'/books" [queryParams]="{genre: 'Epic Fantasy'}">
   Epic Fantasy Books
@@ -386,25 +390,23 @@ Let's go back to the *Personal Library* app. With the help of the `ActivatedRout
 ```ts
 // book-details.component.ts
 export class BookDetailsComponent implements OnInit {
-  private route = inject(ActivatedRoute)
-
-  details: BookDetail | null
+  private readonly route = inject(ActivatedRoute)
+  protected readonly details = signal<BookDetail | undefined>(undefined)
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')
-    this.details = bookDetails.get(Number(id))
+    this.details.set(bookDetails.get(Number(id)))
   }
 }
 
 // author-details.component.ts
 export class AuthorDetailsComponent implements OnInit {
-  private route = inject(ActivatedRoute)
-
-  details: AuthorDetail | null
+  private readonly route = inject(ActivatedRoute)
+  protected readonly details = signal<AuthorDetail | undefined>(undefined)
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')
-    this.details = authorDetails.get(Number(id))
+    this.details.set(authorDetails.get(Number(id)))
   }
 }
 
@@ -446,7 +448,7 @@ Let's implement the Search Film application routing.
 
 1. Add a `login` route linked to the `LoginFormComponent` and a `search` route linked to `FilmSearchComponent` in the `app.routes.ts` file.
 
-2. Add a `<router-outlet></router-outlet>` at the top of the `AppComponent` template. You should now see the LoginComponent twice when navigating to `http://localhost:4200/login`. Don't forget the import.
+2. Add a `<router-outlet></router-outlet>` at the top of the `App` component template. You should now see the LoginComponent twice when navigating to `http://localhost:4200/login`. Don't forget the import.
 
 ::: details Expected result
 ![Visual result of the routing practical work step 3](../assets/visual-1.png)
@@ -457,7 +459,7 @@ Let's implement the Search Film application routing.
 3. Replace the switch between the `LoginFormComponent` and `FilmSearchComponent` currently based on an `@if` by a navigation from one route to another. You will have to inject the Router service in the LoginFormComponent.
 
 ::: details Tip
-Only one line should remain in your `app.component.html` file: `<router-outler></router-outlet>`
+Only one line should remain in your `app.html` file: `<router-outler></router-outlet>`
 :::
 
 ::: details Expected result

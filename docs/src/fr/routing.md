@@ -4,7 +4,7 @@ Les applications Angular sont principalement des SPA (Single Page Application). 
 
 Le routage d'une SPA est donc géré côté client, et l'équipe Angular met à disposition une librairie à cet effet : `@angular/router`. Ce routeur vous permet d'associer des routes (URL) avec des composants Angular.
 
-Pour ce chapitre, nous utiliserons l'application *Bibliothèque personnelle* comme exemple fil rouge. Outre l'`AppComponent` qui contient un `NavbarComponent`, l'application a 5 "pages":
+Pour ce chapitre, nous utiliserons l'application *Bibliothèque personnelle* comme exemple fil rouge. Outre l'`App` component qui contient un `NavbarComponent`, l'application a 5 "pages":
 - Accueil
 - Liste de livres
 - Détail du livre
@@ -149,10 +149,10 @@ location / {
 Dans le Stackblitz, essayez de naviguer vers les composants en remplaçant l'URL dans la barre d'adresse. Comme vous pouvez le voir, à part le `NavbarComponent`, aucun autre composant n'est affiché même si nous venons de définir des routes dans le `app.routes.ts`. C'est parce que nous n'avons pas encore dit à Angular où ces composants doivent être insérés dans le DOM.
 
 ### router-outlet
-C'est le but du `RouterOutlet`. Le `NavbarComponent` doit rester affiché à tout moment, ce qui signifie que les composants doivent être insérés en dessous. Ajoutons le `router-outlet` dans l'`AppComponent`. N'oubliez pas l'import dans le fichier typescript.
+C'est le but du `RouterOutlet`. Le `NavbarComponent` doit rester affiché à tout moment, ce qui signifie que les composants doivent être insérés en dessous. Ajoutons le `router-outlet` dans l'`App` component. N'oubliez pas l'import dans le fichier typescript.
 
 <CodeGroup>
-<CodeGroupItem title="app.component.html">
+<CodeGroupItem title="app.html">
 
 ```html
 <app-navbar></app-navbar>
@@ -160,7 +160,7 @@ C'est le but du `RouterOutlet`. Le `NavbarComponent` doit rester affiché à tou
 ```
 </CodeGroupItem>
 
-<CodeGroupItem title="app.component.ts">
+<CodeGroupItem title="app.ts">
 
 ```ts{2,7}
 import { Component } from '@angular/core'
@@ -170,10 +170,10 @@ import { NavbarComponent } from './navbar/navbar.component'
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, NavbarComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  templateUrl: './app.html',
+  styleUrl: './app.scss'
 })
-export class AppComponent {
+export class App {
 
 }
 ```
@@ -274,17 +274,21 @@ Pour le moment, seules les données du livre avec l'id 1 et les données de l'au
 
 ```html
 <!-- author-details.component.html -->
-<h2>Books</h2>
-<ul>
-  @for (book of books; track book.id) {
-    <li>{{book.title}} <a [routerLink]="['/books', book.id]">🔍</a></li>
-  }
-</ul>
+@let books = details()?.books;
+
+@if(books) {
+  <h2>Books</h2>
+  <ul>
+    @for (book of books; track book.id) {
+      <li>{{book.title}} <a [routerLink]="['/books', book.id]">🔍</a></li>
+    }
+  </ul>
+}
 
 <!-- book-details.component.html -->
 <div class="info">
-  <div><a [routerLink]="['/authors', details?.author?.id]">✍️</a></div>
-  <p> {{details?.author?.name}}</p>
+  <div><a [routerLink]="['/authors', details()?.author?.id]">✍️</a></div>
+  <p> {{details()?.author?.name}}</p>
 </div>
 ```
 :::
@@ -386,25 +390,23 @@ Revenons à l'application *Personal Library*. Avec l'aide de `ActivatedRoute`, m
 ```ts
 // book-details.component.ts
 export class BookDetailsComponent implements OnInit {
-  private route = inject(ActivatedRoute)
-
-  details: BookDetail | null
+  private readonly route = inject(ActivatedRoute)
+  protected readonly details = signal<BookDetail | undefined>(undefined)
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')
-    this.details = bookDetails.get(Number(id))
+    this.details.set(bookDetails.get(Number(id)))
   }
 }
 
 // author-details.component.ts
 export class AuthorDetailsComponent implements OnInit {
-  private route = inject(ActivatedRoute)
-
-  details: AuthorDetail | null
+  private readonly route = inject(ActivatedRoute)
+  protected readonly details = signal<AuthorDetail | undefined>(undefined)
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')
-    this.details = authorDetails.get(Number(id))
+    this.details.set(authorDetails.get(Number(id)))
   }
 }
 
@@ -429,7 +431,7 @@ Parfois, il est nécessaire de déclencher certaines actions avant le routage. C
   templateUrl: './example.component.html'
 })
 export class ExampleComponent {
-  private router =inject(Router)
+  private router = inject(Router)
 
   navigatePostLogin(): void {
     this.router.navigateByUrl('/dashboard')
@@ -445,7 +447,7 @@ Implémentons le routage de l'application Search Film.
 
 1. Ajoutez une route `login` liée au `LoginFormComponent` et une route `search` liée au `FilmSearchComponent` dans le fichier `app.routes.ts`.
 
-2. Ajoutez un `<router-outlet></router-outlet>` en haut du template `AppComponent`. Vous devriez maintenant voir le composant LoginComponent deux fois lorsque vous naviguez vers `http://localhost:4200/login`. N'oubliez pas l'import.
+2. Ajoutez un `<router-outlet></router-outlet>` en haut du template `App` component. Vous devriez maintenant voir le composant LoginComponent deux fois lorsque vous naviguez vers `http://localhost:4200/login`. N'oubliez pas l'import.
 
 ::: details Résultat attendu
 ![Résultat visuel du TP Routage étape 3](../assets/visual-1.png)
@@ -456,7 +458,7 @@ Implémentons le routage de l'application Search Film.
 3. Remplacez l'affichage conditionnel des `LoginFormComponent` et `FilmSearchComponent` actuellement basé sur un `@if` par une navigation d'une route à une autre. Vous devrez injecter le service Router dans le LoginFormComponent.
 
 ::: details Indice
-Le fichier `app.component.html` ne devrait contenir plus qu'une seule ligne: `<router-outler></router-outlet>`
+Le fichier `app.html` ne devrait contenir plus qu'une seule ligne: `<router-outler></router-outlet>`
 :::
 
 ::: details Résultat attendu
