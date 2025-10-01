@@ -34,7 +34,7 @@ import { ExampleService } from 'app/services/example.service'
   templateUrl: './example.component.html'
 })
 export class ExampleComponent {
-  private exampleService = inject(ExampleService)
+  private readonly exampleService = inject(ExampleService)
 }
 ```
 
@@ -54,7 +54,7 @@ Lorsque Angular découvre qu'un composant dépend d'un service, il vérifie d'ab
 
 Les dépendances peuvent être fournies à trois niveaux :
 - **au niveau root:** c'est le comportement par défaut lors de la création d'un service avec le CLI. C'est ce que signifie `providedIn: 'root'`. La *même instance* de la dépendance est injectée partout où elle est nécessaire comme s'il s'agissait d'un singleton.
-- **au niveau de la route:** la dépendance est ajoutée au tableau de providers de la `Route`. La route obtient sa propre instance de la dépendance
+- **au niveau de la route:** la dépendance est ajoutée au tableau de providers de la `Route`. La route et ses enfants obtiennent leur propre instance de la dépendance
 - **au niveau du composant:** la dépendance est ajoutée au tableau des providers du composant. Chaque instance de ce composant obtient sa propre instance de la dépendance.
 
 ## TP : Gestion de l'État
@@ -64,14 +64,14 @@ Les dépendances peuvent être fournies à trois niveaux :
 4. Implémentez une méthode de déconnexion dans le service d'authentification et ajoutez un bouton de déconnexion dans l'`AppComponent` qui l'appelle et provoque une navigation vers le `LoginFormComponent`. Voici l'html et le css :
 
 <CodeGroup>
-<CodeGroupItem title="app.component.html">
+<CodeGroupItem title="app.html">
 
 ```html
 <button class="logout">Logout</button>
 <router-outlet></router-outlet>
 ```
 </CodeGroupItem>
-<CodeGroupItem title="app.component.scss">
+<CodeGroupItem title="app.scss">
 
 ```scss
 .logout {
@@ -81,8 +81,8 @@ Les dépendances peuvent être fournies à trois niveaux :
 </CodeGroupItem>
 </CodeGroup>
 
-5. Afficher conditionnellement le bouton Logout en fonction du statut `loggedIn` de l'utilisateur. Utilisez un getter dans le fichier `app.component.ts` pour passer l'information du service au template (c'est une bonne pratique que de toujours déclaré un service comme private dans la classe d'un composant).
-6. Utilisez un navigation guard pour rediriger l'utilisateur qui souhaite accéder à la page de recherche de films vers `/login` s'il n'est pas authentifié (rendez le CanActivate vrai si la route est accessible sinon retournez un `UrlTree` via la méthode `createUrlTree` du service `Router`). Pour prendre en considération des cas d'usage futur, ajoutez un returnUrl en tant que queryParam au `UrlTree` renvoyé afin que le `LoginFormComponent` sache où revenir après l'authentification et modifiez le `LoginFormComponent` en conséquence. Pour générer le navigation guard, utilisez la commande du CLI suivante :
+5. Afficher conditionnellement le bouton Logout en fonction du statut `loggedIn` de l'utilisateur. Exposez le signal du `AuthenticationService` dans le fichier `app.ts` pour passer l'information du service au template (c'est une bonne pratique que de toujours déclarer un service comme private dans la classe d'un composant donc vous aurez besoin d'une variable dans le composant).
+6. Utilisez un navigation guard pour rediriger l'utilisateur qui souhaite accéder à la page de recherche de films vers `/login` s'il n'est pas authentifié (rendez la CanActivateFn vrai si la route est accessible sinon retournez un `UrlTree` via la méthode `createUrlTree` du service `Router`). Pour prendre en considération des cas d'usage futur, ajoutez un returnUrl en tant que queryParam au `UrlTree` renvoyé afin que le `LoginFormComponent` sache où revenir après l'authentification et modifiez le `LoginFormComponent` en conséquence. Pour générer le navigation guard, utilisez la commande du CLI suivante :
 
 ```sh
 ng generate guard guards/authentication
@@ -133,9 +133,9 @@ import { UserEdition } from 'app/models/user/user-edition'
   providedIn: 'root'
 })
 export class UserService {
-  private httpClient = inject(HttpClient)
+  private readonly httpClient = inject(HttpClient)
 
-  private baseUrl = 'api/backoffice/users'
+  private readonly baseUrl = 'api/backoffice/users'
 
   create(user: UserCreation): Observable<User> {
     return this.httpClient.post<User>(this.baseUrl, user)
@@ -163,10 +163,10 @@ import { UserService } from 'app/services/user.service'
   templateUrl: './user.component.html'
 })
 export class UserComponent {
-  private userService = inject(UserService)
+  private readonly userService = inject(UserService)
 
-  user: User | undefined = undefined
-  reference = ''
+  protected user: User | undefined = undefined
+  protected reference = ''
 
   getUser(): void {
     this.userService.getByUserReference(this.reference))
@@ -303,8 +303,8 @@ Prenez note du token dans la `UserResponse`, il servira à authentifier l'utilis
 <CodeGroupItem title="authentication.service.ts">
 
 ```ts
-private httpClient = inject(HttpClient)
-private baseUrl = 'api/user'
+private readonly httpClient = inject(HttpClient)
+private readonly baseUrl = 'api/user'
 
 login(loginRequest: LoginRequest): Observable<UserResponse> {
   return this.httpClient.post<UserResponse>(`${this.baseUrl}/login`, loginRequest)
@@ -330,12 +330,14 @@ register(loginRequest: LoginRequest): Observable<UserResponse> {
 <CodeGroupItem title="login-form.component.ts">
 
 ```ts
-private router = inject(Router)
-private activatedRoute = inject(ActivatedRoute)
-private authenticationService = inject(AuthenticationService)
+private readonly router = inject(Router)
+private readonly activatedRoute = inject(ActivatedRoute)
+private readonly authenticationService = inject(AuthenticationService)
+
+private readonly loginRequest = computed(() => new LoginRequest(this.email(), this.password()))
 
 login(): void {
-  this.authenticationService.login(this.loginRequest)
+  this.authenticationService.login(this.loginRequest())
     .subscribe({ next: () => {
       const postLoginRoute = this.activatedRoute.snapshot.queryParamMap.get('returnUrl')
       this.router.navigateByUrl(postLoginRoute ? `/${postLoginRoute}` : '')
@@ -343,13 +345,10 @@ login(): void {
 }
 
 register(): void {
-  this.authenticationService.register(this.loginRequest)
+  this.authenticationService.register(this.loginRequest())
     .subscribe()
 }
 
-get loginRequest(): LoginRequest {
-  return new LoginRequest(this.email, this.password)
-}
 ```
 </CodeGroupItem>
 </CodeGroup>
@@ -361,11 +360,9 @@ Refactorez aussi la méthode `logout()` pour qu'elle remette le `token` à null.
 <CodeGroupItem title="authentication.service.ts">
 
 ```ts
-token: string | null = null
+readonly token: WritableSignal<string | null> = signal(null)
 
-get loggedIn(): boolean {
-  return this.token != null
-}
+readonly loggedIn = computed(() => this.token() !== null)
 ```
 </CodeGroupItem>
 
@@ -373,9 +370,9 @@ get loggedIn(): boolean {
 
 ```ts{3, 4}
 login(): void {
-  this.authenticationService.login(this.loginRequest)
+  this.authenticationService.login(this.loginRequest())
     .subscribe({ next: response => {
-      this.authenticationService.token = response.token
+      this.authenticationService.token.set(response.token)
       const postLoginUrl = this.activatedRoute.snapshot.queryParamMap.get('returnUrl')
       this.router.navigateByUrl(postLoginUrl ? `/${postLoginUrl}` : '')
     } })
@@ -415,14 +412,14 @@ Si l'enrôlement semble ne pas fonctionner, vérifiez l'onglet network des outil
 <CodeGroupItem title="login-form.component.ts">
 
 ```ts
-errorMessage = ''
+protected readonly errorMessage = signal('')
 
 private errorHandler(errorResponse: HttpErrorResponse): void {
-  this.errorMessage = errorResponse.error.error ?? `${errorResponse.error.status} - ${errorResponse.error.statusText}`
+  this.errorMessage.set(errorResponse.error.error ?? `${errorResponse.error.status} - ${errorResponse.error.statusText}`)
 }
 
 // subscribe syntax
-this.authenticationService.login(this.loginRequest)
+this.authenticationService.login(this.loginRequest())
   .subscribe({
     next: response => { /*  */},
     error: errorResponse => { /*  */ }
@@ -447,7 +444,7 @@ import { AuthenticationService } from 'app/services/authentication.service'
 import { inject } from '@angular/core'
 
 export const authenticationInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = inject(AuthenticationService).token
+  const token = inject(AuthenticationService).token()
   if (token) {
     const cloned = req.clone({
       headers: req.headers.set('Authorization', `Bearer ${token}`)

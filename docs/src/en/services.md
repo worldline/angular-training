@@ -34,7 +34,7 @@ import { ExampleService } from 'app/services/example.service'
   templateUrl: './example.component.html'
 })
 export class ExampleComponent {
-  private exampleService = inject(ExampleService)
+  private readonly exampleService = inject(ExampleService)
 }
 ```
 
@@ -54,7 +54,7 @@ When Angular discovers that a component depends on a service, it first checks if
 
 Dependencies can be provided at three levels:
 - **root level:** this is the default behaviour when creating a service with the CLI. That is what `providedIn: 'root'` means. The *same instance* of the dependency is injected everywhere it is needed as if it were a singleton.
-- **route level:** the dependency is added to the providers array of the `Route`. The route gets its own instance of the dependency
+- **route level:** the dependency is added to the providers array of the `Route`. The route and its children get their own instance of the dependency
 - **component level:** the dependency is added to the providers array of the component. Each instance of that component  gets its own instance of the dependency.
 
 ## Practical Work: State management
@@ -64,14 +64,14 @@ Dependencies can be provided at three levels:
 4. Implement a logout method in the authentication service and add a logout button in the `AppComponent` that calls it and navigates back to the `LoginFormComponent`. Here is the html and css:
 
 <CodeGroup>
-<CodeGroupItem title="app.component.html">
+<CodeGroupItem title="app.html">
 
 ```html
 <button class="logout">Logout</button>
 <router-outlet></router-outlet>
 ```
 </CodeGroupItem>
-<CodeGroupItem title="app.component.scss">
+<CodeGroupItem title="app.scss">
 
 ```scss
 .logout {
@@ -81,8 +81,8 @@ Dependencies can be provided at three levels:
 </CodeGroupItem>
 </CodeGroup>
 
-5. Conditionally show the Logout button depending on the `loggedIn` status of the user. Use a getter in the `app.component.ts` file to pass data from the service to the template (it is good practive to always declare a service as private in the component class).
-6. Use a navigation guard to redirect the user who wants to access the film search page to `/login` if they are not authenticated (make the CanActivate return true if the route can be accessed else return a `UrlTree` via the `createUrlTree` method of the `Router` service). To future-proof the guard, add a returnUrl as a queryParam to the returned `UrlTree` so that the `LoginFormComponent` knows where to navigate back to after authentication and modify the `LoginFormComponent` accordingly. To generate the navigation guard use the following CLI command:
+5. Conditionally show the Logout button depending on the `loggedIn` status of the user. Expose the signal from the `AuthenticationService` in the `app.ts` file to pass data from the service to the template (it is a good practice to always declare a service as private in the component class so you'll need a variable in the component).
+6. Use a navigation guard to redirect the user who wants to access the film search page to `/login` if they are not authenticated (make the CanActivateFn return true if the route can be accessed else return a `UrlTree` via the `createUrlTree` method of the `Router` service). To future-proof the guard, add a returnUrl as a queryParam to the returned `UrlTree` so that the `LoginFormComponent` knows where to navigate back to after authentication and modify the `LoginFormComponent` accordingly. To generate the navigation guard use the following CLI command:
 
 ```sh
 ng generate guard guards/authentication
@@ -133,9 +133,9 @@ import { UserEdition } from 'app/models/user/user-edition'
   providedIn: 'root'
 })
 export class UserService {
-  private httpClient = inject(HttpClient)
+  private readonly httpClient = inject(HttpClient)
 
-  private baseUrl = 'api/backoffice/users'
+  private readonly baseUrl = 'api/backoffice/users'
 
   create(user: UserCreation): Observable<User> {
     return this.httpClient.post<User>(this.baseUrl, user)
@@ -163,10 +163,10 @@ import { UserService } from 'app/services/user.service'
   templateUrl: './user.component.html'
 })
 export class UserComponent {
-  private userService = inject(UserService)
+  private readonly userService = inject(UserService)
 
-  user: User | undefined = undefined
-  reference = ''
+  protected user: User | undefined = undefined
+  protected reference = ''
 
   getUser(): void {
     this.userService.getByUserReference(this.reference))
@@ -302,8 +302,8 @@ Note the token in the `UserResponse`, it will serve to authenticate the user via
 <CodeGroupItem title="authentication.service.ts">
 
 ```ts
-private httpClient = inject(HttpClient)
-private baseUrl = 'api/user'
+private readonly httpClient = inject(HttpClient)
+private readonly baseUrl = 'api/user'
 
 login(loginRequest: LoginRequest): Observable<UserResponse> {
   return this.httpClient.post<UserResponse>(`${this.baseUrl}/login`, loginRequest)
@@ -329,12 +329,14 @@ register(loginRequest: LoginRequest): Observable<UserResponse> {
 <CodeGroupItem title="login-form.component.ts">
 
 ```ts
-private router = inject(Router)
-private activatedRoute = inject(ActivatedRoute)
-private authenticationService = inject(AuthenticationService)
+private readonly router = inject(Router)
+private readonly activatedRoute = inject(ActivatedRoute)
+private readonly authenticationService = inject(AuthenticationService)
+
+private readonly loginRequest = computed(() => new LoginRequest(this.email(), this.password()))
 
 login(): void {
-  this.authenticationService.login(this.loginRequest)
+  this.authenticationService.login(this.loginRequest())
     .subscribe({ next: () => {
       const postLoginRoute = this.activatedRoute.snapshot.queryParamMap.get('returnUrl')
       this.router.navigateByUrl(postLoginRoute ? `/${postLoginRoute}` : '')
@@ -342,13 +344,10 @@ login(): void {
 }
 
 register(): void {
-  this.authenticationService.register(this.loginRequest)
+  this.authenticationService.register(this.loginRequest())
     .subscribe()
 }
 
-get loginRequest(): LoginRequest {
-  return new LoginRequest(this.email, this.password)
-}
 ```
 </CodeGroupItem>
 </CodeGroup>
@@ -360,11 +359,9 @@ You will also need to refactor the logout to empty the `token`.
 <CodeGroupItem title="authentication.service.ts">
 
 ```ts
-token: string | null = null
+readonly token: WritableSignal<string | null> = signal(null)
 
-get loggedIn(): boolean {
-  return this.token != null
-}
+readonly loggedIn = computed(() => this.token() !== null)
 ```
 </CodeGroupItem>
 
@@ -372,9 +369,9 @@ get loggedIn(): boolean {
 
 ```ts{3, 4}
 login(): void {
-  this.authenticationService.login(this.loginRequest)
+  this.authenticationService.login(this.loginRequest())
     .subscribe({ next: response => {
-      this.authenticationService.token = response.token
+      this.authenticationService.token.set(response.token)
       const postLoginUrl = this.activatedRoute.snapshot.queryParamMap.get('returnUrl')
       this.router.navigateByUrl(postLoginUrl ? `/${postLoginUrl}` : '')
     } })
@@ -414,14 +411,14 @@ If you are having trouble, check the errors in the network tab of the developer 
 <CodeGroupItem title="login-form.component.ts">
 
 ```ts
-errorMessage = ''
+protected readonly errorMessage = signal('')
 
 private errorHandler(errorResponse: HttpErrorResponse): void {
-  this.errorMessage = errorResponse.error.error ?? `${errorResponse.error.status} - ${errorResponse.error.statusText}`
+  this.errorMessage.set(errorResponse.error.error ?? `${errorResponse.error.status} - ${errorResponse.error.statusText}`)
 }
 
 // subscribe syntax
-this.authenticationService.login(this.loginRequest)
+this.authenticationService.login(this.loginRequest())
   .subscribe({
     next: response => { /*  */},
     error: errorResponse => { /*  */ }
@@ -446,7 +443,7 @@ import { AuthenticationService } from 'app/services/authentication.service'
 import { inject } from '@angular/core'
 
 export const authenticationInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = inject(AuthenticationService).token
+  const token = inject(AuthenticationService).token()
   if (token) {
     const cloned = req.clone({
       headers: req.headers.set('Authorization', `Bearer ${token}`)
