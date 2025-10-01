@@ -117,7 +117,7 @@ The first question let's you play around with the future of Angular: a zone.js-f
 
 The second question makes you choose the stylesheet format. This format will be used in two places: for the top `styles` file and for each generated component. The SCSS format enables you to write standard CSS and gives you the opportunity to leverage the power of Sass if you choose to do so.
 
-The third question is for more advanced use cases than what the training requires.
+The third question is to prepare for the future of Angular that will be zoneless. We will delve deeper into this topic in the Component chapter.
 
 Since the Angular 12 version, the CLI generates the project in strict mode. Notably, it sets the `strict` flag to true inside the `tsconfig.json` file which enables a wide range of type checking behavior that results in stronger guarantees of program correctness. Turning it on is equivalent to enabling all of the strict mode family options: `strictBindCallApply`, `strictFunctionTypes`, `strictNullChecks` and `strictPropertyInitialization`. It also sets to true the three following `angularCompilerOptions`: `strictInjectionParameters`, `strictInputAccessModifiers` and `strictTemplates`. These options configure the AOT (*Ahead-of-Time*) template compiler.
 

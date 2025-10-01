@@ -110,7 +110,7 @@ La première question permet d'expérimenter avec le futur d'Angular: une applic
 
 La seconde question vous fait choisir le format des feuilles de style. Ce format sera utilisé à deux endroits : pour le fichier global `styles` et pour chaque composant généré. Le format SCSS vous permet d'écrire du CSS standard et vous donne la possibilité de tirer parti de la puissance de Sass si vous choisissez de le faire.
 
-La troisième question permet de configurer le projet pour des cas d'usages plus compliqués que ce que la formation requiert.
+La troisième question permet de configurer le projet pour le futur d'Angular qui est zoneless. Nous entrerons plus dans les détails de ce que cela implique dans le chapitre sur les composants.
 
 Depuis la version 12 d'Angular, le CLI génère les nouveaux projets en mode strict. Notamment, il définit le flag `strict` à true dans le fichier `tsconfig.json`, ce qui active un large éventail de fonctionnalités de vérification de type qui se traduisent par de meilleures garanties d'exactitude du programme. L'activer équivaut à activer toutes les options de la famille en mode strict : `strictBindCallApply`, `strictFunctionTypes`, `strictNullChecks` et `strictPropertyInitialization`. Il définit également sur true les trois `angularCompilerOptions` suivantes : `strictInjectionParameters`, `strictInputAccessModifiers` et `strictTemplates`. Ces options configurent le compilateur de template AOT (*Ahead-of-Time*).
 
