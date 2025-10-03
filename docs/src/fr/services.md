@@ -59,9 +59,9 @@ Les dépendances peuvent être fournies à trois niveaux :
 
 ## TP : Gestion de l'État
 1. Générez un `AuthenticationService` avec le CLI dans le dossier `app/services`
-2. Déplacez la logique du `loggedIn` de l'`AppComponent` vers le service
+2. Déplacez la logique du `loggedIn` du composant `App` vers le service
 3. Injectez le service dans le `LoginFormComponent` et utilisez-le.
-4. Implémentez une méthode de déconnexion dans le service d'authentification et ajoutez un bouton de déconnexion dans l'`AppComponent` qui l'appelle et provoque une navigation vers le `LoginFormComponent`. Voici l'html et le css :
+4. Implémentez une méthode de déconnexion dans le service d'authentification et ajoutez un bouton de déconnexion dans le composant `App` qui l'appelle et provoque une navigation vers le `LoginFormComponent`. Voici l'html et le css :
 
 <CodeGroup>
 <CodeGroupItem title="app.html">
@@ -154,7 +154,7 @@ export class UserService {
 <CodeGroupItem title="Component">
 
 ```ts
-import { Component, inject } from '@angular/core'
+import { Component, inject, signal } from '@angular/core'
 import { User } from 'app/models/user/user'
 import { UserService } from 'app/services/user.service'
 
@@ -165,12 +165,12 @@ import { UserService } from 'app/services/user.service'
 export class UserComponent {
   private readonly userService = inject(UserService)
 
-  protected user: User | undefined = undefined
+  protected readonly user = signal<User | undefined>(undefined)
   protected reference = ''
 
   getUser(): void {
     this.userService.getByUserReference(this.reference))
-      .subscribe(user => this.user = user)
+      .subscribe(user => this.user.set(user))
   }
 }
 ```
@@ -223,12 +223,13 @@ Le proxy détournera tous les appels à l'URL commençant par http://localhost:4
 ```json{5,6,7}
 ...
 "serve": {
-  "builder": "@angular-devkit/build-angular:dev-server",
-  ...
+  "builder": "@angular/build:dev-server",
   "options": {
     "proxyConfig": "src/proxy.conf.json"
   },
-  "defaultConfiguration": "development"
+  "configurations": {
+    ...
+  }
 },
 ...
 ```
@@ -305,9 +306,11 @@ Prenez note du token dans la `UserResponse`, il servira à authentifier l'utilis
 ```ts
 private readonly httpClient = inject(HttpClient)
 private readonly baseUrl = 'api/user'
+private readonly token = signal<string | null>(null)
 
 login(loginRequest: LoginRequest): Observable<UserResponse> {
   return this.httpClient.post<UserResponse>(`${this.baseUrl}/login`, loginRequest)
+    .pipe(tap(response => this.token.set(response.token)))
 }
 
 register(loginRequest: LoginRequest): Observable<UserResponse> {
@@ -353,37 +356,21 @@ register(): void {
 </CodeGroupItem>
 </CodeGroup>
 
-7. Une refactorisation est également nécessaire pour que l'`authenticationGuard` continue de fonctionner. Faites en sorte que le booléen `loggedIn` dans `AuthenticationService` dépende d'un champ `token` et faites en sorte que le `LoginFormComponent` sauvegarde le token qu'il obtient de l'appel de connexion dans ce champ.
-Refactorez aussi la méthode `logout()` pour qu'elle remette le `token` à null.
+7. Une refactorisation est également nécessaire pour que l'`authenticationGuard` continue de fonctionner. Transformez la variable `loggedIn` dans l'`AuthenticationService` en signal computed qui dépend du champ `token`.
+Refactorez aussi la méthode `logout()` pour qu'elle remette la valeur du signal `token` à null.
 
 <CodeGroup>
 <CodeGroupItem title="authentication.service.ts">
 
 ```ts
-readonly token: WritableSignal<string | null> = signal(null)
-
 readonly loggedIn = computed(() => this.token() !== null)
-```
-</CodeGroupItem>
-
-<CodeGroupItem title="login-form.component.ts">
-
-```ts{3, 4}
-login(): void {
-  this.authenticationService.login(this.loginRequest())
-    .subscribe({ next: response => {
-      this.authenticationService.token.set(response.token)
-      const postLoginUrl = this.activatedRoute.snapshot.queryParamMap.get('returnUrl')
-      this.router.navigateByUrl(postLoginUrl ? `/${postLoginUrl}` : '')
-    } })
-}
 ```
 </CodeGroupItem>
 </CodeGroup>
 
 8. Ajoutez un bouton d'enregistrement à côté du bouton de connexion dans le `LoginFormComponent`, donnez-lui l'attribut `type="button"` afin qu'Angular sache que ce n'est pas ce bouton qui déclenche l'événement `ngSubmit` sur le formulaire et faites-lui appeler le méthode d'enrôlement.
 Vous devriez maintenant pouvoir enregistrer un utilisateur et vous connecter.
-Si l'enrôlement semble ne pas fonctionner, vérifiez l'onglet network des outils de développement de votre navigateur (onglet preview de l'appel réseau en erreur), votre mail ou mot de passe ne respectent peut-être pas les règles de validation du back.
+Si l'enrôlement semble ne pas fonctionner, **vérifiez l'onglet network des outils de développement de votre navigateur** (onglet preview de l'appel réseau en erreur), votre mail ou mot de passe ne respectent peut-être pas les règles de validation du back.
 
 <CodeGroup>
 <CodeGroupItem title="HTML">
@@ -406,7 +393,7 @@ Si l'enrôlement semble ne pas fonctionner, vérifiez l'onglet network des outil
 </CodeGroupItem>
 </CodeGroup>
 
-9. Il est temps de gérer les erreurs. La méthode subscribe peut prendre un objet qui propose trois callbacks: une *next*, une *error* et une *complete* (nous verrons cela plus en détail dans le chapitre suivant). Déclarer un champ `errorMessage` sur le `LoginFormComponent` et le mettre à jour en vous servant de l'argument renvoyé par la callback `error`. Afficher le message d'erreur sur le formulaire. Vérifier que le message d'erreur s'affiche bien lorsqu'on saisit des identifiants incorrects.
+9. Il est temps de gérer les erreurs. La méthode subscribe peut prendre un objet qui propose trois callbacks: une *next*, une *error* et une *complete* (nous verrons cela plus en détail dans le chapitre suivant). Déclarer un signal `errorMessage` dans la classe `LoginFormComponent` et changer sa valeur en vous servant de l'argument renvoyé par la callback `error`. Afficher le message d'erreur sur le formulaire. Vérifier que le message d'erreur s'affiche bien lorsqu'on saisit des identifiants incorrects.
 
 <CodeGroup>
 <CodeGroupItem title="login-form.component.ts">
@@ -421,8 +408,8 @@ private errorHandler(errorResponse: HttpErrorResponse): void {
 // subscribe syntax
 this.authenticationService.login(this.loginRequest())
   .subscribe({
-    next: response => { /*  */},
-    error: errorResponse => { /*  */ }
+    next: response => { /* insérer du code ici */},
+    error: errorResponse => { /* insérer du code ici */ }
   })
 ```
 </CodeGroupItem>
@@ -473,7 +460,7 @@ const options = {
 }
 ```
 
-12. Apportez des modifications au `FilmSearchComponent` pour appeler ce nouveau service avec le titre renseigné par l'utilisateur, enregistrez la réponse dans le champ `films` du `FilmSearchComponent`.
+12. Apportez des modifications au `FilmSearchComponent` pour appeler ce nouveau service avec le titre renseigné par l'utilisateur, enregistrez la réponse dans le signal `films` de la classe `FilmSearchComponent`.
 
 13. Vérifiez que le token est envoyé sous forme d'en-tête HTTP via les outils de développement de votre navigateur.
 
@@ -482,3 +469,6 @@ const options = {
 
 ![Résultat visuel du TP http](../assets/visual-7b.png)
 :::
+
+## Aller plus loin : HttpResource
+L'`HttpClient` utilise les Observables de la librairie `rxjs`. Avoir deux modèles de réactivité (les Observables et les signaux) qui coexistent au sein du même framework peut sembler étrange. Les Observables sont présents depuis la première version d'Angular et sont principalement rencontrés lors d'appels réseaux ou d'interactions avec les formulaires réactifs. Ils excellent dans des cas d'utilisation réactifs complexes qui ne constituent pas la majeure partie de la base de code d'une application Angular, mais qui sont essentiels au bon fonctionnement de votre application. Les signaux ne prendront pas le rôle des Observables car ils offrent une API moins puissante, toutefois ils remplaceront les Observables dans de nombreux cas plus simples. Un wrapper du `HttpClient` basé sur les signaux a été introduit en expérimental en Angular 19.2, le `HttpResource`. Vous pouvez explorer ses capacités [ici](https://angular.dev/guide/http/http-resource). Il est conseillé de ne l’utiliser que pour les requêtes GET.

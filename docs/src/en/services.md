@@ -59,9 +59,9 @@ Dependencies can be provided at three levels:
 
 ## Practical Work: State management
 1. Generate an `AuthenticationService` with the CLI in the `app/services` folder
-2. Move the `loggedIn` logic from the `AppComponent` to the service
+2. Move the `loggedIn` logic from the `App` component to the service
 3. Inject the service in the `LoginFormComponent` and use it.
-4. Implement a logout method in the authentication service and add a logout button in the `AppComponent` that calls it and navigates back to the `LoginFormComponent`. Here is the html and css:
+4. Implement a logout method in the authentication service and add a logout button in the `App` component that calls it and navigates back to the `LoginFormComponent`. Here is the html and css:
 
 <CodeGroup>
 <CodeGroupItem title="app.html">
@@ -154,7 +154,7 @@ export class UserService {
 <CodeGroupItem title="Component">
 
 ```ts
-import { Component, inject } from '@angular/core'
+import { Component, inject, signal } from '@angular/core'
 import { User } from 'app/models/user/user'
 import { UserService } from 'app/services/user.service'
 
@@ -165,12 +165,12 @@ import { UserService } from 'app/services/user.service'
 export class UserComponent {
   private readonly userService = inject(UserService)
 
-  protected user: User | undefined = undefined
+  protected readonly user = signal<User | undefined>(undefined)
   protected reference = ''
 
   getUser(): void {
     this.userService.getByUserReference(this.reference))
-      .subscribe(user => this.user = user)
+      .subscribe(user => this.user.set(user))
   }
 }
 ```
@@ -222,12 +222,13 @@ The proxy will divert all calls for http://localhost:4200/api to the server runn
 ```json{5,6,7}
 ...
 "serve": {
-  "builder": "@angular-devkit/build-angular:dev-server",
-  ...
+  "builder": "@angular/build:dev-server",
   "options": {
     "proxyConfig": "src/proxy.conf.json"
   },
-  "defaultConfiguration": "development"
+  "configurations": {
+    ...
+  }
 },
 ...
 ```
@@ -304,9 +305,11 @@ Note the token in the `UserResponse`, it will serve to authenticate the user via
 ```ts
 private readonly httpClient = inject(HttpClient)
 private readonly baseUrl = 'api/user'
+private readonly token = signal<string | null>(null)
 
 login(loginRequest: LoginRequest): Observable<UserResponse> {
   return this.httpClient.post<UserResponse>(`${this.baseUrl}/login`, loginRequest)
+    .pipe(tap(response => this.token.set(response.token)))
 }
 
 register(loginRequest: LoginRequest): Observable<UserResponse> {
@@ -352,37 +355,21 @@ register(): void {
 </CodeGroupItem>
 </CodeGroup>
 
-7. Refactoring is also needed to keep the `authenticationGuard` working. Make the `loggedIn` boolean in the `AuthenticationService` depend on a `token` field and make the `LoginFormComponent` save the token that it gets from the login call in that field.
-You will also need to refactor the logout to empty the `token`.
+7. Refactoring is also needed to keep the `authenticationGuard` working. Make the `loggedIn` variable in the `AuthenticationService` a computed signal that depends on the `token` signal.
+You will also need to refactor the logout to empty the `token` signal value.
 
 <CodeGroup>
 <CodeGroupItem title="authentication.service.ts">
 
 ```ts
-readonly token: WritableSignal<string | null> = signal(null)
-
 readonly loggedIn = computed(() => this.token() !== null)
-```
-</CodeGroupItem>
-
-<CodeGroupItem title="login-form.component.ts">
-
-```ts{3, 4}
-login(): void {
-  this.authenticationService.login(this.loginRequest())
-    .subscribe({ next: response => {
-      this.authenticationService.token.set(response.token)
-      const postLoginUrl = this.activatedRoute.snapshot.queryParamMap.get('returnUrl')
-      this.router.navigateByUrl(postLoginUrl ? `/${postLoginUrl}` : '')
-    } })
-}
 ```
 </CodeGroupItem>
 </CodeGroup>
 
 8. Add a register button next to the login button in the `LoginFormComponent`, give it the attribute `type="button"` so that Angular knows it is not this button that triggers the `ngSubmit` event on the form and make it call the register method.
 You should now be able to register a user and login.
-If you are having trouble, check the errors in the network tab of the developer tools (preview tab of the network call in error), your email or password may not comply with the policy.
+If you are having trouble, **check the errors in the network tab** of the developer tools (preview tab of the network call in error), your email or password may not comply with the policy.
 
 <CodeGroup>
 <CodeGroupItem title="HTML">
@@ -405,7 +392,7 @@ If you are having trouble, check the errors in the network tab of the developer 
 </CodeGroupItem>
 </CodeGroup>
 
-9. It is time to handle errors. The subscribe method can be passed an object that takes three callbacks: a *next*, an *error* and a *complete* (we will look at this in more details in the next chapter). Declare an `errorMessage` field on the `LoginFormComponent` and update it with the error information retrieved from the argument of the `error` callback. Display the error message on the form. Check that the error message is actually shown when you login with incorrect credentials.
+9. It is time to handle errors. The subscribe method can be passed an object that takes three callbacks: a *next*, an *error* and a *complete* (we will look at this in more details in the next chapter). Declare an `errorMessage` signal in the `LoginFormComponent` class and set it with the error information retrieved from the argument of the `error` callback. Display the error message on the form. Check that the error message is actually shown when you login with incorrect credentials.
 
 <CodeGroup>
 <CodeGroupItem title="login-form.component.ts">
@@ -420,8 +407,8 @@ private errorHandler(errorResponse: HttpErrorResponse): void {
 // subscribe syntax
 this.authenticationService.login(this.loginRequest())
   .subscribe({
-    next: response => { /*  */},
-    error: errorResponse => { /*  */ }
+    next: response => { /* insert code here */},
+    error: errorResponse => { /* insert code here */ }
   })
 ```
 </CodeGroupItem>
@@ -472,7 +459,7 @@ const options = {
 }
 ```
 
-12. Make changes to the `FilmSearchComponent` to call this new service with the title filled in by the user, save the response to the `films` field in the `FilmSearchComponent`.
+12. Make changes to the `FilmSearchComponent` to call this new service with the title filled in by the user, save the response to the `films` signal field in the `FilmSearchComponent` class.
 
 13. Check that the token is sent as a HTTP header via the developer tools of your browser.
 
@@ -481,3 +468,6 @@ const options = {
 
 ![Visual result of the http practical work](../assets/visual-7b.png)
 :::
+
+## To go further: HttpResource
+The `HttpClient` makes use of Observables from the `rxjs` library. Having two reactivity models (Observables and signals) competing in the same framework may seem strange. Observables have been around since the first version of Angular and are mainly encountered whilst making http calls or interacting with reactive forms, they were not necessary everywhere thanks to `zone.js`. They shine in complex reactive use cases that don't form the bulk of an Angular application code base but that are essential to the proper running of your application. Signals won't take over the role of Observables as they offer a less powerful API, however they will replace Observables in many simpler cases. There's a signal-based wrapper for the `HttpClient` called `HttpResource` that was introduced in Angular 19.2 as experimental. You can explore its capabilities [here](https://angular.dev/guide/http/http-resource). It is advised to only use it for GET requests.
