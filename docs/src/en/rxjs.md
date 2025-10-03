@@ -282,3 +282,8 @@ To help you decide which operator fits your use case, the RxJS documentation pro
 
 1. In the `film-search.component.ts` file, stop subscribing to the search response and use an async pipe instead in the template. Don't forget to add the `AsyncPipe` to the `imports` array.
 2. Even though it is not strictly necessary in those cases, unsubscribe from the login and register calls in the `LoginFormComponent` using the `takeUntilDestroyed` technique.
+
+
+## To go further
+
+Angular provides helpers to interoperate between Rx and Signals. You will find the documentation [here](https://angular.dev/ecosystem/rxjs-interop).
