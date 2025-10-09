@@ -83,7 +83,7 @@ L'extrait de code suivant montre comment convertir la déclaration du FormGroup 
 
 ```typescript
 // before
-readonly iceCreamForm = new FormGroup({
+protected readonly iceCreamForm = new FormGroup({
   customerName: new FormControl('Charlotte Smith'),
   flavor: new FormControl('', Validators.required),
   toppings: new FormGroup({
@@ -93,9 +93,9 @@ readonly iceCreamForm = new FormGroup({
 })
 
 //after
-private fb = inject(NonNullableFormBuilder) //do not forget to inject the service
+private readonly fb = inject(NonNullableFormBuilder) //do not forget to inject the service
 
-readonly iceCreamForm = this.fb.group({
+protected readonly iceCreamForm = this.fb.group({
   customerName: 'Charlotte Smith',
   flavor: ['', Validators.required],
   toppings: this.fb.group({
