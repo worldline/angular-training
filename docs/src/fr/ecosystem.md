@@ -6,9 +6,9 @@ Angular bénéficie d'un écosystème fantastique. Je vais fournir ici quelques 
 
 - [Angular.dev](https://angular.dev): Le site officiel d'Angular. Ce site contient des TONNES de guides, références et de tutoriels dans lesquels vous pourriez passer des semaines à éplucher.
 
-- [Tuto officiels](https://angular.dev/tutorials): Des tuto riches en théorie/concept/fonctionnalité. Je vous conseille fortement de les essayer car cela vous donne l'occasion de revoir les concepts vus dans cette formation sous un angle différent.
+- [Tutoriels officiels](https://angular.dev/tutorials): Des tutoriels riches en théorie/concept/fonctionnalité. Je vous conseille fortement de les essayer car cela vous donne l'occasion de revoir les concepts vus dans cette formation sous un angle différent.
 
-- [Blof officiel d'Angular](https://blog.angular.dev): Nouvelles et conseils de l'équipe Angular.
+- [Blog officiel d'Angular](https://blog.angular.dev): Nouvelles et conseils de l'équipe Angular.
 
 - [Angular Material](https://material.angular.io/) et [CDK](https://material.angular.io/cdk/categories): Deux librairies UI/UX développées et maintenues par l'équipe Angular Components qui fait partie de l'équipe Angular de Google. L'équipe comprend à la fois des employés de Google et des contributeurs de la communauté du monde entier. Angular Material contient des composants d'interface utilisateur de haute qualité qui peuvent être utilisés dans des applications existantes. Le CDK (Component Development Kit) vous aide à créer vos propres composants personnalisés avec des modèles d'interaction courants. Les deux librairies sont maintenues au même rythme que le framework Angular.
 

@@ -144,7 +144,7 @@ Streams can be composed for many purposes. To study this notion in a simpler env
 
 Having to chain backend calls is quite common. For example, the user has just edited a resource and you want your page to display its updated details. Some backend do send back the details of the updated resource in the body of the edit call response. However, some just send back a 200 or 204 HTTP response without a body. This means that the edit call and detail call need be chained to update the UI. RxJS provides several operators to chain events in a declarative manner. We will use the `switchMap` operator ([documentation](https://rxjs.dev/api/operators/switchMap) / [marble](https://rxmarbles.com/#switchMap)) in this case. You can try it in the Stackblitz below (click anywhere on the preview and see what happens in the console, click again and see how things change in the console).
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/switchmap-training?ctl=1&devtoolsheight=33&embed=1&file=index.ts&hideExplorer=1&hideNavigation=1&title=SwitchMap%20exemple"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/edit/switchmap-training?ctl=1&devtoolsheight=33&embed=1&file=index.ts&hideExplorer=1&hideNavigation=1&title=SwitchMap%20example"></iframe>
 
 **Question: From this example, what do you learn on the way switchMap works? (Having a look at the marble diagram can help)**
 
@@ -217,7 +217,7 @@ For objects, an alternative syntax exists to avoid repetitively using the async 
 <p>{{(user | async)?.lastName}}</p>
 <p>{{(user | async)?.age}}</p>
 
-<!-- PREFERED WAY -->
+<!-- PREFERRED WAY -->
 @if (user | async as user) {
   <p>{{user.firstName}}</p>
   <p>{{user.lastName}}</p>

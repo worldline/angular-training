@@ -10,14 +10,14 @@ Angular benefits from a fantastic ecosystem. I will provide here some great sour
 
 - [Angular official blog](https://blog.angular.dev): News and Tips from the Angular Team.
 
-- [Angular Material](https://material.angular.io/) and the [CDK](https://material.angular.io/cdk/categories): Two UI/UX libraries developped and maintained by the Angular Components team that is part of the Angular team at Google. The team includes both Google employees and community contributors from around the globe. Material Angular contains high-quality UI components that can be dropped into existing applications. The CDK (Component Development Kit) helps you build your own custom components with common interaction patterns. Both library are maintained at the same pace as the Angular framework.
+- [Angular Material](https://material.angular.io/) and the [CDK](https://material.angular.io/cdk/categories): Two UI/UX libraries developed and maintained by the Angular Components team that is part of the Angular team at Google. The team includes both Google employees and community contributors from around the globe. Material Angular contains high-quality UI components that can be dropped into existing applications. The CDK (Component Development Kit) helps you build your own custom components with common interaction patterns. Both libraries are maintained at the same pace as the Angular framework.
 
 
 ## Non Angular-specific resources
 
-- [RxJS](https://rxjs.dev): Learn about the library's concepts in depth here. The site also provides a decision-tree to help you choose the right operator to solve the situtation at hand.
+- [RxJS](https://rxjs.dev): Learn about the library's concepts in depth here. The site also provides a decision-tree to help you choose the right operator to solve the situation at hand.
 
-- [MDN Web Docs](https://developer.mozilla.org/): MDN Web Docs is an evolving learning platform for Web technologies and the software that powers the Web, including CSS, HTML, and JavaScript. It offers great resources, I can only recommand it.
+- [MDN Web Docs](https://developer.mozilla.org/): MDN Web Docs is an evolving learning platform for Web technologies and the software that powers the Web, including CSS, HTML, and JavaScript. It offers great resources, I can only recommend it.
 
 - [Can I Use](https://caniuse.com/): provides up-to-date browser support tables for support of front-end web technologies on desktop and mobile web browsers.
 

@@ -2,7 +2,7 @@
 
 Pipes are **data transformation functions** usable directly from the template in order to transform the data to be displayed at binding time. They are interesting in two main ways:
 - they don't require to change the data in the component so that it is displayed in a user-friendly way
-- they are declared once and can be reused in as many components as needed as they are independant from them
+- they are declared once and can be reused in as many components as needed as they are independent from them
 
 ## Syntax
 
@@ -78,7 +78,7 @@ export class DemoPipe implements PipeTransform {
 
 }
 ```
-The `transform` method's first argument is the value on which the pipe is applied, the method then takes any number of arguments. It is recommanded to type all the arguments as well as the return type.
+The `transform` method's first argument is the value on which the pipe is applied, the method then takes any number of arguments. It is recommended to type all the arguments as well as the return type.
 
 The pipe's name should be in lowerCamelCase. It is a good practice to make it start with your app's initials, just like for the selector of your components.
 

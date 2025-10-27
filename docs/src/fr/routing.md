@@ -422,7 +422,7 @@ Qu'est-ce que ça veut dire ? Si vous ne permettez la navigation vers la même r
 ### Service Router
 
 Parfois, il est nécessaire de déclencher certaines actions avant le routage. C'est ce qui se passe lorsque nous cliquons sur un bouton de connexion. Tout d'abord, un appel http est effectué et en fonction de la réponse, le routage a lieu. Le service `Router` permet de déclencher la navigation depuis la classe du composant.
-1. Injecter le service 'Router' via la mtéthode *inject*
+1. Injecter le service 'Router' via la méthode *inject*
 2. Utilisez la méthode `navigateByUrl` pour déclencher la navigation. `navigateByUrl` prend toujours un chemin absolu. Si vous souhaitez utiliser un chemin relatif, utilisez plutôt la méthode `navigate`.
 
 ```ts{6,9}

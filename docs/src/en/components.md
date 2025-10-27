@@ -93,8 +93,10 @@ From a developer experience perspective, working in a zoneless environment does 
 - how to structure component dependencies,
 - and how to handle edge cases where the framework won't automatically detect changes.
 
-You can discover more about change detection cycles and when they run in a zoneless environment with the following exemple application: 
-<iframe height='900' width='100%' src="https://stackblitz.com/github.com/Ocunidee/atpw-zoneless/tree/master?ctl=1&embed=1&file=src/app/signal-counter/signal-counter.component.ts&hideNavigation=1&view=preview&title=Zoneless change detection"></iframe>
+:::tip Exercise: Spotting change detection cycles
+You can discover more about change detection cycles and when they run in a zoneless environment with the following example application: 
+
+<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-zoneless-change-detection?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1&title=Zoneless%20change%20detection"></iframe>
 
 You will find an [article](https://angular.love/the-latest-in-angular-change-detection-zoneless-signals) explaining in depth how change detection works in Angular at the bottom of this chapter.
 
@@ -139,7 +141,9 @@ You need to be aware of the caveats of using the *OnPush* strategy to not encoun
 :::
 
 ## An introduction to Signals
-So far, we've used signals in each exemple without really defining what they are, how to use them and what their API is. We know that they can wrap any value and that the current value they contain can be retrieved by invoking them. Let's dive a little deeper.
+## Signals
+
+So far, we've used signals in each example without really defining what they are, how to use them and what their API is. We know that they can wrap any value and that the current value they contain can be retrieved by invoking them. Let's dive a little deeper.
 
 It is a wrapper around a value that notifies interested consumers when that value changes. Angular can track where the signal is used when we call it's getter function (invoking the signal). There are two types of signals: writable ones that can also be read and read-only signals.
 
@@ -313,11 +317,11 @@ export class UserProfileComponent {
   protected readonly lastName = signal('Doe')
   
   // Usually derives from firstName + lastName, but can be manually overridden via the input in the html
-  protected readonly preferedName = linkedSignal(() => `${this.firstName()} ${this.lastName()}`)
+  protected readonly preferredName = linkedSignal(() => `${this.firstName()} ${this.lastName()}`)
 
   // Reset to auto-generated value based on firstName + lastName
-  resetPreferedName() {
-    this.preferedName.set(`${this.firstName()} ${this.lastName()}`)
+  resetPreferredName() {
+    this.preferredName.set(`${this.firstName()} ${this.lastName()}`)
   }
 }
 ```
@@ -332,11 +336,11 @@ export class UserProfileComponent {
 <label>Last name
   <input [(ngModel)]="lastName">
 </label>
-<p>Auto-generated display name: {{ preferedName() }}</p>
+<p>Auto-generated display name: {{ preferredName() }}</p>
 <label>Preferred name
-  <input [(ngModel)]="preferedName">
+  <input [(ngModel)]="preferredName">
 </label>
-<button (click)="resetPreferedName()">Reset to default</button>
+<button (click)="resetPreferredName()">Reset to default</button>
 ```
 </CodeGroupItem>
 </CodeGroup>
@@ -347,7 +351,7 @@ A common pattern in Angular is sharing data between a parent component and one o
 ![Data sharing](../assets/child-parent.png)
 
 ::: details Before Signals and Angular 17
-`input()` and `output()` signals were introduced in Angular 17. Their ancestors are the decorators `Input()` and `Output()`. Both syntax can be used in lieu and place of each other as long as Angular uses the zone.js library. In each subsequent paragraphs, both the signal and decorator syntax will be presented to accomodate older generation projects.
+`input()` and `output()` signals were introduced in Angular 17. Their ancestors are the decorators `Input()` and `Output()`. Both syntax can be used in lieu and place of each other as long as Angular uses the zone.js library. In each subsequent paragraphs, both the signal and decorator syntax will be presented to accommodate older generation projects.
 
 Use signals if you are starting out on a new project. If you are on a legacy project in Angular 17+, use signals in new components and refactor progressively the already existing components. This will greatly help when Angular drops zone.js support in future versions as less refactoring will be needed.
 :::
@@ -538,10 +542,10 @@ export class AppComponent {
 </CodeGroupItem>
 </CodeGroup>
 
-You can play with this example [here](https://stackblitz.com/fork/github/ocunidee/atpw-output-exemple/tree/master?file=src/app/app.component.ts&title=output%20exemple).
+You can play with this example [here](https://stackblitz.com/fork/github/ocunidee/atpw-output-example/tree/master?file=src/app/app.component.ts&title=output%20example).
 
 ::: details @Output() decorator (before Angular 17)
-The same way `input()` is replacing `@Input()`, `output()` is replacing `@Output()`. Here is the above exemple using the old `@Output()` decorator.
+The same way `input()` is replacing `@Input()`, `output()` is replacing `@Output()`. Here is the above example using the old `@Output()` decorator.
 
 Adding the `@Output()` decorator on a child component's `EventEmitter` property allows data to flow from the child to the parent. The parent component can react to the event through the event binding syntax.
 
@@ -600,7 +604,7 @@ export class AddTaskComponent {
 </CodeGroupItem>
 </CodeGroup>
 
-You can play with this example [here](https://stackblitz.com/fork/github/ocunidee/atpw-output-exemple/tree/master?file=src/app/app.component.ts&title=output%20exemple).
+You can play with this example [here](https://stackblitz.com/fork/github/ocunidee/atpw-output-example/tree/master?file=src/app/app.component.ts&title=output%20example).
 :::
 
 **Exercise: Books are now borrowable, communicate when books are borrowed to their parent component**
@@ -649,7 +653,7 @@ export class GreetComponent {
 
 The `viewChild()` function can achieve the same purpose as a template variable but directly **inside the parent component's class** by injecting the child component into the parent component. Use `viewChild()` over a local template variable (#) whenever you need to coordinate interactions between several child components from the typescript class.
 
-Just like for the `input()` function, consider using `viewChild.required` if you are certain the component, element or template ref you are querying will always match (for exemple, it is not nested in an `@if` in the template).
+Just like for the `input()` function, consider using `viewChild.required` if you are certain the component, element or template ref you are querying will always match (for example, it is not nested in an `@if` in the template).
 
 In this example, the `MenuComponent` gets access to the `MenuItemComponent`:
 

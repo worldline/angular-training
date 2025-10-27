@@ -13,12 +13,12 @@ Proper error handling is an important aspect of a well-designed application. Ang
 There are mainly two ways of dealing with a page that is heavily reliant on data received from the backend. Either load data after the page is loaded which will require a loading design and an error design for the page, in case the data is never received. Or load data before routing to the page. This alternative has the benefits of simplifying the user interface and the code. It is quite easy to implement with the Angular Router: a resolver needs to be passed to the `resolve` attribute of the route. The article explains the implementation in details.
 
 ## Translation
-It is quite common for applications to either be displayed in the language of the browser or to leave the choice of the language to the user via a picker (or both). Angular provides a way to deal with translations with its internationalisation library: `@angular/localize`. Here is the [full documentation](https://angular.dev/guide/i18n) on how to localize an app using the official method.
+It is quite common for applications to either be displayed in the language of the browser or to leave the choice of the language to the user via a picker (or both). Angular provides a way to deal with translations with its internationalization library: `@angular/localize`. Here is the [full documentation](https://angular.dev/guide/i18n) on how to localize an app using the official method.
 
 Another solution with an easier implementation exists: using the `ngx-translate` library. Here is a well detailed [blog article](https://www.codeandweb.com/babeledit/tutorials/how-to-translate-your-angular-app-with-ngx-translate) about it
 
 ## Testing
-You may have realised that when generating classes with the CLI (if the `--skipTests` flag isn't provided), they come with a counterpart test file. The Angular documentation provides several guides on how deal with tests.
+You may have realized that when generating classes with the CLI (if the `--skipTests` flag isn't provided), they come with a counterpart test file. The Angular documentation provides several guides on how deal with tests.
 - [Introduction](https://angular.dev/guide/testing)
 - [Testing services](https://angular.dev/guide/testing/services)
 - [Testing components](https://angular.dev/guide/testing/components-basics)

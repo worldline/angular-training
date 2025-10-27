@@ -11,7 +11,7 @@ Dans une SPA, les formulaires ne redirigent pas vers une page serveur lorsque l'
 Angular simplifie les tâches courantes liées à la création et au traitement des formulaires, telles que le data-binding entre le template et la classe du composant, la validation et l'envoi des données au serveur.
 Ceci est possible en utilisant l'un ou l'autre de ces deux types de formulaires :
 
-- Template-driven forms : simples à utiliser mais beaucoup moins scalables  que les formulaires réactifs et conviennent parfaitement aux formulaires simples avec peu d'inputs et peu ou pas de règles de validation.
+- Template-driven forms : simples à utiliser mais beaucoup moins scalables que les formulaires réactifs et conviennent parfaitement aux formulaires simples avec peu d'inputs et peu ou pas de règles de validation.
 - Reactive forms : ont une courbe d'apprentissage abrupte mais offrent plus d'avantages en termes de gestion de cas d'utilisation complexes, de scalabilité, de réutilisabilité et de testabilité. Leur implémentation est basée sur RxJS.
 
 ## Template-driven forms

@@ -2,7 +2,7 @@
 
 We have just used the Angular CLI command `ng new <my-project>`. This command creates a workspace with a root-level application named *my-project* and installs the necessary Angular npm packages in the new workspace. The workspace root folder contains various support and configuration files.
 
-Creating an initial skeleton application at the root level of the workspace along with its end-to-end tests is the default behaviour of the `ng new` command. This behaviour is suitable for a **multi-repo** development style where each application resides in its own workspace. It is also the recommanded way for beginner and intermediate users.
+Creating an initial skeleton application at the root level of the workspace along with its end-to-end tests is the default behaviour of the `ng new` command. This behaviour is suitable for a **multi-repo** development style where each application resides in its own workspace. It is also the recommended way for beginner and intermediate users.
 
 Angular also supports workspaces with multiple projects. This is appropriate for a **monorepo** development style where there is a single repository and a global configuration for all Angular projects in it. It is also suitable for advanced users who are, for instance, developing shareable libraries.
 
@@ -12,7 +12,7 @@ To get started developing with a multi-project workspace, the initial root-level
 ng new my-workspace --create-application false
 ```
 
-You can then generate apps and libraries with names that are unique whithin the workspace.
+You can then generate apps and libraries with names that are unique within the workspace.
 
 ``` bash
 cd my-workspace

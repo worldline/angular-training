@@ -27,7 +27,7 @@ Notre projet précédemment créé contient les dossiers et fichiers suivants :
 - `tsconfig.app.json`: le fichier de configuration TypeScript de l'application racine qui hérite de celui de base
 - `tsconfig.spec.json`: le fichier de configuration TypeScript des tests e2e qui hérite de celui de base
 - `README.md`: documentation d'introduction pour l'application racine
-- `package.json`: cconfigure les dépendances des packages npm qui sont disponibles pour tous les projets de l'espace de travail
+- `package.json`: configure les dépendances des packages npm qui sont disponibles pour tous les projets de l'espace de travail
 - `package-lock.json`: fournit des informations de version pour tous les packages installés dans node_modules par le client npm
 - `angular.json`: Configuration du CLI, y compris des options de configuration pour les commandes build, serve et pour les outils de tests utilisés par le CLI
 - `.gitignore`: Spécifie les fichiers intentionnellement non suivis que Git doit ignorer
@@ -35,7 +35,7 @@ Notre projet précédemment créé contient les dossiers et fichiers suivants :
 - `src`: Fichiers sources pour l'application racine
 - `node_modules`: Fournit des packages npm à l'ensemble du workspace
 - `public`: Contient la favicon et est le dossier où mettre les images et autres fichiers d'assets à copier tel quel lors du build de l'application
-- `.angluar`: Fichiers de cache
+- `.angular`: Fichiers de cache
 
 :::tip
 Pour s'assurer que tous les développeurs travaillant sur un projet utilisent les mêmes versions de librairies, il est possible de [bloquer les numéros de version](https://docs.npmjs.com/cli/v7/configuring-npm/package-json#dependencies) via le fichier `package.json`.
@@ -88,7 +88,7 @@ Le moyen le plus simple d'insérer des données de manière dynamique dans vos c
 
 - les opérations bitwise: `&`, `&=`, `~`, `|=`, `^=`, etc.
 - la déstructuration d'objet: `const { name } = person`
-- la destrucration de tableau: `const [firstItem] = items`
+- la destructuration de tableau: `const [firstItem] = items`
 - l'opérateur virgule: `x = (x++, x)`
 - instanceof: `movie instanceof Film`
 - new: `new Film()`

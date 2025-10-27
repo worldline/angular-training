@@ -289,7 +289,7 @@ How `null` and `undefined` behave depends on whether the `strictNullChecks` Type
 
 - `strictNullChecks` *off*
 
-Values that might be `null` or `undefined` can still be accessed normally, and the values `null` and `undefined` can be assigned to a property of any type. This is similar to how languages without null checks (e.g. Java, C# before version 8) behave. The lack of checking for these values tends to be a major source of bugs; it is strongly recommanded to turn `strictNullChecks` on if it’s practical to do so in your codebase.
+Values that might be `null` or `undefined` can still be accessed normally, and the values `null` and `undefined` can be assigned to a property of any type. This is similar to how languages without null checks (e.g. Java, C# before version 8) behave. The lack of checking for these values tends to be a major source of bugs; it is strongly recommended to turn `strictNullChecks` on if it's practical to do so in your codebase.
 
 - `strictNullChecks` *on*
 

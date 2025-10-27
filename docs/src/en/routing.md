@@ -48,7 +48,7 @@ export class AppRoutingModule { }
 ```
 :::
 
-Angular generates projects with an `app.routes.ts` file. This is where the application's routes are defined. As the app grows, it is recommanded to split the route definition across several files for clarity.
+Angular generates projects with an `app.routes.ts` file. This is where the application's routes are defined. As the app grows, it is recommended to split the route definition across several files for clarity.
 
 Here is what the generated `app.routes.ts` file looks like:
 
@@ -373,7 +373,7 @@ import { ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'app-example',
-  templateUrl: './exemple.component.html'
+  templateUrl: './example.component.html'
 })
 export class ExampleComponent implements OnInit {
   private route = inject(ActivatedRoute)
@@ -414,7 +414,7 @@ export class AuthorDetailsComponent implements OnInit {
 :::
 
 ::: warning When to use snapshot
-The `paramMap` and `queryParamMap` properties are `Observables` because of optimisations. Indeed, when navigating to the same route but with different paramaters (e.g. /books/123 => /books/456), Angular doesn't reload the component but propagates the new parameters via these `Observables`.
+The `paramMap` and `queryParamMap` properties are `Observables` because of optimisations. Indeed, when navigating to the same route but with different parameters (e.g. /books/123 => /books/456), Angular doesn't reload the component but propagates the new parameters via these `Observables`.
 
 What does it mean ? If you only allow the navigation to the same route via the address bar, you are covered when using the snapshot. However, if you provide a means to navigate to the same route via a link (such as a "Next" and "Previous" mechanism), you have to listen to the `paramMap`/`queryParamMap` changes.
 :::

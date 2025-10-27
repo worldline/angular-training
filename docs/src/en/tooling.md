@@ -9,7 +9,7 @@ To install Angular on your local system, you need the following:
 
 ### Node.js
 Angular requires a [current, active LTS, or maintenance LTS version](https://nodejs.org/en/about/releases/) of Node.js.
-An Angluar <-> Node compatibility table is available [here](https://angular.dev/reference/versions#actively-supported-versions).
+An Angular <-> Node compatibility table is available [here](https://angular.dev/reference/versions#actively-supported-versions).
 
 To install node.js, you can follow one of the following approach:
 - For macOS or Linux or WSL based installations, it is preferable to use [nvm](https://github.com/nvm-sh/nvm) instead of a standalone node.js installation.
@@ -38,7 +38,7 @@ npm install -g @angular/cli@20.2.0
 ```
 
 ::: tip Powershell
-The execution of Powershell scripts is not enabled by default but it is necessary for global npm binaries. To enable it, it is required to set the following execution policy (read the instructions diplayed after the execution of the command carefully):
+The execution of Powershell scripts is not enabled by default but it is necessary for global npm binaries. To enable it, it is required to set the following execution policy (read the instructions displayed after the execution of the command carefully):
 ```sh
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 ```
@@ -174,7 +174,7 @@ You can, at any time, package your project for production by running:
 ```sh
 npm run build
 ```
-This command will build your project in production mode and put the geenrated sources in the `/dist` folder of your project. You can then deploy this folder on a file server such as Apache or nginx.
+This command will build your project in production mode and put the generated sources in the `/dist` folder of your project. You can then deploy this folder on a file server such as Apache or nginx.
 
 :::tip
 Basic Angular CLI commands are listed in the README.md generated at the root of the project
@@ -221,7 +221,7 @@ Here is a sample *.vscode/launch.json*:
 
 ```
 
-Pressing *F5* will have opened your app in a new browser window and enabled debugging features in VSCode. To verify that, please add a breakpoint in the app component and launch a debug session. The debugger should break on your breakpoint. In case you already had an instance running on port 4200, VSCode will offer to start this new isntance on a different port. Either stop the previous instance or accept VSCode's proposition.
+Pressing *F5* will have opened your app in a new browser window and enabled debugging features in VSCode. To verify that, please add a breakpoint in the app component and launch a debug session. The debugger should break on your breakpoint. In case you already had an instance running on port 4200, VSCode will offer to start this new instance on a different port. Either stop the previous instance or accept VSCode's proposition.
 
 ![debug vscode](../assets/vscode-breakpoint.png)
 

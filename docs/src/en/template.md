@@ -6,7 +6,7 @@ Angular brings powerful syntax to templates. In the previous chapter, we've seen
 
 To bind a DOM property to a component's property, enclose the DOM property in square brackets `[]` in the template. The square brackets `[]` cause Angular to evaluate the right-hand side of the assignment as a dynamic expression. Without the brackets, the right-hand side is just a static string literal. `[]` is the syntax for one-way data binding with data flowing from the component to the template.
 
-Here is an exemple where the *href* and *disabled* DOM property values are defined via variables in the component class.
+Here is an example where the *href* and *disabled* DOM property values are defined via variables in the component class.
 
 <CodeGroup>
 <CodeGroupItem title="app.html">
@@ -281,7 +281,7 @@ You can provide else if and else statements as follows:
 
 **Exercise: use an `@if` block to toggle the loader**
 
-**Bonus: use `@if` and `@else` blocks to conditionnally show either the data or the no data message**
+**Bonus: use `@if` and `@else` blocks to conditionally show either the data or the no data message**
 <iframe height='500' width='100%' src="https://stackblitz.com/fork/github/ocunidee/atpw-if?ctl=1&embed=1&file=src/app/app.component.html&hideNavigation=1&title=@if"></iframe>
 
 ::: details Syntax before Angular 17 (*ngIf directive)

@@ -7,7 +7,7 @@ Angular is more than just a frontend framework with which to build Single Page A
 - A collection of well-integrated libraries that cover a wide variety of features including routing, form management, client-server communication, progressive web apps and more.
 - A suite of developer tools to help you develop, build, test, and update your code via the Angular CLI.
 
-Angular is developped and maintained by Google, its initial release date was in September 2016. It is a full rewriting of AngularJS and as such is a different framework.
+Angular is developed and maintained by Google, its initial release date was in September 2016. It is a full rewriting of AngularJS and as such is a different framework.
 
 ## A bit of history
 

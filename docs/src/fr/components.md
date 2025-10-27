@@ -12,7 +12,7 @@ Vous pouvez modifier l'extension de feuille de style des fichiers générés par
 
 ### Encapsulation
 Parmi les options du décorateur `@Component`, il y en a une qui traite de ViewEncapsulation. Angular fournit trois types d'encapsulation de vue :
-- `ViewEncapsulation.Emulated` (par défaut) : émule le scoping natif,, les styles sont limités au composant
+- `ViewEncapsulation.Emulated` (par défaut) : émule le scoping natif, les styles sont limités au composant
 - `ViewEncapsulation.None` : tout ce qui est mis dans la feuille de style du composant est disponible globalement dans toute l'application
 - `ViewEncapsulation.ShadowDom` : Angular crée un Shadow DOM pour le composant, les styles sont limités au composant
 
@@ -84,7 +84,7 @@ Lorsqu'on appelle setTimeout dans notre application Angular, on appele en réali
 Cependant, cette approche entraîne un **coût de performance** et une complexité qui peuvent se faire ressentir pour les applications très complexes, car *zone.js* doit surveiller chaque opération asynchrone, qu'elle affecte ou non l'interface utilisateur, et peut être considérée comme quelque peu invasive puisqu'elle modifie les APIs globales du navigateur.
 
 ### Se séparer de Zone.js (zoneless)
-Ce **coût de performance** est la raison pour laquelle Angular a décidé de donner la possibilité aux développeurs de se passer de *zone.js*. Pour ce faire, la communauté a été largement consultée à travers des RFC (Request for Comments) et une **nouvelle classe** a été introduite dans Angular 17, la classe **Signal**. Un signal est un wrapper autour d'une valeur qui **notififie les consommateurs intéressés lorsque cette valeur change**. Les signaux peuvent contenir n'importe quelle valeur, des primitives aux structures de données complexes. Avec les signaux, *zone.js* n'est plus nécessaire pour que le rendu de l'interface utilisateur soit réactif aux changements de données ou aux interactions utilisateur.
+Ce **coût de performance** est la raison pour laquelle Angular a décidé de donner la possibilité aux développeurs de se passer de *zone.js*. Pour ce faire, la communauté a été largement consultée à travers des RFC (Request for Comments) et une **nouvelle classe** a été introduite dans Angular 17, la classe **Signal**. Un signal est un wrapper autour d'une valeur qui **notifie les consommateurs intéressés lorsque cette valeur change**. Les signaux peuvent contenir n'importe quelle valeur, des primitives aux structures de données complexes. Avec les signaux, *zone.js* n'est plus nécessaire pour que le rendu de l'interface utilisateur soit réactif aux changements de données ou aux interactions utilisateur.
 
 Dans la **détection du changement sans zone** (expérimentale en Angular 18/19, en aperçu développeur en Angular 20.0, stable à partir d'Angular 20.2 et l'option par défaut en Angular 21), le paradigme évolue vers un modèle réactif plus précis où les composants déclarent explicitement leurs dépendances à travers des signaux, et la détection du changement s'exécute seulement lorsque ces primitives réactives changent réellement leurs valeurs. Cette transition élimine le besoin de la surveillance asynchrone globale de zone.js, réduit la taille des bundles, améliore la performance grâce à une **réactivité plus fine** et donne aux développeurs un contrôle explicite sur quand et comment la détection du changement se produit, bien que cela nécessite une approche plus délibérée de la gestion de l'état et puisse nécessiter le déclenchement manuel de la détection du changement dans des scénarios où un projet s'intègre à du code non basé sur les signaux ou utilise des bibliothèques tierces qui ne tirent pas parti des nouvelles primitives réactives d'Angular.
 
@@ -100,7 +100,7 @@ Vous trouverez un [article](https://angular.love/the-latest-in-angular-change-de
 
 ::: details Optimisation avec la stratégie de détection du changement *OnPush*
 
-Parmi les options du décorateur `@Component`, l'une d'entre elles concerne la stratégie de détection de changements auquelle le composant souscrit :
+Parmi les options du décorateur `@Component`, l'une d'entre elles concerne la stratégie de détection de changements à laquelle le composant souscrit :
 
 L'équipe Angular affirme qu'une application qui fonctionne bien avec des composants utilisant `ChangeDetectionStrategy.OnPush` au lieu de `ChangeDetectionStrategy.Default` a toutes les chances de fonctionner sans problème lors de la transition vers les signaux et le mode zoneless. Cette stratégie de détection de changements est bien plus efficace que celle par défaut. Vous pouvez générer des composants utilisant cette stratégie automatiquement via la CLI en configurant les schematics de composants de la manière suivante :
 
@@ -313,11 +313,11 @@ export class UserProfileComponent {
   protected readonly lastName = signal('Doe')
   
   // Usually derives from firstName + lastName, but can be manually overridden via the input in the html
-  protected readonly preferedName = linkedSignal(() => `${this.firstName()} ${this.lastName()}`)
+  protected readonly preferredName = linkedSignal(() => `${this.firstName()} ${this.lastName()}`)
 
   // Reset to auto-generated value based on firstName + lastName
-  resetPreferedName() {
-    this.preferedName.set(`${this.firstName()} ${this.lastName()}`)
+  resetPreferredName() {
+    this.preferredName.set(`${this.firstName()} ${this.lastName()}`)
   }
 }
 ```
@@ -332,11 +332,11 @@ export class UserProfileComponent {
 <label>Last name
   <input [(ngModel)]="lastName">
 </label>
-<p>Auto-generated display name: {{ preferedName() }}</p>
+<p>Auto-generated display name: {{ preferredName() }}</p>
 <label>Preferred name
-  <input [(ngModel)]="preferedName">
+  <input [(ngModel)]="preferredName">
 </label>
-<button (click)="resetPreferedName()">Reset to default</button>
+<button (click)="resetPreferredName()">Reset to default</button>
 ```
 </CodeGroupItem>
 </CodeGroup>
@@ -946,4 +946,4 @@ N'oubliez pas d'ajouter le `FormsModule` au tableau des imports du `FilmSearchCo
 
 - Angular 14 a introduit les *standalone components* en version beta dans le framework et Angular 15 a rendu leur API stable. Vous pouvez en apprendre plus sur ce type de composants [ici](https://blog.ninja-squad.com/2022/05/12/a-guide-to-standalone-components-in-angular/)
 
-- Pour un apprendre plus sur la nouvelle fonction `input()`, allez consulter cette [page](https://angular.dev/guide/components/inputs) et [celle-ci](https://angular.dev/guide/components/outputs) sur la nouvelle fonction `output()`
+- Pour en apprendre plus sur la nouvelle fonction `input()`, allez consulter cette [page](https://angular.dev/guide/components/inputs) et [celle-ci](https://angular.dev/guide/components/outputs) sur la nouvelle fonction `output()`

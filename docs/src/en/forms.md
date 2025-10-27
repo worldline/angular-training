@@ -39,7 +39,7 @@ Prefer listening to `(ngSubmit)` on the `<form>` tag rather than the `(click)` o
 
 The following project illustrates the usage of `ngForm` and `(ngSubmit)`
 
-<iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-template-driven-form/tree/submit-exemple?startScript=start&title=Template-Driven Form&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github/worldline/atpw-template-driven-form/tree/submit-example?startScript=start&title=Template-Driven Form&ctl=1&embed=1&file=src/app/app.component.ts"></iframe>
 
 **Exercise: add an input field that must have a minimum length of 5 characters. Show the content of this field when the form is submitted**
 
@@ -145,11 +145,11 @@ You can find an updated list of classes [here](https://angular.dev/guide/forms/f
 ```
 
 ::: tip Hint
-- You can get access to a specific `FormControl` instance using the `controls` property of the `FormGroup` containing it. For exemple for a `FormGroup` named *myFormGroup* and a `FormControl` named *myControl*:
+- You can get access to a specific `FormControl` instance using the `controls` property of the `FormGroup` containing it. For example for a `FormGroup` named *myFormGroup* and a `FormControl` named *myControl*:
 ```ts
 myFormGroup.controls.myControl.touched
 ```
-- You can check if a `FormControl` (more generally an `AbstractControl`) has a specific error by using the `hasError('error name')` method of the `FormControl` class. For exemple for a `FormGroup` named *myFormGroup*, a `FormControl` named *myControl* and an error *required*:
+- You can check if a `FormControl` (more generally an `AbstractControl`) has a specific error by using the `hasError('error name')` method of the `FormControl` class. For example for a `FormGroup` named *myFormGroup*, a `FormControl` named *myControl* and an error *required*:
 ```ts
 myFormGroup.controls.myControl.hasError('required')
 ```

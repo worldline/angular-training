@@ -2,7 +2,7 @@
 
 Along with components and directives, services are one of the main building blocks of an Angular application.
 
-A component's only concern should be displaying data and not managing it. Services are where the Angular team advocates placing the business logic and data management of the application. Having a clear separation between the presentation layer and the other processings of the application increases reusability and modularity.
+A component's only concern should be displaying data and not managing it. Services are where the Angular team advocates placing the business logic and data management of the application. Having a clear separation between the presentation layer and the other processes of the application increases reusability and modularity.
 
 Creating a service with the CLI is done as follows:
 ```sh
@@ -48,7 +48,7 @@ In the previous chapter, we've injected services provided by the `@angular/route
 
 At bootstrap, Angular creates an application-wide injector. If other injectors are needed, Angular will create them along the way. The injector creates dependencies (most often in the form of services), and maintains a container of dependency instances that it reuses if possible. The injector gets the information about how to create or retrieve a dependency from a provider. A service usually acts as its own provider.
 
-You may not have realised, but we have already used providers. In the pipe chapter, to use the `UpperCasePipe` in the component class instead of in the template, we added it to the providers array of the component.
+You may not have realized, but we have already used providers. In the pipe chapter, to use the `UpperCasePipe` in the component class instead of in the template, we added it to the providers array of the component.
 
 When Angular discovers that a component depends on a service, it first checks if the injector has any existing instances of that service. If a requested service instance doesn't yet exist, the injector makes one using the registered provider, and adds it to the injector before returning the service to Angular. When all requested services have been resolved and returned, Angular can call the component's constructor.
 
