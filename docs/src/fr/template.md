@@ -475,7 +475,7 @@ Vous pouvez en savoir plus sur la création de vos propres directives [ici](http
 
 ## TP : Liste des films
 1. Dans le composant LoginFormComponent, ajoutez deux variables de classe *email* (`protected readonly email = signal('')`) et *password* (`protected readonly password = signal()'')`) et utilisez la directive `[(ngModel)]` sur les inputs email et mot de passe dans l'html pour les lier. Rappelez-vous de l'avertissement dans le paragraphe sur le ngModel : n'oubliez pas d'importer le `FormsModule` dans le tableau d'imports du decorateur `@Component` pour utiliser la directive ngModel dans le template.
-2. Ajoutez une variable `loggedIn` à la classe initialement définie à `protected readonly signal(false)`, puis utilisez l'event binding sur l'événement `(ngSubmit)` de la balise `<form>` pour la passer à `true` lorsque le formulaire est soumis (créez une méthode `login()` dans la classe du composant pour ça) et la méthode `set` du Signal (`loggedIn.set(true)`).
+2. Ajoutez une variable `loggedIn` à la classe initialement définie à `protected readonly loggedIn = signal(false)`, puis utilisez l'event binding sur l'événement `(ngSubmit)` de la balise `<form>` pour la passer à `true` lorsque le formulaire est soumis (créez une méthode `login()` dans la classe du composant pour ça) et la méthode `set` du Signal (`loggedIn.set(true)`).
 3. Dans `login-form.component.html`, ajoutez le code HTML suivant sous le formulaire d'authentification :
 
 ```html

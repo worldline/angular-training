@@ -77,18 +77,13 @@ For more information, see https://angular.dev/cli/.
 ## Visual Studio Code
 During the training you will need a solid JavaScript code editor. We recommend [Visual Studio Code](https://code.visualstudio.com/), a fairly lightweight free editor that is now very popular in the JavaScript community. VS Code has many extensions to enrich the experience. You can access the marketplace for them directly in VS Code in the Extensions tab of the left sidebar.
 
-You then have two choices:
-- For a smooth experience, install [John Papa's package](https://marketplace.visualstudio.com/items?itemName=johnpapa.angular-essentials)
-
-OR
-
-- For a lighter installation, install only [Angular language service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template).
+Install [Angular language service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template).
 This extension will provide autocompletion, among other things.
 Then, install the linter [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint). 
 Wikipedia describes a [linter](https://en.wikipedia.org/wiki/Lint_%28software%29) as a tool that allows to flag programming errors, bugs, stylistic errors and suspicious constructs. And finally, install [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig).
 
 ::: tip WSL
-In case you intend to develop in WSL, Node and the Angular CLI need to be installed on your linux subsystem and Visual Studio Code on Windows with the [Remote - WSL extension](https://code.visualstudio.com/docs/remote/wsl).
+In case you intend to develop in WSL, Node and the Angular CLI need to be installed on your linux subsystem and Visual Studio Code on Windows with the [Remote - WSL extension](https://code.visualstudio.com/docs/remote/wsl). The extensions must be installed in WSL (see the marketplace tab in VSCode).
 :::
 
 ## Practical work: Create your first project

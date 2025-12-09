@@ -29,6 +29,7 @@ Notre projet précédemment créé contient les dossiers et fichiers suivants :
 - `README.md`: documentation d'introduction pour l'application racine
 - `package.json`: configure les dépendances des packages npm qui sont disponibles pour tous les projets de l'espace de travail
 - `package-lock.json`: fournit des informations de version pour tous les packages installés dans node_modules par le client npm
+- `eslint.config.js`: la configuration du linter
 - `angular.json`: Configuration du CLI, y compris des options de configuration pour les commandes build, serve et pour les outils de tests utilisés par le CLI
 - `.gitignore`: Spécifie les fichiers intentionnellement non suivis que Git doit ignorer
 - `.editorconfig`: Configuration pour les éditeurs de code

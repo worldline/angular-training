@@ -96,7 +96,7 @@ From a developer experience perspective, working in a zoneless environment does 
 :::tip Exercise: Spotting change detection cycles
 You can discover more about change detection cycles and when they run in a zoneless environment with the following example application: 
 
-<iframe height='500' width='100%' src="https://stackblitz.com/edit/angular-zoneless-change-detection?ctl=1&embed=1&file=src/app/app.component.ts&hideExplorer=1&hideNavigation=1&title=Zoneless%20change%20detection"></iframe>
+<iframe height='500' width='100%' src="https://stackblitz.com/github.com/Ocunidee/atpw-zoneless/tree/master?ctl=1&embed=1&file=src/app/signal-counter/signal-counter.component.ts&hideNavigation=1&view=preview&title=Zoneless change detection"></iframe>
 
 You will find an [article](https://angular.love/the-latest-in-angular-change-detection-zoneless-signals) explaining in depth how change detection works in Angular at the bottom of this chapter.
 
@@ -140,7 +140,6 @@ The article previously mentionned that you can find at the bottom of the page ex
 You need to be aware of the caveats of using the *OnPush* strategy to not encounter situations where you thought change would be propagated but you don't see anything different in your UI. One of them is preserving the reference of an object used in the template when changing one of its properties instead of mutating the whole object. This will not invoke change detection in that node of the component tree as *OnPush* only detects reference changes. You also have to be aware of how the framework behaves when child nodes of *OnPush* components use the *Default* change detection strategy. This is all covered in the following [page](https://angular.dev/best-practices/skipping-subtrees#using-onpush) of the documentation.
 :::
 
-## An introduction to Signals
 ## Signals
 
 So far, we've used signals in each example without really defining what they are, how to use them and what their API is. We know that they can wrap any value and that the current value they contain can be retrieved by invoking them. Let's dive a little deeper.
@@ -542,7 +541,7 @@ export class AppComponent {
 </CodeGroupItem>
 </CodeGroup>
 
-You can play with this example [here](https://stackblitz.com/fork/github/ocunidee/atpw-output-example/tree/master?file=src/app/app.component.ts&title=output%20example).
+You can play with this example [here](https://stackblitz.com/fork/github/ocunidee/atpw-output-exemple/tree/master?file=src/app/app.component.ts&title=output%20exemple).
 
 ::: details @Output() decorator (before Angular 17)
 The same way `input()` is replacing `@Input()`, `output()` is replacing `@Output()`. Here is the above example using the old `@Output()` decorator.

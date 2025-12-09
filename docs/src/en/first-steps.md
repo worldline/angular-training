@@ -29,6 +29,7 @@ Our previously created project has the following folders and files:
 - `README.md`: introductory documentation for the root app
 - `package.json`: configures npm package dependencies that are available to all projects in the workspace
 - `package-lock.json`: provides version information for all packages installed into node_modules by the npm client
+- `eslint.config.js`: the configuration of the linter
 - `angular.json`: CLI configuration, including configuration options for build, serve, and test tools that the CLI uses
 - `.gitignore`: Specifies intentionally untracked files that Git should ignore
 - `.editorconfig`: Configuration for code editors
@@ -315,7 +316,7 @@ VsCode will automatically use those paths for the imports instead of relative on
 
 4. Delete the existing content of the `App` component template (html file of the component) if it is not already done and the variables declared in the `App` class. Display the `LoginFormComponent` in the `App` component by addding `<app-login-form></app-login-form>` in its template. Don't forget to add the `LoginFormComponent` class to the `imports` array of the @Component definition of the `App` class (if you used VSCode aucompletion to add the new component to the App component template, then it should be added automatically).
 
-5. Complete the `login-form.ts` file: add a field `protected readonly title = signal('Authentication')`. Then, use text interpolation in the template to pass the title from the component ts file to the h1 tag. Don't forget that you need to invoke a signal to read its value.
+5. Complete the `login-form.component.ts` file: add a field `protected readonly title = signal('Authentication')`. Then, use text interpolation in the template to pass the title from the component ts file to the h1 tag. Don't forget that you need to invoke a signal to read its value.
 
 6. Don't forget to commit
 

@@ -73,15 +73,10 @@ Pendant la formation, vous aurez besoin d'un éditeur de code JavaScript solide.
 
 Tout d'abord, installez le linter [TSLint](https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-tslint-plugin). Même s'il est maintenant déprécié, le CLI Angular l'utilise toujours par défaut.
 
-Vous avez alors deux choix :
-- Pour une expérience fluide, installez [John Papa's package](https://marketplace.visualstudio.com/items?itemName=johnpapa.angular-essentials)
-
-OU
-
-- Pour une installation plus légère, installez uniquement l'[Angular language service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template). Cette extension fournira, entre autres, l'autocomplétion. Installer ensuite le linter [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint), puis enfin [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig).
+Installez l'[Angular language service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template). Cette extension fournira, entre autres, l'autocomplétion. Installez ensuite le linter [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint), puis enfin [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig).
 
 ::: tip WSL
-Dans le cas où vous souhaiteriez développer dans WSL, Node et le CLI Angular doivent être installés dans le sous-système linux et Visual Studio Code dans Windows avec l'extension [Remote - WSL extension](https://code.visualstudio.com/docs/remote/wsl).
+Dans le cas où vous souhaiteriez développer dans WSL, Node et le CLI Angular doivent être installés dans le sous-système linux et Visual Studio Code dans Windows avec l'extension [Remote - WSL extension](https://code.visualstudio.com/docs/remote/wsl). Les extensions doivent être installées dans WSL (voir onglet marketplace dans VSCode).
 :::
 
 ## TP: Création de votre premier projet

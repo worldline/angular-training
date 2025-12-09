@@ -472,7 +472,7 @@ You can find more about building your own directives [here](https://angular.dev/
 
 ## Practical work: Film list
 1. In the LoginFormComponent, add two class variables *email* (`protected readonly email = signal('')`) and *password* (`protected readonly password = signal('')`) and use the `[(ngModel)]` directive on the email and password inputs in the html to bind them. Remember the warning in the ngModel section of the chapter: don't forget to import the `FormsModule` in the imports array of the component to use the ngModel directive.
-2. Add another `loggedIn` class variable initially set to `protected readonly signal(false)`, then use event binding with `(ngSubmit)` on the `<form>` tag to set it to `true` when the form is submitted (create a method `login()` in the component's class for that and use the set method of the Signal: `loggedIn.set(true)`).
+2. Add another `loggedIn` class variable initially set to `protected readonly loggedIn = signal(false)`, then use event binding with `(ngSubmit)` on the `<form>` tag to set it to `true` when the form is submitted (create a method `login()` in the component's class for that and use the set method of the Signal: `loggedIn.set(true)`).
 3. In `login-form.component.html`, add the following HTML under the authentication form :
 
 ```html
