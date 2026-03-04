@@ -103,7 +103,7 @@ export const routes: Routes = [
   { path: 'authors/:id', component: AuthorDetailsComponent },
   { path: 'books', component: BookListComponent },
   { path: 'books/:id', component: BookDetailsComponent },
-  { path: '', pathMatch: 'full', redirectTo: '/home' }
+  { path: '', pathMatch: 'full', redirectTo: '/home' },
   { path: '**', redirectTo: '/home' }
 ]
 ```

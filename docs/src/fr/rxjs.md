@@ -217,7 +217,7 @@ Pour les objets, une syntaxe alternative existe pour éviter d'utiliser de mani�
 <p>{{(user | async)?.age}}</p>
 
 <!-- METHODE À PREFEREE -->
-@if (user | async as user) {
+@if (user | async; as user) {
   <p>{{user.firstName}}</p>
   <p>{{user.lastName}}</p>
   <p>{{user.age}}</p>

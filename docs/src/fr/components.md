@@ -401,8 +401,8 @@ import { Component, input } from "@angular/core"
   templateUrl: "./blog-post.component.html"
 })
 export class BlogPostComponent {
-  protected readonly title = input.required<string>()
-  protected readonly content = input('No content available')
+  readonly title = input.required<string>()
+  readonly content = input('No content available')
 }
 ```
 

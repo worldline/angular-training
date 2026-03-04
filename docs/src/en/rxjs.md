@@ -218,7 +218,7 @@ For objects, an alternative syntax exists to avoid repetitively using the async 
 <p>{{(user | async)?.age}}</p>
 
 <!-- PREFERRED WAY -->
-@if (user | async as user) {
+@if (user | async; as user) {
   <p>{{user.firstName}}</p>
   <p>{{user.lastName}}</p>
   <p>{{user.age}}</p>
